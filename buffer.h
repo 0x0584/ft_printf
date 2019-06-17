@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   buffer.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/12 02:58:13 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/17 19:09:17 by archid-          ###   ########.fr       */
+/*   Created: 2019/06/17 17:31:39 by archid-           #+#    #+#             */
+/*   Updated: 2019/06/17 19:17:44 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-#include "buffer.h"
+#ifndef BUFFER_H
+# define BUFFER_H
 
-/* TODO: create a string functionalities */
-int				ft_printfd(const int fd, const char *fmt, ...)
+# include "libft/libft.h"
+
+typedef struct	s_buffer
 {
-	t_buff *buff;
-	int count;
+	char	*base;
+	size_t	len;
+	size_t	size;
+}				t_buff;
 
-	buff = buff_alloc(0x20);
-	count = 0;
-	while (*fmt)
-	{
-		fmt++;
-		count++;
-	}
-	buff_write(fd, buff);
-	buff_free(&buff);
-	return (count);
-}
+t_buff			*buff_alloc(size_t size);
+void			buff_free(t_buff **buff);
+void			buff_append(t_buff **buff, char *str);
+ssize_t			buff_write(const int fd, t_buff *buff);
+
+#endif

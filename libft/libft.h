@@ -3,10 +3,10 @@
 /*														  :::	   ::::::::	  */
 /*	 libft.h											:+:		 :+:	:+:	  */
 /*													  +:+ +:+		  +:+	  */
-/*	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		  */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/06/03 19:06:09 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/17 17:31:26 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <stdlib.h>
+# include <stdarg.h>
 # include <unistd.h>
 
 # define INT_VALMAX							(2147483647)
