@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/06/17 17:31:26 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/18 16:16:06 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -93,7 +93,11 @@ char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s);
+
 char			*ft_itoa(int n);
+char			*ft_ftoa(float f);
+char			*ft_ltoa_hex(long l);
+
 int				ft_atoi(const char *s);
 int				ft_strequ(char const *s1, char const *s2);
 int				ft_strnequ(char const *s1, char const *s2, size_t n);
@@ -133,5 +137,6 @@ int				ft_isspace(int c);
 int				ft_isblank(int c);
 int				ft_iscntrl(int c);
 int				ft_swap(void *u, void *v, size_t size);
+
 
 #endif

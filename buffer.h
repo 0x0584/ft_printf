@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 17:31:39 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/17 19:17:44 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/18 12:48:58 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct	s_buffer
 
 t_buff			*buff_alloc(size_t size);
 void			buff_free(t_buff **buff);
-void			buff_append(t_buff **buff, char *str);
+void			buff_append(t_buff *buff, const char *str, size_t size);
 ssize_t			buff_write(const int fd, t_buff *buff);
 
 #endif

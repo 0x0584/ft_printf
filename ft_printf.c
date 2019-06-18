@@ -6,27 +6,39 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 02:58:13 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/17 19:09:17 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/18 13:20:13 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "buffer.h"
+#include "format.h"
 
-/* TODO: create a string functionalities */
-int				ft_printfd(const int fd, const char *fmt, ...)
+int		ft_printfd(const int fd, const char *fmt, ...)
 {
-	t_buff *buff;
-	int count;
+	t_buff	*buff;
+	char	*tmp;
+	va_list	args;
+	int		count;
 
 	buff = buff_alloc(0x20);
-	count = 0;
+	va_start(args, fmt);
 	while (*fmt)
 	{
-		fmt++;
-		count++;
+		if (*fmt == '%')
+			handle_format((char **)&fmt, &args, buff);
+		else if ((tmp = ft_strchr(fmt, '%')))
+		{
+			buff_append(buff, fmt, tmp - fmt);
+			fmt = tmp;
+		}
+		else
+		{
+			buff_append(buff, fmt, ft_strlen(fmt));
+			break ;
+		}
 	}
-	buff_write(fd, buff);
+	va_end(args);
+	count = buff_write(fd, buff);
 	buff_free(&buff);
 	return (count);
 }
