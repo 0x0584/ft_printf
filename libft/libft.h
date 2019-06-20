@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/06/18 16:16:06 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/19 16:11:02 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 # define INT_VALMAX							(2147483647)
 # define INT_VALMIN							(-2147483648)
@@ -33,11 +34,6 @@
 
 typedef unsigned char	t_byte;
 typedef unsigned int	t_uint;
-
-typedef enum	e_boolean
-{
-	false = 0, true = 1
-}				t_bool;
 
 /* FIXME: move this to cursus1337/gnl */
 typedef enum	e_read_states

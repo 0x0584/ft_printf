@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 17:31:39 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/18 12:48:58 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/19 02:38:26 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 typedef struct	s_buffer
 {
+	int		fd;
 	char	*base;
 	size_t	len;
 	size_t	size;

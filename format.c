@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:20:34 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/18 16:23:27 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/20 02:49:35 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	handle_format(char **fmt, va_list *arglst, t_buff *buff)
 		buff_append(buff, base, ft_strlen(base));
 		free(base);
 	}
+	/* I would use it to host some private repos until I am satisfied to share them publicly. */
 }
 
 t_frmt	parse_conversion(char **fmt)
