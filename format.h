@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:16:27 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/19 16:28:13 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/22 14:57:06 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,49 @@
 # define IS_OCTAL(fmt)			(fmt.type == 'o')
 # define IS_POINTER(fmt)		(fmt.type == 'p')
 
+enum e_modifiers
+{
+	MODIF_HH, MODIF_H,
+	MODIF_L, MODIF_LL,
+	MODIF_J, MODIF_T, MODIF_Z,
+
+	MODIF_DEFAULT = -1
+};
+
+enum e_conversions {
+	SIGNED_DECI,
+	UNSIGNED_OCTA,
+	UNSIGNED_DECI,
+	UNSIGNED_HEXA,
+	UNSIGNED_HEXA2,
+	DOUBLE_EXP,
+	DOUBLE_EXP2,
+	DOUBLE_NORMAL,
+	DOUBLE_NORMAL2,
+	CHAR,
+	STRING,
+	POINTER,
+	PERCENTAGE,
+
+	DEFAULT_CONV = -1
+};
+
+/* the general rule of a format string:
+ *
+ *  %{{arg-index}{$}}{0(blank)#-+'}{min-width}.{precision}{len-modi}{type}
+ */
 typedef struct	s_format
 {
 	char	type;				/* %d or %s .... */
 
+	enum	e_modifiers length;
+	enum	e_conversions conv;
+
 	int		argindex;			/* n$ would give us which argument to
-								 * access at point. default is -1 */
+								 * access at point. default is -1
+								 */
+	int		fmtindex;			/* this is the order as they appeared in the
+								 * format string. */
 	int		width;				/* this is the field's minimum width. in
 								 * a case where the value (as string) is
 								 * left that this width. it if filled with
@@ -52,15 +89,18 @@ typedef struct	s_format
 								 *  - keep trailing zeros for %{g,G}.
 								 *    default is not
 								 */
-	bool	is_zero;			/* this is the 0 flag. padding on the left with
+	bool	prefix_zeros;		/* this is the 0 flag. padding on the left with
 								 * zeros: 00013
 								 *  default padding: blanks
 								 *  annulated by precision for %{d,i,o,u,x,X}
 								 */
-	bool	on_left;			/* this is the - flag,
+	bool	prefix_signe;		/* +10 */
+	bool	prefix_plus_blank;	/* _10 where _ is the blank */
+	bool	padding_on_left;			/* this is the - flag,
 								 *  annulates the 0 flag. */
 	bool	is_dot;				/* this is the . flag. which is the precision
 								 *  annulates the zeros-padding */
+	int precision;				/* .precision */
 }				t_frmt;
 
 void	handle_format(char **fmt, va_list *arglst, t_buff *buff);

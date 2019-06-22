@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 02:58:13 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/18 13:20:13 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/22 14:38:27 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		ft_printfd(const int fd, const char *fmt, ...)
 	while (*fmt)
 	{
 		if (*fmt == '%')
-			handle_format((char **)&fmt, &args, buff);
+			handle_format((char **)++fmt, &args, buff);
 		else if ((tmp = ft_strchr(fmt, '%')))
 		{
 			buff_append(buff, fmt, tmp - fmt);
