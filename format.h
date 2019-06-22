@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:16:27 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/22 14:57:06 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/22 17:21:27 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ typedef struct	s_format
 {
 	char	type;				/* %d or %s .... */
 
+	union u_data {
+		long long int i;
+		long double d;
+		char *s;
+		char c;
+		void *p;
+	} u;
 	enum	e_modifiers length;
 	enum	e_conversions conv;
 
