@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:20:34 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/22 17:20:10 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/22 20:02:36 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,8 @@ int		check_conversion(char **fmt, t_frmt *frmt)
 	char *bar;
 
 	bar = *fmt;
-	if (*bar == 'd' || *bar == 'i') {
+	if (*bar == 'd' || *bar == 'i')
 		frmt->conv = SIGNED_DECI;
-	}
     else if (*bar == 'o')
 		frmt->conv = UNSIGNED_OCTA;
     else if (*bar == 'u')
@@ -187,19 +186,65 @@ int		handle_relative_args(va_list *arglst, t_list *lstfrmt)
 			flag = false;
 		}
 	}
+
 	e = lstfrmt;
-	/* while (e) */
-	/* { */
-	/* 	frmt = (t_frmt *)e->content; */
-	/* 	if (frmt->conv == ) */
-	/* 		frmt->u; */
-	/* } */
+	/* fill lstfrmt */
+	while (e)
+	{
+		frmt = (t_frmt *)e->content;
+		if (frmt->conv == SIGNED_DECI || frmt->conv == CHAR)
+		{
+			if (frmt->length == MODIF_L)
+				frmt->u_data.l = va_arg(*arglst, long);
+			else if (frmt->length == MODIF_LL)
+				frmt->u_data.ll = va_arg(*arglst, long long);
+			else
+				frmt->u_data.i = va_arg(*arglst, int);
+		}
+		else if (frmt->conv == UNSIGNED_OCTA ||
+					frmt->conv == UNSIGNED_DECI ||
+					frmt->conv == UNSIGNED_HEXA ||
+					frmt->conv == UNSIGNED_HEXA2 ||
+				 frmt->conv == POINTER) {
+			if (frmt->length == MODIF_L || frmt->conv == POINTER)
+				frmt->u_data.ul = va_arg(*arglst, unsigned long);
+			else if (frmt->length == MODIF_LL)
+				frmt->u_data.ull = va_arg(*arglst, unsigned long long);
+			else
+				frmt->u_data.ui = va_arg(*arglst, unsigned int);
+		}
+		else if (frmt->conv == DOUBLE_EXP ||
+					frmt->conv == DOUBLE_EXP2 ||
+					frmt->conv == DOUBLE_NORMAL ||
+					frmt->conv == DOUBLE_NORMAL2) {
+			if (frmt->length == MODIF_L)
+				frmt->u_data.ld = va_arg(*arglst, long double);
+			else
+				frmt->u_data.d = va_arg(*arglst, double);
+		}
+		else if (frmt->conv == STRING)
+			frmt->u_data.str = va_arg(*arglst, char *);
+	}
+	flag = false;
+	while (!flag)
+	{
+		flag = true;
+		e = lstfrmt;
+		while (((t_frmt *)e->content)->fmtindex >
+			   ((t_frmt *)e->next->content)->fmtindex)
+		{
+			tmp = e->content;
+			e->content = e->next->content;
+			e->next->content = tmp;
+			flag = false;
+		}
+	}
 	return (1);
 }
 
 void format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
-
+	/* TODO: somehow turn all that shit into string! */
 }
 
 /* static t_checker chkrs[] = { */

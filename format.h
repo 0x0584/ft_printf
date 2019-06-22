@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:16:27 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/22 17:21:27 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/22 19:53:13 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,25 @@ enum e_conversions {
  */
 typedef struct	s_format
 {
-	char	type;				/* %d or %s .... */
-
 	union u_data {
-		long long int i;
-		long double d;
-		char *s;
-		char c;
+		unsigned char c;
+		short s;
+		int i;
+		long l;
+		long long ll;
+		unsigned short us;
+		unsigned char uc;
+		unsigned int ui;
+		unsigned long ul;
+		unsigned long long ull;
+		float f;
+		double d;
+		long double ld;
+		char *str;
+		unsigned char *ustr;
 		void *p;
-	} u;
+	} u_data;
+
 	enum	e_modifiers length;
 	enum	e_conversions conv;
 
