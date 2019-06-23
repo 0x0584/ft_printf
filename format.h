@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:16:27 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/22 19:53:13 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/23 14:02:05 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ enum e_conversions {
  */
 typedef struct	s_format
 {
+	/* i'm not sure about all the type conversion
+	 * the man in not clean about those (or it might be just me)
+	 * so i've putted here any possible data type */
 	union u_data {
 		unsigned char c;
 		short s;
@@ -121,9 +124,12 @@ typedef struct	s_format
 }				t_frmt;
 
 void	handle_format(char **fmt, va_list *arglst, t_buff *buff);
-t_frmt	parse_conversion(char **fmt);
+int		handle_relative_args(va_list *arglst, t_list *lstfrmt);
 
-void	set_alterform(t_frmt fmt, t_buff *buff);
+int		check_conversion(char **fmt, t_frmt *frmt);
+int		check_modifier(char **fmt, t_frmt *frmt);
+int		check_flags(char **fmt, t_frmt *frmt);
 
+void	format_to_buff(t_list *lstfrmt, t_buff *buff);
 
 #endif
