@@ -6,14 +6,14 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:16:27 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/26 16:25:22 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/27 00:34:09 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FORMAT_H
 # define FORMAT_H
 
-# include "libft/libft.h"
+# include "libft.h"
 # include "buffer.h"
 
 # define IS_LITERAL(fmt)		(fmt.type == '%')

@@ -1,28 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   to_string.c                                        :+:      :+:    :+:   */
+/*   utf8.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/26 20:48:01 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/27 00:30:05 by archid-          ###   ########.fr       */
+/*   Created: 2019/06/26 21:37:59 by archid-           #+#    #+#             */
+/*   Updated: 2019/06/27 14:19:10 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "format.h"
+#include "libft.h"
 
-char	*to_string(t_frmt *fmt)
+int u8_valid_start(char c)
 {
-	return (NULL);
-}
-
-char	*from_integer(int i)
-{
-	return (ft_itoa(i));
-}
-
-char	*from_float(float f)
-{
-	/* return (ft_ftoa(f)); */
+	return ((ft_isascii(c) && ft_isalpha(c)) ||
+			(unsigned char)c >= 0xC0);
 }

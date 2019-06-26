@@ -6,17 +6,19 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/06/19 16:11:02 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/27 16:16:40 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
+
+/* FIXME: split this fucking libft into multiple parts */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
 # include <stdlib.h>
 # include <stdarg.h>
-# include <unistd.h>
 # include <stdbool.h>
+# include <unistd.h>
 
 # define INT_VALMAX							(2147483647)
 # define INT_VALMIN							(-2147483648)
@@ -32,8 +34,17 @@
 # define ASSERT_RET(expr, ret)				if ((expr)) return (ret)
 # define UNLESS_RET(expr, ret)				if (!(expr)) return (ret)
 
-typedef unsigned char	t_byte;
-typedef unsigned int	t_uint;
+typedef signed char			t_int8;
+typedef signed short		t_int16;
+typedef signed int			t_int32;
+typedef signed long			t_int64;
+typedef signed long long	t_int128;
+
+typedef unsigned char		t_uint8;
+typedef unsigned short		t_uint16;
+typedef unsigned int		t_uint32;
+typedef unsigned long		t_uint64;
+typedef unsigned long long	t_uint128;
 
 /* FIXME: move this to cursus1337/gnl */
 typedef enum	e_read_states
@@ -128,7 +139,7 @@ size_t			ft_wordcount(char const *s, char using);
 int				ft_power(int x, int y);
 int				ft_sqrt(int nb);
 
-t_byte			ft_digitcount(int n);
+t_int8			ft_digitcount(int n);
 int				ft_isspace(int c);
 int				ft_isblank(int c);
 int				ft_iscntrl(int c);

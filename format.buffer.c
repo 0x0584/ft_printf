@@ -6,7 +6,7 @@
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:17:54 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/26 15:40:27 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/27 00:34:16 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	format_dbg(t_frmt *frmt)
 	printf("arg: %d fmt:%d\n", frmt->argindex, frmt->fmtindex);
 	printf("precision: %d width: %d\n", frmt->precision, frmt->width);
 	printf("0 flag: %d | + flag: %d | ", frmt->prefix_zeros, frmt->prefix_signe);
-	printf("' ' flag: %d | - flag: %d | ", frmt->prefix_zeros, frmt->prefix_signe);
+	printf("' ' flag: %d | - flag: %d | ", frmt->prefix_zeros, frmt->padding_on_left);
 	printf("# flag %d\n-------------------\n", frmt->is_alter);
 }
 
