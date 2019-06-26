@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:20:34 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/23 14:02:31 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/26 20:43:21 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int		hungry_getnbr(char **str)
 	int foo;
 
 	bar = *str;
-
+	foo = 0;
 	while (ft_isdigit(*bar))
     {
         foo = (foo << 3) + (foo << 1);
@@ -28,17 +28,21 @@ static int		hungry_getnbr(char **str)
 	return (foo);
 }
 
-void			handle_format(char **fmt, va_list *arglst, t_buff *buff)
+void			handle_format(char **fmt, t_list **alstfrmt)
 {
-	static t_list	*lstfrmt = NULL;
 	static int		frmt_index = 0;
 	t_frmt			frmt;
 
+	ft_bzero(&frmt, sizeof(t_frmt));
 	frmt.fmtindex = frmt_index++;
+	/* ft_putendl("begin handle format"); */
+	/* ft_putendl(*fmt); */
+
+	*fmt += 1;
 	frmt.argindex = hungry_getnbr(fmt);
     if (*fmt[0] != '$')
     {
-        frmt.width = frmt.argindex;;
+        frmt.width = frmt.argindex;
         frmt.argindex = -1;
     }
 	else
@@ -47,18 +51,12 @@ void			handle_format(char **fmt, va_list *arglst, t_buff *buff)
 	if (frmt.argindex != -1)
 		frmt.width = hungry_getnbr(fmt);
 	*fmt += (*fmt[0] == '.');
-	if (*fmt[0] && *fmt[0] == '.')
-		frmt.precision = hungry_getnbr(fmt);
+	frmt.precision = hungry_getnbr(fmt);
 	check_modifier(fmt, &frmt);
 	check_conversion(fmt, &frmt);
-	ft_lstpush(&lstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
+	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
 	if (!ft_strchr(*fmt, '%'))
-	{
-		handle_relative_args(arglst, lstfrmt);
-		format_to_buff(lstfrmt, buff);
-		ft_lstdel(&lstfrmt, NULL);
 		frmt_index = 0;
-	}
 }
 
 int				handle_relative_args(va_list *arglst, t_list *lstfrmt)
@@ -96,10 +94,12 @@ int				handle_relative_args(va_list *arglst, t_list *lstfrmt)
 		}
 	}
 
+	/* ft_putendl("----- ((())) ----------"); */
 	e = lstfrmt;
 	/* fill lstfrmt */
 	while (e)
 	{
+		/* (void)printf("#############\n"); */
 		frmt = (t_frmt *)e->content;
 		if (frmt->conv == SIGNED_DECI || frmt->conv == CHAR)
 		{
@@ -133,7 +133,9 @@ int				handle_relative_args(va_list *arglst, t_list *lstfrmt)
 		}
 		else if (frmt->conv == STRING)
 			frmt->u_data.str = va_arg(*arglst, char *);
+		e = e->next;
 	}
+
 	flag = false;
 	while (!flag)
 	{
@@ -148,10 +150,6 @@ int				handle_relative_args(va_list *arglst, t_list *lstfrmt)
 			flag = false;
 		}
 	}
-	return (1);
-}
 
-void			format_to_buff(t_list *lstfrmt, t_buff *buff)
-{
-	/* TODO: somehow turn all that shit into string! */
+	return (1);
 }

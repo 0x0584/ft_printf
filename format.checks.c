@@ -6,7 +6,7 @@
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 13:53:22 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/23 13:54:09 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/24 20:21:40 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,54 +74,40 @@ int		check_conversion(char **fmt, t_frmt *frmt)
 {
 	char *bar;
 
+	/* TODO: create a function int foo(char c) which computes
+	 * the conversion index */
 	bar = *fmt;
-	if (*bar == 'd' || *bar == 'i')
+	if (*bar == 'd' || *bar == 'D' || *bar == 'i')
+	{
+		frmt->length = (*bar == 'D' ? MODIF_L : frmt->length);
 		frmt->conv = SIGNED_DECI;
-    else if (*bar == 'o')
+	}
+    else if (*bar == 'o' || *bar == 'O')
+	{
+		frmt->length = (*bar == 'O' ? MODIF_L : frmt->length);
 		frmt->conv = UNSIGNED_OCTA;
-    else if (*bar == 'u')
+	}
+    else if (*bar == 'u' || *bar == 'U')
+	{
+		frmt->length = (*bar == 'U' ? MODIF_L : frmt->length);
 		frmt->conv = UNSIGNED_DECI;
-    else if (*bar == 'x')
-		frmt->conv = UNSIGNED_HEXA;
-    else if (*bar == 'X')
-		frmt->conv = UNSIGNED_HEXA2;
-    else if (*bar == 'D')
-    {
-		frmt->length = MODIF_L;
-		frmt->conv = SIGNED_DECI;
-    }
-    else if (*bar == 'O')
-    {
-		frmt->length = MODIF_L;
-		frmt->conv = UNSIGNED_OCTA;
-    }
-    else if (*bar == 'U')
-    {
-		frmt->length = MODIF_L;
-		frmt->conv = UNSIGNED_DECI;
-    }
-    else if (*bar == 'e')
-		frmt->conv = DOUBLE_EXP;
-    else if (*bar == 'E')
-		frmt->conv = DOUBLE_EXP2;
-    else if (*bar == 'f')
-		frmt->conv = DOUBLE_NORMAL;
-    else if (*bar == 'F')
-		frmt->conv = DOUBLE_NORMAL2;
-    else if (*bar == 'c')
+	}
+    else if (*bar == 'x' || *bar == 'X')
+		frmt->conv = *bar == 'X' ? UNSIGNED_HEXA2 : UNSIGNED_HEXA;
+    else if (*bar == 'e' || *bar == 'E')
+		frmt->conv = (*bar == 'E' ? DOUBLE_EXP2 : DOUBLE_EXP);
+    else if (*bar == 'f' || *bar == 'F')
+		frmt->conv = (*bar == 'F' ? DOUBLE_NORMAL2 : DOUBLE_NORMAL);
+    else if (*bar == 'c' || *bar == 'C')
+	{
+		frmt->length = (*bar == 'C' ? MODIF_L : frmt->length);
 		frmt->conv = CHAR;
-    else if (*bar == 'C')
-    {
-		frmt->length = MODIF_L;
-		frmt->conv = CHAR;
-    }
-    else if (*bar == 's')
+	}
+    else if (*bar == 's' || *bar == 'S')
+	{
+		frmt->length = *bar == 'S' ? MODIF_L : frmt->length;
 		frmt->conv = STRING;
-    else if (*bar == 'S')
-    {
-		frmt->length = MODIF_L;
-		frmt->conv = STRING;
-    }
+	}
     else if (*bar == 'p')
 		frmt->conv = POINTER;
     else if (*bar == '%')
