@@ -6,7 +6,7 @@
 /*	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/04/07 04:00:37 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/04/07 06:16:12 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/06/27 16:41:26 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 char	*ft_itoa(int n)
 {
-	char	*buff;
-	t_byte	index;
-	t_uint	u;
+	char		*buff;
+	t_int8		index;
+	t_uint16	u;
 
 	index = ft_digitcount(n) + 1;
 	if (!(buff = ALLOC(char *, index, sizeof(char))))

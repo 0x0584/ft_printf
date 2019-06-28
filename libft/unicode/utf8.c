@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utf8.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 21:37:59 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/27 14:19:10 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/28 16:34:31 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "utf8.h"
 
-int u8_valid_start(char c)
-{
-	return ((ft_isascii(c) && ft_isalpha(c)) ||
-			(unsigned char)c >= 0xC0);
-}
+ssize_t utf8_to_utf32(t_uint32 *dest, size_t destsz, char *src, size_t srcsz);
+ssize_t utf8_to_utf8(char *dest, size_t destsz, t_uint32 *src, size_t srcsz);
+ssize_t utf8_to_utf8ch(char *dest, size_t destsz, t_uint32 ch);

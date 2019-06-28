@@ -6,16 +6,16 @@
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/07 05:22:36 by archid-           #+#    #+#             */
-/*   Updated: 2019/04/07 06:58:54 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/27 16:40:56 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_byte	ft_digitcount(int n)
+t_int8	ft_digitcount(int n)
 {
-	t_byte count;
-	t_uint u;
+	t_int8 count;
+	t_uint16 u;
 
 	if (n == 0)
 		return (1);
