@@ -1,5 +1,5 @@
 EXEC	= ft_printf
-CFLAGS	= -ggdb # -Wall -Wextra
+CFLAGS	= -ggdb -Wall -Wextra
 LDFLAGS = -lft -L./libft -I./libft
 
 all:

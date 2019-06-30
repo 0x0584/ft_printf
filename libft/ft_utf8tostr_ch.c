@@ -6,13 +6,13 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 23:09:02 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/30 01:00:26 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/30 03:05:22 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_int8 ft_utf8tostr_ch(t_int8 *dest, t_int32 ch)
+t_int8	ft_utf8tostr_ch(t_int8 *dest, t_int32 ch)
 {
 	t_int8 i;
 

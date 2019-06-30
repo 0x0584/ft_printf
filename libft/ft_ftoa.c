@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_wordcount.c                                     :+:      :+:    :+:   */
+/*   ft_ftoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/05 23:00:18 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/30 03:02:06 by archid-          ###   ########.fr       */
+/*   Created: 2019/06/30 02:45:42 by archid-           #+#    #+#             */
+/*   Updated: 2019/06/30 02:53:24 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_int16		ft_wordcount(char const *s, char using)
+char	*ft_ftoa(float f)
 {
-	size_t count;
-
-	count = 0;
-	while (*s == using)
-		s++;
-	while (*s)
-	{
-		while (*s && *s == using)
-			s++;
-		count += !!*s;
-		while (*s && *s != using)
-			s++;
-	}
-	return (count);
+	(void)f;
+	return (NULL);
 }

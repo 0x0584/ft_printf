@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/06/30 01:23:40 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/30 02:59:26 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ t_list			*ft_lstpop(t_list **alst);
 
 char			*ft_strrdup(const char *head, const char *tail);
 void			*ft_memdup(const void *mem, size_t n);
-size_t			ft_wordcount(char const *s, char using);
+t_int16			ft_wordcount(char const *s, char using);
 
 int				ft_power(int x, int y);
 int				ft_sqrt(int nb);
@@ -123,7 +123,7 @@ int				ft_isblank(int c);
 int				ft_iscntrl(int c);
 int				ft_swap(void *u, void *v, size_t size);
 
-size_t			ft_utf8tostr(t_int8 *dest, size_t destsz,
+t_int64			ft_utf8tostr(t_int8 *dest, size_t destsz,
 								const t_int32 *src, size_t srcsz);
 t_int8			ft_utf8tostr_ch(t_int8 *dest, t_int32 ch);
 
