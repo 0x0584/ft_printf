@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/06/28 15:39:37 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/30 00:59:47 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 
 # define ASSERT_RET(expr, ret)				if ((expr)) return (ret)
 # define UNLESS_RET(expr, ret)				if (!(expr)) return (ret)
+
+# define IS_UTF8(c)		((c) & 0xC0 != 0x80)
 
 typedef signed char			t_int8;
 typedef signed short		t_int16;
@@ -93,17 +95,12 @@ int				ft_isprint(int c);
 int				ft_toupper(int c);
 int				ft_tolower(int c);
 size_t			ft_strlcat(char *s1, const char *s2, size_t len);
-
 char			**ft_strsplit(char const *s, char c);
 char			*ft_strmap(char const *s, char (*f)(char));
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s);
-
-char			*ft_itoa(int n);
-char			*ft_ftoa(float f);
-char			*ft_ltoa_hex(long l);
 
 int				ft_atoi(const char *s);
 int				ft_strequ(char const *s1, char const *s2);
@@ -145,5 +142,12 @@ int				ft_isblank(int c);
 int				ft_iscntrl(int c);
 int				ft_swap(void *u, void *v, size_t size);
 
+size_t			ft_utf8tostr(t_int8 *dest, size_t destsz,
+								const t_int32 *src, size_t srcsz);
+t_int8			ft_utf8tostr_ch(t_int8 *dest, t_int32 ch);
+
+char			*ft_itoa(int n);
+char			*ft_ftoa(float f);
+char			*ft_ltoa_hex(long l);
 
 #endif
