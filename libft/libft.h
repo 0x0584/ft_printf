@@ -6,11 +6,13 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/06/30 00:59:47 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/30 01:23:40 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
 /* FIXME: split this fucking libft into multiple parts */
+/* FIXME: split libft into parts */
+/* TODO: clean the fucking code */
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -19,9 +21,6 @@
 # include <stdarg.h>
 # include <stdbool.h>
 # include <unistd.h>
-
-# define INT_VALMAX							(2147483647)
-# define INT_VALMIN							(-2147483648)
 
 # define ABS(x)								((x) < 0 ? (x) * -1 : (x))
 # define MAX(a, b)							((a) > (b) ? (a) : (b))
@@ -34,32 +33,14 @@
 # define ASSERT_RET(expr, ret)				if ((expr)) return (ret)
 # define UNLESS_RET(expr, ret)				if (!(expr)) return (ret)
 
-# define IS_UTF8(c)		((c) & 0xC0 != 0x80)
+#include "types.h"
 
-typedef signed char			t_int8;
-typedef signed short		t_int16;
-typedef signed int			t_int32;
-typedef signed long			t_int64;
-typedef signed long long	t_int128;
-
-typedef unsigned char		t_uint8;
-typedef unsigned short		t_uint16;
-typedef unsigned int		t_uint32;
-typedef unsigned long		t_uint64;
-typedef unsigned long long	t_uint128;
-
-/* FIXME: move this to cursus1337/gnl */
-typedef enum	e_read_states
-{
-	r_failure = -1, r_eof, r_success
-}				t_read_st;
-
-typedef struct	s_list
+struct	s_list
 {
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
-}				t_list;
+};
 
 void			*ft_memset(void *s, int c, size_t n);
 void			*ft_memcpy(void *dest, const void *src, size_t n);

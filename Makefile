@@ -1,6 +1,6 @@
 EXEC	= ft_printf
 CFLAGS	= -ggdb # -Wall -Wextra
-LDFLAGS = -lft -Llibft
+LDFLAGS = -lft -L./libft -I./libft
 
 all:
 	@echo "making libft.."

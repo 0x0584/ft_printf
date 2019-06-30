@@ -6,7 +6,7 @@
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 22:09:19 by archid-           #+#    #+#             */
-/*   Updated: 2019/04/07 06:54:25 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/30 01:30:04 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 void	*ft_memchr(const void *s, int c, size_t n)
 {
 	size_t	i;
-	t_byte	*buff;
+	t_int8	*buff;
 
 	i = 0;
-	buff = (t_byte *)s;
+	buff = (t_int8 *)s;
 	while (i < n)
-		if (buff[i] == (t_byte)c)
+		if (buff[i] == (t_int8)c)
 			return (buff + i);
 		else
 			i++;

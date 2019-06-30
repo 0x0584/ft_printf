@@ -6,7 +6,7 @@
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/30 17:43:50 by archid-           #+#    #+#             */
-/*   Updated: 2019/04/07 06:53:28 by archid-          ###   ########.fr       */
+/*   Updated: 2019/06/30 01:30:59 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	*ft_memset(void *s, int c, size_t n)
 {
 	size_t	i;
-	t_byte	*buff;
+	t_int8	*buff;
 
 	i = 0;
-	buff = (t_byte *)s;
+	buff = (t_int8 *)s;
 	while (i < n)
-		buff[i++] = (t_byte)c;
+		buff[i++] = (t_int8)c;
 	return (buff);
 }
