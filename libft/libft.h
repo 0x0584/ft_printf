@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/06/30 02:59:26 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/02 01:48:11 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -124,8 +124,8 @@ int				ft_iscntrl(int c);
 int				ft_swap(void *u, void *v, size_t size);
 
 t_int64			ft_utf8tostr(t_int8 *dest, size_t destsz,
-								const t_int32 *src, size_t srcsz);
-t_int8			ft_utf8tostr_ch(t_int8 *dest, t_int32 ch);
+								const t_int32 *wsrc, size_t srcsz);
+t_int8			ft_utf8tostr_ch(t_int8 *dest, t_int32 wch);
 
 char			*ft_itoa(int n);
 char			*ft_ftoa(float f);

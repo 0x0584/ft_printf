@@ -6,34 +6,39 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 23:09:02 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/30 03:05:22 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/02 03:57:18 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_int8	ft_utf8tostr_ch(t_int8 *dest, t_int32 ch)
+t_int8	ft_utf8tostr_ch(t_int8 *dest, t_int32 wch)
 {
 	t_int8 i;
 
 	i = 0;
-    if (ch < 0x80)
-        dest[i++] = (char)ch;
-    else if (ch < 0x800) {
-        dest[i++] = (ch >> 6) | 0xC0;
-        dest[i++] = (ch & 0x3F) | 0x80;
+    if (wch <= 0x7F)
+        dest[i++] = (t_int8)wch;
+    else if (wch <= 0x7FF)
+	{
+        dest[i++] = 0xC0 | (wch >> 6);
+        dest[i++] = 0x80 | (wch & 0x3F);
     }
-    else if (ch < 0x10000) {
-        dest[i++] = (ch >> 12) | 0xE0;
-        dest[i++] = ((ch >> 6) & 0x3F) | 0x80;
-        dest[i++] = (ch & 0x3F) | 0x80;
+    else if (wch <= 0xFFFF)
+	{
+        dest[i++] = 0xE0 | (wch >> 12);
+        dest[i++] = 0x80 | ((wch >> 6) & 0x3F);
+        dest[i++] = 0x80 | (wch & 0x3F);
     }
-    else if (ch < 0x110000) {
-        dest[i++] = (ch >> 18) | 0xF0;
-        dest[i++] = ((ch >> 12) & 0x3F) | 0x80;
-        dest[i++] = ((ch >> 6) & 0x3F) | 0x80;
-        dest[i++] = (ch & 0x3F) | 0x80;
+    else if (wch <= 0xFFFF)
+	{
+        dest[i++] = 0xF0 | (wch >> 18);
+        dest[i++] = 0x80 | ((wch >> 12) & 0x3F);
+        dest[i++] = 0x80 | ((wch >> 6) & 0x3F);
+        dest[i++] = 0x80 | (wch & 0x3F);
     }
+	else
+		return (-1);
     return (i);
 }
 

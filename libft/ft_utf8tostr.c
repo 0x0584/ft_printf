@@ -6,22 +6,27 @@
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 23:08:36 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/30 03:09:06 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/02 04:00:43 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 t_int64		ft_utf8tostr(t_int8 *dest, size_t destsz,
-						 const t_int32 *src, size_t srcsz)
+						 const t_int32 *wsrc, size_t srcsz)
 {
 	t_int64 i;
-	t_int64 n_bytes;
+	t_int64 n_bytes[2];
 
 	i = 0;
-	n_bytes = 0;
-	while (srcsz - i && destsz - n_bytes && src[i])
-		n_bytes += ft_utf8tostr_ch(dest + n_bytes, src[i++]);
-	dest[n_bytes] = '\0';
-	return (n_bytes);
+	ft_bzero(n_bytes, 2);
+	while (srcsz - i && destsz - n_bytes[1] && wsrc[i])
+	{
+		n_bytes[0] = ft_utf8tostr_ch(dest + n_bytes[1], wsrc[i++]);
+		if (n_bytes[0] < 0)
+			return (-1);
+		n_bytes[1] += n_bytes[0];
+	}
+	dest[n_bytes[1]] = '\0';
+	return (n_bytes[1]);
 }
