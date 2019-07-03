@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:16:27 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/30 02:34:34 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/02 18:10:10 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define IS_OCTAL(fmt)			(fmt.type == 'o')
 # define IS_POINTER(fmt)		(fmt.type == 'p')
 
+/* FIXME: add enums and union into format structure */
 /* TODO: create a flags enum, add mask... */
 
 typedef enum	e_modifiers
