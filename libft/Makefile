@@ -6,7 +6,7 @@
 #	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		   #
 #												  +#+#+#+#+#+	+#+			   #
 #	 Created: 2019/03/30 17:28:04 by archid-		   #+#	  #+#			   #
-#    Updated: 2019/06/30 01:28:46 by archid-          ###   ########.fr        #
+#	 Updated: 2019/06/30 01:28:46 by archid-		  ###	########.fr		   #
 #																			   #
 #******************************************************************************#
 
@@ -18,7 +18,7 @@ SRCS	= $(shell find . -type f -name "*.c")
 OBJS	= $(patsubst %.c, %.o, $(SRCS))
 
 CC		= gcc
-CFLAGS	= -Wall -Werror -Wextra -ggdb
+CFLAGS	= -Wall -Wextra -ggdb # -Werror
 
 all: $(NAME)
 

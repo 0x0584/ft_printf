@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   format.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/17 22:20:34 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/26 20:43:21 by archid-          ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														  :::	   ::::::::	  */
+/*	 format.c											:+:		 :+:	:+:	  */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2019/06/17 22:20:34 by archid-		   #+#	  #+#			  */
+/*	 Updated: 2019/06/26 20:43:21 by archid-		  ###	########.fr		  */
+/*																			  */
 /* ************************************************************************** */
 
 #include "format.h"
@@ -20,31 +20,31 @@ static int		hungry_getnbr(char **str)
 	bar = *str;
 	foo = 0;
 	while (ft_isdigit(*bar))
-    {
-        foo = (foo << 3) + (foo << 1);
-        foo += (*bar++ - '0');
-    }
+	{
+		foo = (foo << 3) + (foo << 1);
+		foo += (*bar++ - '0');
+	}
 	*str = bar;
 	return (foo);
 }
 
-void			handle_format(char **fmt, t_list **alstfrmt)
+void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 {
-	static int		frmt_index = 0;
 	t_frmt			frmt;
 
 	ft_bzero(&frmt, sizeof(t_frmt));
-	frmt.fmtindex = frmt_index++;
-	/* ft_putendl("begin handle format"); */
-	/* ft_putendl(*fmt); */
+	frmt.fmtindex = *index;
+	ft_putendl("begin handle format");
+	ft_putendl(*fmt);
 
+	/* getchar(); */
 	*fmt += 1;
 	frmt.argindex = hungry_getnbr(fmt);
-    if (*fmt[0] != '$')
-    {
-        frmt.width = frmt.argindex;
-        frmt.argindex = -1;
-    }
+	if (*fmt[0] != '$')
+	{
+		frmt.width = frmt.argindex;
+		frmt.argindex = -1;
+	}
 	else
 		*fmt += 1;
 	check_flags(fmt, &frmt);
@@ -55,8 +55,6 @@ void			handle_format(char **fmt, t_list **alstfrmt)
 	check_modifier(fmt, &frmt);
 	check_conversion(fmt, &frmt);
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
-	if (!ft_strchr(*fmt, '%'))
-		frmt_index = 0;
 }
 
 int				handle_relative_args(va_list *arglst, t_list *lstfrmt)

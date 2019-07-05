@@ -3,10 +3,10 @@
 /*														  :::	   ::::::::	  */
 /*	 libft.h											:+:		 :+:	:+:	  */
 /*													  +:+ +:+		  +:+	  */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/02 01:48:11 by archid-          ###   ########.fr       */
+/*	 Updated: 2019/07/02 01:48:11 by archid-		  ###	########.fr		  */
 /*																			  */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define UNLESS_RET(expr, ret)				if (!(expr)) return (ret)
 
 #include "types.h"
+#include "floats.h"
 
 struct	s_list
 {
@@ -128,7 +129,7 @@ t_int64			ft_utf8tostr(t_int8 *dest, size_t destsz,
 t_int8			ft_utf8tostr_ch(t_int8 *dest, t_int32 wch);
 
 char			*ft_itoa(int n);
-char			*ft_ftoa(float f);
+char			*ft_ftoa(float f, t_int8 precision);
 char			*ft_ltoa_hex(long l);
 
 #endif

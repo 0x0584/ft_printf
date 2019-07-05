@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   format.buffer.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/23 15:17:54 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/27 00:34:16 by archid-          ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														  :::	   ::::::::	  */
+/*	 format.buffer.c									:+:		 :+:	:+:	  */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2019/06/23 15:17:54 by archid-		   #+#	  #+#			  */
+/*	 Updated: 2019/06/27 00:34:16 by archid-		  ###	########.fr		  */
+/*																			  */
 /* ************************************************************************** */
 
 #include "format.h"
@@ -31,27 +31,33 @@ void	buff_add_width(t_buff *buff, int width)
 /* TODO: somehow turn all that shit into string! */
 void	format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
-	t_list *e;
-	t_frmt *frmt;
+	t_list	*e;
+	t_frmt	*frmt;
+	char	*tmp;
 
-	(void)printf("#### here #####\n");
 	e = lstfrmt;
+	tmp = NULL;
 	while (e)
 	{
 		frmt = (t_frmt *)e->content;
+		/* format_dbg(frmt); */
 
-		/* /\* handle prefix_zeros  *\/ */
-		/* if (frmt->precision != -1 && */
-		/* 		frmt->prefix_zeros && */
-		/* 		(frmt->conv == SIGNED_DECI || */
-		/* 			frmt->conv == UNSIGNED_OCTA || */
-		/* 			frmt->conv == UNSIGNED_HEXA || */
-		/* 			frmt->conv == UNSIGNED_HEXA2)) */
-		/* 	frmt->prefix_zeros = false; */
+		if (frmt->conv == SIGNED_DECI)
+			tmp = ft_itoa(frmt->u_data.i);
+		else if (frmt->conv == STRING || frmt->conv == STRING_FRMT)
+		{
+			/* ft_putendl("found first string"); */
+			tmp = frmt->u_data.str;
+		}
+		if (tmp)
+		{
+			buff_append(buff, tmp, ft_strlen(tmp));
+			/* ft_strdel(&tmp); */
+		}
 
-		(void)printf(">");
-		format_dbg(frmt);
+		/* buff_write(1, buff); */
+		/* getchar(); */
+
 		e = e->next;
 	}
-	(void)printf(" ------ ^^^ ---- \n");
 }

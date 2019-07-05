@@ -1,26 +1,32 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_ieee754.h                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/02 18:00:10 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/03 05:42:25 by archid-          ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														  :::	   ::::::::	  */
+/*	 floats.h											:+:		 :+:	:+:	  */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2019/07/02 18:00:10 by archid-		   #+#	  #+#			  */
+/*	 Updated: 2019/07/03 05:42:25 by archid-		  ###	########.fr		  */
+/*																			  */
 /* ************************************************************************** */
 
-#ifndef FT_IEEE754_H
-# define FT_IEEE754_H
+#ifndef FLOATS_H
+# define FLOATS_H
 
 # include "types.h"
 
-# ifdef MACHINE_IS_LITTLE_ENDIAN
+# ifndef MACHINE_IS_LITTLE_ENDIAN
+#  error 'this implementation works on Little Endian Machines only.'
+# endif
+
+# define IEEE754_32BIT_BIAS					0x7F
+# define IEEE754_64BIT_BIAS					0x3FF
 
 /* TODO: add long double too */
 
 typedef union u_ieee754_float		t_float754;
 typedef union u_ieee754_double		t_double754;
+typedef union u_ieee754_long_double	t_longdouble754;
 
 union		u_ieee754_float
 {
@@ -61,5 +67,4 @@ union		u_ieee754_double
 	}			nan;
 };
 
-# endif
 #endif

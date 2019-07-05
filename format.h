@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   format.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/17 22:16:27 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/02 18:10:10 by archid-          ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														  :::	   ::::::::	  */
+/*	 format.h											:+:		 :+:	:+:	  */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2019/06/17 22:16:27 by archid-		   #+#	  #+#			  */
+/*	 Updated: 2019/07/02 18:10:10 by archid-		  ###	########.fr		  */
+/*																			  */
 /* ************************************************************************** */
 
 #ifndef FORMAT_H
@@ -55,7 +55,8 @@ typedef enum	e_conversions {
 	POINTER,
 	PERCENTAGE,
 
-	DEFAULT_CONV = -1
+	STRING_FRMT = -2,
+	DEFAULT_CONV
 }				t_conv;
 
 /* NOTE:
@@ -85,7 +86,7 @@ typedef union	u_data
 
 /* the general rule of a format string:
  *
- *  %{{arg-index}{$}}{0(blank)#-+'}{min-width}.{precision}{len-modi}{type}
+ *	%{{arg-index}{$}}{0(blank)#-+'}{min-width}.{precision}{len-modi}{type}
  */
 /* FIXME: add priorities */
 typedef struct	s_format
@@ -104,7 +105,7 @@ typedef struct	s_format
 	bool	padding_on_left;
 }				t_frmt;
 
-void	handle_format(char **fmt, t_list **alstfrmt);
+void	handle_format(char **fmt, t_list **alstfrmt, int *index);
 int		handle_relative_args(va_list *arglst, t_list *lstfrmt);
 
 int		check_conversion(char **fmt, t_frmt *frmt);
