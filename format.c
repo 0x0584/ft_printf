@@ -93,10 +93,10 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 		}
 		if (frmt->conv == SIGNED_DECI || frmt->conv == CHAR)
 		{
-			if (frmt->length == MODIF_L)
-				frmt->u_data.l = va_arg(*arglst, long);
-			else if (frmt->length == MODIF_LL)
-				frmt->u_data.ll = va_arg(*arglst, long long);
+			if (frmt->length == MODIF_LL)
+				frmt->u_data.l = va_arg(*arglst, long long);
+			else if (frmt->length == MODIF_L)
+				frmt->u_data.ll = va_arg(*arglst, long);
 			else
 				frmt->u_data.i = va_arg(*arglst, int);
 		}
@@ -122,13 +122,18 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 				frmt->u_data.d = va_arg(*arglst, double);
 		}
 		else if (frmt->conv == STRING)
-			frmt->u_data.str = va_arg(*arglst, char *);
+		{
+			if (frmt->length == MODIF_L)
+				frmt->u_data.wstr = va_arg(*arglst, t_int32 *);
+			else
+				frmt->u_data.str = va_arg(*arglst, char *);
+		}
 		format_dbg(frmt);
-		getchar();
+		/* getchar(); */
 		LST_NEXT(e);
 	}
-	ft_putendl("------	-------");
-	getchar();
+	ft_putendl("------ end of getting data -------");
+	/* getchar(); */
 	ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
 	return (1);
 }

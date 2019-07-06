@@ -66,9 +66,22 @@ void	format_to_buff(t_list *lstfrmt, t_buff *buff)
 	t_list	*e;
 	t_frmt	*frmt;
 	char	*tmp;
-	t_int8 dest[4];
 
-	ft_bzero(dest, 4);
+	/* FIXME: try to allocated memory fpr exatly dest size chars
+	 *
+	 * IDEA:
+	 * =====
+	 *
+	 * move over the string to count the length
+	 * allocated memory for exactly that length + 1
+	 * code the process of decoding
+	 */
+	t_int8 dest[0xff];
+
+	/*
+fix initializition issiue size issue
+ */
+	ft_bzero(dest, 0xff);
 	e = lstfrmt;
 	tmp = NULL;
 	while (e)
@@ -79,16 +92,35 @@ void	format_to_buff(t_list *lstfrmt, t_buff *buff)
 		if (frmt->conv == SIGNED_DECI)
 			tmp = ft_itoa(frmt->u_data.i);
 		else if (frmt->conv == CHAR)
-			tmp = char_to_str(frmt->u_data.i);
+		{
+			if (frmt->length == MODIF_L)
+			{
+				ft_bzero(dest, 5);
+				ft_utf8tostr_ch(dest, frmt->u_data.i);
+				tmp = ft_strdup(dest);
+			}
+			else
+				tmp = char_to_str(frmt->u_data.i);
+		}
 		else if (frmt->conv == STRING || frmt->conv == STRING_FRMT)
-			tmp = ft_strdup(frmt->u_data.str);
+		{
+			if (frmt->length == MODIF_L)
+			{
+				int ret = ft_utf8tostr(dest, 0xff, frmt->u_data.wstr, 0xff);
+				tmp = ft_strrdup(dest, dest + ret);
+			}
+			else
+				tmp = ft_strdup(frmt->u_data.str);
+
+		}
 		else
 			tmp = NULL;
 
 		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))
 			ft_putendl("tmp was empty");
 		buff_write(1, buff);
-		getchar();
+		ft_putendl("");
+		/* getchar(); */
 		e = e->next;
 		/* FIXME: tmp could contain leaks
 		 *

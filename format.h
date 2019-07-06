@@ -81,6 +81,8 @@ typedef union	u_data
 	double d;
 	long double ld;
 	char *str;
+	t_int32 *wstr;
+	t_int32 wc;
 	unsigned char *ustr;
 }				t_data;
 
