@@ -107,6 +107,7 @@ void			ft_lstiter_recu(t_list *lst, void (*f)(t_list *elem));
 int				ft_lstadd(t_list **alst, t_list *new);
 int				ft_lstpush(t_list **alst, t_list *e);
 size_t			ft_lstlen(t_list *lst);
+void			ft_lst_mergesort(t_plist *alst, int (cmp)(t_plist, t_plist));
 
 t_list			*ft_lstpeek(t_list **alst);
 t_list			*ft_lstpop(t_list **alst);

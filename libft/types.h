@@ -38,5 +38,6 @@ typedef unsigned long		t_uint64;
 typedef unsigned long long	t_uint128;
 
 typedef struct s_list		t_list;
+typedef struct s_list		*t_plist;
 
 #endif

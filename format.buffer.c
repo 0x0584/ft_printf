@@ -40,23 +40,14 @@ void	format_to_buff(t_list *lstfrmt, t_buff *buff)
 	while (e)
 	{
 		frmt = (t_frmt *)e->content;
-		/* format_dbg(frmt); */
+		format_dbg(frmt);
 
 		if (frmt->conv == SIGNED_DECI)
 			tmp = ft_itoa(frmt->u_data.i);
 		else if (frmt->conv == STRING || frmt->conv == STRING_FRMT)
-		{
-			/* ft_putendl("found first string"); */
 			tmp = frmt->u_data.str;
-		}
-		if (tmp)
-		{
-			buff_append(buff, tmp, ft_strlen(tmp));
-			/* ft_strdel(&tmp); */
-		}
-
-		/* buff_write(1, buff); */
-		/* getchar(); */
+		if (!buff_append(buff, tmp, ft_strlen(tmp)))
+			ft_putendl("tmp was null");
 
 		e = e->next;
 	}

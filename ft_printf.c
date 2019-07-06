@@ -57,7 +57,7 @@ int		ft_dprintf(const int fd, const char *fmt, ...)
 			ft_putendl("----- dup str -----");
 			ft_putendl(frmt.u_data.str);
 			ft_putendl("-----  -----");
-			getchar();
+			/* getchar(); */
 			/* free(frmt.u_data.str); */
 			if (tmp == NULL)
 				break;

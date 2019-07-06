@@ -105,8 +105,8 @@ typedef struct	s_format
 	bool	padding_on_left;
 }				t_frmt;
 
-void	handle_format(char **fmt, t_list **alstfrmt, int *index);
-int		handle_relative_args(va_list *arglst, t_list *lstfrmt);
+void	handle_format(char **fmt, t_plist *alstfrmt, int *index);
+int		handle_relative_args(va_list *arglst, t_plist *alstfrmt);
 
 int		check_conversion(char **fmt, t_frmt *frmt);
 int		check_modifier(char **fmt, t_frmt *frmt);

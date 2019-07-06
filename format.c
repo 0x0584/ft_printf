@@ -57,7 +57,27 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
 }
 
-int				handle_relative_args(va_list *arglst, t_list *lstfrmt)
+int				cmp_by_argindex(t_plist e1, t_plist e2)
+{
+	t_frmt *foo;
+	t_frmt *bar;
+
+	foo = e1->content;
+	bar = e2->content;
+	return (foo->argindex < bar->argindex);
+}
+
+int				cmp_by_frmtindex(t_plist e1, t_plist e2)
+{
+	t_frmt *foo;
+	t_frmt *bar;
+
+	foo = e1->content;
+	bar = e2->content;
+	return (foo->fmtindex < bar->fmtindex);
+}
+
+int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 {
 	/* FIXME: implement a `lstsort' kind of function to sort `lstfrmt'
 	 * based on which frmt->x_index to use: either arg_index or fmt_index */
@@ -76,28 +96,12 @@ int				handle_relative_args(va_list *arglst, t_list *lstfrmt)
 	void *tmp;
 	bool flag;
 	t_frmt *frmt;
-
-	flag = false;
-	while (!flag)
-	{
-		flag = true;
-		e = lstfrmt;
-		while (((t_frmt *)e->content)->argindex >
-			   ((t_frmt *)e->next->content)->argindex)
-		{
-			tmp = e->content;
-			e->content = e->next->content;
-			e->next->content = tmp;
-			flag = false;
-		}
-	}
-
-	/* ft_putendl("----- ((())) ----------"); */
-	e = lstfrmt;
+	ft_lst_mergesort(alstfrmt, cmp_by_argindex);
+	e = *alstfrmt;
 	/* fill lstfrmt */
 	while (e)
 	{
-		/* (void)printf("#############\n"); */
+
 		frmt = (t_frmt *)e->content;
 		if (frmt->conv == SIGNED_DECI || frmt->conv == CHAR)
 		{
@@ -131,23 +135,10 @@ int				handle_relative_args(va_list *arglst, t_list *lstfrmt)
 		}
 		else if (frmt->conv == STRING)
 			frmt->u_data.str = va_arg(*arglst, char *);
+		format_dbg(frmt);
+		ft_putendl("#############\n");
 		e = e->next;
 	}
-
-	flag = false;
-	while (!flag)
-	{
-		flag = true;
-		e = lstfrmt;
-		while (((t_frmt *)e->content)->fmtindex >
-			   ((t_frmt *)e->next->content)->fmtindex)
-		{
-			tmp = e->content;
-			e->content = e->next->content;
-			e->next->content = tmp;
-			flag = false;
-		}
-	}
-
+	ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
 	return (1);
 }

@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   buffer.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/17 17:31:59 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/18 12:59:27 by archid-          ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														  :::	   ::::::::	  */
+/*	 buffer.c											:+:		 :+:	:+:	  */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2019/06/17 17:31:59 by archid-		   #+#	  #+#			  */
+/*	 Updated: 2019/06/18 12:59:27 by archid-		  ###	########.fr		  */
+/*																			  */
 /* ************************************************************************** */
 
 #include "buffer.h"
@@ -33,12 +33,12 @@ void		buff_free(t_buff **buff)
 	*buff = NULL;
 }
 
-void		buff_append(t_buff *buff, const char *str, size_t size)
+size_t			buff_append(t_buff *buff, const char *str, size_t size)
 {
-	char 	*foo;
+	char	*foo;
 
 	if (!buff || !str)
-		return ;
+		return (0);
 	if (size + buff->len > buff->size + 1)
 	{
 		foo = buff->base;
@@ -48,7 +48,7 @@ void		buff_append(t_buff *buff, const char *str, size_t size)
 		free(foo);
 	}
 	ft_memcpy(buff->base + buff->len, str, size);
-	buff->len += size;
+	return (buff->len += size);
 }
 
 ssize_t		buff_write(const int fd, t_buff *buff)
