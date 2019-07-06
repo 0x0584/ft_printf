@@ -23,7 +23,7 @@ t_frmt	format_new_string(void)
 {
 	t_frmt frmt;
 
-	ft_memset(&frmt, 0, sizeof(t_frmt));
+	ft_bzero(&frmt, sizeof(t_frmt));
 	frmt.conv = STRING_FRMT;
 	return (frmt);
 }

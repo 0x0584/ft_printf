@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 	/* (void)ft_ftoa(3.1415f, 10); */
 
 
-	ft_dprintf(1, "BEGIN flag0: '%3$ls' flag1: '%1$lc' flag2: '%2$d' END\n",
+	ft_dprintf(1, "BEGIN flag0: '%3$ls' flag1: '%1$lc' flag2: '%2$010d' END\n",
 			  L'ø', 'A', L"čř");
 	/* ft_dprintf(1, "BEGIN flag1: %2$d flag2: %1$d END\n", 11, 10); */
 

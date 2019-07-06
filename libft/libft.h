@@ -83,8 +83,10 @@ char			**ft_strsplit(char const *s, char c);
 char			*ft_strmap(char const *s, char (*f)(char));
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char			*ft_strsub(char const *s, unsigned int start, size_t len);
-char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s);
+char			*ft_strjoin(char const *s1, char const *s2);
+ssize_t			ft_strnprepend(char **dest, const char *prefix, size_t prefixsz);
+ssize_t			ft_strprepend(char **dest, const char *prefix);
 
 int				ft_atoi(const char *s);
 int				ft_strequ(char const *s1, char const *s2);

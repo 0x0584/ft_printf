@@ -22,9 +22,18 @@ typedef struct	s_buffer
 	size_t	size;
 }				t_buff;
 
+/*
+** buffer.c: Main buffer functionalities;
+*/
+
 t_buff			*buff_alloc(size_t size);
 void			buff_free(t_buff **buff);
 size_t			buff_append(t_buff *buff, const char *str, size_t size);
 ssize_t			buff_write(const int fd, t_buff *buff);
+
+/*
+** buffer.utils.c: Buffer Utilities
+*/
+char			*buffutils_zeros(int n_spaces);
 
 #endif

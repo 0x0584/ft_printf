@@ -115,7 +115,9 @@ fix initializition issiue size issue
 		}
 		else
 			tmp = NULL;
-
+		if (frmt->prefix_zeros && frmt->width)
+			ft_strprepend(&tmp,
+							buffutils_zeros(frmt->width - ft_strlen(tmp)));
 		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))
 			ft_putendl("tmp was empty");
 		buff_write(1, buff);
