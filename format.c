@@ -28,6 +28,26 @@ static int		hungry_getnbr(char **str)
 	return (foo);
 }
 
+static int		cmp_by_argindex(t_plist e1, t_plist e2)
+{
+	t_frmt *foo;
+	t_frmt *bar;
+
+	foo = e1->content;
+	bar = e2->content;
+	return (foo->argindex < bar->argindex);
+}
+
+static int		cmp_by_frmtindex(t_plist e1, t_plist e2)
+{
+	t_frmt *foo;
+	t_frmt *bar;
+
+	foo = e1->content;
+	bar = e2->content;
+	return (foo->fmtindex < bar->fmtindex);
+}
+
 void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 {
 	t_frmt			frmt;
@@ -43,7 +63,7 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	if (*fmt[0] != '$')
 	{
 		frmt.width = frmt.argindex;
-		frmt.argindex = -1;
+		frmt.argindex = 0;
 	}
 	else
 		*fmt += 1;
@@ -57,52 +77,20 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
 }
 
-int				cmp_by_argindex(t_plist e1, t_plist e2)
-{
-	t_frmt *foo;
-	t_frmt *bar;
-
-	foo = e1->content;
-	bar = e2->content;
-	return (foo->argindex < bar->argindex);
-}
-
-int				cmp_by_frmtindex(t_plist e1, t_plist e2)
-{
-	t_frmt *foo;
-	t_frmt *bar;
-
-	foo = e1->content;
-	bar = e2->content;
-	return (foo->fmtindex < bar->fmtindex);
-}
-
 int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 {
-	/* FIXME: implement a `lstsort' kind of function to sort `lstfrmt'
-	 * based on which frmt->x_index to use: either arg_index or fmt_index */
-	/*
-	 * TODO: for $ flag, format must be a list
-	 * ========================================
-	 *
-	 * you have to read all the format strings,
-	 * and find the arg indexes, sort them
-	 * based on those indexes, and then call
-	 * va_arg() to fill the whole list.
-	 * and finally re-sort them based on the
-	 * order they were read in.
-	 */
-	t_list *e;
-	void *tmp;
-	bool flag;
-	t_frmt *frmt;
+	t_list	*e;
+	t_frmt	*frmt;
+
 	ft_lst_mergesort(alstfrmt, cmp_by_argindex);
 	e = *alstfrmt;
-	/* fill lstfrmt */
-	while (e)
+	while (e && (frmt = (t_frmt *)e->content))
 	{
-
-		frmt = (t_frmt *)e->content;
+		if (!frmt->argindex || frmt->conv == STRING_FRMT)
+		{
+			LST_NEXT(e);
+			continue;
+		}
 		if (frmt->conv == SIGNED_DECI || frmt->conv == CHAR)
 		{
 			if (frmt->length == MODIF_L)
@@ -136,9 +124,11 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 		else if (frmt->conv == STRING)
 			frmt->u_data.str = va_arg(*arglst, char *);
 		format_dbg(frmt);
-		ft_putendl("#############\n");
-		e = e->next;
+		getchar();
+		LST_NEXT(e);
 	}
+	ft_putendl("------	-------");
+	getchar();
 	ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
 	return (1);
 }

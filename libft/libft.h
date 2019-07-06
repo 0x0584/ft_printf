@@ -33,6 +33,8 @@
 # define ASSERT_RET(expr, ret)				if ((expr)) return (ret)
 # define UNLESS_RET(expr, ret)				if (!(expr)) return (ret)
 
+# define LST_NEXT(e)						e = e->next
+
 #include "types.h"
 #include "floats.h"
 

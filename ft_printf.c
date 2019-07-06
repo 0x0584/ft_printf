@@ -23,7 +23,7 @@ t_frmt	format_new_string(void)
 {
 	t_frmt frmt;
 
-	ft_bzero(&frmt, sizeof(t_frmt));
+	ft_memset(&frmt, 0, sizeof(t_frmt));
 	frmt.conv = STRING_FRMT;
 	return (frmt);
 }
@@ -54,9 +54,9 @@ int		ft_dprintf(const int fd, const char *fmt, ...)
 													 : ft_strlen(fmt)));
 			frmt.fmtindex = index;
 			ft_lstpush(&lstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
-			ft_putendl("----- dup str -----");
-			ft_putendl(frmt.u_data.str);
-			ft_putendl("-----  -----");
+			/* ft_putendl("----- dup str -----"); */
+			/* ft_putendl(frmt.u_data.str); */
+			/* ft_putendl("-----  -----"); */
 			/* getchar(); */
 			/* free(frmt.u_data.str); */
 			if (tmp == NULL)
@@ -64,8 +64,8 @@ int		ft_dprintf(const int fd, const char *fmt, ...)
 			fmt = tmp;
 		}
 
-	handle_relative_args(&args, lstfrmt);
-	ft_putendl("-------------");
+	handle_relative_args(&args, &lstfrmt);
+	ft_putendl("------ handled relative args -----");
 	format_to_buff(lstfrmt, buff);
 	ft_lstdel(&lstfrmt, format_free);
 	va_end(args);

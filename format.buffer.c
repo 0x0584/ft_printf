@@ -15,11 +15,34 @@
 
 void	format_dbg(t_frmt *frmt)
 {
-	printf("conv: %d lenght: %d\n", frmt->conv, frmt->length);
+	char *format = NULL;
+
+	if (frmt->conv == SIGNED_DECI || frmt->conv == CHAR)
+	{
+		format = "SIGNED_DECI || CHAR";
+	}
+	else if (frmt->conv == UNSIGNED_OCTA ||
+			 frmt->conv == UNSIGNED_DECI ||
+			 frmt->conv == UNSIGNED_HEXA ||
+			 frmt->conv == UNSIGNED_HEXA2 ||
+			 frmt->conv == POINTER)
+	{
+		format = "UNSIGNED";
+	}
+	else if (frmt->conv == DOUBLE_EXP ||
+			 frmt->conv == DOUBLE_EXP2 ||
+			 frmt->conv == DOUBLE_NORMAL ||
+			 frmt->conv == DOUBLE_NORMAL2) {
+		format = "DOUBLE";
+	}
+	else if (frmt->conv == STRING)
+		format = "STRING";
+	printf("conv: %s lenght: %d\n", format, frmt->length);
 	printf("arg: %d fmt:%d\n", frmt->argindex, frmt->fmtindex);
 	printf("precision: %d width: %d\n", frmt->precision, frmt->width);
 	printf("0 flag: %d | + flag: %d | ", frmt->prefix_zeros, frmt->prefix_signe);
-	printf("' ' flag: %d | - flag: %d | ", frmt->prefix_zeros, frmt->padding_on_left);
+	printf("' ' flag: %d | - flag: %d | ", frmt->prefix_zeros,
+											frmt->padding_on_left);
 	printf("# flag %d\n-------------------\n", frmt->is_alter);
 }
 
@@ -28,13 +51,24 @@ void	buff_add_width(t_buff *buff, int width)
 
 }
 
+char *char_to_str(char c)
+{
+	char *s;
+
+	s = ft_strnew(1);
+	*s = c;
+	return s;
+}
+
 /* TODO: somehow turn all that shit into string! */
 void	format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
 	t_list	*e;
 	t_frmt	*frmt;
 	char	*tmp;
+	t_int8 dest[4];
 
+	ft_bzero(dest, 4);
 	e = lstfrmt;
 	tmp = NULL;
 	while (e)
@@ -44,11 +78,22 @@ void	format_to_buff(t_list *lstfrmt, t_buff *buff)
 
 		if (frmt->conv == SIGNED_DECI)
 			tmp = ft_itoa(frmt->u_data.i);
+		else if (frmt->conv == CHAR)
+			tmp = char_to_str(frmt->u_data.i);
 		else if (frmt->conv == STRING || frmt->conv == STRING_FRMT)
-			tmp = frmt->u_data.str;
-		if (!buff_append(buff, tmp, ft_strlen(tmp)))
-			ft_putendl("tmp was null");
+			tmp = ft_strdup(frmt->u_data.str);
+		else
+			tmp = NULL;
 
+		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))
+			ft_putendl("tmp was empty");
+		buff_write(1, buff);
+		getchar();
 		e = e->next;
+		/* FIXME: tmp could contain leaks
+		 *
+		 * might fix this by setting a flag when a new string is allocated
+		 */
+		ft_strdel(&tmp);
 	}
 }
