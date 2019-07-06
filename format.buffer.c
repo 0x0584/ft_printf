@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 
 #include "format.h"
+
 #include <stdio.h>
 
-void	format_dbg(t_frmt *frmt)
+void			format_dbg(t_frmt *frmt)
 {
 	char *format = NULL;
 
@@ -46,12 +47,7 @@ void	format_dbg(t_frmt *frmt)
 	printf("# flag %d\n-------------------\n", frmt->is_alter);
 }
 
-void	buff_add_width(t_buff *buff, int width)
-{
-
-}
-
-char *char_to_str(char c)
+static char		*char_to_str(char c)
 {
 	char *s;
 
@@ -61,7 +57,7 @@ char *char_to_str(char c)
 }
 
 /* TODO: somehow turn all that shit into string! */
-void	format_to_buff(t_list *lstfrmt, t_buff *buff)
+void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
 	t_list	*e;
 	t_frmt	*frmt;
@@ -78,9 +74,6 @@ void	format_to_buff(t_list *lstfrmt, t_buff *buff)
 	 */
 	t_int8 dest[0xff];
 
-	/*
-fix initializition issiue size issue
- */
 	ft_bzero(dest, 0xff);
 	e = lstfrmt;
 	tmp = NULL;
@@ -113,11 +106,48 @@ fix initializition issiue size issue
 				tmp = ft_strdup(frmt->u_data.str);
 
 		}
+		else if (format_isfloat(frmt))
+		{
+			/* FIXME: check if this is correct */
+			tmp = (char *)format_ieee_float(frmt, false);
+		}
 		else
 			tmp = NULL;
-		if (frmt->prefix_zeros && frmt->width)
+
+		/* FIXME: check if those ifs should be if-elses */
+
+		/* TODO: create bufferutil_pad(char, size_t) */
+		/* TODO: create format_isnumeric(t_frmt *) */
+		/* TODO: create format_isfloat(t_frmt *) */
+		/* TODO: create format_getsigne(t_frmt *) */
+		/* TODO: create format_ieee_float(t_frmt *, bool) */
+		/* TODO: create format_set_precision(char **, t_frmt *) */
+		/* TODO: create format_alterform(t_frmt *)
+		 *
+		 * IDEA:
+		 * =====
+		 *
+		 * if value == 0 then ret
+		 * if format_isnumeric(frmt)
+		 *		call buffutils_pad(dest, "0", 1) for %o
+		 *		call buffutils_pad(dest, "0x", 2) for %x
+		 *		call buffutils_pad(dest, "0X", 1) for %X
+		 * else if format_isfloat(frmt)
+		 *		dest = ft_format_ieee_float(frmt, trailing_is_on) // default off
+		 */
+		if ((frmt->width && !frmt->padding_on_left) &&
+				!(format_isnumeric(frmt) && frmt->precision))
 			ft_strprepend(&tmp,
-							buffutils_zeros(frmt->width - ft_strlen(tmp)));
+						  buffutils_pad(frmt->prefix_zeros ? '0' : ' ',
+										frmt->width - ft_strlen(tmp)));
+		if ((frmt->prefix_signe || frmt->prefix_plus_blank) &&
+				format_isnumeric(frmt))
+			ft_strprepend(&tmp, buffutils_pad(frmt->prefix_signe
+											  ? format_getsign(frmt) : ' ' , 1));
+
+		format_alterform(frmt);
+		format_set_precision(&tmp, frmt);
+
 		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))
 			ft_putendl("tmp was empty");
 		buff_write(1, buff);

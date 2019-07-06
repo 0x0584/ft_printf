@@ -39,6 +39,20 @@
 /* FIXME: add priorities */
 typedef struct	s_format
 {
+	/*
+	** Indexes to sort a list of t_frmt based on
+	*/
+	int								argindex;
+	int								fmtindex;
+
+	int								width;
+	int								precision;
+	bool							is_alter;
+	bool							prefix_zeros;
+	bool							prefix_signe;
+	bool							prefix_plus_blank;
+	bool							padding_on_left;
+
 	enum		e_modifiers
 	{
 		MODIF_HH, MODIF_H,
@@ -75,43 +89,39 @@ typedef struct	s_format
 
 	union		u_data
 	{
-		unsigned char c;
-		short s;
-		int i;
-		long l;
-		long long ll;
-		unsigned short us;
-		unsigned char uc;
-		unsigned int ui;
-		unsigned long ul;
-		unsigned long long ull;
-		double d;
-		long double ld;
-		char *str;
-		t_int32 *wstr;
-		t_int32 wc;
-		unsigned char *ustr;
+		unsigned char		c;
+		short				s;
+		int					i;
+		long				l;
+		long long			ll;
+		unsigned short		us;
+		unsigned char		uc;
+		unsigned int		ui;
+		unsigned long		ul;
+		unsigned long long	ull;
+		double				d;
+		long double			ld;
+		char				*str;
+		t_int32				*wstr;
+		t_int32				wc;
+		unsigned char		*ustr;
 	}								u_data;
-	int								argindex;
-	int								fmtindex;
-	int								width;
-	int								precision;
-	bool							is_alter;
-	bool							prefix_zeros;
-	bool							prefix_signe;
-	bool							prefix_plus_blank;
-	bool							padding_on_left;
 }				t_frmt;
 
-void	handle_format(char **fmt, t_plist *alstfrmt, int *index);
-int		handle_relative_args(va_list *arglst, t_plist *alstfrmt);
+void			handle_format(char **fmt, t_plist *alstfrmt, int *index);
+int				handle_relative_args(va_list *arglst, t_plist *alstfrmt);
 
-int		check_conversion(char **fmt, t_frmt *frmt);
-int		check_modifier(char **fmt, t_frmt *frmt);
-int		check_flags(char **fmt, t_frmt *frmt);
+/*
+** format.checks.c: verify conversion and modifiers. also flags
+*/
+int				check_conversion(char **fmt, t_frmt *frmt);
+int				check_modifier(char **fmt, t_frmt *frmt);
+int				check_flags(char **fmt, t_frmt *frmt);
 
-void	format_to_buff(t_list *lstfrmt, t_buff *buff);
-
-void	format_dbg(t_frmt *frmt);
+/*
+** format.buffer.c: fill a buffer from a list of t_frmt
+*/
+void			format_to_buff(t_list *lstfrmt, t_buff *buff);
+void			format_dbg(t_frmt *frmt);
 
 #endif

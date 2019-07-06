@@ -34,6 +34,7 @@ ssize_t			buff_write(const int fd, t_buff *buff);
 /*
 ** buffer.utils.c: Buffer Utilities
 */
-char			*buffutils_zeros(int n_spaces);
+char			*buffutils_zeros(int n_spaces); /* obsolute! */
+char			*bufferutils_pad(const char c, size_t sz);
 
 #endif
