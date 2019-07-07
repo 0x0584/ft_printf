@@ -116,10 +116,11 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 
 		/* FIXME: check if those ifs should be if-elses */
 
-		/* TODO: create bufferutil_pad(char, size_t) */
-		/* TODO: create format_isnumeric(t_frmt *) */
-		/* TODO: create format_isfloat(t_frmt *) */
-		/* TODO: create format_getsigne(t_frmt *) */
+		/* XXX: create bufferutil_pad(char, size_t) */
+		/* XXX: create format_isnumeric(t_frmt *) */
+		/* XXX: create format_isfloat(t_frmt *) */
+
+
 		/* TODO: create format_ieee_float(t_frmt *, bool) */
 		/* TODO: create format_set_precision(char **, t_frmt *) */
 		/* TODO: create format_alterform(t_frmt *)
@@ -135,6 +136,7 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		 * else if format_isfloat(frmt)
 		 *		dest = ft_format_ieee_float(frmt, trailing_is_on) // default off
 		 */
+		/* TODO: create format_getsigne(t_frmt *) */
 		if ((frmt->width && !frmt->padding_on_left) &&
 				!(format_isnumeric(frmt) && frmt->precision))
 			ft_strprepend(&tmp,
@@ -145,7 +147,7 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 			ft_strprepend(&tmp, buffutils_pad(frmt->prefix_signe
 											  ? format_getsign(frmt) : ' ' , 1));
 
-		format_alterform(frmt);
+		format_alterform(&tmp, frmt);
 		format_set_precision(&tmp, frmt);
 
 		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))

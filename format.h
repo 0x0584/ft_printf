@@ -124,4 +124,6 @@ int				check_flags(char **fmt, t_frmt *frmt);
 void			format_to_buff(t_list *lstfrmt, t_buff *buff);
 void			format_dbg(t_frmt *frmt);
 
+bool			format_isnumeric(t_frmt *frmt);
+
 #endif
