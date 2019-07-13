@@ -3,10 +3,10 @@
 /*														  :::	   ::::::::	  */
 /*	 libft.h											:+:		 :+:	:+:	  */
 /*													  +:+ +:+		  +:+	  */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/02 01:48:11 by archid-          ###   ########.fr       */
+/*	 Updated: 2019/07/02 01:48:11 by archid-		  ###	########.fr		  */
 /*																			  */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@
 # define ASSERT_RET(expr, ret)				if ((expr)) return (ret)
 # define UNLESS_RET(expr, ret)				if (!(expr)) return (ret)
 
+# define LST_NEXT(e)						e = e->next
+
 #include "types.h"
+#include "floats.h"
 
 struct	s_list
 {
@@ -80,8 +83,10 @@ char			**ft_strsplit(char const *s, char c);
 char			*ft_strmap(char const *s, char (*f)(char));
 char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char			*ft_strsub(char const *s, unsigned int start, size_t len);
-char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s);
+char			*ft_strjoin(char const *s1, char const *s2);
+ssize_t			ft_strnprepend(char **dest, const char *prefix, size_t prefixsz);
+ssize_t			ft_strprepend(char **dest, const char *prefix);
 
 int				ft_atoi(const char *s);
 int				ft_strequ(char const *s1, char const *s2);
@@ -106,6 +111,7 @@ void			ft_lstiter_recu(t_list *lst, void (*f)(t_list *elem));
 int				ft_lstadd(t_list **alst, t_list *new);
 int				ft_lstpush(t_list **alst, t_list *e);
 size_t			ft_lstlen(t_list *lst);
+void			ft_lst_mergesort(t_plist *alst, int (cmp)(t_plist, t_plist));
 
 t_list			*ft_lstpeek(t_list **alst);
 t_list			*ft_lstpop(t_list **alst);
@@ -128,7 +134,7 @@ t_int64			ft_utf8tostr(t_int8 *dest, size_t destsz,
 t_int8			ft_utf8tostr_ch(t_int8 *dest, t_int32 wch);
 
 char			*ft_itoa(int n);
-char			*ft_ftoa(float f);
+char			*ft_ftoa(float f, t_int8 precision);
 char			*ft_ltoa_hex(long l);
 
 #endif

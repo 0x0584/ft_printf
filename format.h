@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   format.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/17 22:16:27 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/02 18:10:10 by archid-          ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														  :::	   ::::::::	  */
+/*	 format.h											:+:		 :+:	:+:	  */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2019/06/17 22:16:27 by archid-		   #+#	  #+#			  */
+/*	 Updated: 2019/07/02 18:10:10 by archid-		  ###	########.fr		  */
+/*																			  */
 /* ************************************************************************** */
 
 #ifndef FORMAT_H
@@ -32,87 +32,98 @@
 /* FIXME: add enums and union into format structure */
 /* TODO: create a flags enum, add mask... */
 
-typedef enum	e_modifiers
-{
-	MODIF_HH, MODIF_H,
-	MODIF_L, MODIF_LL,
-
-	MODIF_DEFAULT = -1
-}				t_modif;
-
-typedef enum	e_conversions {
-	SIGNED_DECI,
-	UNSIGNED_OCTA,
-	UNSIGNED_DECI,
-	UNSIGNED_HEXA,
-	UNSIGNED_HEXA2,
-	DOUBLE_EXP,
-	DOUBLE_EXP2,
-	DOUBLE_NORMAL,
-	DOUBLE_NORMAL2,
-	CHAR,
-	STRING,
-	POINTER,
-	PERCENTAGE,
-
-	DEFAULT_CONV = -1
-}				t_conv;
-
-/* NOTE:
- *
- * i'm not sure about all the type conversion the man in not clean
- * about those (or it might be just me) * so i've putted here any
- * possible data type
- */
-
-typedef union	u_data
-{
-	unsigned char c;
-	short s;
-	int i;
-	long l;
-	long long ll;
-	unsigned short us;
-	unsigned char uc;
-	unsigned int ui;
-	unsigned long ul;
-	unsigned long long ull;
-	double d;
-	long double ld;
-	char *str;
-	unsigned char *ustr;
-}				t_data;
-
 /* the general rule of a format string:
  *
- *  %{{arg-index}{$}}{0(blank)#-+'}{min-width}.{precision}{len-modi}{type}
+ *	%{{arg-index}{$}}{0(blank)#-+'}{min-width}.{precision}{len-modi}{type}
  */
 /* FIXME: add priorities */
 typedef struct	s_format
 {
-	t_data	u_data;
-	t_modif	length;
-	t_conv	conv;
-	int		argindex;
-	int		fmtindex;
-	int		width;
-	int		precision;
-	bool	is_alter;
-	bool	prefix_zeros;
-	bool	prefix_signe;
-	bool	prefix_plus_blank;
-	bool	padding_on_left;
+	/*
+	** Indexes to sort a list of t_frmt based on
+	*/
+	int								argindex;
+	int								fmtindex;
+
+	int								width;
+	int								precision;
+	bool							is_alter;
+	bool							prefix_zeros;
+	bool							prefix_signe;
+	bool							prefix_plus_blank;
+	bool							padding_on_left;
+
+	enum		e_modifiers
+	{
+		MODIF_HH, MODIF_H,
+		MODIF_L, MODIF_LL,
+
+		MODIF_DEFAULT = -1
+	}								length;
+	enum		e_conversions
+	{
+		SIGNED_DECI,
+		UNSIGNED_OCTA,
+		UNSIGNED_DECI,
+		UNSIGNED_HEXA,
+		UNSIGNED_HEXA2,
+		DOUBLE_EXP,
+		DOUBLE_EXP2,
+		DOUBLE_NORMAL,
+		DOUBLE_NORMAL2,
+		CHAR,
+		STRING,
+		POINTER,
+		PERCENTAGE,
+
+		STRING_FRMT = -2,
+		DEFAULT_CONV
+	}								conv;
+
+	/* NOTE:
+	 *
+	 * i'm not sure about all the type conversion the man in not clean
+	 * about those (or it might be just me) * so i've putted here any
+	 * possible data type
+	 */
+
+	union		u_data
+	{
+		unsigned char		c;
+		short				s;
+		int					i;
+		long				l;
+		long long			ll;
+		unsigned short		us;
+		unsigned char		uc;
+		unsigned int		ui;
+		unsigned long		ul;
+		unsigned long long	ull;
+		double				d;
+		long double			ld;
+		char				*str;
+		t_int32				*wstr;
+		t_int32				wc;
+		unsigned char		*ustr;
+	}								u_data;
 }				t_frmt;
 
-void	handle_format(char **fmt, t_list **alstfrmt);
-int		handle_relative_args(va_list *arglst, t_list *lstfrmt);
+void			handle_format(char **fmt, t_plist *alstfrmt, int *index);
+int				handle_relative_args(va_list *arglst, t_plist *alstfrmt);
 
-int		check_conversion(char **fmt, t_frmt *frmt);
-int		check_modifier(char **fmt, t_frmt *frmt);
-int		check_flags(char **fmt, t_frmt *frmt);
+/*
+** format.checks.c: verify conversion and modifiers. also flags
+*/
+int				check_conversion(char **fmt, t_frmt *frmt);
+int				check_modifier(char **fmt, t_frmt *frmt);
+int				check_flags(char **fmt, t_frmt *frmt);
 
-void	format_to_buff(t_list *lstfrmt, t_buff *buff);
+/*
+** format.buffer.c: fill a buffer from a list of t_frmt
+*/
+void			format_to_buff(t_list *lstfrmt, t_buff *buff);
+void			format_dbg(t_frmt *frmt);
 
-void	format_dbg(t_frmt *frmt);
+bool			format_isnumeric(t_frmt *frmt);
 
 #endif

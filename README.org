@@ -1,0 +1,23 @@
+* About
+
+ ft_printf is a project which leads to the AI branch. sounds good!
+
+* TODOs [6/17]
+
++ [X] +get format string info+
++ [X] +handle relative args+
++ [X] +handle utf8+
++ [X] +handle %d and %s and %c+
++ [X] +handle %ls and %lc+
++ [X] +handle 0 padding flag+
++ [ ] *handle + at beginning of positive*
++ [ ] *handle space at beginning of positive number*
++ [ ] handle # flags
++ [ ] handle width
++ [ ] handle left width
++ [ ] handle .n precision
++ [ ] handle .* precision
++ [ ] *handle %f and %Lf*
++ [ ] *handle %a and %A*
++ [ ] *handle %e and %E*
++ [ ] fulfill the printf familly (aprintf, sprintf, snprintf)!!

@@ -6,14 +6,21 @@
 
 int main(int argc, char *argv[])
 {
-	t_int8 dest[100];
-	t_int64 ret = ft_utf8tostr(dest, 100,
-							   L"@&@{čřžŧ¶'`[łĐŧđĐ¶←^€~[←^ø{&}čž\n", 200);
-	(void)printf("ret >> %ld\n\n", ret);
-	write(1, dest, ret);
-	ft_dprintf(1, "string: %2$0 2.8ls  number: %1$#10.4lld  char: %3$12.9lc\n",
-			   10, "this", 'a');
+	/* t_int8 dest[100]; */
+	/* t_int64 ret = ft_utf8tostr(dest, 100, */
+	/*						   L"@&@{čřžŧ¶'`[łĐŧđĐ¶←^€~[←^ø{&}čž\n", 200); */
+	/* (void)printf("ret >> %ld\n\n", ret); */
+	/* write(1, dest, ret); */
 
+	/* (void)ft_ftoa(3.1415f, 10); */
+
+
+	ft_dprintf(1, "BEGIN flag0: '%3$ls' flag1: '%1$lc' flag2: '%2$010d' END\n",
+			  L'ø', 'A', L"čř");
+	/* ft_dprintf(1, "BEGIN flag1: %2$d flag2: %1$d END\n", 11, 10); */
+
+	/* ft_dprintf(1, "string: %2$0 2.8ls  number: %1$#10.4lld	char: %3$12.9lc\n",
+	   10, "this", 'a'); */
 	/* dprintf(1, "%s  %d  %c\n", "this", 10, 'a'); */
-    return 0;
+	return 0;
 }
