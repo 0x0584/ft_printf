@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/07/02 01:48:11 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/07/18 02:24:29 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # define LIBFT_H
 
 # include <stdlib.h>
-# include <stdarg.h>
-# include <stdbool.h>
 # include <unistd.h>
+
+#include "types.h"
 
 # define ABS(x)								((x) < 0 ? (x) * -1 : (x))
 # define MAX(a, b)							((a) > (b) ? (a) : (b))
@@ -34,9 +34,6 @@
 # define UNLESS_RET(expr, ret)				if (!(expr)) return (ret)
 
 # define LST_NEXT(e)						e = e->next
-
-#include "types.h"
-#include "floats.h"
 
 struct	s_list
 {

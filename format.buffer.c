@@ -6,7 +6,7 @@
 /*	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/23 15:17:54 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/06/27 00:34:16 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/07/14 01:56:00 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -142,13 +142,14 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 			ft_strprepend(&tmp,
 						  buffutils_pad(frmt->prefix_zeros ? '0' : ' ',
 										frmt->width - ft_strlen(tmp)));
-		if ((frmt->prefix_signe || frmt->prefix_plus_blank) &&
-				format_isnumeric(frmt))
-			ft_strprepend(&tmp, buffutils_pad(frmt->prefix_signe
-											  ? format_getsign(frmt) : ' ' , 1));
 
-		format_alterform(&tmp, frmt);
-		format_set_precision(&tmp, frmt);
+		/* if ((frmt->prefix_signe || frmt->prefix_plus_blank) && */
+		/* 		format_isnumeric(frmt)) */
+		/* 	ft_strprepend(&tmp, buffutils_pad(frmt->prefix_signe */
+		/* 									  ? format_getsign(frmt) : ' ' , 1)); */
+
+		/* format_alterform(&tmp, frmt); */
+		/* format_set_precision(&tmp, frmt); */
 
 		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))
 			ft_putendl("tmp was empty");

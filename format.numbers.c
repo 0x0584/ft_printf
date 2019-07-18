@@ -3,8 +3,7 @@
  *	Description:	NULL
  *
  *	  Created: <2019-07-06 Sat 22:12:16>
- *	  Updated: <2019-07-07 Sun 04:59:08>
- */
+/*   Updated: 2019/07/14 01:56:55 by archid-          ###   ########.fr       */
 
 #include "format.h"
 
@@ -43,9 +42,10 @@ bool	format_getsigne(t_frmt *frmt)
 
 char	*format_ieee_float(t_frmt *frmt, bool has_trailing)
 {
-	return ((frmt->length == MODIF_LL)
-			? ft_ftoa854(frmt->u_data.ld, has_trailing)
-			: ft_ftoa754(frmt->u_data.d, has_trailing));
+	return NULL;
+	/* return ((frmt->length == MODIF_LL) */
+	/* 		? ft_ftoa854(frmt->u_data.ld, has_trailing) */
+	/* 		: ft_ftoa754(frmt->u_data.d, has_trailing)); */
 }
 
 void	format_alterform(char **astr, t_frmt *frmt)
