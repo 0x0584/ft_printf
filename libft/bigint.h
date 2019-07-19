@@ -6,14 +6,14 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:23 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/18 19:50:42 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/18 22:56:47 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BIGINT_H
 # define BIGINT_H
 
-#include "types.h"
+#include "libft.h"
 
 /* IDEA:
 
@@ -45,7 +45,9 @@
 
 /* what are the differences between  */
 
-typedef struct	s_big_integer
+# define BIGINT_COUPLE_SIZE(b)		(b->ten_exp / 2 + (b->ten_exp % 2 != 0))
+
+typedef struct	s_biggy
 {
 	/* each byte can hold two
 
@@ -66,5 +68,7 @@ void			bigint_free(t_bigint **big_number);
 t_bigint		*bigint_add(t_bigint *big1, t_bigint *big2);
 t_bigint		*bigint_mul(t_bigint *big1, t_bigint *big2);
 t_bigint		*bigint_pow(t_bigint *big1, t_uint32 power);
+
+void			put_bigint(t_bigint *big);
 
 #endif

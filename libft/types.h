@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/30 01:22:11 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/18 02:23:23 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/18 22:56:22 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef union u_ieee754_float		t_float32;
 typedef union u_ieee754_double		t_float64;
 typedef union u_ieee854_long_double	t_float128;
 
-typedef struct s_big_integer		t_bigint;
+typedef struct s_biggy				t_bigint;
 
 /*
 **		--------------- Objects are just (void *) ---------------

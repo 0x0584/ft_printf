@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putnumber.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 03:30:09 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/30 01:31:11 by archid-          ###   ########.fr       */
+/*   Created: 2019/04/07 03:56:41 by archid-           #+#    #+#             */
+/*   Updated: 2019/07/18 22:23:49 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void	ft_putnumber(int n)
 {
-	t_uint64 u;
-
-	u = (n < 0) ? -n : n;
-	if (n < 0)
-		ft_putchar_fd('-', fd);
-	if (u > 9)
-		ft_putnbr_fd(u / 10, fd);
-	ft_putchar_fd(u % 10 + '0', fd);
+	ft_putnumber_fd(n, 1);
 }
