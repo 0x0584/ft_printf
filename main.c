@@ -18,12 +18,20 @@ int main(int argc, char *argv[])
 
 	t_bigint *foo;
 
+	/*
 	ft_dprintf(1, "BEGIN flag0: '%3$ls' flag1: '%1$lc' flag2: '%2$010d' END\n",
 			  L'ø', 'A', L"čř");
+	*/
 
-	ft_putendl("1012224579978655642335");
-	foo = bigint_new("1012224579978655642335");
+	/* ft_putendl("-1012224579978655642335"); */
+	foo = bigint_new("-101222499999999999999999999999999999999999999999999999999999999579978655642335");
 	ft_putbigint(foo);
+
+	ft_putendl("\n---------======");
+	char * str = bigint_tostr(foo);
+	ft_putendl(str);
+	ft_strdel(&str);
+
 	bigint_free(&foo);
 
 	/*

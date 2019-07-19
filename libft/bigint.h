@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:23 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/18 22:56:47 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/19 05:51:01 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,15 @@ t_bigint		*bigint_new(char *big_number);
 t_bigint		*bigint_init(t_int128 number);
 void			bigint_free(t_bigint **big_number);
 
+t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2);
+t_bigint		*bigint_minof(t_bigint *big1, t_bigint *big2);
+
 t_bigint		*bigint_add(t_bigint *big1, t_bigint *big2);
 t_bigint		*bigint_mul(t_bigint *big1, t_bigint *big2);
 t_bigint		*bigint_pow(t_bigint *big1, t_uint32 power);
+t_int8			 bigint_cmp(t_bigint *big1, t_bigint *big2);
+t_int8			bigint_ucmp(t_bigint *big1, t_bigint *big2);
 
-void			put_bigint(t_bigint *big);
+char			*bigint_tostr(t_bigint *big);
 
 #endif
