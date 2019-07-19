@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putbigint.c                                     :+:      :+:    :+:   */
+/*   ft_digitcount_128bit.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/18 22:48:31 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/19 04:09:11 by archid-          ###   ########.fr       */
+/*   Created: 2019/07/19 03:23:56 by archid-           #+#    #+#             */
+/*   Updated: 2019/07/19 03:26:48 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bigint.h"
+#include "libft.h"
 
-void			ft_putbigint(t_bigint *big)
+t_int32		ft_digitcount_128bit(t_int128 n)
 {
-	t_uint32 temp[2];
+	t_int32		count;
+	t_uint128	u;
 
-	temp[1] = BIGINT_COUPLE_SIZE(big);
-	if (big->sign)
-		ft_putchar('-');
-	temp[0] = 0;
-	ft_putendl("------- .>>> ");
-	while (temp[0] < temp[1])
+	if (n == 0)
+		return (1);
+	u = (n < 0) ? -n : n;
+	count = 1 + (n < 0);
+	while (u / 10)
 	{
-		ft_putchar((big->couple_digits[temp[0]] >> 4) + '0');
-		if ((big->couple_digits[temp[0]] & 0x0F) != 0x0F)
-			ft_putchar((big->couple_digits[temp[0]] & 0x0F) + '0');
-		temp[0]++;
+		u /= 10;
+		count++;
 	}
+	return (count);
 }

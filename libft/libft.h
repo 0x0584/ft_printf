@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/18 22:22:40 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/19 03:33:28 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void			ft_putchar(char c);
 void			ft_putstr(char const *s);
 void			ft_putendl(char const *s);
 void			ft_putnumber(int n);
+void			ft_putbigint(t_bigint *big);
 
 t_list			*ft_lstnew(void const *content, size_t content_size);
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
@@ -121,6 +122,9 @@ int				ft_power(int x, int y);
 int				ft_sqrt(int nb);
 
 t_int8			ft_digitcount(int n);
+
+t_int32			ft_digitcount_128bit(t_int128 n);
+
 int				ft_isspace(int c);
 int				ft_isblank(int c);
 int				ft_iscntrl(int c);
