@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 22:48:31 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/19 01:40:58 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/19 03:17:44 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,17 @@
 
 void			ft_putbigint(t_bigint *big)
 {
-	t_uint32 size;
+	t_uint32 temp[2];
 
-	size = BIGINT_COUPLE_SIZE(big);
+	temp[1] = BIGINT_COUPLE_SIZE(big);
 	if (big->sign)
 		ft_putchar('-');
-	while (size--)
+	temp[0] = 0;
+	while (temp[0] < temp[1])
 	{
-		ft_putchar(big->couple_digits[size] >> 4);
-		if ((big->couple_digits[size] & 0xF0) ^ 0xF0)
-			ft_putchar(big->couple_digits[size] & 0xF0);
+		ft_putchar((big->couple_digits[temp[0]] >> 4) + '0');
+		if (big->couple_digits[temp[0]] & 0x0F)
+			ft_putchar((big->couple_digits[temp[0]] & 0x0F) + '0');
+		temp[0]++;
 	}
 }

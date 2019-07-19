@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/19 01:50:39 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/19 03:10:55 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,13 @@ t_bigint        *bigint_new(char *big_number)
         bigint_free(&big);
         return (NULL);
     }
-
     index = 0;
     flag = false;
     while (*big_number && ft_isdigit(*big_number))
       if (flag ^= true)
-      {
-		  big->couple_digits[index] = *big_number++ - '0';
-		  big->couple_digits[index] <<= 4;
-      }
+		  big->couple_digits[index] = (*big_number++ - '0') << 4;
       else
-		  big->couple_digits[index++] |= *big_number++;
+		  big->couple_digits[index++] |= *big_number++ - '0';
 
     return (big);
 }
