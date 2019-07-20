@@ -24,10 +24,20 @@ int main(int argc, char *argv[])
 	*/
 
 	/* ft_putendl("-1012224579978655642335"); */
-	foo = bigint_new("-101222499999999999999999999999999999999999999999999999999999999579978655642335");
+	t_uint32 i = 0;
+	foo = bigint_new("-101222498563242335771");
+	while (i < BIGINT_COUPLE_SIZE(foo)) {
+		ft_putnumber(BIGINT_LEFT_DIGIT(foo->couple_digits[i]));
+		ft_putstr(":");
+		ft_putnumber(BIGINT_RIGHT_DIGIT(foo->couple_digits[i]));
+		ft_putstr(" -> ");
+		ft_putnumber(foo->couple_digits[i++]);
+		ft_putstr((i != BIGINT_COUPLE_SIZE(foo)) ? "\n" : "\n\n");
+	}
+
 	ft_putbigint(foo);
 
-	ft_putendl("\n---------======");
+	ft_putendl("\n-------------------------------");
 	char * str = bigint_tostr(foo);
 	ft_putendl(str);
 	ft_strdel(&str);

@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/19 04:51:47 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/19 23:37:56 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void			ft_bzero(void *s, size_t n);
 
 char			*ft_strnew(size_t size);
 char			*ft_strdup(const char *str);
+char			*ft_strrev(const char *str);
 char			*ft_strcpy(char *dst, const char *src);
 char			*ft_strncpy(char *dst, const char *src, size_t len);
 char			*ft_strcat(char *dst, const char *src);

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:23 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/19 05:51:01 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/19 22:50:59 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@
  */
 
 /* what are the differences between  */
+# define BIGINT_MASK				0x0F
 
 # define BIGINT_COUPLE_SIZE(b)		(b->ten_exp / 2 + (b->ten_exp % 2 != 0))
+# define BIGINT_LEFT_DIGIT(d)		(d >> 4)
+# define BIGINT_RIGHT_DIGIT(d)		(d & BIGINT_MASK)
 
 typedef struct	s_biggy
 {

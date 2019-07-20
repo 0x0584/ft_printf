@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/19 06:46:36 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/19 22:48:21 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_bigint        *bigint_new(char *big_number)
     UNLESS_RET(big = ALLOC(t_bigint *, 1, sizeof(t_bigint)), NULL);
 	if (*big_number && *big_number == '-')
 		big->sign = *big_number++ == '-' ? true : false;
-    big->ten_exp = ft_strlen(big_number) - big->sign;
+    big->ten_exp = ft_strlen(big_number);
     if (!(big->couple_digits = ALLOC(t_uint8 *, BIGINT_COUPLE_SIZE(big),
 									 sizeof(t_uint8))))
     {
