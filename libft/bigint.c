@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/19 22:48:21 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/20 10:54:33 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,53 @@ char			*bigint_tostr(t_bigint *big)
 
 t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2)
 {
-	if (big2 || 1)
-		return big1;
+	t_uint32		temp[2];
+	bool			flag;
+	t_int8			diff;
+
+	ASSERT_RET(big1->ten_exp > big2->ten_exp,  big1);
+	ASSERT_RET(big1->ten_exp < big2->ten_exp, big2);
+	flag = false;
+	temp[1] = BIGINT_COUPLE_SIZE(big1);
+	temp[0] = 0;
+	while (temp[0] < temp[1])
+	{
+		diff = !flag ?
+			BIGINT_LD(big1, temp[0]) - BIGINT_LD(big2, temp[0]) :
+			BIGINT_RD(big1, temp[0]) - BIGINT_RD(big2, temp[0]);
+		if (flag ^= true)
+		{
+			ASSERT_RET(diff < 0, big2);
+			ASSERT_RET(diff > 0, big1);
+		}
+		else
+		{
+			if (BIGINT_IS_RD(big1, temp[0]) &&
+				BIGINT_IS_RD(big2, temp[0]))
+			{
+				ASSERT_RET(diff < 0, big2);
+				ASSERT_RET(diff > 0, big1);
+			}
+			ASSERT_RET(BIGINT_IS_RD(big1, temp[0]) &&
+					   !BIGINT_IS_RD(big2, temp[0]), big1);
+			ASSERT_RET(BIGINT_IS_RD(big2, temp[0]) &&
+					   !BIGINT_IS_RD(big1, temp[0]), big2);
+			temp[0]++;
+		}
+	}
+	return (NULL);
 }
 
 t_bigint		*bigint_minof(t_bigint *big1, t_bigint *big2)
 {
-	if (big2 || 1)
-		return big1;
+	t_bigint *biggy = bigint_maxof(big2, big1);
+
+	if (biggy == big1)
+		return (big2);
+	else if (biggy == big2)
+		return (big1);
+	else
+		return (NULL);
 }
 
 /* FIXEME: finish bigint_init(t_int128 number) */

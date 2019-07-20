@@ -16,33 +16,37 @@ int main(int argc, char *argv[])
 
 	/* (void)ft_ftoa(3.1415f, 10); */
 
-	t_bigint *foo;
-
 	/*
 	ft_dprintf(1, "BEGIN flag0: '%3$ls' flag1: '%1$lc' flag2: '%2$010d' END\n",
 			  L'ø', 'A', L"čř");
 	*/
 
-	/* ft_putendl("-1012224579978655642335"); */
+	t_bigint *foo, *bar;
+
+	ft_putendl("testing big int");
 	t_uint32 i = 0;
-	foo = bigint_new("-101222498563242335771");
+	foo = bigint_new("101222498563242335771");
+	bar = bigint_new("999999999999999999999120");
+
 	while (i < BIGINT_COUPLE_SIZE(foo)) {
-		ft_putnumber(BIGINT_LEFT_DIGIT(foo->couple_digits[i]));
+		ft_putnumber(BIGINT_LD(foo, i));
 		ft_putstr(":");
-		ft_putnumber(BIGINT_RIGHT_DIGIT(foo->couple_digits[i]));
+		ft_putnumber(BIGINT_RD(foo, i));
 		ft_putstr(" -> ");
 		ft_putnumber(foo->couple_digits[i++]);
 		ft_putstr((i != BIGINT_COUPLE_SIZE(foo)) ? "\n" : "\n\n");
 	}
 
-	ft_putbigint(foo);
-
+	ft_putbigint(bigint_maxof(foo, foo));
+	/* ft_putbigint(bigint_maxof(foo, bar)); */
+	ft_putendl("\n &&& ");
+	ft_putbigint(bigint_minof(foo, bar));
 	ft_putendl("\n-------------------------------");
 	char * str = bigint_tostr(foo);
 	ft_putendl(str);
 	ft_strdel(&str);
-
 	bigint_free(&foo);
+	bigint_free(&bar);
 
 	/*
 	ft_putendl("//////// ");
