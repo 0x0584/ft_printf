@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:23 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/20 04:29:36 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/20 13:41:48 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2);
 t_bigint		*bigint_minof(t_bigint *big1, t_bigint *big2);
 
 t_bigint		*bigint_add(t_bigint *big1, t_bigint *big2);
+t_bigint		*bigint_sub(t_bigint *big1, t_bigint *big2);
 t_bigint		*bigint_mul(t_bigint *big1, t_bigint *big2);
+t_bigint		*bigint_div(t_bigint *big1, t_bigint *big2);
+
 t_bigint		*bigint_pow(t_bigint *big1, t_uint32 power);
 t_int8			 bigint_cmp(t_bigint *big1, t_bigint *big2);
 t_int8			bigint_ucmp(t_bigint *big1, t_bigint *big2);

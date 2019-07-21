@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/19 23:37:56 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/20 13:34:55 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@
 # define UNLESS_RET(expr, ret)				if (!(expr)) return (ret)
 
 # define LST_NEXT(e)						e = e->next
+
+# define GET_DIGI(i)						(i - '0')
+# define TO_DIGI(i)							(i + '0')
 
 struct	s_list
 {

@@ -16,17 +16,24 @@ int main(int argc, char *argv[])
 
 	/* (void)ft_ftoa(3.1415f, 10); */
 
-	/*
-	ft_dprintf(1, "BEGIN flag0: '%3$ls' flag1: '%1$lc' flag2: '%2$010d' END\n",
-			  L'ø', 'A', L"čř");
-	*/
-
-	t_bigint *foo, *bar;
-
-	ft_putendl("testing big int");
+	t_bigint *foo, *bar, *baar, *baz, *buzz;
 	t_uint32 i = 0;
-	foo = bigint_new("101222498563242335771");
-	bar = bigint_new("999999999999999999999120");
+
+	ft_putendl("---------- testing fucking BIGINT!! ----------\n");
+
+	foo = bigint_new("456789123456789");
+	bar = bigint_new("512");
+	buzz = bigint_new("-56789");
+	baar = bigint_new("1889");
+
+	(void)printf(" ===> %s \n", buzz->sign ? "negative" : "positive");
+	ft_putstr(">>>> "); ft_putbigint(bigint_maxof(bar, buzz));
+	ft_putendl("");
+
+	baz = bigint_add(foo, bar);
+
+	ft_putbigint(foo); ft_putstr(" + "); ft_putbigint(bar);
+	ft_putstr(" = "); ft_putbigint(baz); ft_putendl("\n");
 
 	while (i < BIGINT_COUPLE_SIZE(foo)) {
 		ft_putnumber(BIGINT_LD(foo, i));
@@ -37,9 +44,8 @@ int main(int argc, char *argv[])
 		ft_putstr((i != BIGINT_COUPLE_SIZE(foo)) ? "\n" : "\n\n");
 	}
 
-	ft_putbigint(bigint_maxof(foo, foo));
+	ft_putbigint(bigint_maxof(foo, foo)); ft_putendl("");
 	/* ft_putbigint(bigint_maxof(foo, bar)); */
-	ft_putendl("\n &&& ");
 	ft_putbigint(bigint_minof(foo, bar));
 	ft_putendl("\n-------------------------------");
 	char * str = bigint_tostr(foo);
@@ -47,6 +53,13 @@ int main(int argc, char *argv[])
 	ft_strdel(&str);
 	bigint_free(&foo);
 	bigint_free(&bar);
+
+	ft_putendl("--------------------------------------------\n");
+
+
+	/* FIXME: fix $ multiple usage */
+	ft_dprintf(1, "BEGIN flag0: '%2$ls' flag1: '%3$lc' flag2: '%1$010d' END\n",
+			   'A', L"čř", L'ø');
 
 	/*
 	ft_putendl("//////// ");
