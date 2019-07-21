@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 22:47:50 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/21 22:14:30 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/21 23:52:19 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ char	*sub_as_str(const char *s1, const char *s2)
 	sizes[0] = ft_strlen(s1);
 	sizes[1] = ft_strlen(s2);
 	UNLESS_RET(buff = ft_strnew(MAX(sizes[0], sizes[1]) + 1), NULL);
-	while (sizes[0])
+	while (sizes[0] && sizes[1])
 	{
 		sub = GET_DIGI(s1[--sizes[0]]) - GET_DIGI(s2[--sizes[1]]) - carry;
 		if ((carry = sub < 0))
 			sub += 10;
 		buff[index++] = TO_DIGI(sub);
 	}
-	while (sizes[1])
+	while (sizes[0])
 	{
-		sub = GET_DIGI(s2[--sizes[1]]) - carry;
+		sub = GET_DIGI(s1[--sizes[0]]) - carry;
 		if ((carry = sub < 0))
 			sub += 10;
 		buff[index++] = TO_DIGI(sub);
@@ -76,12 +76,28 @@ t_bigint	*bigint_sub(t_bigint *big1, t_bigint *big2)
 	t_bigint	*bigint;
 	char		*bigint_str[2];
 	char		*tmp;
+	bool		sign;
 
+	/* fix this shit! */
+
+	/*
+
+	   if both positive, [0] = bigger, [1] = smaller
+
+	 */
 	bigint = bigint_maxof(big1, big2);
-	bigint_str[0] = bigint_tostr(bigint == big1 ? big2 : big1);
-	bigint_str[1] = bigint_tostr(bigint);
-	tmp = sub_as_str(bigint_str[1], bigint_str[0]);
+	bigint_str[0] = bigint_tostr(bigint);
+	bigint_str[1] = bigint_tostr(bigint == big1 ? big2 : big1);
+
+	sign = bigint != big1;
+
+	ft_putstr("\n  .>> "); ft_putendl(bigint_str[0]);
+	ft_putstr("  .>> "); ft_putendl(bigint_str[1]);
+
+	tmp = sub_as_str(bigint_str[0], bigint_str[1]);
 	bigint = bigint_new(tmp);
+	bigint->sign = sign;
+
 	ft_strdel(&tmp);
 	ft_strdel(&bigint_str[0]);
 	ft_strdel(&bigint_str[1]);
@@ -96,8 +112,10 @@ t_bigint		*bigint_add(t_bigint *big1, t_bigint *big2)
 	char		*tmp;
 
 	bigint = bigint_maxof(big1, big2);
-	bigint_str[0] = bigint_tostr(bigint == big1 ? big2 : big1);
-	bigint_str[1] = bigint_tostr(bigint);
+	bigint_str[0] = bigint_tostr(bigint);
+	bigint_str[1] = bigint_tostr(bigint == big1 ? big2 : big1);
+	ft_putstr("\n  .>> "); ft_putendl(bigint_str[0]);
+	ft_putstr("  .>> "); ft_putendl(bigint_str[1]);
 	tmp = sum_as_str(bigint_str[0], bigint_str[1]);
 	bigint = bigint_new(tmp);
 	ft_strdel(&tmp);
