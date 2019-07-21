@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/30 02:45:42 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/19 06:35:21 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/21 04:35:43 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -76,17 +76,15 @@ char	*ft_ftoa(float f, t_int8 precision)
 	two = bigint_init(2);
 
 	t_int16 exp_val = foo.ieee.e - IEEE754_32BIT_BIAS;
-	bool exp_val_sign = exp_val < 0;
+	bool exp_val_sign;
 
-	if (exp_val_sign)
+	if ((exp_val_sign = exp_val < 0))
 		exp_val *= -1;
-
 
 	/* TODO: work on BIG INTS to IMPLEMENT THE FLOAT! */
 	exp = bigint_pow(two, exp_val);
 	man = bigint_init(foo.ieee.m);
 	man_exp = bigint_mul(exp, man);
-
 
 	ft_putnumber(precision);
 	ft_putendl("---");

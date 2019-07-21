@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/21 01:01:26 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/21 09:36:43 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ t_bigint        *bigint_new(char *big_number)
 			big->couple_digits[index] = ((*big_number++ - '0') << 4) | 0x0f;
 		else
 			big->couple_digits[index++] &= (*big_number++ - '0') | 0xf0;
-	(void)printf("bigint(%s) & sign: %s\n", foo, big->sign ? "signed" : "unsigned");
+	(void)printf("bigint(%s) & sign: %s\n", foo,
+						big->sign ? "signed" : "unsigned");
     return (big);
 }
 
@@ -74,10 +75,13 @@ t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2)
 	UNLESS_RET(big1 && big2, NULL);
 	ASSERT_RET((!big1->sign && big2->sign), big1);
 	ASSERT_RET((!big2->sign && big1->sign), big2);
-	ASSERT_RET(big1->ten_exp > big2->ten_exp, big1);
-	ASSERT_RET(big2->ten_exp > big1->ten_exp, big2);
+	ASSERT_RET(big1->ten_exp > big2->ten_exp, big1->sign ? big2 : big1);
+	ASSERT_RET(big2->ten_exp > big1->ten_exp, big1->sign ? big1 : big2);
+
+	ft_putendl("here");
 	is_nega = big1->sign && big2->sign ? -1 : 1;
-	(void)printf(" }}} %d %d %d", is_nega, big1->sign, big2->sign);
+	ft_putstr("is_nega: "); ft_putnumber(is_nega); ft_putstr(" diff: \n");
+	/* (void)printf(" }}} %d %d %d\n", is_nega, big1->sign, big2->sign); */
 	flag = false;
 	temp[0] = 0;
 	temp[1] = BIGINT_COUPLE_SIZE(big1);
@@ -86,6 +90,7 @@ t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2)
 		diff = is_nega * (!flag ?
 			BIGINT_LD(big1, temp[0]) - BIGINT_LD(big2, temp[0]) :
 			BIGINT_RD(big1, temp[0]) - BIGINT_RD(big2, temp[0]));
+		ft_putnumber(diff); ft_putstr(" ");
 		if (flag ^= true)
 		{
 			ASSERT_RET(diff < 0, big2);
@@ -93,8 +98,7 @@ t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2)
 		}
 		else
 		{
-			if (BIGINT_IS_RD(big1, temp[0]) &&
-				BIGINT_IS_RD(big2, temp[0]))
+			if (BIGINT_IS_RD(big1, temp[0]) && BIGINT_IS_RD(big2, temp[0]))
 			{
 				ASSERT_RET(diff < 0, big2);
 				ASSERT_RET(diff > 0, big1);
@@ -106,19 +110,13 @@ t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2)
 			temp[0]++;
 		}
 	}
+	ft_putendl("end diff");
 	return (big1);
 }
 
 t_bigint		*bigint_minof(t_bigint *big1, t_bigint *big2)
 {
-	t_bigint *biggy = bigint_maxof(big2, big1);
-
-	if (biggy == big1)
-		return (big2);
-	else if (biggy == big2)
-		return (big1);
-	else
-		return (NULL);
+	return (bigint_maxof(big2, big1) == big1 ? big2 : big1);
 }
 
 /* FIXEME: finish bigint_init(t_int128 number) */
