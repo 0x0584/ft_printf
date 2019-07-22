@@ -6,25 +6,38 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/22 04:45:19 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/22 13:59:25 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bigint.h"
 
-t_bigint        *bigint_new(char *big_number)
+static char		*escape_unwanted(const char *str)
+{
+	size_t index;
+
+	index = 0;
+	while (str[index] && str[index] != '-'
+				&& (!ft_isdigit(str[index])
+					|| (str[index] == '0' && str[index + 1])))
+		index++;
+	return ((char *)str + index);
+}
+
+t_bigint        *bigint_new(const char *big_number)
 {
     t_bigint        *big;
+	char			*biggy;
     t_uint32        index;
 	bool			flag;
 
-	char *foo = big_number;
 
     UNLESS_RET(big_number, NULL);
     UNLESS_RET(big = ALLOC(t_bigint *, 1, sizeof(t_bigint)), NULL);
-	if (*big_number && *big_number == '-')
-		big->sign = *big_number++ == '-' ? true : false;
-    big->ten_exp = ft_strlen(big_number);
+	biggy = escape_unwanted(big_number);
+	if (*biggy && *biggy == '-')
+		big->sign = *biggy++ == '-' ? true : false;
+    big->ten_exp = ft_strlen(biggy);
     if (!(big->couple_digits = ALLOC(t_uint8 *, BIGINT_COUPLE_SIZE(big),
 									 sizeof(t_uint8))))
     {
@@ -33,12 +46,12 @@ t_bigint        *bigint_new(char *big_number)
     }
     index = 0;
     flag = false;
-    while (*big_number && ft_isdigit(*big_number))
+    while (*biggy && ft_isdigit(*biggy))
 		if (flag ^= true)
-			big->couple_digits[index] = ((*big_number++ - '0') << 4) | 0x0f;
+			big->couple_digits[index] = ((*biggy++ - '0') << 4) | 0x0f;
 		else
-			big->couple_digits[index++] &= (*big_number++ - '0') | 0xf0;
-	(void)printf("bigint(%s) & sign: %s\n", foo,
+			big->couple_digits[index++] &= (*biggy++ - '0') | 0xf0;
+	(void)printf("bigint(%s) & sign: %s\n", big_number,
 						big->sign ? "signed" : "unsigned");
     return (big);
 }

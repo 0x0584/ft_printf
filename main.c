@@ -16,13 +16,13 @@ int main(int argc, char *argv[])
 
 	/* (void)ft_ftoa(3.1415f, 10); */
 
-	t_bigint *foo, *bar, *baar, *baz, *buzz, *subed;
+	t_bigint *foo, *bar, *baar, *buzz, *sumed, *subed, *muled;
 	t_uint32 i = 0;
 
 	ft_putendl("---------- testing fucking BIGINT!! ----------\n");
 
 	ft_putstr("foo"); foo = bigint_new("200");
-	ft_putstr("bar"); bar = bigint_new("20");
+	ft_putstr("bar"); bar = bigint_new("-200");
 
 	ft_putstr("baar"); baar = bigint_new("9");
 	ft_putstr("buzz"); buzz = bigint_new("-10");
@@ -34,18 +34,22 @@ int main(int argc, char *argv[])
 	ft_putbigint(bigint_minof(baar, buzz));
 	ft_putendl("\n");
 
-	baz = bigint_add(foo, bar);
+	sumed = bigint_add(foo, bar);
 
 	ft_putbigint(foo); ft_putstr(" + "); ft_putbigint(bar);
-	ft_putstr(" = "); ft_putbigint(baz); ft_putendl("\n");
+	ft_putstr(" = "); ft_putbigint(sumed); ft_putendl("\n");
 
 	subed = bigint_sub(foo, bar);
 
 	ft_putendl("\n");
 
-
 	ft_putbigint(foo); ft_putstr(" - "); ft_putbigint(bar);
 	ft_putstr(" = "); ft_putbigint(subed); ft_putendl("\n");
+
+	muled = bigint_mul(foo, bar);
+
+	ft_putbigint(foo); ft_putstr(" * "); ft_putbigint(bar);
+	ft_putstr(" = "); ft_putbigint(muled); ft_putendl("\n");
 
 	while (i < BIGINT_COUPLE_SIZE(foo)) {
 		ft_putnumber(BIGINT_LD(foo, i));
@@ -66,11 +70,12 @@ int main(int argc, char *argv[])
 	bigint_free(&buzz);
 	bigint_free(&baar);
 	bigint_free(&bar);
-	bigint_free(&baz);
+	bigint_free(&sumed);
 
 	bar = bigint_init(18777888800);
 	ft_putbigint(bar); ft_putendl("\n");
 	bigint_free(&bar);
+
 	ft_putendl("--------------------------------------------\n");
 
 

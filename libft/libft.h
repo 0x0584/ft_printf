@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/22 04:42:43 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/22 12:13:03 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -33,10 +33,17 @@
 # define ASSERT_RET(expr, ret)				if ((expr)) return (ret)
 # define UNLESS_RET(expr, ret)				if (!(expr)) return (ret)
 
+# define ASSERT_DO(expr, do_this)			if ((expr)) do_this
+# define UNLESS_DO(expr, do_this)			if (!(expr)) do_this
+
 # define LST_NEXT(e)						e = e->next
 
-# define GET_DIGI(i)						(i - '0')
-# define TO_DIGI(i)							(i + '0')
+# define GET_DIGI(i)						((i) - '0')
+# define TO_DIGI(i)							((i) + '0')
+
+/*
+** FIXME: use va_arg with all free functions
+*/
 
 struct	s_list
 {
