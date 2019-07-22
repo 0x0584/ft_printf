@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/21 09:36:43 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/22 04:45:19 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,24 +122,16 @@ t_bigint		*bigint_minof(t_bigint *big1, t_bigint *big2)
 /* FIXEME: finish bigint_init(t_int128 number) */
 t_bigint		*bigint_init(t_int128 number)
 {
-    t_bigint        *big;
-    t_uint32        size;
-	bool			flag;
+	char *num_as_str;
+	t_bigint *big;
 
-    UNLESS_RET(big = ALLOC(t_bigint *, 1, sizeof(t_bigint)), NULL);
-	size = BIGINT_COUPLE_SIZE(big);
-    big->sign = number < 0;
-    big->ten_exp = ft_digitcount_128bit(number);
-    if (!(big->couple_digits = ALLOC(t_uint8 *, size, sizeof(t_uint8))))
-    {
-        bigint_free(&big);
-        return (NULL);
-    }
-	while (size--)
-	{
+	num_as_str = ft_lltoa(number);
 
-	}
-	return big;
+	ft_putstr(" >> "); ft_putendl(num_as_str);
+	big = bigint_new(num_as_str);
+
+	ft_strdel(&num_as_str);
+	return (big);
 }
 
 void			bigint_free(t_bigint **big_number)

@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/20 13:34:55 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/22 04:42:43 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ ssize_t			ft_strnprepend(char **dest, const char *prefix, size_t prefixsz);
 ssize_t			ft_strprepend(char **dest, const char *prefix);
 
 int				ft_atoi(const char *s);
+t_int128		ft_atoll(const char *s);
 int				ft_strequ(char const *s1, char const *s2);
 int				ft_strnequ(char const *s1, char const *s2, size_t n);
 void			ft_striter(char *s, void (*f)(char *));
@@ -138,6 +139,7 @@ t_int64			ft_utf8tostr(t_int8 *dest, size_t destsz,
 								const t_int32 *wsrc, size_t srcsz);
 t_int8			ft_utf8tostr_ch(t_int8 *dest, t_int32 wch);
 
+char			*ft_lltoa(t_int128 n);
 char			*ft_itoa(int n);
 char			*ft_ftoa(float f, t_int8 precision);
 char			*ft_ltoa_hex(long l);

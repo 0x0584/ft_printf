@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
 
 	ft_putendl("---------- testing fucking BIGINT!! ----------\n");
 
-	ft_putstr("foo"); foo = bigint_new("100");
-	ft_putstr("bar"); bar = bigint_new("-20");
+	ft_putstr("foo"); foo = bigint_new("200");
+	ft_putstr("bar"); bar = bigint_new("20");
 
 	ft_putstr("baar"); baar = bigint_new("9");
 	ft_putstr("buzz"); buzz = bigint_new("-10");
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 	ft_putbigint(bigint_maxof(foo, foo)); ft_putendl("");
 	/* ft_putbigint(bigint_maxof(foo, bar)); */
 	ft_putbigint(bigint_minof(foo, bar));
-	ft_putendl("\n-------------------------------");
+	ft_putendl("\n-------------------------------\n");
 	char * str = bigint_tostr(foo); ft_putendl(str);
 	ft_strdel(&str);
 	bigint_free(&foo);
@@ -68,6 +68,9 @@ int main(int argc, char *argv[])
 	bigint_free(&bar);
 	bigint_free(&baz);
 
+	bar = bigint_init(18777888800);
+	ft_putbigint(bar); ft_putendl("\n");
+	bigint_free(&bar);
 	ft_putendl("--------------------------------------------\n");
 
 
