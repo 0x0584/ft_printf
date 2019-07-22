@@ -17,4 +17,4 @@ clean:
 
 fclean: clean
 	make -C ./libft/ fclean
-	rm	-fv fillit
+	rm	-fv ft_printf

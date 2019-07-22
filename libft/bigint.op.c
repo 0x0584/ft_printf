@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 22:47:50 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/21 23:52:19 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/22 04:16:13 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ char	*sub_as_str(const char *s1, const char *s2)
 	size_t index = 0;
 	t_int8	sub, carry = 0;
 	char	*buff, *result;
+
+	ft_putstr("/////"); ft_putstr(s1); ft_putstr("  ");
+	ft_putstr(s2); 	ft_putstr("\n");
 
 	sizes[0] = ft_strlen(s1);
 	sizes[1] = ft_strlen(s2);
@@ -77,24 +80,51 @@ t_bigint	*bigint_sub(t_bigint *big1, t_bigint *big2)
 	char		*bigint_str[2];
 	char		*tmp;
 	bool		sign;
+	bool		flag;
 
-	/* fix this shit! */
+	if (big1->sign && !big2->sign)
+	{
+		/* -200 - 20 */
+		big1->sign = false;
+		bigint = bigint_maxof(big1, big2);
+		flag = (bigint == big1);
+		bigint = bigint_sub(flag ? big1 : big2, flag ? big2 : big1);
+		bigint->sign = flag;
+		big1->sign = true;
+		return (bigint);
+	}
+	else if (big2->sign && !big1->sign)
+	{
+		/* 100 - -20 */
+		big2->sign = false;
+		bigint = bigint_maxof(big1, big2);
+		flag = (bigint == big2);
+		bigint = bigint_add(flag ? big2 : big1, flag ? big1 : big2);
+		bigint->sign = flag;
+		big2->sign = true;
+		return (bigint);
+	}
+	else if (big1->sign && big2->sign)
+	{
+		/* -20 - -30 */
+		big2->sign = false;
+		bigint = bigint_add(big1, big2);
+		big2->sign = true;
+		return (bigint);
+	}
 
-	/*
-
-	   if both positive, [0] = bigger, [1] = smaller
-
-	 */
 	bigint = bigint_maxof(big1, big2);
 	bigint_str[0] = bigint_tostr(bigint);
 	bigint_str[1] = bigint_tostr(bigint == big1 ? big2 : big1);
 
-	sign = bigint != big1;
+	sign = (bigint != big1);
 
 	ft_putstr("\n  .>> "); ft_putendl(bigint_str[0]);
 	ft_putstr("  .>> "); ft_putendl(bigint_str[1]);
 
-	tmp = sub_as_str(bigint_str[0], bigint_str[1]);
+	tmp = sub_as_str(bigint_str[0] + (*bigint_str[0] == '-'),
+						bigint_str[1] + (*bigint_str[1] == '-'));
+
 	bigint = bigint_new(tmp);
 	bigint->sign = sign;
 
@@ -110,13 +140,52 @@ t_bigint		*bigint_add(t_bigint *big1, t_bigint *big2)
 	t_bigint	*bigint;
 	char		*bigint_str[2];
 	char		*tmp;
+	bool		flag;
 
+	/*
+	  if both are negative just do addition and apply sign
+	  if one is negative, surpass the sign
+	*/
+
+	if (big1->sign && !big2->sign)
+	{
+		big1->sign = false;
+		bigint = bigint_maxof(big1, big2);
+		flag = (bigint == big1);
+		bigint = bigint_sub(flag ? big1 : big2, flag ? big2 : big1);
+		bigint->sign = flag;
+		big1->sign = true;
+		return (bigint);
+	}
+	else if (big2->sign && !big1->sign)
+	{
+		big2->sign = false;
+		bigint = bigint_maxof(big1, big2);
+		flag = (bigint == big2);
+		bigint = bigint_sub(flag ? big2 : big1, flag ? big1 : big2);
+		bigint->sign = flag;
+		big2->sign = true;
+		return (bigint);
+	}
+	else if (big1->sign && big2->sign)
+	{
+		big1->sign = false;
+		big2->sign = false;
+		bigint = bigint_add(big1, big2);
+		bigint->sign = true;
+		big1->sign = true;
+		big2->sign = true;
+		return (bigint);
+	}
+
+	ft_putendl("did not");
 	bigint = bigint_maxof(big1, big2);
 	bigint_str[0] = bigint_tostr(bigint);
 	bigint_str[1] = bigint_tostr(bigint == big1 ? big2 : big1);
 	ft_putstr("\n  .>> "); ft_putendl(bigint_str[0]);
 	ft_putstr("  .>> "); ft_putendl(bigint_str[1]);
-	tmp = sum_as_str(bigint_str[0], bigint_str[1]);
+	tmp = sum_as_str(bigint_str[0] + (*bigint_str[0] == '-'),
+						bigint_str[1] + (*bigint_str[1] == '-'));
 	bigint = bigint_new(tmp);
 	ft_strdel(&tmp);
 	ft_strdel(&bigint_str[0]);
@@ -159,7 +228,7 @@ t_bigint	*bigint_mul(t_bigint *big1, t_bigint *big2)
 	   IDEA:
 
 	   when calling bitwise_multiplier(), check if result >= 10.
-	   if so, add result % 10 to "wa7adat" and result  / 10 to "3acharat"
+	   if so, add result % 10 to "wa7adat" and result / 10 to "3acharat"
 	   this might result some sequence of changes, which better be done
 	   using recursive bitwise
 	*/
@@ -169,92 +238,3 @@ t_bigint	*bigint_pow(t_bigint *big1, t_uint32 power)
 {
 
 }
-
-/* t_bigint		*bigint_add(t_bigint *big1, t_bigint *big2) */
-/* { */
-/* 	t_bigint		*result; */
-/* 	t_bigint		*ordered[2]; */
-/* 	t_uint32		sizes[2]; */
-/* 	t_int8			cmp; */
-/* 	bool			toadd; */
-/* 	bool			sign; */
-
-/* 	UNLESS_RET(big1 && big2, NULL); */
-/* 	/\* handle sign *\/ */
-/* 	if ((toadd = !(big1->sign ^ big2->sign))) */
-/* 	{ */
-/* 		/\* */
-/* 		  they have the same sign */
-/* 		  perform addition and then the sign is the same sign */
-/* 		 *\/ */
-/* 		sign = big1->sign; */
-/* 		ordered[0] = bigint_minof(big1, big2); */
-/* 		ordered[1] = bigint_maxof(big1, big2); */
-/* 	} */
-/* 	else if ((cmp = bigint_ucmp(big1, big2))) */
-/* 	{ */
-/* 		/\* */
-/* 		   they have different sign, determine the bigger */
-/* 		   and the it must has it's sign */
-
-/* 		   IDEA: */
-
-/* 		   compare them as unsigned, teh sign of the result if */
-/* 		   the sign of the bigger */
-/* 		*\/ */
-/* 		sign = cmp > 0 ? big1->sign : big2->sign; */
-/* 		ordered[0] = cmp > 0 ? big2 : big1; */
-/* 		ordered[1] = cmp > 0 ? big1 : big2; */
-/* 	} */
-/* 	else */
-/* 		return bigint_new("0"); */
-
-/* 	sizes[0] = BIGINT_COUPLE_SIZE(big1); */
-/* 	sizes[1] = BIGINT_COUPLE_SIZE(big2); */
-/* 	UNLESS_RET(result = ALLOC(t_bigint *, 1, sizeof(t_bigint)), NULL); */
-/*     if (!(result->couple_digits = ALLOC(t_uint8 *, MAX(sizes[0], sizes[1]) + 1, */
-/* 									 sizeof(t_uint8)))) */
-/*     { */
-/*         bigint_free(&result); */
-/*         return (NULL); */
-/*     } */
-
-/* 	ordered[1] = NULL; */
-/* 	while (sizes[0]-- && sizes[1]--) */
-/* 	{ */
-/* 		if (toadd) */
-/* 		{ */
-/* 			/\* */
-/* 			   performe addition and append to result */
-
-/* 			   call bitwise_adder() */
-/* 			 *\/ */
-/* 		} */
-/* 		else */
-/* 		{ */
-/* 			/\* */
-/* 			   performe subtraction and append to result */
-
-/* 			   call bitwise_subtractor() */
-/* 			*\/ */
-/* 		} */
-
-/* 		if (sizes[0] && !sizes[1]) */
-/* 			ordered[1] = big1;					/\* big1 > big2 *\/ */
-/* 		else if (!sizes[0] && sizes[1]) */
-/* 			ordered[1] = big2;					/\* big2 > big1 *\/ */
-/* 	} */
-
-
-/* 	/\* FIXME: */
-
-/* 	   result must have some memory waste example 9999 + (-999) is 9 */
-/* 	   but we would have allocated memory for 5 digits! */
-
-/* 	   so at the last, remove trailing zeros! */
-/* 	 *\/ */
-/* 	return (result); */
-/* } */
-
-
-/* try to imeplemet those based on t_bigint couple_digits array! */

@@ -21,8 +21,8 @@ int main(int argc, char *argv[])
 
 	ft_putendl("---------- testing fucking BIGINT!! ----------\n");
 
-	ft_putstr("foo"); foo = bigint_new("10005555");
-	ft_putstr("bar"); bar = bigint_new("20009999");
+	ft_putstr("foo"); foo = bigint_new("100");
+	ft_putstr("bar"); bar = bigint_new("-20");
 
 	ft_putstr("baar"); baar = bigint_new("9");
 	ft_putstr("buzz"); buzz = bigint_new("-10");
