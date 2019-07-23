@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/22 13:59:25 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/23 13:08:01 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ t_bigint        *bigint_new(const char *big_number)
     t_uint32        index;
 	bool			flag;
 
-
     UNLESS_RET(big_number, NULL);
     UNLESS_RET(big = ALLOC(t_bigint *, 1, sizeof(t_bigint)), NULL);
 	biggy = escape_unwanted(big_number);
@@ -51,8 +50,8 @@ t_bigint        *bigint_new(const char *big_number)
 			big->couple_digits[index] = ((*biggy++ - '0') << 4) | 0x0f;
 		else
 			big->couple_digits[index++] &= (*biggy++ - '0') | 0xf0;
-	(void)printf("bigint(%s) & sign: %s\n", big_number,
-						big->sign ? "signed" : "unsigned");
+	/* (void)printf("bigint(%s) & sign: %s\n", big_number, */
+	/* 					big->sign ? "signed" : "unsigned"); */
     return (big);
 }
 
@@ -155,4 +154,15 @@ void			bigint_free(t_bigint **big_number)
 		free(*big_number);
 		*big_number = NULL;
 	}
+}
+
+t_bigint		*bigint_clone(t_bigint *big)
+{
+	char		*foo;
+	t_bigint	*clone;
+
+	foo = bigint_tostr(big);
+	clone = bigint_new(foo);
+	ft_strdel(&foo);
+	return (clone);
 }

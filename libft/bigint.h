@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:23 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/22 13:44:11 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/23 13:08:29 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,21 @@ typedef struct	s_biggy
 	bool			sign;
 }				t_bigint;
 
+/*
+** bigint.c -- BinInt allocation
+*/
+
 t_bigint		*bigint_new(const char *big_number);
 t_bigint		*bigint_init(t_int128 number);
+t_bigint		*bigint_clone(t_bigint *big);
 void			bigint_free(t_bigint **big_number);
 
 t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2);
 t_bigint		*bigint_minof(t_bigint *big1, t_bigint *big2);
+
+/*
+** bigint.op -- BigInt Operations
+*/
 
 t_bigint		*bigint_add(t_bigint *big1, t_bigint *big2);
 t_bigint		*bigint_sub(t_bigint *big1, t_bigint *big2);
@@ -78,9 +87,14 @@ t_bigint		*bigint_mul(t_bigint *big1, t_bigint *big2);
 t_bigint		*bigint_div(t_bigint *big1, t_bigint *big2);
 
 t_bigint		*bigint_pow(t_bigint *big1, t_uint32 power);
-t_int8			 bigint_cmp(t_bigint *big1, t_bigint *big2);
-t_int8			bigint_ucmp(t_bigint *big1, t_bigint *big2);
-
 char			*bigint_tostr(t_bigint *big);
+
+/*
+** bigint.sop.c -- string helpers for bigint.op.c
+*/
+
+char			*mul_as_str(const char *s1, const char *s2);
+char			*sub_as_str(const char *s1, const char *s2);
+char			*sum_as_str(const char *s1, const char *s2);
 
 #endif

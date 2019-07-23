@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/07/02 18:00:10 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/18 19:53:28 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/23 10:33:11 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -16,11 +16,20 @@
 # include "types.h"
 
 # ifndef MACHINE_IS_LITTLE_ENDIAN
-#  error 'this implementation works on Little Endian machines only.'
+#  error this implementation works on Little Endian machines only.
 # endif
 
-# define IEEE754_32BIT_BIAS					0x7F
-# define IEEE754_64BIT_BIAS					0x3FF
+# define F32BIT_BIAS			(0x0000000FU)
+# define F32BIT_MASK_SIGN	    (0x00000001U << 31U)
+# define F32BIT_MASK_EXP	    (0x000000FFU << 23U)
+# define F32BIT_MASK_MAN		(0xFFFFFFFFU >> 9U)
+# define F32BIT_SHIFT_SIGN		31U
+# define F32BIT_SHIFT_EXP		23U
+# define F32BIT_SHIFT_MAN		0U
+
+# define F32BIT_MAN(f)			((f.i & F32BIT_MASK_MAN) >> F32BIT_SHIFT_MAN)
+# define F32BIT_EXP(f)			((f.i & F32BIT_MASK_EXP) >> F32BIT_SHIFT_EXP)
+# define F32BIT_SIGN(f)			((f.i & F32BIT_MASK_SIGN) >> F32BIT_SHIFT_SIGN)
 
 /* TODO: add long double too */
 /* TODO: find what are the special numbers */
@@ -28,63 +37,19 @@
 union		u_ieee754_float
 {
 	float		f;
-	struct	s_float
-	{
-		t_uint32	m:23;
-		t_uint8		e:8;
-		t_uint8		s:1;
-	}			ieee;
-	struct	s_float_nan
-	{
-		t_uint32	m:22;
-		t_uint8		nan:1;
-		t_uint8		e:8;
-		t_uint8		s:1;
-	}			nan;
+	t_uint32	i;
 };
 
 union		u_ieee754_double
 {
 	double		d;
-	struct	s_double
-	{
-		t_uint32	m1:32;
-		t_uint32	m0:20;
-		t_uint16	e:11;
-		t_uint8		s:1;
-
-	}			ieee;
-	struct	s_double_nan
-	{
-		t_uint32	m1:32;
-		t_uint32	m0:19;
-		t_uint8		nan:1;
-		t_uint16	e:11;
-		t_uint8		s:1;
-	}			nan;
+	t_uint64	i;
 };
 
 union		u_ieee854_long_double
 {
 	double		d;
-	struct	s_long_double_nan
-	{
-		unsigned int m1:32;
-		unsigned int m0:30;
-		unsigned int nan:1;
-		unsigned int one:1;
-		unsigned int e:15;
-		unsigned int s:1;
-		unsigned int z:16;
-	}			ieee;
-	struct	s_long_double
-	{
-		unsigned int m1:32;
-		unsigned int m0:32;
-		unsigned int e:15;
-		unsigned int s:1;
-		unsigned int z:16;
-	}			nan;
+	t_uint128	i;
 };
 
 #endif

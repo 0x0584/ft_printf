@@ -18,13 +18,13 @@ int main(int argc, char *argv[])
 
 	t_bigint *foo, *bar, *baar, *buzz, *sumed, *subed, *muled, *powed;
 	t_uint32 i = 0;
-	const int power = 10;
+	const int power = 127;
 	ft_putendl("---------- testing fucking BIGINT!! ----------\n");
 
 	ft_putstr("foo"); foo = bigint_new("9999999999999");
 	ft_putstr("bar"); bar = bigint_new("99999999999991");
 
-	ft_putstr("baar"); baar = bigint_new("9");
+	ft_putstr("baar"); baar = bigint_new("2");
 	ft_putstr("buzz"); buzz = bigint_new("-10");
 
 	(void)printf("\n===> %s \n", buzz->sign ? "negative" : "positive");
@@ -88,6 +88,12 @@ int main(int argc, char *argv[])
 
 	ft_putendl("--------------------------------------------\n");
 
+
+	ft_ftoa(3.141592653F, 8);
+	/* ft_ftoa(51.00312F, 8); */
+
+	printf("%u\n", ~0xff800000U);
+	printf("%u\n", 0xffffffffU >> 9U);
 
 	/* FIXME: fix $ multiple usage */
 
