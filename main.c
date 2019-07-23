@@ -16,13 +16,13 @@ int main(int argc, char *argv[])
 
 	/* (void)ft_ftoa(3.1415f, 10); */
 
-	t_bigint *foo, *bar, *baar, *buzz, *sumed, *subed, *muled;
+	t_bigint *foo, *bar, *baar, *buzz, *sumed, *subed, *muled, *powed;
 	t_uint32 i = 0;
-
+	const int power = 10;
 	ft_putendl("---------- testing fucking BIGINT!! ----------\n");
 
-	ft_putstr("foo"); foo = bigint_new("200");
-	ft_putstr("bar"); bar = bigint_new("-200");
+	ft_putstr("foo"); foo = bigint_new("9999999999999");
+	ft_putstr("bar"); bar = bigint_new("99999999999991");
 
 	ft_putstr("baar"); baar = bigint_new("9");
 	ft_putstr("buzz"); buzz = bigint_new("-10");
@@ -51,6 +51,12 @@ int main(int argc, char *argv[])
 	ft_putbigint(foo); ft_putstr(" * "); ft_putbigint(bar);
 	ft_putstr(" = "); ft_putbigint(muled); ft_putendl("\n");
 
+	powed = bigint_pow(baar, power);
+
+	ft_putbigint(baar); ft_putstr(" ^ "); ft_putnumber(power);
+	ft_putstr(" = "); ft_putbigint(powed); ft_putendl("\n");
+
+	/*
 	while (i < BIGINT_COUPLE_SIZE(foo)) {
 		ft_putnumber(BIGINT_LD(foo, i));
 		ft_putstr(":");
@@ -59,6 +65,7 @@ int main(int argc, char *argv[])
 		ft_putnumber(foo->couple_digits[i++]);
 		ft_putstr((i != BIGINT_COUPLE_SIZE(foo)) ? "\n" : "\n\n");
 	}
+	*/
 
 	ft_putbigint(bigint_maxof(foo, foo)); ft_putendl("");
 	/* ft_putbigint(bigint_maxof(foo, bar)); */
@@ -71,6 +78,9 @@ int main(int argc, char *argv[])
 	bigint_free(&baar);
 	bigint_free(&bar);
 	bigint_free(&sumed);
+	bigint_free(&powed);
+	bigint_free(&muled);
+	bigint_free(&subed);
 
 	bar = bigint_init(18777888800);
 	ft_putbigint(bar); ft_putendl("\n");
