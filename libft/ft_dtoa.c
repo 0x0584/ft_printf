@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 19:48:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/26 20:33:08 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/26 20:50:24 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,6 @@ char	*ft_dtoa(double d, t_uint16 precision)
 
 	bigint_free(&two_exp);
 	bigint_free(&result);
-
+	bigint_free(&sum);
 	return (buff);
 }
