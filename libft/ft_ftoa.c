@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/30 02:45:42 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/25 20:37:51 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/26 16:32:12 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@
 		2^{exp - BAIS}$.
 */
 
-char	*ft_ftoa(float f, t_int8 precision)
+char	*ft_ftoa(float f, t_uint16 precision)
 {
 	printf("--------------- ftoa(%f, %d) ------------------\n\n", f, precision);
 

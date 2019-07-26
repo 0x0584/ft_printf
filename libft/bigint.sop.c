@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/23 08:23:48 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/23 08:24:21 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/26 17:07:25 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char		*mul_as_str(const char *s1, const char *s2)
 	indexes[0] = sizes[0];
 	while (indexes[0]--)
 	{
+		carry = 0;
 		indexes[1] = sizes[1];
 		indexes[2] = indexes[1] + indexes[0];
 		while (indexes[1]--)

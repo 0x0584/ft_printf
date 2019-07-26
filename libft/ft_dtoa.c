@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 19:48:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/26 10:49:03 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/26 17:15:18 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "bigint.h"
 #include "float.h"
 
-char	*ft_dtoa(double d, t_uint8 precision)
+char	*ft_dtoa(double d, t_uint16 precision)
 {
 	char *buff;
 	t_float64 f;
@@ -70,8 +70,18 @@ char	*ft_dtoa(double d, t_uint8 precision)
 
 	t_bigint *result = bigint_bigmul(sum, two_exp);
 
-
 	ft_putstr(" result >> "); ft_putbigint(result); ft_putendl("");
+	ft_putstr(" ten diff "); ft_putnumber(result->ten_exp - sum->ten_exp);
+
+	if (result->ten_exp - sum->ten_exp != 0)
+	{
+		char * s = bigint_tostr(result);
+		char *toadd = ft_strsub(s, 0, result->ten_exp - sum->ten_exp);
+		t_bigint *toadd_big = bigint_new(toadd);
+		t_bigint *left_of_point = bigint_bigadd(toadd_big, two_exp);
+		ft_putbigint(left_of_point); ft_putstr("."); ft_putstr(s + result->ten_exp - sum->ten_exp);
+	}
+	ft_putendl("\n");
 
 	return (buff);
 }

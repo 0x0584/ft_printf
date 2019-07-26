@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 22:47:50 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/25 20:44:06 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/26 16:46:10 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,16 +117,15 @@ t_bigint		*bigint_bigmul(t_bigint *big1, t_bigint *big2)
 {
 	t_bigint		*bigint;
 	char			*bigint_str[2];
-	bool			sign;
+	char			*buff;
 
 	bigint_str[0] = bigint_tostr(big1);
 	bigint_str[1] = bigint_tostr(big2);
-	sign = false;
 	if (!ft_strcmp(bigint_str[0], "0") || !ft_strcmp(bigint_str[1], "0"))
 		bigint = bigint_new("0");
 	else
 	{
-		char *buff = mul_as_str(bigint_str[0] + big1->sign,
+		buff = mul_as_str(bigint_str[0] + big1->sign,
 								bigint_str[1] + big2->sign);
 		bigint = bigint_new(buff);
 		bigint->sign = (big1->sign ^ big2->sign);
