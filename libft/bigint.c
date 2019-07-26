@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/23 13:08:01 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/26 09:48:21 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ t_bigint        *bigint_new(const char *big_number)
 			big->couple_digits[index] = ((*biggy++ - '0') << 4) | 0x0f;
 		else
 			big->couple_digits[index++] &= (*biggy++ - '0') | 0xf0;
-	/* (void)printf("bigint(%s) & sign: %s\n", big_number, */
-	/* 					big->sign ? "signed" : "unsigned"); */
     return (big);
 }
 
@@ -89,11 +87,7 @@ t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2)
 	ASSERT_RET((!big2->sign && big1->sign), big2);
 	ASSERT_RET(big1->ten_exp > big2->ten_exp, big1->sign ? big2 : big1);
 	ASSERT_RET(big2->ten_exp > big1->ten_exp, big1->sign ? big1 : big2);
-
-	ft_putendl("here");
 	is_nega = big1->sign && big2->sign ? -1 : 1;
-	ft_putstr("is_nega: "); ft_putnumber(is_nega); ft_putstr(" diff: \n");
-	/* (void)printf(" }}} %d %d %d\n", is_nega, big1->sign, big2->sign); */
 	flag = false;
 	temp[0] = 0;
 	temp[1] = BIGINT_COUPLE_SIZE(big1);
@@ -122,7 +116,6 @@ t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2)
 			temp[0]++;
 		}
 	}
-	ft_putendl("end diff");
 	return (big1);
 }
 
@@ -131,17 +124,13 @@ t_bigint		*bigint_minof(t_bigint *big1, t_bigint *big2)
 	return (bigint_maxof(big2, big1) == big1 ? big2 : big1);
 }
 
-/* FIXEME: finish bigint_init(t_int128 number) */
 t_bigint		*bigint_init(t_int128 number)
 {
-	char *num_as_str;
-	t_bigint *big;
+	char		*num_as_str;
+	t_bigint	*big;
 
 	num_as_str = ft_lltoa(number);
-
-	ft_putstr(" >> "); ft_putendl(num_as_str);
 	big = bigint_new(num_as_str);
-
 	ft_strdel(&num_as_str);
 	return (big);
 }

@@ -6,15 +6,15 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 23:09:02 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/02 17:09:25 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/26 08:22:42 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_int8	ft_utf8tostr_ch(t_int8 *dest, t_int32 wch)
+t_int16		ft_utf8tostr_ch(t_int8 *dest, t_int32 wch)
 {
-	t_int8 i;
+	t_int16 i;
 
 	i = 0;
     if (wch <= 0x7F)
@@ -41,17 +41,3 @@ t_int8	ft_utf8tostr_ch(t_int8 *dest, t_int32 wch)
 		return (-1);
     return (i);
 }
-
-/*
-int main()
-{
-	t_int32 *input = L"@&@{čřžŧ¶'`[łĐŧđĐ¶←^€~[←^ø{&}čž";
-
-	char dest[50];
-	size_t ret;
-
-	ret = ft_strtoutf8(dest, 50, input, 50);
-	write(1, dest, ret);
-	return 0;
-}
-*/

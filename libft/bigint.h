@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:23 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/23 13:08:29 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/25 20:45:34 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,35 +15,6 @@
 
 #include "libft.h"
 
-/* IDEA:
-
-   the basic thing to do is to create a string, and wach time compute
-   te next digit, store it in a character. it's better to has some sort
-   constant reallocation after we have passed the limit.
-
-
-   this is to solve a problem of getting teh value of teh float, since
-   for example for 32bit floats is mantessa * 2 ^ (exponent - 127)
-   while for 64bit is is mantessa * 2 ^ (exponent - 1023)
-
-   ------------------------------------------------------------
-
-						Denormalized
-   Single Precision 	± 2-149 to (1 – 2-23)×2-126
-   Double Precision 	± 2-1074 to (1 – 2-52)×2-1022
-
-						Normalized
-						± 2-126 to (2 – 2-23)×2127
-						± 2-1022 to (2 – 2-52)×21023
-
-						Approximate Decimal
-						± approximately 10-44.85 to approximately 1038.53
-						± approximately 10-323.3 to approximately 10308.3
-
-   ------------------------------------------------------------
- */
-
-/* what are the differences between  */
 # define BIGINT_MASK				0x0F
 
 # define BIGINT_COUPLE_SIZE(b)		(b->ten_exp / 2 + (b->ten_exp % 2 != 0))
@@ -53,14 +24,7 @@
 
 typedef struct	s_biggy
 {
-	/* each byte can hold two
-
-	   10010111 & 0xf	-> 7
-	   10010111 >> 4	-> 9
-	 */
 	t_uint8			*couple_digits;
-
-	/* (-1)^{sign} \times 10^{ten_exp} */
 	t_uint32		ten_exp;
 	bool			sign;
 }				t_bigint;
@@ -81,12 +45,16 @@ t_bigint		*bigint_minof(t_bigint *big1, t_bigint *big2);
 ** bigint.op -- BigInt Operations
 */
 
-t_bigint		*bigint_add(t_bigint *big1, t_bigint *big2);
-t_bigint		*bigint_sub(t_bigint *big1, t_bigint *big2);
-t_bigint		*bigint_mul(t_bigint *big1, t_bigint *big2);
-t_bigint		*bigint_div(t_bigint *big1, t_bigint *big2);
+t_bigint		*bigint_add(t_int128 big1, t_int128 big2);
+t_bigint		*bigint_sub(t_int128 big1, t_int128 big2);
+t_bigint		*bigint_mul(t_int128 big1, t_int128 big2);
+t_bigint		*bigint_pow(t_int128 big1, t_int128 power);
 
-t_bigint		*bigint_pow(t_bigint *big1, t_uint32 power);
+t_bigint		*bigint_bigadd(t_bigint *big1, t_bigint *big2);
+t_bigint		*bigint_bigsub(t_bigint *big1, t_bigint *big2);
+t_bigint		*bigint_bigmul(t_bigint *big1, t_bigint *big2);
+
+t_bigint		*bigint_bigpow(t_bigint *big1, t_int32 power);
 char			*bigint_tostr(t_bigint *big);
 
 /*

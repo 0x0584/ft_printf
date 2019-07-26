@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/24 20:00:58 by archid-           #+#    #+#             */
+/*   Updated: 2019/07/26 10:45:20 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 
 #include "buffer.h"
@@ -8,110 +20,17 @@
 
 int main(int argc, char *argv[])
 {
-	/* t_int8 dest[100]; */
-	/* t_int64 ret = ft_utf8tostr(dest, 100, */
-	/*						   L"@&@{čřžŧ¶'`[łĐŧđĐ¶←^€~[←^ø{&}čž\n", 200); */
-	/* (void)printf("ret >> %ld\n\n", ret); */
-	/* write(1, dest, ret); */
 
-	/* (void)ft_ftoa(3.1415f, 10); */
+	/* t_bigint *foo = bigint_pow(5, 10); */
+	/* ft_putbigint(foo); */
 
-	t_bigint *foo, *bar, *baar, *buzz, *sumed, *subed, *muled, *powed;
-	t_uint32 i = 0;
-	const int power = 127;
-	ft_putendl("---------- testing fucking BIGINT!! ----------\n");
+	/* ft_putendl("\n-------------"); */
+	ft_dtoa(9.2101, 8);
 
-	ft_putstr("foo"); foo = bigint_new("9999999999999");
-	ft_putstr("bar"); bar = bigint_new("99999999999991");
+	/* printf("%.20lf\n", 9.2101); */
 
-	ft_putstr("baar"); baar = bigint_new("2");
-	ft_putstr("buzz"); buzz = bigint_new("-10");
-
-	(void)printf("\n===> %s \n", buzz->sign ? "negative" : "positive");
-	ft_putstr("max of baar and buzz >>>> ");
-	ft_putbigint(bigint_maxof(baar, buzz));
-	ft_putstr("\nmin of baar and buzz >>>> ");
-	ft_putbigint(bigint_minof(baar, buzz));
-	ft_putendl("\n");
-
-	sumed = bigint_add(foo, bar);
-
-	ft_putbigint(foo); ft_putstr(" + "); ft_putbigint(bar);
-	ft_putstr(" = "); ft_putbigint(sumed); ft_putendl("\n");
-
-	subed = bigint_sub(foo, bar);
-
-	ft_putendl("\n");
-
-	ft_putbigint(foo); ft_putstr(" - "); ft_putbigint(bar);
-	ft_putstr(" = "); ft_putbigint(subed); ft_putendl("\n");
-
-	muled = bigint_mul(foo, bar);
-
-	ft_putbigint(foo); ft_putstr(" * "); ft_putbigint(bar);
-	ft_putstr(" = "); ft_putbigint(muled); ft_putendl("\n");
-
-	powed = bigint_pow(baar, power);
-
-	ft_putbigint(baar); ft_putstr(" ^ "); ft_putnumber(power);
-	ft_putstr(" = "); ft_putbigint(powed); ft_putendl("\n");
-
-	/*
-	while (i < BIGINT_COUPLE_SIZE(foo)) {
-		ft_putnumber(BIGINT_LD(foo, i));
-		ft_putstr(":");
-		ft_putnumber(BIGINT_RD(foo, i));
-		ft_putstr(" -> ");
-		ft_putnumber(foo->couple_digits[i++]);
-		ft_putstr((i != BIGINT_COUPLE_SIZE(foo)) ? "\n" : "\n\n");
-	}
-	*/
-
-	ft_putbigint(bigint_maxof(foo, foo)); ft_putendl("");
-	/* ft_putbigint(bigint_maxof(foo, bar)); */
-	ft_putbigint(bigint_minof(foo, bar));
-	ft_putendl("\n-------------------------------\n");
-	char * str = bigint_tostr(foo); ft_putendl(str);
-	ft_strdel(&str);
-	bigint_free(&foo);
-	bigint_free(&buzz);
-	bigint_free(&baar);
-	bigint_free(&bar);
-	bigint_free(&sumed);
-	bigint_free(&powed);
-	bigint_free(&muled);
-	bigint_free(&subed);
-
-	bar = bigint_init(18777888800);
-	ft_putbigint(bar); ft_putendl("\n");
-	bigint_free(&bar);
-
-	ft_putendl("--------------------------------------------\n");
-
-
-	ft_ftoa(3.141592653F, 8);
-	/* ft_ftoa(51.00312F, 8); */
-
-	printf("%u\n", ~0xff800000U);
-	printf("%u\n", 0xffffffffU >> 9U);
-
-	/* FIXME: fix $ multiple usage */
-
-	/*
-	ft_dprintf(1, "BEGIN flag0: '%2$ls' flag1: '%3$lc' flag2: '%1$010d' END\n",
-			   'A', L"čř", L'ø');
-	*/
-	/*
-	ft_putendl("//////// ");
-	char *s_float = ft_ftoa(3.1415, 8);
-	free(s_float);
-	*/
-
-	/* ft_dprintf(1, "BEGIN flag1: %2$d flag2: %1$d END\n", 11, 10); */
-
-	/* ft_dprintf(1, "string: %2$0 2.8ls  number: %1$#10.4lld	char: %3$12.9lc\n",
-	   10, "this", 'a'); */
-	/* dprintf(1, "%s  %d  %c\n", "this", 10, 'a'); */
+	/* printf("%zu", sizeof(void *)); */
+	/* bigint_free(&foo); */
 
 	return 0;
 }
