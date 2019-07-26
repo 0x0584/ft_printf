@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/26 09:48:21 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/26 20:35:00 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2)
 		diff = is_nega * (!flag ?
 			BIGINT_LD(big1, temp[0]) - BIGINT_LD(big2, temp[0]) :
 			BIGINT_RD(big1, temp[0]) - BIGINT_RD(big2, temp[0]));
-		ft_putnumber(diff); ft_putstr(" ");
 		if (flag ^= true)
 		{
 			ASSERT_RET(diff < 0, big2);
