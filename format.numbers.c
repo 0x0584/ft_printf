@@ -1,9 +1,14 @@
-/*		   File:	format.numbers.c
- *		 Author:	ANAS RCHID
- *	Description:	NULL
- *
- *	  Created: <2019-07-06 Sat 22:12:16>
-/*   Updated: 2019/07/14 01:56:55 by archid-          ###   ########.fr       */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   format.numbers.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/06 22:12:16 by archid-           #+#    #+#             */
+/*   Updated: 2019/07/27 10:05:29 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "format.h"
 
@@ -30,7 +35,7 @@ bool	format_isfloat(t_frmt *frmt)
 			c == DOUBLE_NORMAL2);
 }
 
-bool	format_getsigne(t_frmt *frmt)
+bool	format_getsign(t_frmt *frmt)
 {
 	if (format_isfloat(frmt) || format_isnumeric(frmt))
 	{
@@ -40,12 +45,12 @@ bool	format_getsigne(t_frmt *frmt)
 	return (!1);
 }
 
-char	*format_ieee_float(t_frmt *frmt, bool has_trailing)
+char	*format_ieee_float(t_frmt *frmt)
 {
 	return NULL;
-	/* return ((frmt->length == MODIF_LL) */
-	/* 		? ft_ftoa854(frmt->u_data.ld, has_trailing) */
-	/* 		: ft_ftoa754(frmt->u_data.d, has_trailing)); */
+	return ((frmt->length == MODIF_LL)
+			? ft_dtoa(frmt->u_data.ld, frmt->precision)
+			: ft_ldtoa(frmt->u_data.d, frmt->precision));
 }
 
 void	format_alterform(char **astr, t_frmt *frmt)

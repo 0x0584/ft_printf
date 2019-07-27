@@ -6,7 +6,7 @@
 /*	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/23 15:17:54 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/14 01:56:00 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/27 10:09:39 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		else if (format_isfloat(frmt))
 		{
 			/* FIXME: check if this is correct */
-			tmp = (char *)format_ieee_float(frmt, false);
+			tmp = (char *)format_ieee_float(frmt);
 		}
 		else
 			tmp = NULL;
@@ -137,19 +137,22 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		 *		dest = ft_format_ieee_float(frmt, trailing_is_on) // default off
 		 */
 		/* TODO: create format_getsigne(t_frmt *) */
+
+		/* padding with zero */
 		if ((frmt->width && !frmt->padding_on_left) &&
 				!(format_isnumeric(frmt) && frmt->precision))
 			ft_strprepend(&tmp,
 						  buffutils_pad(frmt->prefix_zeros ? '0' : ' ',
 										frmt->width - ft_strlen(tmp)));
+		/* sign or space */
+		if ((frmt->prefix_signe || frmt->prefix_plus_blank) &&
+				format_isnumeric(frmt))
+			ft_strprepend(&tmp,
+						  buffutils_pad(frmt->prefix_signe
+										? format_getsign(frmt) : ' ' , 1));
 
-		/* if ((frmt->prefix_signe || frmt->prefix_plus_blank) && */
-		/* 		format_isnumeric(frmt)) */
-		/* 	ft_strprepend(&tmp, buffutils_pad(frmt->prefix_signe */
-		/* 									  ? format_getsign(frmt) : ' ' , 1)); */
-
-		/* format_alterform(&tmp, frmt); */
-		/* format_set_precision(&tmp, frmt); */
+		format_alterform(&tmp, frmt);
+		format_set_precision(&tmp, frmt);
 
 		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))
 			ft_putendl("tmp was empty");

@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/17 22:16:27 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/07/02 18:10:10 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/07/27 10:09:39 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -125,5 +125,8 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff);
 void			format_dbg(t_frmt *frmt);
 
 bool			format_isnumeric(t_frmt *frmt);
+bool			format_isfloat(t_frmt *frmt);
+bool			format_getsign(t_frmt *frmt);
+char			*format_ieee_float(t_frmt *frmt);
 
 #endif

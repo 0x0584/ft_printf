@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/25 19:48:43 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/26 20:50:24 by archid-          ###   ########.fr       */
+/*   Updated: 2019/07/26 21:51:20 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,6 @@ char	*ft_dtoa(double d, t_uint16 precision)
 	t_bigint *tmp;
 
 	f.d = d;
-	/* printf("---------- dtoa(%lf, %u) ----------\n", d, precision); */
-	/* printf("%lf = m:%lu e:%u s:%u\n", d, f.ieee.m, f.ieee.e, f.ieee.s); */
-
-	/* IDEA: I HAVE FOUND IT! IT WAS FUCKING SIMPLE! */
-
 	i = 0;
 	while (i < F64BIT_MAN_SIZE)
 	{
@@ -49,7 +44,14 @@ char	*ft_dtoa(double d, t_uint16 precision)
 		}
 	}
 
+	ft_putstr(" >> "); ft_putbigint(sum); ft_putendl("\n");
+
 	t_int32 exp = f.ieee.e - 1023;
+	bool sign;
+
+	if ((sign = exp < 0))
+		exp *= -1;
+
 	t_bigint *two_exp = bigint_pow(2, exp);
 	t_bigint *result = bigint_bigmul(sum, two_exp);
 
@@ -74,7 +76,9 @@ char	*ft_dtoa(double d, t_uint16 precision)
 		ft_strdel(&s);
 		ft_strdel(&toadd);
 	}
-
+	else {
+		puts("this");
+	}
 	bigint_free(&two_exp);
 	bigint_free(&result);
 	bigint_free(&sum);
