@@ -20,10 +20,7 @@
 
 int main(int argc, char *argv[])
 {
-
-
 	t_bigint *foo = bigint_pow(2, 1024);
-
 
 	ft_putbigint(foo);
 
@@ -32,12 +29,15 @@ int main(int argc, char *argv[])
 
 	t_uint64 bits = 0x7ff0000000000000;
 	char *bar = ft_dtoa(*(double *)&bits, 8);
-
-	/* printf("%.20lf\n", 9.2101); */
-
 	ft_putendl(bar);
+	ft_strdel(&bar);
 
-	/* printf("%zu", sizeof(void *)); */
+	bar = ft_dtoa(-0.652240, 8);
+	ft_putendl(bar);
+	ft_strdel(&bar);
+
+	bar = ft_dtoa(-2145.14512021, 8);
+	ft_putendl(bar);
 	ft_strdel(&bar);
 	return 0;
 }
