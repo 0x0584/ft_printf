@@ -28,6 +28,11 @@ char	*ft_dtoa(double d, t_uint16 precision)
 
 	f.d = d;
 	i = 0;
+	if (f.ieee.s == 0 && f.ieee.m == 0 && f.ieee.e == 0)
+		return (ft_strdup("0.0"));
+	else if (f.ieee.e == 0x7FF)
+		return f.ieee.m ? ft_strdup("nan") :
+				ft_strdup(f.ieee.s ? "-inf" : "inf");
 	while (i < F64BIT_MAN_SIZE)
 	{
 		if ((f.ieee.m >> i++) & 1)
