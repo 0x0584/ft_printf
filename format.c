@@ -12,6 +12,26 @@
 
 #include "format.h"
 
+static bool sort_lstfrmt = true;
+
+/* FIXME: free string as so */
+void	format_free(void *dat, size_t size)
+{
+	if (size)
+		free(dat);
+}
+
+t_frmt	*format_const_string(int index, char *str)
+{
+	static t_frmt frmt;
+
+	ft_bzero(&frmt, sizeof(t_frmt));
+	frmt.conv = STRING_FRMT;
+	frmt.fmtindex = index;
+	frmt.u_data.str = str;
+	return (&frmt);
+}
+
 static int		hungry_getnbr(char **str)
 {
 	char *bar;
@@ -64,6 +84,7 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	{
 		frmt.width = frmt.argindex;
 		frmt.argindex = 0;
+		sort_lstfrmt = false;
 	}
 	else
 		*fmt += 1;
@@ -82,11 +103,12 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 	t_list	*e;
 	t_frmt	*frmt;
 
-	ft_lst_mergesort(alstfrmt, cmp_by_argindex);
+	if (sort_lstfrmt)
+		ft_lst_mergesort(alstfrmt, cmp_by_argindex);
 	e = *alstfrmt;
 	while (e && (frmt = (t_frmt *)e->content))
 	{
-		if (!frmt->argindex || frmt->conv == STRING_FRMT)
+		if (frmt->conv == STRING_FRMT)
 		{
 			LST_NEXT(e);
 			continue;
@@ -94,9 +116,9 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 		if (frmt->conv == SIGNED_DECI || frmt->conv == CHAR)
 		{
 			if (frmt->length == MODIF_LL)
-				frmt->u_data.l = va_arg(*arglst, long long);
+				frmt->u_data.ll = va_arg(*arglst, long long);
 			else if (frmt->length == MODIF_L)
-				frmt->u_data.ll = va_arg(*arglst, long);
+				frmt->u_data.l = va_arg(*arglst, long);
 			else
 				frmt->u_data.i = va_arg(*arglst, int);
 		}
@@ -134,6 +156,7 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 	}
 	ft_putendl("------ end of getting data -------");
 	/* getchar(); */
-	ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
+	if (sort_lstfrmt)
+		ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/17 22:16:27 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/27 10:09:39 by archid-          ###   ########.fr       */
+/*	 Updated: 2019/07/27 10:09:39 by archid-		  ###	########.fr		  */
 /*																			  */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ typedef struct	s_format
 
 void			handle_format(char **fmt, t_plist *alstfrmt, int *index);
 int				handle_relative_args(va_list *arglst, t_plist *alstfrmt);
+void			format_free(void *dat, size_t size);
+t_frmt			*format_const_string(int index, char *str);
 
 /*
 ** format.checks.c: verify conversion and modifiers. also flags
@@ -121,9 +123,9 @@ int				check_flags(char **fmt, t_frmt *frmt);
 /*
 ** format.buffer.c: fill a buffer from a list of t_frmt
 */
+
 void			format_to_buff(t_list *lstfrmt, t_buff *buff);
 void			format_dbg(t_frmt *frmt);
-
 bool			format_isnumeric(t_frmt *frmt);
 bool			format_isfloat(t_frmt *frmt);
 bool			format_getsign(t_frmt *frmt);

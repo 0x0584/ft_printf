@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   bigint.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/18 01:01:23 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/25 20:45:34 by archid-          ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														  :::	   ::::::::	  */
+/*	 bigint.h											:+:		 :+:	:+:	  */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2019/07/18 01:01:23 by archid-		   #+#	  #+#			  */
+/*	 Updated: 2019/07/25 20:45:34 by archid-		  ###	########.fr		  */
+/*																			  */
 /* ************************************************************************** */
 
 #ifndef BIGINT_H
@@ -22,12 +22,13 @@
 # define BIGINT_RD(b, c)			(b->couple_digits[c] & BIGINT_MASK)
 # define BIGINT_IS_RD(b, c)			(BIGINT_RD(b, c) != BIGINT_MASK)
 
-typedef struct	s_biggy
+struct s_biggy
 {
-	t_uint8			*couple_digits;
-	t_uint32		ten_exp;
-	bool			sign;
-}				t_bigint;
+	t_uint8		*couple_digits;
+	t_uint32	ten_exp;
+	bool		sign;
+};
+
 
 /*
 ** bigint.c -- BinInt allocation

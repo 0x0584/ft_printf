@@ -6,7 +6,7 @@
 /*	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/23 15:17:54 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/27 10:09:39 by archid-          ###   ########.fr       */
+/*	 Updated: 2019/07/27 10:09:39 by archid-		  ###	########.fr		  */
 /*																			  */
 /* ************************************************************************** */
 
@@ -83,7 +83,11 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		format_dbg(frmt);
 
 		if (frmt->conv == SIGNED_DECI)
+		{
 			tmp = ft_itoa(frmt->u_data.i);
+			ft_putnumber(frmt->u_data.i);
+			(void)getchar();
+		}
 		else if (frmt->conv == CHAR)
 		{
 			if (frmt->length == MODIF_L)
@@ -138,6 +142,7 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		 */
 		/* TODO: create format_getsigne(t_frmt *) */
 
+		ft_putstr(" tmp >> "); ft_putendl(tmp);
 		/* padding with zero */
 		if ((frmt->width && !frmt->padding_on_left) &&
 				!(format_isnumeric(frmt) && frmt->precision))
@@ -151,8 +156,8 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 						  buffutils_pad(frmt->prefix_signe
 										? format_getsign(frmt) : ' ' , 1));
 
-		format_alterform(&tmp, frmt);
-		format_set_precision(&tmp, frmt);
+		/* format_alterform(&tmp, frmt); */
+		/* format_set_precision(&tmp, frmt); */
 
 		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))
 			ft_putendl("tmp was empty");
