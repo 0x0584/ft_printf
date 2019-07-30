@@ -2,7 +2,7 @@
 
  ft_printf is a project which leads to the AI branch. sounds good!
 
-* TODOs [6/17]
+* TODOs [10/17]
 
 + [X] +get format string info+
 + [X] +handle relative args+
@@ -10,11 +10,11 @@
 + [X] +handle %d and %s and %c+
 + [X] +handle %ls and %lc+
 + [X] +handle 0 padding flag+
-+ [ ] *handle + at beginning of positive*
-+ [ ] *handle space at beginning of positive number*
++ [X] +handle + at beginning of positive+
++ [X] +handle space at beginning of positive number+
 + [ ] handle # flags
-+ [ ] handle width
-+ [ ] handle left width
++ [X] +handle width+
++ [X] +handle left width+
 + [ ] handle .n precision
 + [ ] handle .* precision
 + [ ] *handle %f and %Lf*
