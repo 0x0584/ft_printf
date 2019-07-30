@@ -142,21 +142,20 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		/* padding with zero */
 
 		if (frmt->width && !frmt->padding_on_left &&
-			!(format_isnumeric(frmt) && frmt->precision))
-		{
+				!(format_isnumeric(frmt) && frmt->precision))
 			ft_strprepend(&tmp,
 						  buffutils_pad(frmt->prefix_zeros ? '0' : ' ',
-										frmt->width - ft_strlen(tmp)));
-			ft_putendl("here");
-			getchar();
-		}
+										frmt->width - ft_strlen(tmp) - frmt->prefix_signe));
 		/* sign or space */
 		if ((frmt->prefix_signe || frmt->prefix_plus_blank) &&
 				format_isnumeric(frmt))
+		{
 			ft_strprepend(&tmp,
 						  buffutils_pad(frmt->prefix_signe
 										? format_getsign(frmt) : ' ' , 1));
-
+			/* ft_putendl(" here "); */
+			/* getchar(); */
+		}
 		/* format_alterform(&tmp, frmt); */
 		/* format_set_precision(&tmp, frmt); */
 

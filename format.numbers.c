@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   format.numbers.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/06 22:12:16 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/27 10:05:29 by archid-          ###   ########.fr       */
-/*                                                                            */
+/*																			  */
+/*														  :::	   ::::::::	  */
+/*	 format.numbers.c									:+:		 :+:	:+:	  */
+/*													  +:+ +:+		  +:+	  */
+/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
+/*												  +#+#+#+#+#+	+#+			  */
+/*	 Created: 2019/07/06 22:12:16 by archid-		   #+#	  #+#			  */
+/*	 Updated: 2019/07/27 10:05:29 by archid-		  ###	########.fr		  */
+/*																			  */
 /* ************************************************************************** */
 
 #include "format.h"
@@ -35,14 +35,28 @@ bool	format_isfloat(t_frmt *frmt)
 			c == DOUBLE_NORMAL2);
 }
 
-bool	format_getsign(t_frmt *frmt)
+char	format_getsign(t_frmt *frmt)
 {
-	if (format_isfloat(frmt) || format_isnumeric(frmt))
+	if (frmt->conv == SIGNED_DECI)
 	{
-		/* TODO:
-		   is it the ifs again!! something is wrong here!! */
+		if (frmt->length == MODIF_L)
+			return (frmt->u_data.l < 0) ? '-' : '+';
+		else if (frmt->length == MODIF_LL)
+			return (frmt->u_data.ll < 0) ? '-' : '+';
+		else
+			return (frmt->u_data.i < 0) ? '-' : '+';
 	}
-	return (!1);
+	else if (frmt->conv == DOUBLE_EXP ||
+				frmt->conv == DOUBLE_EXP2 ||
+				frmt->conv == DOUBLE_NORMAL ||
+				 frmt->conv == DOUBLE_NORMAL2)
+	{
+		if (frmt->length == MODIF_L)
+			return (frmt->u_data.ld < 0) ? '-' : '+';
+		else
+			return (frmt->u_data.d < 0) ? '-' : '+';
+	}
+	return ('+');
 }
 
 char	*format_ieee_float(t_frmt *frmt)

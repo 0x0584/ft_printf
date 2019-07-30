@@ -1,9 +1,10 @@
-/*		   File:	buffer.utils.c
+/**
+ *		 File:	buffer.utils.c
  *		 Author:	ANAS RCHID
  *	Description:	NULL
  *
  *	  Created: <2019-07-06 Sat 14:58:57>
- *	  Updated: <2019-07-07 Sun 04:47:48>
+ *	  Updated: <2019-07-30 Tue 13:19:25>
  */
 
 #include "buffer.h"
