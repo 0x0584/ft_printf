@@ -79,6 +79,7 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 
 	/* getchar(); */
 	*fmt += 1;
+	check_flags(fmt, &frmt);
 	frmt.argindex = hungry_getnbr(fmt);
 	if (*fmt[0] != '$')
 	{
@@ -88,8 +89,7 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	}
 	else
 		*fmt += 1;
-	check_flags(fmt, &frmt);
-	if (frmt.argindex != -1)
+	if (frmt.argindex)
 		frmt.width = hungry_getnbr(fmt);
 	*fmt += (*fmt[0] == '.');
 	frmt.precision = hungry_getnbr(fmt);

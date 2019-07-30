@@ -83,11 +83,7 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		format_dbg(frmt);
 
 		if (frmt->conv == SIGNED_DECI)
-		{
 			tmp = ft_itoa(frmt->u_data.i);
-			ft_putnumber(frmt->u_data.i);
-			(void)getchar();
-		}
 		else if (frmt->conv == CHAR)
 		{
 			if (frmt->length == MODIF_L)
@@ -142,13 +138,18 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		 */
 		/* TODO: create format_getsigne(t_frmt *) */
 
-		ft_putstr(" tmp >> "); ft_putendl(tmp);
+		/* ft_putstr(" tmp >> "); ft_putendl(tmp); */
 		/* padding with zero */
-		if ((frmt->width && !frmt->padding_on_left) &&
-				!(format_isnumeric(frmt) && frmt->precision))
+
+		if (frmt->width && !frmt->padding_on_left &&
+			!(format_isnumeric(frmt) && frmt->precision))
+		{
 			ft_strprepend(&tmp,
 						  buffutils_pad(frmt->prefix_zeros ? '0' : ' ',
 										frmt->width - ft_strlen(tmp)));
+			ft_putendl("here");
+			getchar();
+		}
 		/* sign or space */
 		if ((frmt->prefix_signe || frmt->prefix_plus_blank) &&
 				format_isnumeric(frmt))
