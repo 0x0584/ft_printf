@@ -141,6 +141,15 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		/* ft_putstr(" tmp >> "); ft_putendl(tmp); */
 		/* padding with zero */
 
+		/* FIXME: free all buffutils() */
+		if (frmt->padding_on_left && frmt->width)
+		{
+			char *foo = ft_strjoin(tmp, buffutils_pad(' ', frmt->width - ft_strlen(tmp)));
+			ft_strdel(&tmp);
+			tmp = foo;
+			frmt->prefix_zeros = false;
+		}
+
 		if (frmt->width && !frmt->padding_on_left &&
 				!(format_isnumeric(frmt) && frmt->precision))
 			ft_strprepend(&tmp,
@@ -158,6 +167,7 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		}
 		/* format_alterform(&tmp, frmt); */
 		/* format_set_precision(&tmp, frmt); */
+
 
 		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))
 			ft_putendl("tmp was empty");

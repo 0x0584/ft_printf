@@ -22,8 +22,9 @@
 
 int main(int argc, char *argv[])
 {
-	ft_printf("this is a %06d test and this %06d\n", 10, 50);
+
+	ft_printf("[this is a %-6d test and this %-6d]\n", 10, 50);
 	ft_putendl("------------------------");
-	printf("this is a %06d test and this %06d\n", 10, 50);
+	printf("[this is a %-6d test and this %-6d]\n", 10, 50);
 	return 0;
 }
