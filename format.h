@@ -30,7 +30,7 @@
 # define IS_POINTER(fmt)		(fmt.type == 'p')
 
 /* FIXME: add enums and union into format structure */
-/* TODO: create a flags enum, add mask... */
+/* FIXME: create a flags enum, add mask... */
 
 /* the general rule of a format string:
  *

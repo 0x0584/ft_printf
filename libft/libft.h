@@ -6,13 +6,13 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/26 11:09:50 by archid-          ###   ########.fr       */
+/*	 Updated: 2019/07/26 11:09:50 by archid-		  ###	########.fr		  */
 /*																			  */
 /* ************************************************************************** */
 
 /* FIXME: split this fucking libft into multiple parts */
 /* FIXME: split libft into parts */
-/* TODO: clean the fucking code */
+/* LATER: clean the fucking code */
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -149,6 +149,8 @@ t_int16			ft_utf8tostr_ch(t_int8 *dest, t_int32 wch);
 
 char			*ft_lltoa(t_int128 n);
 char			*ft_itoa(int n);
+char			*ft_itoa_base(t_int128 nb, int base);
+
 char			*ft_ftoa(float f, t_uint16 precision);
 char			*ft_dtoa(double d, t_uint16 precision);
 char			*ft_ldtoa(long double ld, t_uint16 precision);

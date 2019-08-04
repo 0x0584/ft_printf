@@ -58,12 +58,12 @@ int		check_modifier(char **fmt, t_frmt *frmt)
 	return (0);
 }
 
-/* TODO: disable #-flag when %{c,d,i,n,p,s,u} */
 int		check_conversion(char **fmt, t_frmt *frmt)
 {
 	char *bar;
 
-	/* TODO: create a function int foo(char c) which computes
+	/* FIXME: try to save the char instead of conv enum.. is it better? */
+	/* LATER: create a function int foo(char c) which computes
 	 * the conversion index */
 	bar = *fmt;
 	if (*bar == 'd' || *bar == 'D' || *bar == 'i')

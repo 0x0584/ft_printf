@@ -18,7 +18,7 @@
 
 #include "bigint.h"
 
-/* FIXME: neative number and 0-flag */
+/* FIXME: negative number and 0-flag */
 
 int main(int argc, char *argv[])
 {
@@ -26,5 +26,9 @@ int main(int argc, char *argv[])
 	ft_printf("[this is a %-6d test and this %-6d]\n", 10, 50);
 	ft_putendl("------------------------");
 	printf("[this is a %-6d test and this %-6d]\n", 10, 50);
+
+	char *bar = ft_itoa_base(255, 16);
+	printf("%s", bar);
+	free(bar);
 	return 0;
 }

@@ -56,14 +56,20 @@ static char		*char_to_str(char c)
 	return s;
 }
 
-/* TODO: somehow turn all that shit into string! */
+/**
+ * TODO: YOU HAVE TO create a function to everything
+ *
+ * those ifs must all be some foo functions, put them in an
+ * array or something..
+ */
 void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
 	t_list	*e;
 	t_frmt	*frmt;
 	char	*tmp;
 
-	/* FIXME: try to allocated memory fpr exatly dest size chars
+	/**
+	 * FIXME: try to allocated memory fpr exatly dest size chars
 	 *
 	 * IDEA:
 	 * =====
@@ -83,7 +89,38 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		format_dbg(frmt);
 
 		if (frmt->conv == SIGNED_DECI)
-			tmp = ft_itoa(frmt->u_data.i);
+		{
+			if (frmt->length == MODIF_LL)
+				tmp = ft_lltoa((long long)frmt->u_data.ll);
+			else if (frmt->length == MODIF_L)
+				tmp = ft_lltoa((long long)frmt->u_data.l);
+			else if (frmt->length == MODIF_H)
+				tmp = ft_lltoa((long long)frmt->u_data.s);
+			else
+				tmp = ft_lltoa((long long)frmt->u_data.i);
+		}
+		else if (frmt->conv == UNSIGNED_OCTA)
+		{
+			if (frmt->length == MODIF_LL)
+				tmp = ft_itoa_base((long long)frmt->u_data.ll, 8);
+			else if (frmt->length == MODIF_L)
+				tmp = ft_itoa_base((long long)frmt->u_data.l, 8);
+			else if (frmt->length == MODIF_H)
+				tmp = ft_itoa_base((long long)frmt->u_data.s, 8);
+			else
+				tmp = ft_itoa_base((long long)frmt->u_data.i, 8);
+		}
+		else if (frmt->conv == UNSIGNED_DECI)
+		{
+			if (frmt->length == MODIF_LL)
+				tmp = ft_itoa_base((long long)frmt->u_data.ll, 10);
+			else if (frmt->length == MODIF_L)
+				tmp = ft_itoa_base((long long)frmt->u_data.l, 10);
+			else if (frmt->length == MODIF_H)
+				tmp = ft_itoa_base((long long)frmt->u_data.s, 10);
+			else
+				tmp = ft_itoa_base((long long)frmt->u_data.i, 10);
+		}
 		else if (frmt->conv == CHAR)
 		{
 			if (frmt->length == MODIF_L)
@@ -114,16 +151,9 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		else
 			tmp = NULL;
 
-		/* FIXME: check if those ifs should be if-elses */
-
-		/* XXX: create bufferutil_pad(char, size_t) */
-		/* XXX: create format_isnumeric(t_frmt *) */
-		/* XXX: create format_isfloat(t_frmt *) */
-
-
-		/* TODO: create format_ieee_float(t_frmt *, bool) */
 		/* TODO: create format_set_precision(char **, t_frmt *) */
-		/* TODO: create format_alterform(t_frmt *)
+		/**
+		 * TODO: create format_alterform(t_frmt *)
 		 *
 		 * IDEA:
 		 * =====
@@ -136,9 +166,7 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		 * else if format_isfloat(frmt)
 		 *		dest = ft_format_ieee_float(frmt, trailing_is_on) // default off
 		 */
-		/* TODO: create format_getsigne(t_frmt *) */
 
-		/* ft_putstr(" tmp >> "); ft_putendl(tmp); */
 		/* padding with zero */
 
 		/* FIXME: free all buffutils() */
@@ -158,27 +186,21 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		/* sign or space */
 		if ((frmt->prefix_signe || frmt->prefix_plus_blank) &&
 				format_isnumeric(frmt))
-		{
 			ft_strprepend(&tmp,
 						  buffutils_pad(frmt->prefix_signe
 										? format_getsign(frmt) : ' ' , 1));
-			/* ft_putendl(" here "); */
-			/* getchar(); */
-		}
 		/* format_alterform(&tmp, frmt); */
 		/* format_set_precision(&tmp, frmt); */
 
 
 		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))
+		{
 			ft_putendl("tmp was empty");
+			getchar();
+		}
 		buff_write(1, buff);
 		ft_putendl("");
-		/* getchar(); */
 		e = e->next;
-		/* FIXME: tmp could contain leaks
-		 *
-		 * might fix this by setting a flag when a new string is allocated
-		 */
 		ft_strdel(&tmp);
 	}
 }

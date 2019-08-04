@@ -115,7 +115,9 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 		}
 		if (frmt->conv == SIGNED_DECI || frmt->conv == CHAR)
 		{
-			if (frmt->length == MODIF_LL)
+			if (frmt->length == MODIF_H)
+				frmt->u_data.s = va_arg(*arglst, short);
+			else if (frmt->length == MODIF_LL)
 				frmt->u_data.ll = va_arg(*arglst, long long);
 			else if (frmt->length == MODIF_L)
 				frmt->u_data.l = va_arg(*arglst, long);
@@ -126,8 +128,11 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 					frmt->conv == UNSIGNED_DECI ||
 					frmt->conv == UNSIGNED_HEXA ||
 					frmt->conv == UNSIGNED_HEXA2 ||
-				 frmt->conv == POINTER) {
-			if (frmt->length == MODIF_L || frmt->conv == POINTER)
+				 frmt->conv == POINTER)
+		{
+			if (frmt->length == MODIF_H)
+				frmt->u_data.us = va_arg(*arglst, unsigned short);
+			else if (frmt->length == MODIF_L || frmt->conv == POINTER)
 				frmt->u_data.ul = va_arg(*arglst, unsigned long);
 			else if (frmt->length == MODIF_LL)
 				frmt->u_data.ull = va_arg(*arglst, unsigned long long);
@@ -137,7 +142,8 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 		else if (frmt->conv == DOUBLE_EXP ||
 					frmt->conv == DOUBLE_EXP2 ||
 					frmt->conv == DOUBLE_NORMAL ||
-					frmt->conv == DOUBLE_NORMAL2) {
+					frmt->conv == DOUBLE_NORMAL2)
+		{
 			if (frmt->length == MODIF_L)
 				frmt->u_data.ld = va_arg(*arglst, long double);
 			else

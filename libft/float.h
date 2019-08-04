@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/07/02 18:00:10 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/25 20:14:24 by archid-          ###   ########.fr       */
+/*	 Updated: 2019/07/25 20:14:24 by archid-		  ###	########.fr		  */
 /*																			  */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # endif
 
 # define F32BIT_BIAS			(0x0000007FU)
-# define F32BIT_MASK_SIGN	    (0x00000001U << 31U)
-# define F32BIT_MASK_EXP	    (0x000000FFU << 23U)
+# define F32BIT_MASK_SIGN		(0x00000001U << 31U)
+# define F32BIT_MASK_EXP		(0x000000FFU << 23U)
 # define F32BIT_MASK_MAN		(0xFFFFFFFFU >> 9U)
 # define F32BIT_SHIFT_SIGN		31U
 # define F32BIT_SHIFT_EXP		23U
@@ -33,8 +33,8 @@
 
 # define F64BIT_MAN_SIZE		52
 
-/* TODO: add long double too */
-/* TODO: find what are the special numbers */
+/* FIXME: add long double too */
+/* FIXME: find what are the special numbers */
 
 union		u_ieee754_float
 {

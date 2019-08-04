@@ -21,3 +21,7 @@
 + [ ] *handle %a and %A*
 + [ ] *handle %e and %E*
 + [ ] fulfill the printf familly (aprintf, sprintf, snprintf)!!
+
+#+BEGIN_SRC shell
+$ git log --date=short --pretty=format:%ad | sort | uniq -c
+#+END_SRC

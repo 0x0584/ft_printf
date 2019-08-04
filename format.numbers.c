@@ -61,7 +61,6 @@ char	format_getsign(t_frmt *frmt)
 
 char	*format_ieee_float(t_frmt *frmt)
 {
-	return NULL;
 	return ((frmt->length == MODIF_LL)
 			? ft_dtoa(frmt->u_data.ld, frmt->precision)
 			: ft_ldtoa(frmt->u_data.d, frmt->precision));
