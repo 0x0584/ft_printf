@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/17 22:16:27 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/07/27 10:09:39 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/08/05 23:58:26 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -62,19 +62,10 @@ typedef struct	s_format
 	}								length;
 	enum		e_conversions
 	{
-		SIGNED_DECI,
-		UNSIGNED_OCTA,
-		UNSIGNED_DECI,
-		UNSIGNED_HEXA,
-		UNSIGNED_HEXA2,
-		DOUBLE_EXP,
-		DOUBLE_EXP2,
-		DOUBLE_NORMAL,
-		DOUBLE_NORMAL2,
-		CHAR,
-		STRING,
-		POINTER,
-		PERCENTAGE,
+		SIGNED_DECI, UNSIGNED_OCTA, UNSIGNED_DECI,
+		UNSIGNED_HEXA, UNSIGNED_HEXA2, DOUBLE_EXP,
+		DOUBLE_EXP2, DOUBLE_NORMAL, DOUBLE_NORMAL2,
+		CHAR, STRING, POINTER, PERCENTAGE,
 
 		STRING_FRMT = -2,
 		DEFAULT_CONV

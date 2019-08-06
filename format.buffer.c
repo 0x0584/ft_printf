@@ -6,7 +6,7 @@
 /*	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/23 15:17:54 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/07/27 10:09:39 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/08/06 01:46:48 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void			format_dbg(t_frmt *frmt)
 	printf("precision: %d width: %d\n", frmt->precision, frmt->width);
 	printf("0 flag: %d | + flag: %d | ", frmt->prefix_zeros, frmt->prefix_signe);
 	printf("' ' flag: %d | - flag: %d | ", frmt->prefix_zeros,
-											frmt->padding_on_left);
+		   frmt->padding_on_left);
 	printf("# flag %d\n-------------------\n", frmt->is_alter);
 }
 
@@ -56,19 +56,49 @@ static char		*char_to_str(char c)
 	return s;
 }
 
-/**
+/*
  * TODO: YOU HAVE TO create a function to everything
  *
  * those ifs must all be some foo functions, put them in an
  * array or something..
  */
+
+char *handle_unsigned_deci(t_frmt *frmt, int base)
+{
+	if (frmt->length == MODIF_LL)
+		return ft_itoa_base((long long)frmt->u_data.ll, base);
+	else if (frmt->length == MODIF_L)
+		return ft_itoa_base((long long)frmt->u_data.l, base);
+	else if (frmt->length == MODIF_H)
+		return ft_itoa_base((long long)frmt->u_data.s, base);
+	else
+		return ft_itoa_base((long long)frmt->u_data.i, base);
+}
+
+char			*handle_signed_deci(t_frmt *frmt)
+{
+	if (frmt->length == MODIF_LL)
+		return ft_lltoa((long long)frmt->u_data.ll);
+	else if (frmt->length == MODIF_L)
+		return ft_lltoa((long long)frmt->u_data.l);
+	else if (frmt->length == MODIF_H)
+		return ft_lltoa((long long)frmt->u_data.s);
+	else
+		return ft_lltoa((long long)frmt->u_data.i);
+}
+
+char			*handle_double_exp(t_frmt *frmt)
+{
+
+}
+
 void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
 	t_list	*e;
 	t_frmt	*frmt;
 	char	*tmp;
 
-	/**
+	/*
 	 * FIXME: try to allocated memory fpr exatly dest size chars
 	 *
 	 * IDEA:
@@ -89,67 +119,41 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		format_dbg(frmt);
 
 		if (frmt->conv == SIGNED_DECI)
-		{
-			if (frmt->length == MODIF_LL)
-				tmp = ft_lltoa((long long)frmt->u_data.ll);
-			else if (frmt->length == MODIF_L)
-				tmp = ft_lltoa((long long)frmt->u_data.l);
-			else if (frmt->length == MODIF_H)
-				tmp = ft_lltoa((long long)frmt->u_data.s);
-			else
-				tmp = ft_lltoa((long long)frmt->u_data.i);
-		}
+			tmp =  handle_signed_deci(frmt);
 		else if (frmt->conv == UNSIGNED_OCTA)
-		{
-			if (frmt->length == MODIF_LL)
-				tmp = ft_itoa_base((long long)frmt->u_data.ll, 8);
-			else if (frmt->length == MODIF_L)
-				tmp = ft_itoa_base((long long)frmt->u_data.l, 8);
-			else if (frmt->length == MODIF_H)
-				tmp = ft_itoa_base((long long)frmt->u_data.s, 8);
-			else
-				tmp = ft_itoa_base((long long)frmt->u_data.i, 8);
-		}
+			tmp = handle_unsigned_deci(frmt, 8);
 		else if (frmt->conv == UNSIGNED_DECI)
+			tmp = handle_unsigned_deci(frmt, 10);
+		else if (frmt->conv == UNSIGNED_HEXA)
+			tmp = handle_unsigned_deci(frmt, 16);
+		else if (frmt->conv == UNSIGNED_HEXA2)
 		{
-			if (frmt->length == MODIF_LL)
-				tmp = ft_itoa_base((long long)frmt->u_data.ll, 10);
-			else if (frmt->length == MODIF_L)
-				tmp = ft_itoa_base((long long)frmt->u_data.l, 10);
-			else if (frmt->length == MODIF_H)
-				tmp = ft_itoa_base((long long)frmt->u_data.s, 10);
-			else
-				tmp = ft_itoa_base((long long)frmt->u_data.i, 10);
+			tmp = handle_unsigned_deci(frmt, 16);
+			ft_strtoupper(&tmp);
 		}
 		else if (frmt->conv == CHAR)
 		{
-			if (frmt->length == MODIF_L)
+			if (frmt->length != MODIF_L)
+				tmp = char_to_str(frmt->u_data.i);
+			else
 			{
 				ft_bzero(dest, 5);
 				ft_utf8tostr_ch(dest, frmt->u_data.i);
 				tmp = ft_strdup(dest);
 			}
-			else
-				tmp = char_to_str(frmt->u_data.i);
 		}
 		else if (frmt->conv == STRING || frmt->conv == STRING_FRMT)
 		{
-			if (frmt->length == MODIF_L)
+			if (frmt->length != MODIF_L)
+				tmp = ft_strdup(frmt->u_data.str);
 			{
 				int ret = ft_utf8tostr(dest, 0xff, frmt->u_data.wstr, 0xff);
 				tmp = ft_strrdup(dest, dest + ret);
 			}
-			else
-				tmp = ft_strdup(frmt->u_data.str);
+		}
+		else if (frmt->conv == DOUBLE_EXP)
+			tmp = handle_double_exp(frmt);
 
-		}
-		else if (format_isfloat(frmt))
-		{
-			/* FIXME: check if this is correct */
-			tmp = (char *)format_ieee_float(frmt);
-		}
-		else
-			tmp = NULL;
 
 		/* TODO: create format_set_precision(char **, t_frmt *) */
 		/**
@@ -179,13 +183,13 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		}
 
 		if (frmt->width && !frmt->padding_on_left &&
-				!(format_isnumeric(frmt) && frmt->precision))
+			!(format_isnumeric(frmt) && frmt->precision))
 			ft_strprepend(&tmp,
 						  buffutils_pad(frmt->prefix_zeros ? '0' : ' ',
 										frmt->width - ft_strlen(tmp) - frmt->prefix_signe));
 		/* sign or space */
 		if ((frmt->prefix_signe || frmt->prefix_plus_blank) &&
-				format_isnumeric(frmt))
+			format_isnumeric(frmt))
 			ft_strprepend(&tmp,
 						  buffutils_pad(frmt->prefix_signe
 										? format_getsign(frmt) : ' ' , 1));
