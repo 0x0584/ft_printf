@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/17 22:16:27 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/08/05 23:58:26 by archid-          ###   ########.fr       */
+/*   Updated: 2019/08/06 15:51:27 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -16,20 +16,7 @@
 # include "libft.h"
 # include "buffer.h"
 
-# define IS_LITERAL(fmt)		(fmt.type == '%')
-# define IS_INT(fmt)			(fmt.type == 'd' || fmt.type == 'i')
-# define IS_UINT(fmt)			(fmt.type == 'u')
-# define IS_CHAR(fmt)			(fmt.type == 'c')
-# define IS_STRING(fmt)			(fmt.type == 's')
-# define IS_DOUBLE(fmt)			(fmt.type == 'f' || fmt.type == 'F')
-# define IS_DOUBLE_E(fmt)		(fmt.type == 'e' || fmt.type == 'E')
-# define IS_DOUBLE_G(fmt)		(fmt.type == 'g' || fmt.type == 'G')
-# define IS_DOUBLE_A(fmt)		(fmt.type == 'a' || fmt.type == 'A')
-# define IS_HEXA(fmt)			(fmt.type == 'x' || fmt.type == 'X')
-# define IS_OCTAL(fmt)			(fmt.type == 'o')
-# define IS_POINTER(fmt)		(fmt.type == 'p')
-
-/* FIXME: add enums and union into format structure */
+/* XXX: add enums and union into format structure */
 /* FIXME: create a flags enum, add mask... */
 
 /* the general rule of a format string:
@@ -60,11 +47,18 @@ typedef struct	s_format
 
 		MODIF_DEFAULT = -1
 	}								length;
+
 	enum		e_conversions
 	{
-		SIGNED_DECI, UNSIGNED_OCTA, UNSIGNED_DECI,
-		UNSIGNED_HEXA, UNSIGNED_HEXA2, DOUBLE_EXP,
-		DOUBLE_EXP2, DOUBLE_NORMAL, DOUBLE_NORMAL2,
+		SIGNED_DECI,
+
+		U_OCTA, U_DECI, U_HEXA, U_HEXA2,
+
+		DBL_EXP, DBL_EXP2,
+		DBL_NRML, DBL_NRML2,
+		DBL_G, DBL_G2,
+		DBL_HEXA, DBL_HEXA2,
+
 		CHAR, STRING, POINTER, PERCENTAGE,
 
 		STRING_FRMT = -2,
@@ -121,5 +115,15 @@ bool			format_isnumeric(t_frmt *frmt);
 bool			format_isfloat(t_frmt *frmt);
 char			format_getsign(t_frmt *frmt);
 char			*format_ieee_float(t_frmt *frmt);
+
+/*
+** format.handler.c
+*/
+
+char	*handle_unsigned_deci(t_frmt *frmt, int base);
+char	*handle_signed_deci(t_frmt *frmt);
+char	*handle_double(t_frmt *frmt, bool round);
+char	*handle_char(t_frmt *frmt);
+char	*handle_string(t_frmt *frmt);
 
 #endif

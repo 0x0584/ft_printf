@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ldtoa.c                                         :+:      :+:    :+:   */
+/*   ft_strtoupper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/26 11:08:30 by archid-           #+#    #+#             */
-/*   Updated: 2019/08/06 14:42:58 by archid-          ###   ########.fr       */
+/*   Created: 2019/08/06 14:34:48 by archid-           #+#    #+#             */
+/*   Updated: 2019/08/06 14:38:58 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "float.h"
-#include "bigint.h"
 
-char	*ldtoa(long double ld, t_uint16 precision, bool round)
+void	ft_strtoupper(char *s)
 {
-
+	while (*s)
+	{
+		if (*s >= 'a' && *s <= 'z')
+			*s -= 0x20;
+		s++;
+	}
 }

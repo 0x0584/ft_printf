@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/07/06 22:12:16 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/07/27 10:05:29 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/08/06 14:17:44 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ bool	format_isnumeric(t_frmt *frmt)
 
 	c = frmt->conv;
 	return (c == SIGNED_DECI ||
-			c == UNSIGNED_OCTA ||
-			c == UNSIGNED_DECI ||
-			c == UNSIGNED_HEXA ||
-			c == UNSIGNED_HEXA2);
+			c == U_OCTA ||
+			c == U_DECI ||
+			c == U_HEXA ||
+			c == U_HEXA2);
 }
 
 bool	format_isfloat(t_frmt *frmt)
@@ -29,10 +29,10 @@ bool	format_isfloat(t_frmt *frmt)
 	t_int8 c;
 
 	c = frmt->conv;
-	return (c == DOUBLE_EXP ||
-			c == DOUBLE_EXP2 ||
-			c == DOUBLE_NORMAL ||
-			c == DOUBLE_NORMAL2);
+	return (c == DBL_EXP ||
+			c == DBL_EXP2 ||
+			c == DBL_NRML ||
+			c == DBL_NRML2);
 }
 
 char	format_getsign(t_frmt *frmt)
@@ -46,10 +46,10 @@ char	format_getsign(t_frmt *frmt)
 		else
 			return (frmt->u_data.i < 0) ? '-' : '+';
 	}
-	else if (frmt->conv == DOUBLE_EXP ||
-				frmt->conv == DOUBLE_EXP2 ||
-				frmt->conv == DOUBLE_NORMAL ||
-				 frmt->conv == DOUBLE_NORMAL2)
+	else if (frmt->conv == DBL_EXP ||
+				frmt->conv == DBL_EXP2 ||
+				frmt->conv == DBL_NRML ||
+				 frmt->conv == DBL_NRML2)
 	{
 		if (frmt->length == MODIF_L)
 			return (frmt->u_data.ld < 0) ? '-' : '+';
@@ -70,11 +70,11 @@ void	format_alterform(char **astr, t_frmt *frmt)
 {
 	if (format_isnumeric(frmt))
 	{
-		if (frmt->conv == UNSIGNED_OCTA)
+		if (frmt->conv == U_OCTA)
 			ft_strprepend(astr, "0");
-		else if (frmt->conv == UNSIGNED_HEXA)
+		else if (frmt->conv == U_HEXA)
 			ft_strprepend(astr, "0x");
-		else if (frmt->conv == UNSIGNED_HEXA2)
+		else if (frmt->conv == U_HEXA2)
 			ft_strprepend(astr, "0X");
 	}
 /*

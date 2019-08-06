@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/23 13:53:22 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/06/30 03:06:52 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/08/06 14:17:44 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -74,19 +74,19 @@ int		check_conversion(char **fmt, t_frmt *frmt)
 	else if (*bar == 'o' || *bar == 'O')
 	{
 		frmt->length = (*bar == 'O' ? MODIF_L : frmt->length);
-		frmt->conv = UNSIGNED_OCTA;
+		frmt->conv = U_OCTA;
 	}
 	else if (*bar == 'u' || *bar == 'U')
 	{
 		frmt->length = (*bar == 'U' ? MODIF_L : frmt->length);
-		frmt->conv = UNSIGNED_DECI;
+		frmt->conv = U_DECI;
 	}
 	else if (*bar == 'x' || *bar == 'X')
-		frmt->conv = (*bar == 'X' ? UNSIGNED_HEXA2 : UNSIGNED_HEXA);
+		frmt->conv = (*bar == 'X' ? U_HEXA2 : U_HEXA);
 	else if (*bar == 'e' || *bar == 'E')
-		frmt->conv = (*bar == 'E' ? DOUBLE_EXP2 : DOUBLE_EXP);
+		frmt->conv = (*bar == 'E' ? DBL_EXP2 : DBL_EXP);
 	else if (*bar == 'f' || *bar == 'F')
-		frmt->conv = (*bar == 'F' ? DOUBLE_NORMAL2 : DOUBLE_NORMAL);
+		frmt->conv = (*bar == 'F' ? DBL_NRML2 : DBL_NRML);
 	else if (*bar == 'c' || *bar == 'C')
 	{
 		frmt->length = (*bar == 'C' ? MODIF_L : frmt->length);

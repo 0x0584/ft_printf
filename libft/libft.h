@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/07/26 11:09:50 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/08/06 14:42:26 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void			ft_strclr(char *s);
 int				ft_strcmp(const char *s1, const char *s2);
 size_t			ft_strlen(const char *str);
 int				ft_strncmp(const char *s1, const char *s2, size_t len);
+void			ft_strtoupper(char *s);
 int				ft_isdigit(int c);
 int				ft_isalpha(int c);
 int				ft_isalnum(int c);
@@ -152,8 +153,8 @@ char			*ft_itoa(int n);
 char			*ft_itoa_base(t_int128 nb, int base);
 
 char			*ft_ftoa(float f, t_uint16 precision);
-char			*ft_dtoa(double d, t_uint16 precision);
-char			*ft_ldtoa(long double ld, t_uint16 precision);
+char			*ft_dtoa(double d, t_uint16 precision, bool round);
+char			*ft_ldtoa(long double ld, t_uint16 precision, bool round);
 
 char			*ft_ltoa_hex(long l);
 

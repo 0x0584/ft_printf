@@ -6,7 +6,7 @@
 /*	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/23 15:17:54 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/08/06 01:46:48 by archid-          ###   ########.fr       */
+/*   Updated: 2019/08/06 15:51:46 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ void			format_dbg(t_frmt *frmt)
 	{
 		format = "SIGNED_DECI || CHAR";
 	}
-	else if (frmt->conv == UNSIGNED_OCTA ||
-			 frmt->conv == UNSIGNED_DECI ||
-			 frmt->conv == UNSIGNED_HEXA ||
-			 frmt->conv == UNSIGNED_HEXA2 ||
+	else if (frmt->conv == U_OCTA ||
+			 frmt->conv == U_DECI ||
+			 frmt->conv == U_HEXA ||
+			 frmt->conv == U_HEXA2 ||
 			 frmt->conv == POINTER)
 	{
 		format = "UNSIGNED";
 	}
-	else if (frmt->conv == DOUBLE_EXP ||
-			 frmt->conv == DOUBLE_EXP2 ||
-			 frmt->conv == DOUBLE_NORMAL ||
-			 frmt->conv == DOUBLE_NORMAL2) {
+	else if (frmt->conv == DBL_EXP ||
+			 frmt->conv == DBL_EXP2 ||
+			 frmt->conv == DBL_NRML ||
+			 frmt->conv == DBL_NRML2) {
 		format = "DOUBLE";
 	}
 	else if (frmt->conv == STRING)
@@ -47,14 +47,6 @@ void			format_dbg(t_frmt *frmt)
 	printf("# flag %d\n-------------------\n", frmt->is_alter);
 }
 
-static char		*char_to_str(char c)
-{
-	char *s;
-
-	s = ft_strnew(1);
-	*s = c;
-	return s;
-}
 
 /*
  * TODO: YOU HAVE TO create a function to everything
@@ -63,97 +55,35 @@ static char		*char_to_str(char c)
  * array or something..
  */
 
-char *handle_unsigned_deci(t_frmt *frmt, int base)
-{
-	if (frmt->length == MODIF_LL)
-		return ft_itoa_base((long long)frmt->u_data.ll, base);
-	else if (frmt->length == MODIF_L)
-		return ft_itoa_base((long long)frmt->u_data.l, base);
-	else if (frmt->length == MODIF_H)
-		return ft_itoa_base((long long)frmt->u_data.s, base);
-	else
-		return ft_itoa_base((long long)frmt->u_data.i, base);
-}
-
-char			*handle_signed_deci(t_frmt *frmt)
-{
-	if (frmt->length == MODIF_LL)
-		return ft_lltoa((long long)frmt->u_data.ll);
-	else if (frmt->length == MODIF_L)
-		return ft_lltoa((long long)frmt->u_data.l);
-	else if (frmt->length == MODIF_H)
-		return ft_lltoa((long long)frmt->u_data.s);
-	else
-		return ft_lltoa((long long)frmt->u_data.i);
-}
-
-char			*handle_double_exp(t_frmt *frmt)
-{
-
-}
-
 void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
 	t_list	*e;
 	t_frmt	*frmt;
-	char	*tmp;
+	char	*s_frmt;
 
-	/*
-	 * FIXME: try to allocated memory fpr exatly dest size chars
-	 *
-	 * IDEA:
-	 * =====
-	 *
-	 * move over the string to count the length
-	 * allocated memory for exactly that length + 1
-	 * code the process of decoding
-	 */
-	t_int8 dest[0xff];
-
-	ft_bzero(dest, 0xff);
 	e = lstfrmt;
-	tmp = NULL;
+	s_frmt = NULL;
 	while (e)
 	{
 		frmt = (t_frmt *)e->content;
 		format_dbg(frmt);
 
 		if (frmt->conv == SIGNED_DECI)
-			tmp =  handle_signed_deci(frmt);
-		else if (frmt->conv == UNSIGNED_OCTA)
-			tmp = handle_unsigned_deci(frmt, 8);
-		else if (frmt->conv == UNSIGNED_DECI)
-			tmp = handle_unsigned_deci(frmt, 10);
-		else if (frmt->conv == UNSIGNED_HEXA)
-			tmp = handle_unsigned_deci(frmt, 16);
-		else if (frmt->conv == UNSIGNED_HEXA2)
-		{
-			tmp = handle_unsigned_deci(frmt, 16);
-			ft_strtoupper(&tmp);
-		}
+			s_frmt =  handle_signed_deci(frmt);
+		else if (frmt->conv == U_OCTA)
+			s_frmt = handle_unsigned_deci(frmt, 8);
+		else if (frmt->conv == U_DECI)
+			s_frmt = handle_unsigned_deci(frmt, 10);
+		else if (frmt->conv == U_HEXA || frmt->conv == U_HEXA2)
+			s_frmt = handle_unsigned_deci(frmt, 16);
+		else if (frmt->conv == DBL_EXP || frmt->conv == DBL_EXP2)
+			s_frmt = handle_double(frmt, true);
+		else if (frmt->conv == DBL_NRML || frmt->conv == DBL_NRML2)
+			s_frmt = handle_double(frmt, false);
 		else if (frmt->conv == CHAR)
-		{
-			if (frmt->length != MODIF_L)
-				tmp = char_to_str(frmt->u_data.i);
-			else
-			{
-				ft_bzero(dest, 5);
-				ft_utf8tostr_ch(dest, frmt->u_data.i);
-				tmp = ft_strdup(dest);
-			}
-		}
+			s_frmt = handle_char(frmt);
 		else if (frmt->conv == STRING || frmt->conv == STRING_FRMT)
-		{
-			if (frmt->length != MODIF_L)
-				tmp = ft_strdup(frmt->u_data.str);
-			{
-				int ret = ft_utf8tostr(dest, 0xff, frmt->u_data.wstr, 0xff);
-				tmp = ft_strrdup(dest, dest + ret);
-			}
-		}
-		else if (frmt->conv == DOUBLE_EXP)
-			tmp = handle_double_exp(frmt);
-
+			s_frmt = handle_string(frmt);
 
 		/* TODO: create format_set_precision(char **, t_frmt *) */
 		/**
@@ -176,35 +106,38 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		/* FIXME: free all buffutils() */
 		if (frmt->padding_on_left && frmt->width)
 		{
-			char *foo = ft_strjoin(tmp, buffutils_pad(' ', frmt->width - ft_strlen(tmp)));
-			ft_strdel(&tmp);
-			tmp = foo;
+			char *foo;
+			foo = ft_strjoin(s_frmt,
+							 buffutils_pad(' ',
+										   frmt->width - ft_strlen(s_frmt)));
+			ft_strdel(&s_frmt);
+			s_frmt = foo;
 			frmt->prefix_zeros = false;
 		}
 
 		if (frmt->width && !frmt->padding_on_left &&
 			!(format_isnumeric(frmt) && frmt->precision))
-			ft_strprepend(&tmp,
+			ft_strprepend(&s_frmt,
 						  buffutils_pad(frmt->prefix_zeros ? '0' : ' ',
-										frmt->width - ft_strlen(tmp) - frmt->prefix_signe));
+										frmt->width - ft_strlen(s_frmt) - frmt->prefix_signe));
 		/* sign or space */
 		if ((frmt->prefix_signe || frmt->prefix_plus_blank) &&
 			format_isnumeric(frmt))
-			ft_strprepend(&tmp,
+			ft_strprepend(&s_frmt,
 						  buffutils_pad(frmt->prefix_signe
 										? format_getsign(frmt) : ' ' , 1));
-		/* format_alterform(&tmp, frmt); */
-		/* format_set_precision(&tmp, frmt); */
+		/* format_alterform(&s_frmt, frmt); */
+		/* format_set_precision(&s_frmt, frmt); */
 
 
-		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))
+		if (!s_frmt || !buff_append(buff, s_frmt, ft_strlen(s_frmt)))
 		{
-			ft_putendl("tmp was empty");
+			ft_putendl("s_frmt was empty");
 			getchar();
 		}
 		buff_write(1, buff);
 		ft_putendl("");
 		e = e->next;
-		ft_strdel(&tmp);
+		ft_strdel(&s_frmt);
 	}
 }

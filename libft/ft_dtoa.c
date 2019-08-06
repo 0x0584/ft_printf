@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/07/25 19:48:43 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/07/26 21:51:20 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/08/06 14:42:47 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "bigint.h"
 #include "float.h"
 
-char	*ft_dtoa(double d, t_uint16 precision)
+char	*ft_dtoa(double d, t_uint16 precision, bool round)
 {
 	char *buff;
 	t_float64 f;

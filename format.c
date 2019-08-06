@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/17 22:20:34 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/06/26 20:43:21 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/08/06 14:17:44 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -124,10 +124,10 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 			else
 				frmt->u_data.i = va_arg(*arglst, int);
 		}
-		else if (frmt->conv == UNSIGNED_OCTA ||
-					frmt->conv == UNSIGNED_DECI ||
-					frmt->conv == UNSIGNED_HEXA ||
-					frmt->conv == UNSIGNED_HEXA2 ||
+		else if (frmt->conv == U_OCTA ||
+					frmt->conv == U_DECI ||
+					frmt->conv == U_HEXA ||
+					frmt->conv == U_HEXA2 ||
 				 frmt->conv == POINTER)
 		{
 			if (frmt->length == MODIF_H)
@@ -139,10 +139,10 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 			else
 				frmt->u_data.ui = va_arg(*arglst, unsigned int);
 		}
-		else if (frmt->conv == DOUBLE_EXP ||
-					frmt->conv == DOUBLE_EXP2 ||
-					frmt->conv == DOUBLE_NORMAL ||
-					frmt->conv == DOUBLE_NORMAL2)
+		else if (frmt->conv == DBL_EXP ||
+					frmt->conv == DBL_EXP2 ||
+					frmt->conv == DBL_NRML ||
+					frmt->conv == DBL_NRML2)
 		{
 			if (frmt->length == MODIF_L)
 				frmt->u_data.ld = va_arg(*arglst, long double);
