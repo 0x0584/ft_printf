@@ -21,15 +21,15 @@ void	ft_putbigint(t_bigint *big)
 		ft_putstr("(null)");
 		return ;
 	}
-	temp[1] = BIGINT_COUPLE_SIZE(big);
+	temp[1] = BINT_COUPLE_SIZE(big);
 	temp[0] = 0;
 	if (big->sign)
 		ft_putchar('-');
 	while (temp[0] < temp[1])
 	{
-		ft_putchar(BIGINT_LD(big, temp[0]) + '0');
-		if (BIGINT_IS_RD(big, temp[0]))
-			ft_putchar(BIGINT_RD(big, temp[0]) + '0');
+		ft_putchar(BINT_LD(big, temp[0]) + '0');
+		if (BINT_IS_RD(big, temp[0]))
+			ft_putchar(BINT_RD(big, temp[0]) + '0');
 		temp[0]++;
 	}
 }

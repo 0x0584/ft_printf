@@ -15,12 +15,14 @@
 
 #include "libft.h"
 
-# define BIGINT_MASK				0x0F
+# define BINT_MASK				0x0F
 
-# define BIGINT_COUPLE_SIZE(b)		(b->ten_exp / 2 + (b->ten_exp % 2 != 0))
-# define BIGINT_LD(b, c)			(b->couple_digits[c] >> 4)
-# define BIGINT_RD(b, c)			(b->couple_digits[c] & BIGINT_MASK)
-# define BIGINT_IS_RD(b, c)			(BIGINT_RD(b, c) != BIGINT_MASK)
+# define BINT_COUPLE_SIZE(b)		(b->ten_exp / 2 + (b->ten_exp % 2 != 0))
+# define BINT_LD(b, c)				(b->couple_digits[c] >> 4)
+# define BINT_RD(b, c)				(b->couple_digits[c] & BINT_MASK)
+# define BINT_IS_RD(b, c)			(BINT_RD(b, c) != BINT_MASK)
+# define BINT_SUB_LD(b1, b2, c)		(BINT_LD(b1, c) - BINT_LD(b2, c))
+# define BINT_SUB_RD(b1, b2, c)		(BINT_RD(b1, c) - BINT_RD(b2, c))
 
 struct s_biggy
 {
@@ -39,6 +41,7 @@ t_bigint		*bigint_init(t_int128 number);
 t_bigint		*bigint_clone(t_bigint *big);
 void			bigint_free(t_bigint **big_number);
 
+t_bigint		*bigint_cmp(t_bigint *b1, t_bigint *b2, bool get_max);
 t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2);
 t_bigint		*bigint_minof(t_bigint *big1, t_bigint *big2);
 

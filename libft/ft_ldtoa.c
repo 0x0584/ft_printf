@@ -14,7 +14,7 @@
 #include "float.h"
 #include "bigint.h"
 
-char	*ldtoa(long double ld, t_uint16 precision, bool round)
+char	*ft_ldtoa(long double ld, t_uint16 precision, bool round)
 {
 
 }

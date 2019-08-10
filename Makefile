@@ -6,7 +6,7 @@ all:
 	@echo "making libft.."
 	make -C ./libft/
 	gcc $(CFLAGS) -o $(EXEC) *.c $(LDFLAGS)
-	@echo "compilation done.\n"
+	@echo -e "compilation done.\n"
 
 test: all
 	./$(EXEC)

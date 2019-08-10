@@ -1,9 +1,16 @@
 * About
 
- ft_printf is a project which leads to the AI branch. sounds good!
+ft_printf is a project which leads to the AI branch. sounds good!
+This would be good, push_swap and Lem-in are /holy shit/ projects!
 
 * TODOs [10/17]
 
++ [ ] handle precision :: .n and .* (default 6)
++ [ ] handle # flags :: find all possible ways of alternate formatting.
++ [ ] *handle %f and %Lf* normal float formatting
++ [ ] *handle %a and %A* hexa formatting
++ [ ] *handle %e and %E* scientific formatting
++ [ ] fulfill the printf familly (aprintf, sprintf, snprintf)!!
 + [X] +get format string info+
 + [X] +handle relative args+
 + [X] +handle utf8+
@@ -12,15 +19,8 @@
 + [X] +handle 0 padding flag+
 + [X] +handle + at beginning of positive+
 + [X] +handle space at beginning of positive number+
-+ [ ] handle # flags
 + [X] +handle width+
 + [X] +handle left width+
-+ [ ] handle .n precision
-+ [ ] handle .* precision
-+ [ ] *handle %f and %Lf*
-+ [ ] *handle %a and %A*
-+ [ ] *handle %e and %E*
-+ [ ] fulfill the printf familly (aprintf, sprintf, snprintf)!!
 
 #+BEGIN_SRC shell
 $ git log --date=short --pretty=format:%ad | sort | uniq -c
