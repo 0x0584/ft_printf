@@ -24,6 +24,10 @@
  */
 static t_int8 dest[0xff];
 
+/* 
+   TODO: handle precision in INT
+*/
+
 char	*handle_unsigned_deci(t_frmt *frmt, int base)
 {
 	char *str;

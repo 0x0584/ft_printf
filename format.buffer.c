@@ -47,13 +47,37 @@ void			format_dbg(t_frmt *frmt)
 	printf("# flag %d\n-------------------\n", frmt->is_alter);
 }
 
-
 /*
  * TODO: YOU HAVE TO create a function to everything
  *
  * those ifs must all be some foo functions, put them in an
  * array or something..
  */
+
+char			*handle_conversion(t_frmt *frmt)
+{
+	char *s_frmt;
+	
+	s_frmt = NULL;
+	if (frmt->conv == SIGNED_DECI)
+		s_frmt =  handle_signed_deci(frmt);
+	else if (frmt->conv == U_OCTA)
+		s_frmt = handle_unsigned_deci(frmt, 8);
+	else if (frmt->conv == U_DECI)
+		s_frmt = handle_unsigned_deci(frmt, 10);
+	else if (frmt->conv == U_HEXA || frmt->conv == U_HEXA2)
+		s_frmt = handle_unsigned_deci(frmt, 16);
+	else if (frmt->conv == DBL_EXP || frmt->conv == DBL_EXP2)
+		s_frmt = handle_double(frmt, true);
+	else if (frmt->conv == DBL_NRML || frmt->conv == DBL_NRML2)
+		s_frmt = handle_double(frmt, false);
+	else if (frmt->conv == CHAR)
+		s_frmt = handle_char(frmt);
+	else if (frmt->conv == STRING || frmt->conv == STRING_FRMT)
+		s_frmt = handle_string(frmt);
+
+	return (s_frmt);
+}
 
 void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
@@ -68,40 +92,7 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		frmt = (t_frmt *)e->content;
 		format_dbg(frmt);
 
-		if (frmt->conv == SIGNED_DECI)
-			s_frmt =  handle_signed_deci(frmt);
-		else if (frmt->conv == U_OCTA)
-			s_frmt = handle_unsigned_deci(frmt, 8);
-		else if (frmt->conv == U_DECI)
-			s_frmt = handle_unsigned_deci(frmt, 10);
-		else if (frmt->conv == U_HEXA || frmt->conv == U_HEXA2)
-			s_frmt = handle_unsigned_deci(frmt, 16);
-		else if (frmt->conv == DBL_EXP || frmt->conv == DBL_EXP2)
-			s_frmt = handle_double(frmt, true);
-		else if (frmt->conv == DBL_NRML || frmt->conv == DBL_NRML2)
-			s_frmt = handle_double(frmt, false);
-		else if (frmt->conv == CHAR)
-			s_frmt = handle_char(frmt);
-		else if (frmt->conv == STRING || frmt->conv == STRING_FRMT)
-			s_frmt = handle_string(frmt);
-
-		/* TODO: create format_set_precision(char **, t_frmt *) */
-		/**
-		 * TODO: create format_alterform(t_frmt *)
-		 *
-		 * IDEA:
-		 * =====
-		 *
-		 * if value == 0 then ret
-		 * if format_isnumeric(frmt)
-		 *		call buffutils_pad(dest, "0", 1) for %o
-		 *		call buffutils_pad(dest, "0x", 2) for %x
-		 *		call buffutils_pad(dest, "0X", 1) for %X
-		 * else if format_isfloat(frmt)
-		 *		dest = ft_format_ieee_float(frmt, trailing_is_on) // default off
-		 */
-
-		/* padding with zero */
+		s_frmt = handle_conversion(frmt);
 
 		/* FIXME: free all buffutils() */
 		if (frmt->padding_on_left && frmt->width)
@@ -114,7 +105,8 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 			s_frmt = foo;
 			frmt->prefix_zeros = false;
 		}
-
+		
+		/* padding with zero */
 		if (frmt->width && !frmt->padding_on_left &&
 			!(format_isnumeric(frmt) && frmt->precision))
 			ft_strprepend(&s_frmt,
@@ -128,7 +120,6 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 										? format_getsign(frmt) : ' ' , 1));
 		/* format_alterform(&s_frmt, frmt); */
 		/* format_set_precision(&s_frmt, frmt); */
-
 
 		if (!s_frmt || !buff_append(buff, s_frmt, ft_strlen(s_frmt)))
 		{
