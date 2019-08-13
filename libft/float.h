@@ -32,6 +32,7 @@
 # define F32BIT_SIGN(f)			((f.i & F32BIT_MASK_SIGN) >> F32BIT_SHIFT_SIGN)
 
 # define F64BIT_MAN_SIZE		52
+# define F64BIT_BAIS			1023
 
 /* TODO: add long double too */
 /* TODO: find what are the special numbers */

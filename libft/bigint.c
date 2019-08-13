@@ -134,6 +134,14 @@ t_bigint		*bigint_init(t_int128 number)
 	return (big);
 }
 
+void			bigint_refdel(void *o)
+{
+	t_bigint **bigref;
+	
+	bigref = o;
+	bigint_free(bigref);
+}
+
 void			bigint_free(t_bigint **big_number)
 {
 	if (*big_number)

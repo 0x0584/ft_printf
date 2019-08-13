@@ -151,9 +151,10 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 						  buffutils_pad(frmt->prefix_signe
 										? format_getsign(frmt) : ' ' , 1));
 
+		/*
 		format_alterform(&tmp, frmt);
 		format_set_precision(&tmp, frmt);
-
+		*/
 		if (!tmp || !buff_append(buff, tmp, ft_strlen(tmp)))
 			ft_putendl("tmp was empty");
 		buff_write(1, buff);

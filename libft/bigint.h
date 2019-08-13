@@ -37,6 +37,7 @@ t_bigint		*bigint_new(const char *big_number);
 t_bigint		*bigint_init(t_int128 number);
 t_bigint		*bigint_clone(t_bigint *big);
 void			bigint_free(t_bigint **big_number);
+void			bigint_refdel(void *b);
 
 t_bigint		*bigint_maxof(t_bigint *big1, t_bigint *big2);
 t_bigint		*bigint_minof(t_bigint *big1, t_bigint *big2);

@@ -18,7 +18,7 @@
 
 #include "bigint.h"
 
-int main(int argc, char *argv[])
+int main(void)
 {
 	t_bigint *foo = bigint_pow(2, 1024);
 
@@ -39,5 +39,10 @@ int main(int argc, char *argv[])
 	bar = ft_dtoa(-2145.14512021, 8);
 	ft_putendl(bar);
 	ft_strdel(&bar);
+	
+	bar = ft_dtoa(0.0, 8);
+	ft_putendl(bar);
+	ft_strdel(&bar);
+
 	return 0;
 }
