@@ -65,6 +65,10 @@ void			ft_memdel(void **mem);
 void			ft_memdel_all(void (*del)(void *o), void *ptr, ...);
 void			ft_bzero(void *s, size_t n);
 
+void			ft_strinsert_at(char **str, char const *src, size_t index);
+void			ft_strreplace(char **str, char const *base, char const *to);
+void			ft_strctrim(char **str, char c);
+void			ft_strtoupper(char **str);
 char			*ft_strnew(size_t size);
 char			*ft_strdup(const char *str);
 char			*ft_strrev(const char *str);
@@ -72,6 +76,7 @@ char			*ft_strcpy(char *dst, const char *src);
 char			*ft_strncpy(char *dst, const char *src, size_t len);
 char			*ft_strcat(char *dst, const char *src);
 char			*ft_strchr(const char *s, int c);
+size_t			ft_strichr(const char *s, char c);
 char			*ft_strrchr(const char *s, int c);
 char			*ft_strncat(char *dst, const char *src, size_t len);
 char			*ft_strstr(const char *s, const char *to_find);
@@ -149,9 +154,9 @@ t_int16			ft_utf8tostr_ch(t_int8 *dest, t_int32 wch);
 
 char			*ft_lltoa(t_int128 n);
 char			*ft_itoa(int n);
-char			*ft_ftoa(float f, t_uint16 precision);
-char			*ft_dtoa(double d, t_uint16 precision);
-char			*ft_ldtoa(long double ld, t_uint16 precision);
+char			*ft_ftoa(float f);
+char			*ft_dtoa(double d);
+char			*ft_ldtoa(long double ld);
 
 char			*ft_ltoa_hex(long l);
 

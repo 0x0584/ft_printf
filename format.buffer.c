@@ -109,7 +109,7 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		else if (format_isfloat(frmt))
 		{
 			/* FIXME: check if this is correct */
-			tmp = (char *)format_ieee_float(frmt);
+			tmp = (char *)handle_double(frmt);			
 		}
 		else
 			tmp = NULL;

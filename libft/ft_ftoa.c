@@ -45,9 +45,8 @@
 		2^{exp - BAIS}$.
 */
 
-char	*ft_ftoa(float f, t_uint16 precision)
+char	*ft_ftoa(float f)
 {
 	(void)f;
-	(void)precision;
 	return (NULL);
 }

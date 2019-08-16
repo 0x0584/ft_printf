@@ -20,33 +20,51 @@
 
 int main(void)
 {
-	/* t_bigint *foo = bigint_pow(2, 1024); */
+	/* t_uint64 bits = 0x7ff0000000000000; */
+	/* char *bar = ft_dtoa(*(double *)&bits, 8); */
+	/* ft_putendl(bar); */
+	/* ft_strdel(&bar); */
 
-	/* ft_putbigint(foo); */
+	/* bar = ft_dtoa(-0.652240, 9); */
+	/* ft_putendl(bar); */
+	/* ft_strdel(&bar); */
 
-	/* ft_putendl("\n ----------- \n"); */
-	/* printf("%.45lf\n", 9.2101978415421212445); */
-
-	/* t_bigint *foo = bigint_add(20, 100); */
-	/* ft_putendl(foo->base); */
-	/* bigint_free(&foo); */
+	/* bar = ft_dtoa(-2145.14512021, 9); */
+	/* ft_putendl(bar); */
+	/* ft_strdel(&bar); */
 	
-	t_uint64 bits = 0x7ff0000000000000;
-	char *bar = ft_dtoa(*(double *)&bits, 8);
-	ft_putendl(bar);
-	ft_strdel(&bar);
+	/* bar = ft_dtoa(0.0, 9); */
+	/* ft_putendl(bar); */
+	/* ft_strdel(&bar); */
 
-	bar = ft_dtoa(-0.652240, 8);
-	ft_putendl(bar);
-	ft_strdel(&bar);
-
-	bar = ft_dtoa(-2145.14512021, 8);
-	ft_putendl(bar);
-	ft_strdel(&bar);
+	printf("%.0f\n", 1.987);
+	printf("%.1f\n", 1.987);
+	printf("%.2f\n", 1.987);
+	printf("%.3f\n", 1.987);
+	printf("%.4f\n", 1.987);
 	
-	bar = ft_dtoa(0.0, 8);
-	ft_putendl(bar);
-	ft_strdel(&bar);
-
+	printf("%.0f\n", 23.5);
+	printf("%.0f\n", 24.5);
+	printf("%.0f\n", 25.5);
+	printf("%.0f\n", 26.5);
+	
+	char *foo;
+	foo = ft_strdup("ar");
+	ft_strreplace(&foo, "art", "");
+	ft_putendl(foo);
+	
+	ft_strdel(&foo);
+	
+	/* printf("%.2Le", 5990909.688898973487L); */
+	
+	foo = ft_dtoa(3.1415);
+	ft_putendl(foo);
+	ft_strdel(&foo);
+	
+	/* t_bigint *big = bigint_add(1150, 60); */
+	/* ft_putstr(big->base); */
+	/* getchar(); */
+	ft_dprintf(1, "this is %e", 388.1415);
+	
 	return 0;
 }

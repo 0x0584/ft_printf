@@ -17,10 +17,8 @@ bool	format_isnumeric(t_frmt *frmt)
 	t_int8 c;
 
 	c = frmt->conv;
-	return (c == SIGNED_DECI ||
-			c == UNSIGNED_OCTA ||
-			c == UNSIGNED_DECI ||
-			c == UNSIGNED_HEXA ||
+	return (c == SIGNED_DECI || c == UNSIGNED_OCTA ||
+			c == UNSIGNED_DECI || c == UNSIGNED_HEXA ||
 			c == UNSIGNED_HEXA2);
 }
 
@@ -29,10 +27,10 @@ bool	format_isfloat(t_frmt *frmt)
 	t_int8 c;
 
 	c = frmt->conv;
-	return (c == DOUBLE_EXP ||
-			c == DOUBLE_EXP2 ||
-			c == DOUBLE_NORMAL ||
-			c == DOUBLE_NORMAL2);
+	return (c == DOUBLE_EXP || c == DOUBLE_EXP2 ||
+			c == DOUBLE_NORMAL || c == DOUBLE_NORMAL2 ||
+			c == DOUBLE_HEXA || c == DOUBLE_HEXA2 ||
+			c == DOUBLE_G || c == DOUBLE_G2);
 }
 
 bool	format_getsign(t_frmt *frmt)
@@ -43,14 +41,6 @@ bool	format_getsign(t_frmt *frmt)
 		   is it the ifs again!! something is wrong here!! */
 	}
 	return (!1);
-}
-
-char	*format_ieee_float(t_frmt *frmt)
-{
-	return NULL;
-	return ((frmt->length == MODIF_LL)
-			? ft_dtoa(frmt->u_data.ld, frmt->precision)
-			: ft_ldtoa(frmt->u_data.d, frmt->precision));
 }
 
 void	format_alterform(char **astr, t_frmt *frmt)

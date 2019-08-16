@@ -71,6 +71,10 @@ typedef struct	s_format
 		DOUBLE_EXP2,
 		DOUBLE_NORMAL,
 		DOUBLE_NORMAL2,
+		DOUBLE_G,
+		DOUBLE_G2,
+		DOUBLE_HEXA,
+		DOUBLE_HEXA2,
 		CHAR,
 		STRING,
 		POINTER,
@@ -128,5 +132,7 @@ bool			format_isnumeric(t_frmt *frmt);
 bool			format_isfloat(t_frmt *frmt);
 bool			format_getsign(t_frmt *frmt);
 char			*format_ieee_float(t_frmt *frmt);
+
+char			*handle_double(t_frmt *frmt);
 
 #endif

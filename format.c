@@ -63,7 +63,7 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	if (*fmt[0] != '$')
 	{
 		frmt.width = frmt.argindex;
-		frmt.argindex = 0;
+		frmt.argindex = -1;
 	}
 	else
 		*fmt += 1;

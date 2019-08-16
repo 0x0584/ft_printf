@@ -27,7 +27,7 @@
 /*
 **
 ** big[4] indexes:
-** 
+**
 ** 0 - five power
 ** 1 - ten power
 ** 2 - five power times the man sum
@@ -39,12 +39,12 @@ char		*get_double_below_zero(t_float64 dbl, t_bigint *msum)
 	char *buff;
 	t_bigint *big[4];
 	t_bigint *result;
-	
+
 	big[0] = bigint_pow(5, ABS(dbl.ieee.e - F64BIT_BAIS));
 	big[1] = bigint_pow(10, msum->ten_exp);
 	big[2] = bigint_bigmul(big[0], msum);
 	big[3] = bigint_bigmul(big[0], big[1]);
-	result = bigint_bigadd(big[2], big[3]);	
+	result = bigint_bigadd(big[2], big[3]);
 	buff = ft_strnew(result->ten_exp + 2 + dbl.ieee.s);
 	ASSERT_DO(dbl.ieee.s, *buff = '-');
 	ft_strncpy(buff + dbl.ieee.s, "0.", 2);
@@ -54,7 +54,7 @@ char		*get_double_below_zero(t_float64 dbl, t_bigint *msum)
 	return (buff);
 }
 
-/* 
+/*
 ** big array indexes
 **
 ** 0 - two_exp
@@ -68,19 +68,20 @@ char		*get_double_above_zero(t_float64 dbl, t_bigint *msum)
 	char *buff;
 	char *int_part;
 	t_bigint *big[4];
-	
+
 	big[0] = bigint_pow(2, ABS(dbl.ieee.e - F64BIT_BAIS));
 	big[1] = bigint_bigmul(msum, big[0]);
-	int_part = ft_strsub(big[1]->base, 0, EXP_DIFF(big[1], msum) - 1);
+	int_part = ft_strsub(big[1]->base, 0, EXP_DIFF(big[1], msum));
 	big[2] = bigint_new(int_part);
 	big[3] = bigint_bigadd(big[2], big[0]);
 	buff = ft_strnew(ft_strlen(big[1]->base + EXP_DIFF(big[1], msum))
 						+ big[3]->ten_exp + dbl.ieee.s + 1);
-	ASSERT_DO(dbl.ieee.s, *buff = '-');
+	if (dbl.ieee.s) 
+		*buff = '-';
 	ft_strncpy(buff + dbl.ieee.s, big[3]->base, big[3]->ten_exp);
 	buff[big[3]->ten_exp + dbl.ieee.s] = '.';
-	ft_strcpy(buff + big[3]->ten_exp + dbl.ieee.s + 1, 
-				big[1]->base + EXP_DIFF(big[1], msum) - 1);
+	ft_strcpy(buff + big[3]->ten_exp + dbl.ieee.s + 1,
+				big[1]->base + EXP_DIFF(big[1], msum));
 	ft_memdel_all(bigint_refdel, &big[0], &big[1], &big[2], &big[3], NULL);
 	ft_strdel(&int_part);
 	return (buff);
@@ -88,19 +89,19 @@ char		*get_double_above_zero(t_float64 dbl, t_bigint *msum)
 
 /*
 ** Indexes in tmp array
-** 
+**
 ** 0 - five power
 ** 1 - ten power
 ** 2 - prod of ten x five
 ** 3 - temp
 */
 
-static t_bigint	*get_mantissa_sum(t_float64 dbl, t_uint64 mansize)
+t_bigint	*get_mantissa_sum(t_float64 dbl, t_uint64 mansize)
 {
 	t_uint32 i;
 	t_bigint *big[4];
 	t_bigint *msum;
-	
+
 	msum = bigint_init(0);
 	while (i < mansize)
 	{
@@ -111,25 +112,25 @@ static t_bigint	*get_mantissa_sum(t_float64 dbl, t_uint64 mansize)
 			big[2] = bigint_bigmul(big[0], big[1]);
 			big[3] = msum;
 			msum = bigint_bigadd(msum, big[2]);
-			ft_memdel_all(bigint_refdel, &big[0], &big[1], 
+			ft_memdel_all(bigint_refdel, &big[0], &big[1],
 							&big[2], &big[3], NULL);
 		}
 	}
 	return (msum);
 }
 
-char		*ft_dtoa(double d, t_uint16 precision)
+char		*ft_dtoa(double d)
 {
-	char *buff;
-	t_float64 dbl;
-	t_bigint *msum;
+	t_float64	dbl;
+	t_bigint	*msum;
+	char		*buff;
 
 	dbl.d = d;
-	(void)	precision;
 	ASSERT_RET(!dbl.ieee.s && !dbl.ieee.m && !dbl.ieee.e, ft_strdup("0.0"));
 	ASSERT_RET(dbl.ieee.e == 0x7FF, dbl.ieee.m ? ft_strdup("nan") :
 									ft_strdup(dbl.ieee.s ? "-inf" : "inf"));
-	msum = get_mantissa_sum(dbl, F64BIT_MAN_SIZE);	
+	ft_putendl("this");
+	msum = get_mantissa_sum(dbl, F64BIT_MAN_SIZE);
 	if (dbl.ieee.e - 1023 < 0)
 		buff = get_double_below_zero(dbl, msum);
 	else

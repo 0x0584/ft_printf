@@ -14,7 +14,9 @@
 #include "float.h"
 #include "bigint.h"
 
-char	*ldtoa(long double ld, t_uint16 precision)
+char	*ft_ldtoa(long double ld)
 {
-
+	(void)ld;
+	
+	return (NULL);
 }

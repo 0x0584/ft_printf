@@ -50,6 +50,7 @@ int		check_modifier(char **fmt, t_frmt *frmt)
 			len = (*(bar + 1) == 'h') ? MODIF_HH : MODIF_H;
 		else if (*bar == 'l')
 			len = (*(bar + 1) == 'l') ? MODIF_LL : MODIF_L;
+		/* FIXME: handle L for long double */
 		if (len != MODIF_DEFAULT)
 			*fmt = bar + 1 + (len == MODIF_HH || len == MODIF_LL);
 		frmt->length = len;
