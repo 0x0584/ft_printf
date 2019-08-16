@@ -88,6 +88,10 @@ int		check_conversion(char **fmt, t_frmt *frmt)
 		frmt->conv = (*bar == 'E' ? DOUBLE_EXP2 : DOUBLE_EXP);
 	else if (*bar == 'f' || *bar == 'F')
 		frmt->conv = (*bar == 'F' ? DOUBLE_NORMAL2 : DOUBLE_NORMAL);
+	else if (*bar == 'g' || *bar == 'G')
+		frmt->conv = (*bar == 'G' ? DOUBLE_G2 : DOUBLE_G);
+	else if (*bar == 'a' || *bar == 'A')
+		frmt->conv = (*bar == 'A' ? DOUBLE_HEXA2 : DOUBLE_HEXA);	
 	else if (*bar == 'c' || *bar == 'C')
 	{
 		frmt->length = (*bar == 'C' ? MODIF_L : frmt->length);

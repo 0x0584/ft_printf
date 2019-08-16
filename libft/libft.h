@@ -157,7 +157,7 @@ char			*ft_itoa(int n);
 char			*ft_ftoa(float f);
 char			*ft_dtoa(double d);
 char			*ft_ldtoa(long double ld);
-
 char			*ft_ltoa_hex(long l);
+char			*ft_uitoa_base(unsigned long nb, const char *base);
 
 #endif

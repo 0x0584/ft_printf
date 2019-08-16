@@ -46,7 +46,8 @@ char		*get_double_below_zero(t_float64 dbl, t_bigint *msum)
 	big[3] = bigint_bigmul(big[0], big[1]);
 	result = bigint_bigadd(big[2], big[3]);
 	buff = ft_strnew(result->ten_exp + 2 + dbl.ieee.s);
-	ASSERT_DO(dbl.ieee.s, *buff = '-');
+	if (dbl.ieee.s)
+		*buff = '-';
 	ft_strncpy(buff + dbl.ieee.s, "0.", 2);
 	ft_strncpy(buff + 2 + dbl.ieee.s, result->base, result->ten_exp);
 	ft_memdel_all(bigint_refdel, &big[0], &big[1], &big[2],
@@ -129,9 +130,8 @@ char		*ft_dtoa(double d)
 	ASSERT_RET(!dbl.ieee.s && !dbl.ieee.m && !dbl.ieee.e, ft_strdup("0.0"));
 	ASSERT_RET(dbl.ieee.e == 0x7FF, dbl.ieee.m ? ft_strdup("nan") :
 									ft_strdup(dbl.ieee.s ? "-inf" : "inf"));
-	ft_putendl("this");
 	msum = get_mantissa_sum(dbl, F64BIT_MAN_SIZE);
-	if (dbl.ieee.e - 1023 < 0)
+	if ((dbl.ieee.e - 1023) < 0)
 		buff = get_double_below_zero(dbl, msum);
 	else
 		buff = get_double_above_zero(dbl, msum);

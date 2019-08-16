@@ -12,6 +12,8 @@
 
 #include "format.h"
 
+static bool g_sort_list = true;
+
 static int		hungry_getnbr(char **str)
 {
 	char *bar;
@@ -64,6 +66,7 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	{
 		frmt.width = frmt.argindex;
 		frmt.argindex = -1;
+		g_sort_list = false;
 	}
 	else
 		*fmt += 1;
@@ -82,7 +85,8 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 	t_list	*e;
 	t_frmt	*frmt;
 
-	ft_lst_mergesort(alstfrmt, cmp_by_argindex);
+	if (g_sort_list)
+		ft_lst_mergesort(alstfrmt, cmp_by_argindex);
 	e = *alstfrmt;
 	while (e && (frmt = (t_frmt *)e->content))
 	{
@@ -113,9 +117,13 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 				frmt->u_data.ui = va_arg(*arglst, unsigned int);
 		}
 		else if (frmt->conv == DOUBLE_EXP ||
-					frmt->conv == DOUBLE_EXP2 ||
-					frmt->conv == DOUBLE_NORMAL ||
-					frmt->conv == DOUBLE_NORMAL2) {
+				 frmt->conv == DOUBLE_EXP2 ||
+				 frmt->conv == DOUBLE_NORMAL ||
+				 frmt->conv == DOUBLE_NORMAL2 || 
+				 frmt->conv == DOUBLE_G || 
+				 frmt->conv == DOUBLE_G2 || 
+				 frmt->conv == DOUBLE_HEXA || 
+				 frmt->conv == DOUBLE_HEXA2) {
 			if (frmt->length == MODIF_L)
 				frmt->u_data.ld = va_arg(*arglst, long double);
 			else
@@ -134,6 +142,7 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 	}
 	ft_putendl("------ end of getting data -------");
 	/* getchar(); */
-	ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
+	if (g_sort_list)
+		ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
 	return (1);
 }

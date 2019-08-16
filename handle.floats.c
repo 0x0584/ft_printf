@@ -1,8 +1,39 @@
 #include "format.h"
+#include "float.h"
 
-/* TODO: check the type if e or f or a or g */
+#define HEX "0123456789abcdef"
 
-static char		*double_as_exp(char *dbl)
+static char		*ldbl_as_hex(t_float128 ld)
+{
+	(void)ld;
+	return NULL;
+}
+
+static char		*dbl_as_hex(t_float64 dbl)
+{
+	char *result;
+	char *tmp;
+
+	result = NULL;
+	tmp = ft_itoa(dbl.ieee.e - F64BIT_BAIS);
+	if (*tmp != '-')
+		ft_strinsert_at(&tmp, "+", 0);
+	ft_strinsert_at(&tmp, "p", 1);
+	result = tmp;
+	tmp = ft_uitoa_base(dbl.ieee.m | 0x10000000000000, HEX);
+	/* some what need to pad with zeros i guess */
+	ft_strinsert_at(&tmp, ".", 1 + (*tmp == '-'));
+	if (tmp[ft_strlen(tmp) - 1] == '.')
+		ft_strinsert_at(&tmp, "0", ft_strlen(tmp));
+	ft_strinsert_at(&result, tmp, 0);
+	ft_strinsert_at(&result, "0x", 0);
+	if (dbl.ieee.s)
+		ft_strinsert_at(&result, "-", 0);
+	ft_strdel(&tmp);
+	return (result);
+}
+
+static char		*dbl_as_exp(char *dbl)
 {
 	char	*result;
 	int		i;
@@ -10,7 +41,7 @@ static char		*double_as_exp(char *dbl)
 
 	i = 0;
 	result = NULL;
-	
+
 	/* This means that we have something like 0.xxxx */
 	if ((exp = ft_strichr(dbl, '.')) == 1)
 		while (dbl[i + 2] == 0)
@@ -29,26 +60,27 @@ static char		*double_as_exp(char *dbl)
 	return (result);
 }
 
-static char		*double_as_hex(char *dbl)
-{
-	(void)dbl;
-	return NULL;
-}
-
 static char		*handle_std_double(t_frmt *frmt)
 {
 	char	*buff;
 	char	*result;
+	t_float64 d;
+	t_float128 ld;
 
 	result = NULL;
+	/* TODO: hexa does not need duble as string, so this must change! */
 	buff = (frmt->length == MODIF_L ?
 			ft_ldtoa(frmt->u_data.ld) : ft_dtoa(frmt->u_data.d));
-	ft_putendl(buff);
-	(void)getchar();
 	if (frmt->conv == DOUBLE_EXP || frmt->conv == DOUBLE_EXP2)
-	    result = double_as_exp(buff);
+	    result = dbl_as_exp(buff);
 	else if (frmt->conv == DOUBLE_HEXA || frmt->conv == DOUBLE_HEXA2)
-		result = double_as_hex(buff);
+	{
+		if (frmt->length == MODIF_L)
+			ld.ld = frmt->u_data.ld;
+		else
+			d.d = frmt->u_data.d;
+		result = (frmt->length == MODIF_L ? ldbl_as_hex(ld) : dbl_as_hex(d));
+	}
 	if (!result)
 		return (buff);
 	ft_strdel(&buff);

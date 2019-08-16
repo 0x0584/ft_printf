@@ -39,25 +39,39 @@
 
 union		u_ieee754_float
 {
-	float			f;
-	t_uint32		i;
-	struct	ieee_float {
+	float				f;
+	t_uint32			i;
+	struct	ieee_float 
+	{
 		t_uint32	m:23;
 		t_uint8		e:8;
 		t_uint8		s:1;
-	} ieee;
+	}					ieee;
 };
 
 union		u_ieee754_double
 {
-	double			d;
-	t_uint64		i;
+	double				d;
+	t_uint64			i;
 	struct	ieee_double
 	{
 		t_uint64	m:52;
 		t_uint16	e:11;
 		t_uint8		s:1;
-	}		ieee;
+	}					ieee;
 };
 
+union		u_ieee754_long_double
+{
+	long double			ld;
+	t_uint128			i;
+	
+	struct	ieee_long_double
+	{
+		t_uint64	m1:64;
+		t_uint64	m2:48;
+		t_uint16	e:15;
+		t_uint8		s:1;
+	}					ieee;
+};
 #endif

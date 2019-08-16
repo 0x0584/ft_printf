@@ -37,34 +37,45 @@ int main(void)
 	/* ft_putendl(bar); */
 	/* ft_strdel(&bar); */
 
-	printf("%.0f\n", 1.987);
-	printf("%.1f\n", 1.987);
-	printf("%.2f\n", 1.987);
-	printf("%.3f\n", 1.987);
-	printf("%.4f\n", 1.987);
+	/* printf("%.0f\n", 1.987); */
+	/* printf("%.1f\n", 1.987); */
+	/* printf("%.2f\n", 1.987); */
+	/* printf("%.3f\n", 1.987); */
+	/* printf("%.4f\n", 1.987); */
 	
-	printf("%.0f\n", 23.5);
-	printf("%.0f\n", 24.5);
-	printf("%.0f\n", 25.5);
-	printf("%.0f\n", 26.5);
+	/* printf("%.0f\n", 23.5); */
+	/* printf("%.0f\n", 24.5); */
+	/* printf("%.0f\n", 25.5); */
 	
-	char *foo;
-	foo = ft_strdup("ar");
-	ft_strreplace(&foo, "art", "");
-	ft_putendl(foo);
+	/* char *foo; */
+	/* foo = ft_strdup("ar"); */
+	/* ft_strreplace(&foo, "art", ""); */
+	/* ft_putendl(foo); */
 	
-	ft_strdel(&foo);
+	/* ft_strdel(&foo); */
 	
-	/* printf("%.2Le", 5990909.688898973487L); */
+	/* /\* printf("%.2Le", 5990909.688898973487L); *\/ */
 	
-	foo = ft_dtoa(3.1415);
-	ft_putendl(foo);
-	ft_strdel(&foo);
+	/* foo = ft_dtoa(0.0067); */
+	/* ft_putendl(foo); */
+	/* ft_strdel(&foo); */
+	
+	/* foo = ft_uitoa_base(255, "0123456789abcdef"); */
+	/* ft_putendl(foo); */
+	/* ft_strdel(&foo); */
+	
 	
 	/* t_bigint *big = bigint_add(1150, 60); */
 	/* ft_putstr(big->base); */
 	/* getchar(); */
-	ft_dprintf(1, "this is %e", 388.1415);
 	
+	
+	char *foo = ft_dtoa(-3.1415);
+	ft_putendl(foo);
+	ft_strdel(&foo);
+	getchar();
+	ft_dprintf(1, "mine: %a", -3.1415);
+	ft_putendl("\n---------------");
+	printf("theirs: %a\n", -3.1415);	
 	return 0;
 }

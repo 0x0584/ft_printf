@@ -44,6 +44,7 @@ typedef unsigned long long			t_uint128;
 
 typedef union u_ieee754_float		t_float32;
 typedef union u_ieee754_double		t_float64;
+typedef union u_ieee754_long_double	t_float128;
 
 typedef struct s_biggy				t_bigint;
 
