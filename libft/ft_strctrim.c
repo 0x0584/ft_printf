@@ -1,17 +1,16 @@
 #include "libft.h"
 
-void	ft_strctrim(char **str, char c)
+void	ft_strctrim(char **str, char c, bool left)
 {
-	size_t	index;
-	char	*bar;
-	
+	char *head;
+	char *tail;
+
 	if (!str || !*str || !c)
 		return ;
-	index = 0;
-	bar = *str;
-	while (bar[index] == c)
-		index++;
-	bar = (bar[index] ? ft_strdup(bar + index) : ft_strnew(0));
+	head = *str;
+	tail = head + ft_strlen(*str);
+	while ((left ? *head : *tail) == c)
+		(void)(left ? head++ : tail--);
 	ft_strdel(str);
-	*str = bar;
+	*str = ft_strrdup(head, tail);
 }

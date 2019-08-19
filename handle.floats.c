@@ -1,8 +1,6 @@
 #include "format.h"
 #include "float.h"
 
-#define HEX "0123456789abcdef"
-
 static char		*ldbl_as_hex(t_float128 ld)
 {
 	(void)ld;
@@ -21,7 +19,6 @@ static char		*dbl_as_hex(t_float64 dbl)
 	ft_strinsert_at(&tmp, "p", 1);
 	result = tmp;
 	tmp = ft_uitoa_base(dbl.ieee.m | 0x10000000000000, HEX);
-	/* some what need to pad with zeros i guess */
 	ft_strinsert_at(&tmp, ".", 1 + (*tmp == '-'));
 	if (tmp[ft_strlen(tmp) - 1] == '.')
 		ft_strinsert_at(&tmp, "0", ft_strlen(tmp));
@@ -55,7 +52,7 @@ static char		*dbl_as_exp(char *dbl)
 	ft_strinsert_at(&result, "e", 0);
 	ft_strinsert_at(&result, dbl, 0);
 	ft_strreplace(&result, ".", "");
-	ft_strctrim(&result, '0');
+	ft_strctrim(&result, '0', true);
 	ft_strinsert_at(&result, ".", 1);
 	return (result);
 }

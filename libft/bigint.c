@@ -21,7 +21,7 @@ static char		*escape_unwanted(const char *str)
 	while (str[index] && str[index] != '-'
 				&& (!ft_isdigit(str[index])
 					|| (str[index] == '0' && str[index + 1])))
-		index++;	
+		index++;
 	return ((char *)str + index);
 }
 
@@ -57,14 +57,14 @@ t_bigint        *bigint_new(const char *big_number)
 		biggy++;
 	}
     big->ten_exp = ft_strlen(biggy);
-	big->base = ft_strdup(biggy);	
+	big->base = ft_strdup(biggy);
     return (big);
 }
 
 t_bigint		*bigint_cmp(t_bigint *b1, t_bigint *b2, t_bigint_cmp cmp)
 {
 	t_bigint *big[2];
-	
+
 	UNLESS_RET(b1 && b2, NULL);
 	ASSERT_RET(b1->ten_exp > b2->ten_exp, b1);
 	ASSERT_RET(b2->ten_exp > b1->ten_exp, b2);

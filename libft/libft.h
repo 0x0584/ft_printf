@@ -42,6 +42,12 @@
 # define GET_DIGI(i)						((i) - '0')
 # define TO_DIGI(i)							((i) + '0')
 
+# define HEX								"0123456789abcdef"
+# define HEX2								"0123456789ABCDEF"
+# define DEC								"0123456789"
+# define OCT								"01234567"
+# define BIN								"01"
+
 /*
 ** FIXME: use va_arg with all free functions
 */
@@ -67,7 +73,8 @@ void			ft_bzero(void *s, size_t n);
 
 void			ft_strinsert_at(char **str, char const *src, size_t index);
 void			ft_strreplace(char **str, char const *base, char const *to);
-void			ft_strctrim(char **str, char c);
+void			ft_strpad(char **astr, char c, size_t n, bool left);
+void			ft_strctrim(char **str, char c, bool left);
 void			ft_strtoupper(char **str);
 char			*ft_strnew(size_t size);
 char			*ft_strdup(const char *str);

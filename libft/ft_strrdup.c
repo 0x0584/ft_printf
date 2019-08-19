@@ -17,6 +17,8 @@ char	*ft_strrdup(const char *head, const char *tail)
 	char	*buff;
 	size_t	length;
 
+	if (head > tail)
+		return NULL;
 	length = 1;
 	while (head + length <= tail)
 		length++;
