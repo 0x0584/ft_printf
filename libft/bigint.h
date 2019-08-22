@@ -13,68 +13,36 @@
 #ifndef BIGINT_H
 # define BIGINT_H
 
-#include "libft.h"
+# include "libft.h"
 
-#define EXP_DIFF(a, b)				(a->ten_exp - b->ten_exp)
+# define BLOCK_MAX					64
+# define BLOCK_SIZE					32
+# define BLOCK_MASK					0xFFFFFFFFUL
 
-/*
-** FIXME: implement a full bigint library
-**
-** NOTE: This only works on positive integers for the moment!
-**		 Will finish this at some point in the near future. 
-*/
-
-typedef struct	s_biggy
+struct s_biggy
 {
-	char			*base;
-	t_uint32		ten_exp;
-	bool			sign;
-}				t_bigint;
+	t_uint64	size;
+	t_uint32	block[BLOCK_MAX];
+};
 
-typedef enum	e_bigint_compare
-{
-	BIGINT_MAXOF, BIGINT_MINOF
-}				t_bigint_cmp;
+t_bigint	bigint_init(uintmax_t val);
+t_bigint	bigint_dup(t_bigint u);
+t_uint64	bigint_size(t_bigint u);
 
+int			bigint_cmp(t_bigint u, t_bigint v);
+t_bigint	bigint_maxof(t_bigint u, t_bigint v);
+t_bigint	bigint_minof(t_bigint u, t_bigint v);
 
-/*
-** bigint.c -- BinInt allocation
-*/
+t_bigint	bigint_add(t_bigint u, t_bigint v);
+t_bigint	bigint_sub(t_bigint u, t_bigint v);
+t_bigint	bigint_mul(t_bigint u, t_bigint v);
+t_bigint	bigint_bls(t_bigint u, t_uint32 shift);
 
-t_bigint		*bigint_new(const char *big_number);
-void			bigint_free(t_bigint **big_number);
-t_bigint		*bigint_cmp(t_bigint *b1, t_bigint *b2, t_bigint_cmp cmp);
+void		bigint_inadd(t_bigint *u, t_bigint v);
+void		bigint_insub(t_bigint *u, t_bigint v);
+void		bigint_inmul(t_bigint *u, t_bigint v);
+void		bigint_inbls(t_bigint *u, t_uint32 shift);
 
-
-/*
-** bigint.op -- BigInt Operations
-*/
-
-t_bigint		*bigint_bigadd(t_bigint *b1, t_bigint *b2);
-t_bigint		*bigint_bigmul(t_bigint *b1, t_bigint *b2);
-t_bigint		*bigint_bigpow(t_bigint *b1, t_int32 power);
-
-/* 
-** bigint.other.c -- Other function fo BigInt
-*/
-
-t_bigint		*bigint_init(t_int128 number);
-t_bigint		*bigint_add(t_int128 b1, t_int128 b2);
-t_bigint		*bigint_mul(t_int128 b1, t_int128 b2);
-t_bigint		*bigint_pow(t_int128 b1, t_int128 power);
-void			bigint_refdel(void *b);
-
-/*
-** t_bigint		*bigint_sub(t_int128 b1, t_int128 b2); 
-** t_bigint		*bigint_bigsub(t_bigint *b1, t_bigint *big2);
-*/
-
-/*
-** bigint.sop.c -- string helpers for bigint.op.c
-*/
-
-char			*mul_as_str(const char *s1, const char *s2);
-char			*sum_as_str(const char *s1, const char *s2);
-char			*sub_as_str(const char *s1, const char *s2);
+t_bigint	bigint_pow10(t_uint32 exp);
 
 #endif
