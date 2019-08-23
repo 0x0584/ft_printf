@@ -78,12 +78,32 @@ int main(void)
 	/* ft_putendl("\n---------------"); */
 	/* printf("theirs: %a\n", -3.1415); */
 
-	t_bigint foo = bigint_init(5);
+	t_bigint foo = bigint_init(5),
+		bar = bigint_init(4);
 
-	printf("size: %ld\n", foo.size);
-	foo = bigint_add(foo, foo);
-	printf("size: %ld\n", foo.size);
-	bigint_inbls(&foo, 3);
-	printf("size: %ld\n", foo.size);
+	/* (void)printf("foo > %d\n", foo.block[0]); */
+	/* (void)printf("bar > %d\n", bar.block[0]); */
+
+	/* bigint_inadd(&foo, bar); */
+	/* bigint_inadd(&foo, bar); */
+
+	bigint_inmul(&foo, foo);
+	bigint_inmul(&foo, foo);
+
+	/* bigint_inbls(&foo, 1); */
+	/* bigint_inbls(&foo, 1); */
+	/* bigint_inbls(&foo, 1); */
+	/* bigint_inbls(&foo, 1); */
+	(void)printf("\nfoo > %d\n", foo.block[0]);
+	(void)printf("bar > %d\n", bar.block[0]);
+
+	t_bigint ten = bigint_pow(bar, 2);
+	(void)printf("ten: %d", ten.block[0]);
+
+	/* foo = bigint_add(foo, foo); */
+	/* printf("size: %ld\n", foo.size); */
+	/* bigint_inbls(&foo, 3); */
+	/* printf("size: %ld\n", foo.size); */
+
 	return 0;
 }

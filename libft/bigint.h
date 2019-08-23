@@ -43,6 +43,6 @@ void		bigint_insub(t_bigint *u, t_bigint v);
 void		bigint_inmul(t_bigint *u, t_bigint v);
 void		bigint_inbls(t_bigint *u, t_uint32 shift);
 
-t_bigint	bigint_pow10(t_uint32 exp);
+t_bigint	bigint_pow(t_bigint u, t_uint32 exp);
 
 #endif

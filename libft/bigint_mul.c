@@ -14,10 +14,9 @@ static t_bigint		bigint_intmul(t_bigint big, t_uint32 num)
 	carry = 0UL;
 	while (i < big.size)
 	{
-		muled = (t_uint64)big.block[i] * (t_uint64)num + carry;
-		result.block[i] = (t_uint32)(muled & BLOCK_MASK);
-		carry = muled >> BLOCK_SIZE ;
-		i++;
+		muled = carry + (t_uint64)big.block[i] * (t_uint64)num;
+		result.block[i++] = (t_uint32)(muled & BLOCK_MASK);
+		carry = muled >> BLOCK_SIZE;
 	}
 	if (carry && i < BLOCK_MAX)
 		result.block[i] = (t_uint32)(carry & BLOCK_MASK);
@@ -31,15 +30,16 @@ t_bigint			bigint_mul(t_bigint u, t_bigint v)
 	t_bigint result;
 	t_uint32 shift;
 
+	shift = 0;
 	order[0] = bigint_minof(u, v);
 	order[1] = bigint_maxof(u, v);
 	ft_bzero(&result, sizeof(t_bigint));
 	while (shift < order[0].size)
 	{
 		bigint_inadd(&result,
-					 bigint_bls(bigint_intmul(order[1],
-											  order[0].block[shift]),
-								shift * BLOCK_SIZE));
+						bigint_bls(bigint_intmul(order[1],
+													order[0].block[shift]),
+									shift * BLOCK_SIZE));
 		shift++;
 	}
 	return (result);
