@@ -23,6 +23,12 @@
 
 #include "types.h"
 
+# define BASE_LHEX							"0123456789abcdef"
+# define BASE_UHEX							"0123456789ABCDEF"
+# define BASE_DEC							"0123456789"
+# define BASE_OCT							"01234567"
+# define BASE_BIN							"01"
+
 # define ABS(x)								((x) < 0 ? (x) * -1 : (x))
 # define MAX(a, b)							((a) > (b) ? (a) : (b))
 # define MIN(a, b)							((a) < (b) ? (a) : (b))

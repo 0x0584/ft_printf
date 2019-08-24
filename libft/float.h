@@ -19,17 +19,26 @@
 #  error this implementation works on Little Endian machines only.
 # endif
 
-# define F32BIT_BIAS			(0x0000007FU)
-# define F64BIT_BAIS			1023
+# define F128BIT_MAN			63
+# define F128BIT_BAIS			16383
+# define F128BIT_FULLBAIS		(F128BIT_MAN + F128BIT_BAIS)
+# define F128BIT_IMPL			(1ULL << F128BIT_MAN)
 
-/* TODO: add long double too */
-/* TODO: find what are the special numbers */
+# define F64BIT_MAN				52
+# define F64BIT_BAIS			1023
+# define F64BIT_FULLBAIS		(F64BIT_MAN + F64BIT_BAIS)
+# define F64BIT_IMPL			(1ULL << F64BIT_MAN)
+
+# define F32BIT_MAN				23
+# define F32BIT_BAIS			127
+# define F32BIT_FULLBAIS		(F32BIT_MAN + F32BIT_BAIS)
+# define F32BIT_IMPL			(1ULL << F32BIT_MAN)
 
 union		u_ieee754_float
 {
 	float				f;
 	t_uint32			i;
-	struct	ieee_float
+	struct	s_ieee_float
 	{
 		t_uint32	m:23;
 		t_uint8		e:8;
@@ -41,7 +50,7 @@ union		u_ieee754_double
 {
 	double				d;
 	t_uint64			i;
-	struct	ieee_double
+	struct	s_ieee_double
 	{
 		t_uint64	m:52;
 		t_uint16	e:11;
@@ -54,12 +63,20 @@ union		u_ieee754_long_double
 	long double			ld;
 	t_uint128			i;
 
-	struct	ieee_long_double
+	struct	s_ieee_long_double
 	{
-		t_uint64	m1:64;
-		t_uint64	m2:48;
+		t_uint64	m1:63;
+		t_uint64	m2:1;
 		t_uint16	e:15;
 		t_uint8		s:1;
 	}					ieee;
 };
+
+typedef union		u_ieee_floating_point
+{
+	union u_ieee754_long_double ld;
+	union u_ieee754_double		d;
+	union u_ieee754_float		f;
+}					t_ieeefp;
+
 #endif
