@@ -4,8 +4,9 @@ t_uint64	bigint_size(t_bigint u)
 {
 	t_uint64 size;
 
-	size = 0;
-	while (u.block[size])
-		size++;
-	return (size);
+	size = BLOCK_MAX;
+	while (size--)
+		if (u.block[size])
+			return (size + 1);
+	return (0);
 }

@@ -9,9 +9,9 @@ t_bigint	bigint_add(t_bigint u, t_bigint v)
 	t_uint32 i;
 	t_uint32 biggest;
 
+	i = 0;
 	sum = 0UL;
 	carry = 0UL;
-	i = 0;
 	biggest = MAX(u.size, v.size);
 	ft_bzero(&result, sizeof(t_bigint));
 	while (i < biggest)
@@ -26,7 +26,7 @@ t_bigint	bigint_add(t_bigint u, t_bigint v)
 	return (result);
 }
 
-void		bigint_inadd(t_bigint *u, t_bigint v)
+t_bigint	bigint_inadd(t_bigint *u, t_bigint v)
 {
-	*u = bigint_add(*u, v);
+	return (*u = bigint_add(*u, v));
 }

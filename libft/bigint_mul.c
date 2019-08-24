@@ -1,6 +1,6 @@
 #include "bigint.h"
 
-static t_bigint		bigint_intmul(t_bigint big, t_uint32 num)
+t_bigint	bigint_intmul(t_bigint big, t_uint32 num)
 {
 	t_bigint result;
 	t_uint64 muled;
@@ -8,6 +8,7 @@ static t_bigint		bigint_intmul(t_bigint big, t_uint32 num)
 	t_uint32 i;
 
 	i = 0;
+	ft_bzero(&result, sizeof(t_bigint));
 	if (num == 1)
 		return (bigint_dup(big));
 	i = 0;
@@ -24,7 +25,7 @@ static t_bigint		bigint_intmul(t_bigint big, t_uint32 num)
 	return (result);
 }
 
-t_bigint			bigint_mul(t_bigint u, t_bigint v)
+t_bigint	bigint_mul(t_bigint u, t_bigint v)
 {
 	t_bigint order[2];
 	t_bigint result;
@@ -45,7 +46,7 @@ t_bigint			bigint_mul(t_bigint u, t_bigint v)
 	return (result);
 }
 
-void				bigint_inmul(t_bigint *u, t_bigint v)
+t_bigint	bigint_inmul(t_bigint *u, t_bigint v)
 {
-	*u = bigint_mul(*u, v);
+	return (*u = bigint_mul(*u, v));
 }

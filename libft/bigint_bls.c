@@ -26,7 +26,7 @@ t_bigint	bigint_bls(t_bigint u, t_uint32 shift)
 	return (result);
 }
 
-void		bigint_inbls(t_bigint *u, t_uint32 shift)
+t_bigint	bigint_inbls(t_bigint *u, t_uint32 shift)
 {
-	*u = bigint_bls(*u, shift);
+	return (*u = bigint_bls(*u, shift));
 }

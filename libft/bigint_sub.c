@@ -21,14 +21,15 @@ t_bigint	bigint_sub(t_bigint u, t_bigint v)
 		tmp = (t_uint64)order[0].block[i] - carry;
 		carry = ((order[0].block[i] > 0 || (!order[0].block[i] && !carry))
 					&& tmp >= (t_uint64)order[1].block[i]) ? 0UL : 1UL;
-		result.block[i++] = (t_uint32)((tmp + (carry ? 1UL << 32 : 0UL)
-					   - (t_uint64)order[1].block) & BLOCK_MASK);
+		result.block[i] = (t_uint32)((tmp + (carry ? 1UL << 32 : 0UL)
+					   - (t_uint64)order[1].block[i]) & BLOCK_MASK);
+		i++;
 	}
 	result.size = bigint_size(result);
 	return (result);
 }
 
-void		bigint_insub(t_bigint *u, t_bigint v)
+t_bigint	bigint_insub(t_bigint *u, t_bigint v)
 {
-	*u = bigint_sub(*u, v);
+	return (*u = bigint_sub(*u, v));
 }
