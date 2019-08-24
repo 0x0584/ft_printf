@@ -21,7 +21,7 @@
 
 struct s_biggy
 {
-	t_uint16	size;
+	t_uint32	size;
 	t_uint32	block[BLOCK_MAX];
 };
 

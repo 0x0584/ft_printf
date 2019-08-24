@@ -2,8 +2,8 @@
 
 t_bigint	bigint_bls(t_bigint u, t_uint32 shift)
 {
-	t_uint32 i;
 	t_bigint result;
+	t_uint32 i;
 
 	if (!shift)
 		return (bigint_dup(u));

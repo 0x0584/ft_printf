@@ -14,126 +14,149 @@
 #include "bigint.h"
 #include "float.h"
 
-/*
- * getting a double below zero is done with mulipliying with 2^(exp)
- * but if exp < 0, we can do this trick
+/**
+ * Dragon4 Algorithm
+ * ===================
  *
- *		2^(exp) x 5^(exp) x 5^(-exp) = 10^(exp) x 5^(-exp)
+ * 1. get the value of IEEE 754 floating point number
+ * 2. represent the number as a fraction as $\frac{num}{denum}$
+ * 3. get the exponent $n$ so that we can scale the fraction as
+ *		$\frac{num}{denum} = d.ddd \times 10^{n}$
+ * 4.1 extract digits using integer division of
+ *		$digit = num \div denum$
+ * 4.2 computer the remainder after the extraction as following
+ *		$num_{new} = (num_{old} - (digit * denum)) \times 10$
+ * 4.3 repeat until $num \eq 0$
  *
- * so we can just computer 5^(-exp) then later know when to place the period
- * using the exp.
+ * Appendix:
+ *
+ *  value of IEEE 754 denormalized floating point number is:
+ *
+ *		$value = \frac{man}{2^{mansize}} \times 2^{1 - bais}$
+ *
+ *  value of IEEE 754 normalized floating point number is:
+ *
+ *		$value = 1 + \frac{man}{2^{mansize}} \times 2^{exp - bais}$
+ *
+ * represent the number as a fraction based on it's exponent
+ *
+ *		if exp >= 0	then $value = man \times 2^{exp}$
+ *		if exp < 0 then $value = \frac{man}{2^{-exp}}$
  */
 
-/*
-**
-** big[4] indexes:
-**
-** 0 - five power
-** 1 - ten power
-** 2 - five power times the man sum
-** 3 - five power times ten power
-** 4 - final result
-*/
-char		*get_double_below_zero(t_float64 dbl, t_bigint *msum)
+static const t_bigint bigten = {1, {10}};
+
+static void		set_num_denum(double d, t_bigint *num, t_bigint *denum)
 {
-	char *buff;
-	t_bigint *big[4];
-	t_bigint *result;
-
-	big[0] = bigint_pow(5, ABS(dbl.ieee.e - F64BIT_BAIS));
-	big[1] = bigint_pow(10, msum->ten_exp);
-	big[2] = bigint_bigmul(big[0], msum);
-	big[3] = bigint_bigmul(big[0], big[1]);
-	result = bigint_bigadd(big[2], big[3]);
-	buff = ft_strnew(result->ten_exp + 2 + dbl.ieee.s);
-	if (dbl.ieee.s)
-		*buff = '-';
-	ft_strncpy(buff + dbl.ieee.s, "0.", 2);
-	ft_strncpy(buff + 2 + dbl.ieee.s, result->base, result->ten_exp);
-	ft_memdel_all(bigint_refdel, &big[0], &big[1], &big[2],
-					&big[3], &result, NULL);
-	return (buff);
-}
-
-/*
-** big array indexes
-**
-** 0 - two_exp
-** 1 - two_exp times msum
-** 2 - int_part of msum
-** 3 - int_part of double
-*/
-
-char		*get_double_above_zero(t_float64 dbl, t_bigint *msum)
-{
-	char *buff;
-	char *int_part;
-	t_bigint *big[4];
-
-	big[0] = bigint_pow(2, ABS(dbl.ieee.e - F64BIT_BAIS));
-	big[1] = bigint_bigmul(msum, big[0]);
-	int_part = ft_strsub(big[1]->base, 0, EXP_DIFF(big[1], msum));
-	big[2] = bigint_new(int_part);
-	big[3] = bigint_bigadd(big[2], big[0]);
-	buff = ft_strnew(ft_strlen(big[1]->base + EXP_DIFF(big[1], msum))
-						+ big[3]->ten_exp + dbl.ieee.s + 1);
-	if (dbl.ieee.s) 
-		*buff = '-';
-	ft_strncpy(buff + dbl.ieee.s, big[3]->base, big[3]->ten_exp);
-	buff[big[3]->ten_exp + dbl.ieee.s] = '.';
-	ft_strcpy(buff + big[3]->ten_exp + dbl.ieee.s + 1,
-				big[1]->base + EXP_DIFF(big[1], msum));
-	ft_memdel_all(bigint_refdel, &big[0], &big[1], &big[2], &big[3], NULL);
-	ft_strdel(&int_part);
-	return (buff);
-}
-
-/*
-** Indexes in tmp array
-**
-** 0 - five power
-** 1 - ten power
-** 2 - prod of ten x five
-** 3 - temp
-*/
-
-t_bigint	*get_mantissa_sum(t_float64 dbl, t_uint64 mansize)
-{
-	t_uint32 i;
-	t_bigint *big[4];
-	t_bigint *msum;
-
-	msum = bigint_init(0);
-	while (i < mansize)
-	{
-		if ((dbl.ieee.m >> i++) & 1)
-		{
-			big[0] = bigint_pow(5, mansize - i + 1);
-			big[1] = bigint_pow(10, i - 1);
-			big[2] = bigint_bigmul(big[0], big[1]);
-			big[3] = msum;
-			msum = bigint_bigadd(msum, big[2]);
-			ft_memdel_all(bigint_refdel, &big[0], &big[1],
-							&big[2], &big[3], NULL);
-		}
-	}
-	return (msum);
-}
-
-char		*ft_dtoa(double d)
-{
-	t_float64	dbl;
-	t_bigint	*msum;
-	char		*buff;
+	t_float64		dbl;
+	t_uint64		man;
+	t_int32			exp;
 
 	dbl.d = d;
-	ASSERT_RET(!dbl.ieee.s && !dbl.ieee.m && !dbl.ieee.e, ft_strdup("0.0"));
-	ASSERT_RET(dbl.ieee.e == 0x7FF, dbl.ieee.m ? ft_strdup("nan") :
-									ft_strdup(dbl.ieee.s ? "-inf" : "inf"));
-	msum = get_mantissa_sum(dbl, F64BIT_MAN_SIZE);
-	if ((dbl.ieee.e - 1023) < 0)
-		buff = get_double_below_zero(dbl, msum);
+	man = (t_uint64) dbl.ieee.m + (dbl.ieee.e ? F64BIT_IMPL : 0ULL);
+	exp = (t_int32) dbl.ieee.e - F64BIT_FULLBAIS + (dbl.ieee.e ? 0 : 1);
+	*num = bigint_init(man);
+	*denum = bigint_init(1);
+	if (exp >= 0)
+		bigint_asbin(bigint_inbls(num, exp));
 	else
-		buff = get_double_above_zero(dbl, msum);
+		bigint_inbls(denum, -exp);
+}
+
+static t_uint32	get_sci_exponent(double d)
+{
+	t_int32			exp;
+	bool			sign;
+
+	exp = 0;
+	if (d == .0 || (d >= 1.0 && d <= 9.0))
+		return (exp);
+	sign = (d < .0);
+	if (d < .0)
+		d *= -1;
+	if (d >= 10.0)
+		while (d >= 10.0 && ++exp)
+			d /= 10;
+	else
+		while (d < 1.0 && ++exp)
+			d *= 10;
+	return (sign ? -exp : exp);
+}
+
+static void		get_as_fraction(double d, t_bigint *num, t_bigint *denum)
+{
+	t_int32			exp;
+
+	set_num_denum(d, num, denum);
+	if (!(exp = get_sci_exponent(d)))
+		return ;
+	else if (exp > 0)
+		bigint_inmul(denum, bigint_pow(bigten, exp));
+	else
+		bigint_inmul(num, bigint_pow(bigten, -exp));
+}
+
+/* to get digits of the fraction we have constructed */
+static t_uint16	dumb_div(t_bigint num, t_bigint denum)
+{
+	t_uint16		result;
+	t_bigint		foo;
+	int				diff;
+
+	result = 5;
+	foo = bigint_intmul(denum, result);
+	if ((diff = bigint_cmp(num, foo)) > 0)
+	{
+		while ((diff = bigint_cmp(num, bigint_inadd(&foo, denum))) > 0)
+			result++;
+		return (!diff ? result + 1 : result);
+	}
+	else if (diff < 0)
+	{
+		while ((diff = bigint_cmp(num, bigint_insub(&foo, denum)) < 0))
+				result--;
+		return (result - 1);
+	}
+	return (result);
+}
+
+void			dragon4(double d, char *buff, t_uint32 buff_size)
+{
+	t_bigint		num;
+	t_bigint		denum;
+	t_uint32		i;
+
+	i = 0;
+	get_as_fraction(d, &num, &denum);
+	/* (void)printf("%u %u", num.size, denum.size); */
+	/* (void)getchar(); */
+	while (num.size && i < buff_size)
+	{
+		buff[i] = '0' + dumb_div(num, denum);
+		bigint_insub(&num, bigint_intmul(denum, buff[i++] - '0'));
+		bigint_inmul(&num, bigten);
+	}
+}
+
+#define BUFF_SIZE			52
+
+char			*ft_dtoa(double d)
+{
+	char			*buff;
+
+	buff = ft_strnew(BUFF_SIZE);
+	/* dragon4(d, buff, BUFF_SIZE); */
+
+	t_bigint foo, bar;
+	get_as_fraction(d, &foo, &bar);
+
+	bigint_asbin(foo);
+	bigint_asbin(bar);
+
+	printf("%d\n", dumb_div(foo, bar));
+	dragon4(d, buff, BUFF_SIZE);
+
+	/* t_int32 e = get_sci_exponent(d); */
+	/* printf("%d", e); */
 	return (buff);
 }

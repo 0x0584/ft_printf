@@ -78,8 +78,8 @@ int main(void)
 	/* ft_putendl("\n---------------"); */
 	/* printf("theirs: %a\n", -3.1415); */
 
-	t_bigint foo = bigint_init(3);
-		/* bar = bigint_init(4); */
+	/* t_bigint foo = bigint_init(3); */
+	/* bar = bigint_init(4); */
 
 	/* (void)printf("foo > %d\n", foo.block[0]); */
 	/* (void)printf("bar > %d\n", bar.block[0]); */
@@ -89,14 +89,14 @@ int main(void)
 
 	/* bigint_inmul(&foo, foo); */
 	/* bigint_inmul(&foo, foo); */
-	bigint_asbin(foo);
-	(void)printf("size > %u\n", foo.size);
-	bigint_inbls(&foo, 31);
-	bigint_asbin(foo);
+	/* bigint_asbin(foo); */
+	/* (void)printf("size > %u\n", foo.size); */
+	/* bigint_inbls(&foo, 31); */
+	/* bigint_asbin(foo); */
 	/* bigint_inbls(&foo, 1); */
 	/* bigint_inbls(&foo, 1); */
 	/* bigint_inbls(&foo, 1); */
-	(void)printf("\nfoo > %u\n", foo.block[0]);
+	/* (void)printf("\nfoo > %u\n", foo.block[0]); */
 	/* (void)printf("bar > %d\n", bar.block[0]); */
 
 	/* t_bigint ten = bigint_pow(bar, 2); */
@@ -107,9 +107,9 @@ int main(void)
 	/* bigint_inbls(&foo, 3); */
 	/* printf("size: %ld\n", foo.size); */
 
-	/* char *bar = ft_dtoa(3.1415); */
-	/* printf(" that [%s]", bar); */
-	/* free(bar); */
+	char *bar = ft_dtoa(0.39915);
+	printf(" that [%s]", bar);
+	free(bar);
 
 	/* printf("%d", bigint_cmp(bigint_init(100), bigint_init(320))); */
 	return 0;
