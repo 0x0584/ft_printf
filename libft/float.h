@@ -72,11 +72,21 @@ union		u_ieee754_long_double
 	}					ieee;
 };
 
+typedef enum		e_ieee_floating_point_types
+{
+	IEEE_FLOAT,
+	IEEE_DOUBLE,
+	IEEE_LONG_DOUBLE
+}					t_ieeetype;
+
 typedef union		u_ieee_floating_point
 {
 	union u_ieee754_long_double ld;
 	union u_ieee754_double		d;
 	union u_ieee754_float		f;
 }					t_ieeefp;
+
+void				dragon4(t_ieeefp fp, t_ieeetype type,
+								char *buff, t_uint32 buff_size);
 
 #endif

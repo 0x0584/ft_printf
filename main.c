@@ -107,7 +107,7 @@ int main(void)
 	/* bigint_inbls(&foo, 3); */
 	/* printf("size: %ld\n", foo.size); */
 
-	char *bar = ft_dtoa(0.39915);
+	char *bar = ft_dtoa(1.39915);
 	printf(" that [%s]", bar);
 	free(bar);
 
