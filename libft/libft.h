@@ -29,6 +29,8 @@
 # define BASE_OCT							"01234567"
 # define BASE_BIN							"01"
 
+# define IS_ODD(a)							((a) & 1U)
+# define IS_EVEN(a)							(!IS_ODD(a))
 # define ABS(x)								((x) < 0 ? (x) * -1 : (x))
 # define MAX(a, b)							((a) > (b) ? (a) : (b))
 # define MIN(a, b)							((a) < (b) ? (a) : (b))
@@ -63,6 +65,12 @@ struct	s_list
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
+};
+
+enum	e_strpad_direction
+{
+	STRPAD_LEFT = true,
+	STRPAD_RIGHT = false
 };
 
 void			*ft_memset(void *s, int c, size_t n);
@@ -113,8 +121,8 @@ char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			*ft_strtrim(char const *s);
 char			*ft_strjoin(char const *s1, char const *s2);
-ssize_t			ft_strnprepend(char **dest, const char *prefix, size_t prefixsz);
-ssize_t			ft_strprepend(char **dest, const char *prefix);
+void			ft_strprepend(char **dest, const char *prefix);
+void			ft_strappend(char **astr, const char *s);
 
 int				ft_atoi(const char *s);
 t_int128		ft_atoll(const char *s);
@@ -167,9 +175,6 @@ t_int16			ft_utf8tostr_ch(t_int8 *dest, t_int32 wch);
 
 char			*ft_lltoa(t_int128 n);
 char			*ft_itoa(int n);
-char			*ft_ftoa(float f);
-char			*ft_dtoa(double d);
-char			*ft_ldtoa(long double ld);
 char			*ft_ltoa_hex(long l);
 char			*ft_uitoa_base(unsigned long nb, const char *base);
 

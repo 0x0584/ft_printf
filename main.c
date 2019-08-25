@@ -15,7 +15,7 @@
 #include "buffer.h"
 #include "ft_printf.h"
 #include "libft.h"
-
+#include "ieeefp.h"
 #include "bigint.h"
 
 int main(void)
@@ -107,8 +107,9 @@ int main(void)
 	/* bigint_inbls(&foo, 3); */
 	/* printf("size: %ld\n", foo.size); */
 
-	char *bar = ft_dtoa(1.39915);
-	printf(" that [%s]", bar);
+	double d = 189.00345;
+	char *bar = ft_dtoa(d);
+	printf(" that %lf [%s]", d, bar);
 	free(bar);
 
 	/* printf("%d", bigint_cmp(bigint_init(100), bigint_init(320))); */

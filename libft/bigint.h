@@ -19,11 +19,11 @@
 # define BLOCK_SIZE					32
 # define BLOCK_MASK					0xFFFFFFFFUL
 
-struct s_biggy
+typedef struct	s_biggy
 {
-	t_uint32	size;
-	t_uint32	block[BLOCK_MAX];
-};
+	t_uint32		size;
+	t_uint32		block[BLOCK_MAX];
+}				t_bigint;
 
 t_bigint	bigint_init(uintmax_t val);
 t_bigint	bigint_dup(t_bigint u);

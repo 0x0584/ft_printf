@@ -11,18 +11,18 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "bigint.h"
-#include "float.h"
+#include "ieeefp.h"
 
-#define BUFF_SIZE			52
-
-char			*ft_dtoa(double d)
+char	*ft_dtoa(double d)
 {
-	char			*buff;
-	t_ieeefp		fp;
+	char		*buff;
+	t_int32		exp;
+	t_ieeefp	fp;
 
-	buff = ft_strnew(BUFF_SIZE);
+	buff = ft_strnew(DRAGON4_BUFF_SIZE);
 	fp.d.d = d;
-	dragon4(fp, IEEE_DOUBLE, buff, BUFF_SIZE);
+	exp = dragon4(fp, IEEE_DOUBLE, buff, DRAGON4_BUFF_SIZE);
+	ft_putendl("----");
+	handle_precision(&buff, IEEE_NORMAL, exp, 6);
 	return (buff);
 }

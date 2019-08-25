@@ -1,4 +1,4 @@
-#include "float.h"
+#include "ieeefp.h"
 #include "bigint.h"
 
 /**
@@ -31,7 +31,7 @@
  *		if exp < 0 then $value = \frac{man}{2^{-exp}}$
  */
 
-static const t_bigint bigten = {1, {10}};
+const t_bigint	bigten = {1, {10}};
 
 static void		set_num_denum(t_ieeefp fp, t_ieeetype type,
 								t_bigint *num, t_bigint *denum)
@@ -82,7 +82,7 @@ static t_uint32	get_sci_exponent(long double d)
 	return (sign ? -exp : exp);
 }
 
-static void		get_as_fraction(t_ieeefp fp, t_ieeetype type,
+static t_int32	get_as_fraction(t_ieeefp fp, t_ieeetype type,
 									t_bigint *num, t_bigint *denum)
 {
 	t_int32			exp;
@@ -95,11 +95,12 @@ static void		get_as_fraction(t_ieeefp fp, t_ieeetype type,
 	else
 		exp = get_sci_exponent(fp.ld.ld);
 	if (!exp)
-		return ;
+		return (0);
 	else if (exp > 0)
 		bigint_inmul(denum, bigint_pow(bigten, exp));
 	else
 		bigint_inmul(num, bigint_pow(bigten, -exp));
+	return (exp);
 }
 
 /* to get digits of the fraction we have constructed */
@@ -126,19 +127,21 @@ static t_uint16	dumb_div(t_bigint num, t_bigint denum)
 	return (result);
 }
 
-void			dragon4(t_ieeefp fp, t_ieeetype type,
+t_int32			dragon4(t_ieeefp fp, t_ieeetype type,
 							char *buff, t_uint32 buff_size)
 {
 	t_bigint		num;
 	t_bigint		denum;
 	t_uint32		i;
+	t_int32			exp;
 
 	i = 0;
-	get_as_fraction(fp, type, &num, &denum);
+	exp = get_as_fraction(fp, type, &num, &denum);
 	while (num.size && i < buff_size)
 	{
 		buff[i] = '0' + dumb_div(num, denum);
 		bigint_insub(&num, bigint_intmul(denum, buff[i++] - '0'));
 		bigint_inmul(&num, bigten);
 	}
+	return (exp);
 }

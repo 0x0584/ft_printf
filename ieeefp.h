@@ -34,6 +34,8 @@
 # define F32BIT_FULLBAIS		(F32BIT_MAN + F32BIT_BAIS)
 # define F32BIT_IMPL			(1ULL << F32BIT_MAN)
 
+# define DRAGON4_BUFF_SIZE		52
+
 union		u_ieee754_float
 {
 	float				f;
@@ -86,7 +88,20 @@ typedef union		u_ieee_floating_point
 	union u_ieee754_float		f;
 }					t_ieeefp;
 
-void				dragon4(t_ieeefp fp, t_ieeetype type,
+typedef enum		e_ieee_floating_point_format
+{
+	IEEE_HEX,
+	IEEE_EXPONENT,
+	IEEE_NORMAL,
+	IEEE_SUITABLE
+}					t_ieee_fmt;
+
+t_int32				dragon4(t_ieeefp fp, t_ieeetype type,
 								char *buff, t_uint32 buff_size);
+void				handle_precision(char **fp_buff, t_ieee_fmt ftype,
+										int exp, int preci);
+char				*ft_ftoa(float f);
+char				*ft_dtoa(double d);
+char				*ft_ldtoa(long double ld);
 
 #endif
