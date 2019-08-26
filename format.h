@@ -120,10 +120,10 @@ char			*format_ieee_float(t_frmt *frmt);
 ** format.handler.c
 */
 
-char	*handle_unsigned_deci(t_frmt *frmt, int base);
-char	*handle_signed_deci(t_frmt *frmt);
-char	*handle_double(t_frmt *frmt, bool round);
-char	*handle_char(t_frmt *frmt);
-char	*handle_string(t_frmt *frmt);
+char			*handle_unsigned_deci(t_frmt *frmt, const char *base);
+char			*handle_signed_deci(t_frmt *frmt);
+char			*handle_double(t_frmt *frmt);
+char			*handle_char(t_frmt *frmt);
+char			*handle_string(t_frmt *frmt);
 
 #endif

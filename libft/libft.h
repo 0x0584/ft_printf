@@ -42,6 +42,12 @@
 # define GET_DIGI(i)						((i) - '0')
 # define TO_DIGI(i)							((i) + '0')
 
+# define BASE_BIN							"01"
+# define BASE_OCT							"01234567"
+# define BASE_DEC							"0123456789"
+# define BASE_LHEX							"0123456789abcdef"
+# define BASE_UHEX							"0123456789ABCDEF"
+
 /*
 ** FIXME: use va_arg with all free functions
 */
@@ -112,7 +118,6 @@ void			ft_putchar(char c);
 void			ft_putstr(char const *s);
 void			ft_putendl(char const *s);
 void			ft_putnumber(int n);
-void			ft_putbigint(t_bigint *big);
 
 t_list			*ft_lstnew(void const *content, size_t content_size);
 t_list			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
@@ -148,14 +153,7 @@ t_int64			ft_utf8tostr(t_int8 *dest, size_t destsz,
 								const t_int32 *wsrc, size_t srcsz);
 t_int16			ft_utf8tostr_ch(t_int8 *dest, t_int32 wch);
 
-char			*ft_lltoa(t_int128 n);
-char			*ft_itoa(int n);
-char			*ft_itoa_base(t_int128 nb, int base);
-
-char			*ft_ftoa(float f, t_uint16 precision);
-char			*ft_dtoa(double d, t_uint16 precision, bool round);
-char			*ft_ldtoa(long double ld, t_uint16 precision, bool round);
-
-char			*ft_ltoa_hex(long l);
+char			*ft_itoa_base(intmax_t nb, const char *base);
+char			*ft_utoa_base(uintmax_t nb, const char *base);
 
 #endif

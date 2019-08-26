@@ -71,19 +71,26 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		if (frmt->conv == SIGNED_DECI)
 			s_frmt =  handle_signed_deci(frmt);
 		else if (frmt->conv == U_OCTA)
-			s_frmt = handle_unsigned_deci(frmt, 8);
+			s_frmt = handle_unsigned_deci(frmt, BASE_OCT);
 		else if (frmt->conv == U_DECI)
-			s_frmt = handle_unsigned_deci(frmt, 10);
+			s_frmt = handle_unsigned_deci(frmt, BASE_DEC);
 		else if (frmt->conv == U_HEXA || frmt->conv == U_HEXA2)
-			s_frmt = handle_unsigned_deci(frmt, 16);
+			s_frmt = handle_unsigned_deci(frmt, frmt->conv == U_HEXA2 ?
+											BASE_UHEX : BASE_LHEX);
 		else if (frmt->conv == DBL_EXP || frmt->conv == DBL_EXP2)
-			s_frmt = handle_double(frmt, true);
+			s_frmt = handle_double(frmt);
 		else if (frmt->conv == DBL_NRML || frmt->conv == DBL_NRML2)
-			s_frmt = handle_double(frmt, false);
+			s_frmt = handle_double(frmt);
 		else if (frmt->conv == CHAR)
 			s_frmt = handle_char(frmt);
 		else if (frmt->conv == STRING || frmt->conv == STRING_FRMT)
 			s_frmt = handle_string(frmt);
+
+		if (!s_frmt || !buff_append(buff, s_frmt, ft_strlen(s_frmt)))
+		{
+			ft_putendl("s_frmt was empty");
+			getchar();
+		}
 
 		/* TODO: create format_set_precision(char **, t_frmt *) */
 		/**
@@ -130,11 +137,6 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		/* format_set_precision(&s_frmt, frmt); */
 
 
-		if (!s_frmt || !buff_append(buff, s_frmt, ft_strlen(s_frmt)))
-		{
-			ft_putendl("s_frmt was empty");
-			getchar();
-		}
 		buff_write(1, buff);
 		ft_putendl("");
 		e = e->next;
