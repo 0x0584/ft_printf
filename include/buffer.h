@@ -13,7 +13,7 @@
 #ifndef BUFFER_H
 # define BUFFER_H
 
-# include "libft/libft.h"
+# include "libft.h"
 
 typedef struct	s_buffer
 {
