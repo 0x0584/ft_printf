@@ -12,25 +12,14 @@
 
 #include "libft.h"
 
-size_t	ft_memdel_all(void (*del)(void *o), void *ptr, ...)
+void	ft_memdel_all(void (*del)(void *o), void *ptr, ...)
 {
-    va_list args;
-    void	**vp;
-	size_t	count;
+	va_list args;
+	void	*vp;
 
-	count = 0;
-	if (ptr)
-	{
-		del(ptr);
-		count++;
-	}
-    va_start(args, ptr);
-    while ((vp = va_arg(args, void **)))
-		if (ptr)
-		{
-			del(ptr);
-			count++;
-		}
-    va_end(args);
-	return (count);
+	ASSERT_DO(ptr, del(ptr));
+	va_start(args, ptr);
+	while ((vp = va_arg(args, void *)) != NULL)
+		ASSERT_DO(vp, del(vp));
+	va_end(args);
 }

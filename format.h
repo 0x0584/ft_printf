@@ -26,9 +26,6 @@
 /* FIXME: add priorities */
 typedef struct	s_format
 {
-	/*
-	** Indexes to sort a list of t_frmt based on
-	*/
 	int								argindex;
 	int								fmtindex;
 

@@ -12,17 +12,9 @@
 
 #include "libft.h"
 
-void	ft_strtoupper(char **str)
+char	*ft_ldtoa(long double ld)
 {
-	char *tmp;
+	(void)ld;
 
-	if (!str || !*str)
-		return ;
-	tmp = *str;
-	while (tmp)
-	{
-		if (*tmp >= 'a' && *tmp <= 'z')
-			*tmp -= 0x20;
-		tmp++;
-	}
+	return (NULL);
 }

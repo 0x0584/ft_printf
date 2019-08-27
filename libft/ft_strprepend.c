@@ -8,7 +8,11 @@
 
 #include "libft.h"
 
-ssize_t		ft_strprepend(char **dest, const char *prefix)
+void		ft_strprepend(char **dest, const char *prefix)
 {
-	return (ft_strnprepend(dest, prefix, ft_strlen(prefix)));
+	if (!dest || !prefix)
+		return ;
+	else if (!*dest)
+		*dest = ft_strnew(0);
+	ft_strinsert_at(dest, prefix, 0);
 }

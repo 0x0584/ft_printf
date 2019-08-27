@@ -11,18 +11,10 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
-
-#include "buffer.h"
 #include "ft_printf.h"
-#include "libft.h"
 
-/* FIXME: negative number and 0-flag */
-
-int main(int argc, char *argv[])
+int main(void)
 {
-
-	(void)argc;
-	(void)argv;
 	ft_printf("[this is a %-6d test and this %-6d]\n", 10, 50);
 	ft_putendl("------------------------");
 	printf("[this is a %-6d test and this %-6d]\n", 10, 50);

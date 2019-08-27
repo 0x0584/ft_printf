@@ -136,7 +136,6 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		/* format_alterform(&s_frmt, frmt); */
 		/* format_set_precision(&s_frmt, frmt); */
 
-
 		buff_write(1, buff);
 		ft_putendl("");
 		e = e->next;

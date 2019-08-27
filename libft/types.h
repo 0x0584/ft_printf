@@ -42,7 +42,6 @@ typedef unsigned int				t_uint32;
 typedef unsigned long				t_uint64;
 typedef unsigned long long			t_uint128;
 
-
 /*
 **		--------------- Objects are just (void *) ---------------
 */

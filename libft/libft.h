@@ -23,6 +23,14 @@
 
 #include "types.h"
 
+# define BASE_LHEX							"0123456789abcdef"
+# define BASE_UHEX							"0123456789ABCDEF"
+# define BASE_DEC							"0123456789"
+# define BASE_OCT							"01234567"
+# define BASE_BIN							"01"
+
+# define IS_ODD(a)							((a) & 1U)
+# define IS_EVEN(a)							(!IS_ODD(a))
 # define ABS(x)								((x) < 0 ? (x) * -1 : (x))
 # define MAX(a, b)							((a) > (b) ? (a) : (b))
 # define MIN(a, b)							((a) < (b) ? (a) : (b))
@@ -42,12 +50,6 @@
 # define GET_DIGI(i)						((i) - '0')
 # define TO_DIGI(i)							((i) + '0')
 
-# define BASE_BIN							"01"
-# define BASE_OCT							"01234567"
-# define BASE_DEC							"0123456789"
-# define BASE_LHEX							"0123456789abcdef"
-# define BASE_UHEX							"0123456789ABCDEF"
-
 /*
 ** FIXME: use va_arg with all free functions
 */
@@ -59,6 +61,12 @@ struct	s_list
 	struct s_list	*next;
 };
 
+enum	e_strpad_direction
+{
+	STRPAD_LEFT = true,
+	STRPAD_RIGHT = false
+};
+
 void			*ft_memset(void *s, int c, size_t n);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			*ft_memccpy(void *dest, const void *src, int c, size_t n);
@@ -68,8 +76,14 @@ void			*ft_memalloc(size_t size);
 void			*ft_dumb_realloc(void **ptr, size_t old, size_t new);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 void			ft_memdel(void **mem);
+void			ft_memdel_all(void (*del)(void *o), void *ptr, ...);
 void			ft_bzero(void *s, size_t n);
 
+void			ft_strinsert_at(char **str, char const *src, size_t index);
+void			ft_strreplace(char **str, char const *base, char const *to);
+void			ft_strpad(char **astr, char c, size_t n, bool left);
+void			ft_strctrim(char **str, char c, bool left);
+void			ft_strtoupper(char **str);
 char			*ft_strnew(size_t size);
 char			*ft_strdup(const char *str);
 char			*ft_strrev(const char *str);
@@ -77,6 +91,7 @@ char			*ft_strcpy(char *dst, const char *src);
 char			*ft_strncpy(char *dst, const char *src, size_t len);
 char			*ft_strcat(char *dst, const char *src);
 char			*ft_strchr(const char *s, int c);
+size_t			ft_strichr(const char *s, char c);
 char			*ft_strrchr(const char *s, int c);
 char			*ft_strncat(char *dst, const char *src, size_t len);
 char			*ft_strstr(const char *s, const char *to_find);
@@ -86,7 +101,6 @@ void			ft_strclr(char *s);
 int				ft_strcmp(const char *s1, const char *s2);
 size_t			ft_strlen(const char *str);
 int				ft_strncmp(const char *s1, const char *s2, size_t len);
-void			ft_strtoupper(char *s);
 int				ft_isdigit(int c);
 int				ft_isalpha(int c);
 int				ft_isalnum(int c);
@@ -101,8 +115,8 @@ char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 char			*ft_strsub(char const *s, unsigned int start, size_t len);
 char			*ft_strtrim(char const *s);
 char			*ft_strjoin(char const *s1, char const *s2);
-ssize_t			ft_strnprepend(char **dest, const char *prefix, size_t prefixsz);
-ssize_t			ft_strprepend(char **dest, const char *prefix);
+void			ft_strprepend(char **dest, const char *prefix);
+void			ft_strappend(char **astr, const char *s);
 
 int				ft_atoi(const char *s);
 t_int128		ft_atoll(const char *s);
