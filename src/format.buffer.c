@@ -109,18 +109,26 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 						TOWARD_TAIL);
 
 		/* Zero padding */
+		/* FIXME: ignore zero padding when precision */
+		/* FIXME: ignore space when plus */
 		if (!IS_FLAG(frmt->flags, FL_MINUS) && frmt->width
 			&& !(format_isnumeric(frmt) && frmt->prec))
+		{
 			ft_strpad(&s_frmt, IS_FLAG(frmt->flags, FL_ZERO) ? '0' : ' ',
 					  frmt->width - ft_strlen(s_frmt)
 					  - (format_getsign(frmt) == '-'), TOWARD_HEAD);
-
+			if (format_getsign(frmt) == '-')
+			{
+				ft_strreplace(&s_frmt, "-", "0");
+				ft_strinsert_at(&s_frmt, "-", 0);
+			}
+		}
 		/* Sign or Space */
-		if (format_isnumeric(frmt)
+		if (format_isnumeric(frmt) && format_getsign(frmt) != '-'
 			&& (IS_FLAG(frmt->flags, FL_PLUS)
 				|| IS_FLAG(frmt->flags, FL_SPACE)))
-			ft_strpad(&s_frmt, IS_FLAG(frmt->flags, FL_PLUS)
-						? format_getsign(frmt) : ' ', 1, TOWARD_HEAD);
+			ft_strpad(&s_frmt, IS_FLAG(frmt->flags, FL_PLUS) ? '+' : ' ',
+						1, TOWARD_HEAD);
 
 		/* format_alterform(&s_frmt, frmt); */
 		/* format_set_precision(&s_frmt, frmt); */

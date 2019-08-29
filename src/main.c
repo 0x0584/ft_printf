@@ -15,9 +15,9 @@
 
 int main(void)
 {
-	ft_printf("[left %-6d right %6d zero %06d]\n", 10, 50, -13);
+	ft_printf("[left %-6d right %6d zero %+06d]\n", 10, 50, -13);
 	ft_putendl("------------------------");
-	printf("[left %-6d right %6d zero %06d]\n", 10, 50, -13);
+	printf("[left %-6d right %6d zero %+06d]\n", 10, 50, -13);
 
 	char *bar = ft_itoa_base(-13, BASE_DEC);
 	printf("%s", bar);
