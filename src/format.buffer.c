@@ -18,42 +18,37 @@ void			format_dbg(t_frmt *frmt)
 {
 	char *format = NULL;
 
-	if (frmt->conv == SIGNED_DECI || frmt->conv == CHAR)
-	{
-		format = "SIGNED_DECI || CHAR";
-	}
-	else if (frmt->conv == U_OCTA ||
-			 frmt->conv == U_DECI ||
-			 frmt->conv == U_HEXA ||
-			 frmt->conv == U_HEXA2 ||
-			 frmt->conv == POINTER)
-	{
+	if (frmt->conv == CONV_INT || frmt->conv == CONV_CHAR)
+		format = "INTEGER";
+	else if (frmt->conv == CONV_UOCT || frmt->conv == CONV_UDEC
+				|| frmt->conv == CONV_UHEX || frmt->conv == CONV_PTR)
 		format = "UNSIGNED";
-	}
-	else if (frmt->conv == DBL_EXP ||
-			 frmt->conv == DBL_EXP2 ||
-			 frmt->conv == DBL_NRML ||
-			 frmt->conv == DBL_NRML2) {
+	else if (frmt->conv == CONV_DBL || frmt->conv == CONV_LDBL
+				|| frmt->conv == CONV_GDBL || frmt->conv == CONV_EDBL)
 		format = "DOUBLE";
-	}
-	else if (frmt->conv == STRING)
+	else if (frmt->conv == CONV_STR || frmt->conv == CONV_FRMT)
 		format = "STRING";
+
 	printf("conv: %s lenght: %d\n", format, frmt->length);
-	printf("arg: %d fmt:%d\n", frmt->argindex, frmt->fmtindex);
-	printf("precision: %d width: %d\n", frmt->precision, frmt->width);
-	printf("0 flag: %d | + flag: %d | ", frmt->prefix_zeros, frmt->prefix_signe);
-	printf("' ' flag: %d | - flag: %d | ", frmt->prefix_zeros,
-		   frmt->padding_on_left);
-	printf("# flag %d\n-------------------\n", frmt->is_alter);
+	printf("arg: %d fmt:%d\n", frmt->iarg, frmt->ifrmt);
+	printf("precision: %d width: %d\n", frmt->prec, frmt->width);
+	printf("0 flag: %d | + flag: %d | ", IS_FLAG(frmt->flags, FL_ZERO),
+											IS_FLAG(frmt->flags, FL_PLUS));
+	printf("' ' flag: %d | - flag: %d | ", IS_FLAG(frmt->flags, FL_SPACE),
+		   IS_FLAG(frmt->flags, FL_MINUS));
+	printf("# flag %d\n-------------------\n", IS_FLAG(frmt->flags, FL_HASH));
 }
 
+/*
+  TODO: YOU HAVE TO create a function to everything
+
+  those ifs must all be some foo functions, put them in an
+  array or something..
+*/
 
 /*
- * TODO: YOU HAVE TO create a function to everything
- *
- * those ifs must all be some foo functions, put them in an
- * array or something..
- */
+   FIXME: this should return a bool
+*/
 
 void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
@@ -66,33 +61,27 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 	while (e)
 	{
 		frmt = (t_frmt *)e->content;
-		format_dbg(frmt);
+		/* format_dbg(frmt); */
+		/* getchar(); */
 
-		if (frmt->conv == SIGNED_DECI)
+		if (frmt->conv == CONV_INT)
 			s_frmt =  handle_signed_deci(frmt);
-		else if (frmt->conv == U_OCTA)
+		else if (frmt->conv == CONV_UOCT)
 			s_frmt = handle_unsigned_deci(frmt, BASE_OCT);
-		else if (frmt->conv == U_DECI)
+		else if (frmt->conv == CONV_UDEC)
 			s_frmt = handle_unsigned_deci(frmt, BASE_DEC);
-		else if (frmt->conv == U_HEXA || frmt->conv == U_HEXA2)
-			s_frmt = handle_unsigned_deci(frmt, frmt->conv == U_HEXA2 ?
-											BASE_UHEX : BASE_LHEX);
-		else if (frmt->conv == DBL_EXP || frmt->conv == DBL_EXP2)
-			s_frmt = handle_double(frmt);
-		else if (frmt->conv == DBL_NRML || frmt->conv == DBL_NRML2)
-			s_frmt = handle_double(frmt);
-		else if (frmt->conv == CHAR)
+		else if (frmt->conv == CONV_UHEX)
+			s_frmt = handle_unsigned_deci(frmt, BASE_UHEX);
+		else if (format_isfloat(frmt))
+			s_frmt = handle_floating_point(frmt);
+		else if (frmt->conv == CONV_CHAR)
 			s_frmt = handle_char(frmt);
-		else if (frmt->conv == STRING || frmt->conv == STRING_FRMT)
+		else if (frmt->conv == CONV_STR || frmt->conv == CONV_FRMT)
 			s_frmt = handle_string(frmt);
 
-		if (!s_frmt || !buff_append(buff, s_frmt, ft_strlen(s_frmt)))
-		{
-			ft_putendl("s_frmt was empty");
-			getchar();
-		}
-
-		/* TODO: create format_set_precision(char **, t_frmt *) */
+		printf("current format as string: %s", s_frmt);
+		getchar();
+		/* TODO: create format_set_precision(CONV_CHAR **, t_frmt *) */
 		/**
 		 * TODO: create format_alterform(t_frmt *)
 		 *
@@ -108,37 +97,48 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		 *		dest = ft_format_ieee_float(frmt, trailing_is_on) // default off
 		 */
 
-		/* padding with zero */
+		/*
+		  XXX: free all buffutils()
+		  no need for them! teh was a poor programming style!
+		  I have to get back to my shape!
+		*/
 
-		/* FIXME: free all buffutils() */
-		if (frmt->padding_on_left && frmt->width)
-		{
-			char *foo;
-			foo = ft_strjoin(s_frmt,
-							 buffutils_pad(' ',
-										   frmt->width - ft_strlen(s_frmt)));
-			ft_strdel(&s_frmt);
-			s_frmt = foo;
-			frmt->prefix_zeros = false;
-		}
+		/* Field width */
+		if (IS_FLAG(frmt->flags, FL_MINUS) && frmt->width)
+			ft_strpad(&s_frmt, ' ', frmt->width - ft_strlen(s_frmt),
+						TOWARD_TAIL);
 
-		if (frmt->width && !frmt->padding_on_left &&
-			!(format_isnumeric(frmt) && frmt->precision))
-			ft_strprepend(&s_frmt,
-						  buffutils_pad(frmt->prefix_zeros ? '0' : ' ',
-										frmt->width - ft_strlen(s_frmt) - frmt->prefix_signe));
-		/* sign or space */
-		if ((frmt->prefix_signe || frmt->prefix_plus_blank) &&
-			format_isnumeric(frmt))
-			ft_strprepend(&s_frmt,
-						  buffutils_pad(frmt->prefix_signe
-										? format_getsign(frmt) : ' ' , 1));
+		/* Zero padding */
+		if (!IS_FLAG(frmt->flags, FL_MINUS) && frmt->width
+			&& !(format_isnumeric(frmt) && frmt->prec))
+			ft_strpad(&s_frmt, IS_FLAG(frmt->flags, FL_ZERO) ? '0' : ' ',
+					  frmt->width - ft_strlen(s_frmt)
+					  - (format_getsign(frmt) == '-'), TOWARD_HEAD);
+
+		/* Sign or Space */
+		if (format_isnumeric(frmt)
+			&& (IS_FLAG(frmt->flags, FL_PLUS)
+				|| IS_FLAG(frmt->flags, FL_SPACE)))
+			ft_strpad(&s_frmt, IS_FLAG(frmt->flags, FL_PLUS)
+						? format_getsign(frmt) : ' ', 1, TOWARD_HEAD);
+
 		/* format_alterform(&s_frmt, frmt); */
 		/* format_set_precision(&s_frmt, frmt); */
 
+		if (!buff_append(buff, s_frmt, ft_strlen(s_frmt)))
+		{
+			ft_putendl("buff doesn't have a room left'");
+			break;
+		}
+
+		ft_putstr("[");
 		buff_write(1, buff);
-		ft_putendl("");
+		ft_putendl("]");
+
 		e = e->next;
 		ft_strdel(&s_frmt);
 	}
+
+	if (s_frmt == NULL)
+		ft_putendl("s_frmt was empty");
 }

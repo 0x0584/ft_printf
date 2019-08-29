@@ -48,7 +48,7 @@ static void		prepare_fp_buff(char **buff, t_ieee_fmt ftype,
 
 	buff_size = ft_strlen(*buff);
 	if (*exp < 0 && ftype == IEEE_NORMAL)
-		ft_strpad(buff, '0', -*exp, STRPAD_LEFT);
+		ft_strpad(buff, '0', -*exp, TOWARD_HEAD);
 	if (*exp <= 0)
 		npad = MAX(preci - (buff_size - 1), 0);
 	else
@@ -56,7 +56,7 @@ static void		prepare_fp_buff(char **buff, t_ieee_fmt ftype,
 			(*exp > ((int)buff_size - 1) ? 0 : ft_strlen(*buff + *exp + 1));
 	(void)printf(" << %d %zu\n", ABS(npad), buff_size);
 	/* (void)getchar(); */
-	ft_strpad(buff, '0', ABS(npad), STRPAD_RIGHT);
+	ft_strpad(buff, '0', ABS(npad), TOWARD_TAIL);
 	round_nearest_even(buff, ftype, exp, preci);
 }
 

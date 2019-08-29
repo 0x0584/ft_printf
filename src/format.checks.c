@@ -20,15 +20,15 @@ int		check_flags(char **fmt, t_frmt *frmt)
 	while (*bar)
 	{
 		if (*bar == '#')
-			frmt->is_alter = true;
+			frmt->flags |= FLAG(FL_HASH);
 		else if (*bar == '+')
-			frmt->prefix_signe = true;
+			frmt->flags |= FLAG(FL_PLUS);
 		else if (*bar == ' ')
-			frmt->prefix_plus_blank = true;
+			frmt->flags |= FLAG(FL_SPACE);
 		else if (*bar == '-')
-			frmt->padding_on_left = true;
+			frmt->flags |= FLAG(FL_MINUS);
 		else if (*bar == '0')
-			frmt->prefix_zeros = true;
+			frmt->flags |= FLAG(FL_ZERO);
 		else
 			break;
 		bar++;
@@ -39,71 +39,87 @@ int		check_flags(char **fmt, t_frmt *frmt)
 
 int		check_modifier(char **fmt, t_frmt *frmt)
 {
-	enum e_modifiers len;
-	char *bar;
+	t_modif		len;
+	char		*bar;
 
 	bar = *fmt;
-	len = MODIF_DEFAULT;
+	len = MOD_NA;
 	if (*bar)
 	{
 		if (*bar == 'h')
-			len = (*(bar + 1) == 'h') ? MODIF_HH : MODIF_H;
+			len = (*(bar + 1) == 'h') ? MOD_HH : MOD_H;
 		else if (*bar == 'l')
-			len = (*(bar + 1) == 'l') ? MODIF_LL : MODIF_L;
-		/* FIXME: handle L for long double */
-		if (len != MODIF_DEFAULT)
-			*fmt = bar + 1 + (len == MODIF_HH || len == MODIF_LL);
+			len = (*(bar + 1) == 'l') ? MOD_LL : MOD_L;
+		else if (*bar == 'L')
+			len = MOD_L_CAP;
+		if (len != MOD_NA)
+			*fmt = bar + 1 + (len == MOD_HH || len == MOD_LL);
 		frmt->length = len;
 		return (1);
 	}
 	return (0);
 }
 
+#define ALL_TYPES			"dbouxffgeacsp"
+#define LONG_TYPES			"DOUSC"
+#define UPPER_TYPES			"XEAG"
+
 int		check_conversion(char **fmt, t_frmt *frmt)
 {
 	char *bar;
+	/* char *foo; */
 
-	/* FIXME: try to save the char instead of conv enum.. is it better? */
-	/* LATER: create a function int foo(char c) which computes
-	 * the conversion index */
+	/* TODO: find the bug in this one! */
+
+	/*
+	if ((foo = ft_strchr(ALL_TYPES, ft_tolower(*bar))))
+		frmt->conv = foo - bar;
+	ft_putstr(foo);
+	getchar();
+	if ((foo = ft_strchr(LONG_TYPES, *bar)))
+		frmt->length = MOD_L;
+	if ((foo = ft_strchr(UPPER_TYPES, *bar)))
+		frmt->is_upcase = true;
+	*/
+
 	bar = *fmt;
+
 	if (*bar == 'd' || *bar == 'D' || *bar == 'i')
 	{
-		frmt->length = (*bar == 'D' ? MODIF_L : frmt->length);
-		frmt->conv = SIGNED_DECI;
+		frmt->length = (*bar == 'D' ? MOD_L : frmt->length);
+		frmt->conv = CONV_INT;
 	}
 	else if (*bar == 'o' || *bar == 'O')
 	{
-		frmt->length = (*bar == 'O' ? MODIF_L : frmt->length);
-		frmt->conv = U_OCTA;
+		frmt->length = (*bar == 'O' ? MOD_L : frmt->length);
+		frmt->conv = CONV_UOCT;
 	}
 	else if (*bar == 'u' || *bar == 'U')
 	{
-		frmt->length = (*bar == 'U' ? MODIF_L : frmt->length);
-		frmt->conv = U_DECI;
+		frmt->length = (*bar == 'U' ? MOD_L : frmt->length);
+		frmt->conv = CONV_UDEC;
 	}
 	else if (*bar == 'x' || *bar == 'X')
-		frmt->conv = (*bar == 'X' ? U_HEXA2 : U_HEXA);
+		frmt->conv = CONV_UHEX;
 	else if (*bar == 'e' || *bar == 'E')
-		frmt->conv = (*bar == 'E' ? DBL_EXP2 : DBL_EXP);
+		frmt->conv = CONV_EDBL;
 	else if (*bar == 'f' || *bar == 'F')
-		frmt->conv = (*bar == 'F' ? DBL_NRML2 : DBL_NRML);
+		frmt->conv = (*bar == 'F' ? CONV_LDBL : CONV_DBL);
 	else if (*bar == 'c' || *bar == 'C')
 	{
-		frmt->length = (*bar == 'C' ? MODIF_L : frmt->length);
-		frmt->conv = CHAR;
+		frmt->length = (*bar == 'C' ? MOD_L : frmt->length);
+		frmt->conv = CONV_CHAR;
 	}
 	else if (*bar == 's' || *bar == 'S')
 	{
-		frmt->length = *bar == 'S' ? MODIF_L : frmt->length;
-		frmt->conv = STRING;
+		frmt->length = *bar == 'S' ? MOD_L : frmt->length;
+		frmt->conv = CONV_STR;
 	}
 	else if (*bar == 'p')
-		frmt->conv = POINTER;
-	else if (*bar == '%')
-		frmt->conv = PERCENTAGE;
+		frmt->conv = CONV_PTR;
 	else
 		return (0);
+
 	*fmt = ++bar;
 	return (1);
 }

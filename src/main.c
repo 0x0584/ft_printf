@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::	  */
-/*	 main.c												:+:		 :+:	:+:	  */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2019/07/24 20:00:58 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/07/27 09:12:17 by archid-		  ###	########.fr		  */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/24 20:00:58 by archid-           #+#    #+#             */
+/*   Updated: 2019/07/27 09:12:17 by archid-          ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
@@ -15,11 +15,11 @@
 
 int main(void)
 {
-	ft_printf("[this is a %-6d test and this %-6d]\n", 10, 50);
+	ft_printf("[left %-6d right %6d zero %06d]\n", 10, 50, -13);
 	ft_putendl("------------------------");
-	printf("[this is a %-6d test and this %-6d]\n", 10, 50);
+	printf("[left %-6d right %6d zero %06d]\n", 10, 50, -13);
 
-	char *bar = ft_itoa_base(255, BASE_LHEX);
+	char *bar = ft_itoa_base(-13, BASE_DEC);
 	printf("%s", bar);
 	free(bar);
 	return 0;

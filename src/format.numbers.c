@@ -17,11 +17,8 @@ bool	format_isnumeric(t_frmt *frmt)
 	t_int8 c;
 
 	c = frmt->conv;
-	return (c == SIGNED_DECI ||
-			c == U_OCTA ||
-			c == U_DECI ||
-			c == U_HEXA ||
-			c == U_HEXA2);
+	return (c == CONV_INT || c == CONV_UOCT
+				|| c == CONV_UDEC || c == CONV_UHEX);
 }
 
 bool	format_isfloat(t_frmt *frmt)
@@ -29,32 +26,27 @@ bool	format_isfloat(t_frmt *frmt)
 	t_int8 c;
 
 	c = frmt->conv;
-	return (c == DBL_EXP ||
-			c == DBL_EXP2 ||
-			c == DBL_NRML ||
-			c == DBL_NRML2);
+	return (c == CONV_DBL || c == CONV_LDBL
+				|| c == CONV_GDBL || c == CONV_EDBL);
 }
 
 char	format_getsign(t_frmt *frmt)
 {
-	if (frmt->conv == SIGNED_DECI)
+	if (frmt->conv == CONV_INT)
 	{
-		if (frmt->length == MODIF_L)
-			return (frmt->u_data.l < 0) ? '-' : '+';
-		else if (frmt->length == MODIF_LL)
-			return (frmt->u_data.ll < 0) ? '-' : '+';
+		if (frmt->length == MOD_LL)
+			return (frmt->data.ll < 0) ? '-' : '+';
+		else if (frmt->length == MOD_L)
+			return (frmt->data.l < 0) ? '-' : '+';
 		else
-			return (frmt->u_data.i < 0) ? '-' : '+';
+			return (frmt->data.i < 0) ? '-' : '+';
 	}
-	else if (frmt->conv == DBL_EXP ||
-				frmt->conv == DBL_EXP2 ||
-				frmt->conv == DBL_NRML ||
-				 frmt->conv == DBL_NRML2)
+	else if (format_isfloat(frmt))
 	{
-		if (frmt->length == MODIF_L)
-			return (frmt->u_data.ld < 0) ? '-' : '+';
+		if (frmt->length == MOD_L)
+			return (frmt->data.ld < 0) ? '-' : '+';
 		else
-			return (frmt->u_data.d < 0) ? '-' : '+';
+			return (frmt->data.d < 0) ? '-' : '+';
 	}
 	return ('+');
 }
@@ -63,22 +55,21 @@ char	*format_ieee_float(t_frmt *frmt)
 {
 	(void)frmt;
 	return (NULL);
-	/* return ((frmt->length == MODIF_LL) */
-	/* 		? ft_dtoa(frmt->u_data.ld, frmt->precision) */
-	/* 		: ft_ldtoa(frmt->u_data.d, frmt->precision)); */
+	/* return ((frmt->length == MOD_LL) */
+	/* 		? ft_dtoa(frmt->data.ld, frmt->precision) */
+	/* 		: ft_ldtoa(frmt->data.d, frmt->precision)); */
 }
 
 void	format_alterform(char **astr, t_frmt *frmt)
 {
-	if (format_isnumeric(frmt))
-	{
-		if (frmt->conv == U_OCTA)
-			ft_strprepend(astr, "0");
-		else if (frmt->conv == U_HEXA)
-			ft_strprepend(astr, "0x");
-		else if (frmt->conv == U_HEXA2)
-			ft_strprepend(astr, "0X");
-	}
+	if (!format_isnumeric(frmt))
+		return ;
+
+	if (frmt->conv == CONV_UOCT)
+		ft_strprepend(astr, "0");
+	else if (frmt->conv == CONV_UHEX)
+		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x" );
+
 /*
   call buffutils_pad(dest, "0", 1) for %o
   call buffutils_pad(dest, "0x", 2) for %x

@@ -15,7 +15,6 @@ void	ft_strpad(char **astr, char c, size_t n, bool left)
 	if (left)
 		while (i < n)
 			tmp[i++] = c;
-	ft_putendl("00");
 	ft_strncpy(tmp + i, *astr, size - n);
 	if (!left)
 		while (i < n)

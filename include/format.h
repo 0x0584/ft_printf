@@ -16,78 +16,99 @@
 # include "libft.h"
 # include "buffer.h"
 
+# define FLAG(fl)					(1U << fl)
+# define IS_FLAG(val, fl)			((val & FLAG(fl)) != 0)
+
+typedef enum	e_flags
+{
+	FL_NA,
+
+	FL_ZERO, FL_SPACE, FL_MINUS, FL_PLUS, FL_HASH
+}				t_flags;
+
+
 /* XXX: add enums and union into format structure */
-/* FIXME: create a flags enum, add mask... */
+/*
+   XXX: create a flags enum, add mask...
+   just create enums and move on. you're trying to
+   implement many things at one.
+*/
 
 /* the general rule of a format string:
  *
  *	%{{arg-index}{$}}{0(blank)#-+'}{min-width}.{precision}{len-modi}{type}
  */
-/* FIXME: add priorities */
+
+/*
+   XXX: add priorities
+   never ask anybody not listen to anyone!
+*/
+
+typedef enum	e_length_modifiers
+{
+	MOD_HH, MOD_H,
+	MOD_L, MOD_LL, MOD_L_CAP,
+	MOD_Z, MOD_J,
+
+	MOD_NA = -1
+}				t_modif;
+
+typedef	enum	e_conversions
+{
+	CONV_INT, CONV_UBIN, CONV_UOCT, CONV_UDEC, CONV_UHEX,
+	CONV_DBL, CONV_LDBL, CONV_GDBL, CONV_EDBL, CONV_HDBL,
+	CONV_CHAR, CONV_STR, CONV_PTR,
+
+	CONV_FRMT = -2, CONV_NA
+}				t_conv;
+
+
+/* NOTE:
+ *
+ * i'm not sure about all the type conversion the man in not clean
+ * about those (or it might be just me) * so i've putted here any
+ * possible data type
+ */
+
+typedef union	u_data
+{
+	short				s;
+	int					i;
+	long				l;
+	long long			ll;
+
+	unsigned char		c;
+	unsigned short		us;
+	unsigned char		uc;
+	unsigned int		ui;
+	unsigned long		ul;
+	unsigned long long	ull;
+	double				d;
+	long double			ld;
+	char				*str;
+	t_int32				*wstr;
+	t_int32				wc;
+	unsigned char		*ustr;
+
+	void			    *p;
+	intmax_t j;
+	uintmax_t jj;
+
+}				t_data;
+
 typedef struct	s_format
 {
-	int								argindex;
-	int								fmtindex;
+	int		        iarg;
+	int		    	ifrmt;
 
-	int								width;
-	int								precision;
-	bool							is_alter;
-	bool							prefix_zeros;
-	bool							prefix_signe;
-	bool							prefix_plus_blank;
-	bool							padding_on_left;
+	t_flags	    	flags;
+	t_modif	    	length;
+	t_conv	    	conv;
+	bool	    	is_upcase;	  /* set when a conversion is uppercase */
 
-	enum		e_modifiers
-	{
-		MODIF_HH, MODIF_H,
-		MODIF_L, MODIF_LL,
-
-		MODIF_DEFAULT = -1
-	}								length;
-
-	enum		e_conversions
-	{
-		SIGNED_DECI,
-
-		U_OCTA, U_DECI, U_HEXA, U_HEXA2,
-
-		DBL_EXP, DBL_EXP2,
-		DBL_NRML, DBL_NRML2,
-		DBL_G, DBL_G2,
-		DBL_HEXA, DBL_HEXA2,
-
-		CHAR, STRING, POINTER, PERCENTAGE,
-
-		STRING_FRMT = -2,
-		DEFAULT_CONV
-	}								conv;
-
-	/* NOTE:
-	 *
-	 * i'm not sure about all the type conversion the man in not clean
-	 * about those (or it might be just me) * so i've putted here any
-	 * possible data type
-	 */
-
-	union		u_data
-	{
-		unsigned char		c;
-		short				s;
-		int					i;
-		long				l;
-		long long			ll;
-		unsigned short		us;
-		unsigned char		uc;
-		unsigned int		ui;
-		unsigned long		ul;
-		unsigned long long	ull;
-		double				d;
-		long double			ld;
-		char				*str;
-		t_int32				*wstr;
-		t_int32				wc;
-		unsigned char		*ustr;
-	}								u_data;
+	t_data	    	data;
+	int		    	width;
+	int		    	prec;
 }				t_frmt;
 
 void			handle_format(char **fmt, t_plist *alstfrmt, int *index);
@@ -115,11 +136,12 @@ char			*format_ieee_float(t_frmt *frmt);
 
 /*
 ** format.handler.c
+**
 */
 
 char			*handle_unsigned_deci(t_frmt *frmt, const char *base);
 char			*handle_signed_deci(t_frmt *frmt);
-char			*handle_double(t_frmt *frmt);
+char			*handle_floating_point(t_frmt *frmt);
 char			*handle_char(t_frmt *frmt);
 char			*handle_string(t_frmt *frmt);
 

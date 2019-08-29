@@ -39,6 +39,7 @@
 # define ALLOC(type, n, sz)					((type)ft_memalloc((n) * (sz)))
 # define SAFE_PTRVAL(ptr)					(ptr && *ptr)
 
+/* TODO: remove the four below macros. they are not in the norm! */
 # define ASSERT_RET(expr, ret)				if ((expr)) return (ret)
 # define UNLESS_RET(expr, ret)				if (!(expr)) return (ret)
 
@@ -61,10 +62,10 @@ struct	s_list
 	struct s_list	*next;
 };
 
-enum	e_strpad_direction
+enum	e_string_position
 {
-	STRPAD_LEFT = true,
-	STRPAD_RIGHT = false
+	TOWARD_HEAD = true,
+	TOWARD_TAIL = false
 };
 
 void			*ft_memset(void *s, int c, size_t n);
@@ -167,7 +168,7 @@ t_int64			ft_utf8tostr(t_int8 *dest, size_t destsz,
 								const t_int32 *wsrc, size_t srcsz);
 t_int16			ft_utf8tostr_ch(t_int8 *dest, t_int32 wch);
 
-char			*ft_itoa_base(intmax_t nb, const char *base);
-char			*ft_utoa_base(uintmax_t nb, const char *base);
+char			*ft_itoa_base(t_int128 nb, const char *base);
+char			*ft_utoa_base(t_uint128 nb, const char *base);
 
 #endif

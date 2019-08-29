@@ -18,7 +18,7 @@ static bool		isvalid_base(const char *base)
 	return (true);
 }
 
-static size_t	count_udigits_in_base(uintmax_t nb, size_t radix)
+static size_t	count_udigits_in_base(t_uint128 nb, size_t radix)
 {
 	size_t count;
 
@@ -33,36 +33,39 @@ static size_t	count_udigits_in_base(uintmax_t nb, size_t radix)
 	return (count);
 }
 
-static size_t	count_digits_in_base(intmax_t nb, size_t radix)
+static size_t	count_digits_in_base(t_int128 nb, size_t radix)
 {
-	return count_udigits_in_base(nb < 0 ? -nb : nb, radix);
+	t_uint128 foo;
+
+	foo = nb < 0 ? -nb : nb;
+	return (count_udigits_in_base(foo, radix));
 }
 
-char			*ft_itoa_base(intmax_t nb, const char *base)
+char			*ft_itoa_base(t_int128 nb, const char *base)
 {
 	char			*buff;
-	bool			sign;
 	size_t			n_digi;
 	size_t			radix;
+	t_uint128		foo;
 
-	sign = (nb < 0);
+	foo = (nb < 0) ? -nb : nb;
 	if (!isvalid_base(base))
 		return (NULL);
 	radix = ft_strlen(base);
-	n_digi = count_digits_in_base(nb, radix);
-	if (!(buff = ft_strnew(n_digi + sign)))
+	n_digi = count_digits_in_base(foo, radix);
+	if (!(buff = ft_strnew(n_digi + (nb < 0))))
 		return (NULL);
 	while (n_digi--)
 	{
-		buff[n_digi + sign] = base[(sign ? -1 : 1) * (nb % radix)];
-		nb /= radix;
+		buff[n_digi + (nb < 0)] = base[(foo % radix)];
+		foo /= radix;
 	}
-	if (sign)
+	if (nb < 0)
 		*buff = '-';
 	return (buff);
 }
 
-char			*ft_utoa_base(uintmax_t nb, const char *base)
+char			*ft_utoa_base(t_uint128 nb, const char *base)
 {
 	char			*buff;
 	size_t			n_digi;
@@ -71,7 +74,7 @@ char			*ft_utoa_base(uintmax_t nb, const char *base)
 	if (!isvalid_base(base))
 		return (NULL);
 	radix = ft_strlen(base);
-	n_digi = count_digits_in_base(nb, radix);
+	n_digi = count_udigits_in_base(nb, radix);
 	if (!(buff = ft_strnew(n_digi)))
 		return (NULL);
 	while (n_digi--)
