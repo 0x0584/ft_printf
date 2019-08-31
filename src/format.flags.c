@@ -9,7 +9,8 @@ void	flag_getprefix_or_sign (t_frmt *frmt, char **astr, size_t *pad)
 	}
 	/* XXX: plus overrides the space */
 	if (!format_check_alterform(astr, frmt, pad))
-		if (frmt->conv == CONV_INT && format_getsign(frmt) != '-'
+		if ((frmt->conv == CONV_INT || format_isfloat(frmt))
+			&& format_getsign(frmt) != '-'
 			&& (HAS_FLAG(frmt, FL_PLUS) || HAS_FLAG(frmt, FL_SPACE)))
 		{
 

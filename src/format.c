@@ -36,11 +36,14 @@ static int		hungry_getnbr(char **str)
 {
 	char *bar;
 	int foo;
+	bool first_run;
 
+	first_run = true;
 	bar = *str;
 	foo = 0;
 	while (ft_isdigit(*bar))
 	{
+		first_run = false;
 		foo = (foo << 3) + (foo << 1);
 		foo += (*bar++ - '0');
 	}
@@ -81,22 +84,26 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	*fmt += 1;
 	check_flags(fmt, &frmt);
 	frmt.iarg = hungry_getnbr(fmt);
-	if (*fmt[0] != '$')
+	if (*fmt[0] == '$')
+		*fmt += 1;
+	else
 	{
 		frmt.width = frmt.iarg;
 		frmt.iarg = 0;
 		sort_lstfrmt = false;
 	}
-	else
-		*fmt += 1;
+
 	if (frmt.iarg)
 		frmt.width = hungry_getnbr(fmt);
 	*fmt += (*fmt[0] == '.');
-	frmt.prec = hungry_getnbr(fmt);
+	if (!(frmt.prec = hungry_getnbr(fmt)))
+		frmt.prec = 6;
 	check_modifier(fmt, &frmt);
 	check_conversion(fmt, &frmt);
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
 }
+
+/* FIXME: rename to retreive_args */
 
 int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 {
@@ -138,7 +145,7 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 					|| frmt->conv == CONV_GDBL || frmt->conv == CONV_EDBL
 					|| frmt->conv == CONV_HDBL)
 		{
-			if (frmt->length == MOD_L)
+			if (frmt->length == MOD_L_CAP)
 				frmt->data.ld = va_arg(*arglst, long double);
 			else
 				frmt->data.d = va_arg(*arglst, double);

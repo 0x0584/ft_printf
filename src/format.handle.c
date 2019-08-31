@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "format.h"
+#include "ieeefp.h"
 
 /*
   FIXME: try to allocated memory fpr exatly dest size chars
@@ -97,16 +98,24 @@ char	*handle_signed_deci(t_frmt *frmt)
 		return ft_itoa_base(frmt->data.i, BASE_DEC);
 }
 
+/*
+   BUG:
+
+   %.0f shows weird output!
+
+*/
+
 char	*handle_floating_point(t_frmt *frmt)
 {
 	char *str;
 
-	/* if (frmt->length == MOD_L) */
-	/* 	str = ft_ldtoa(frmt->data.d, frmt->precision); */
-	/* else */
-	/* 	str = ft_dtoa(frmt->data.d, frmt->precision); */
-	(void)frmt;
-	str = NULL;
+	printf(" HERE !!!! %f\n", frmt->data.d);
+	if (frmt->length == MOD_L_CAP)
+		str = ft_ldtoa(frmt->data.ld, frmt->prec);
+	else
+		str = ft_dtoa(frmt->data.d, frmt->prec);
+	ft_putstr(" fp ? "); ft_putendl(str);
+	getchar();
 	return str;
 }
 

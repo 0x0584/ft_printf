@@ -100,8 +100,8 @@ t_int32				dragon4(t_ieeefp fp, t_ieeetype type,
 								char *buff, t_uint32 buff_size);
 void				handle_precision(char **fp_buff, t_ieee_fmt ftype,
 										int exp, int preci);
-char				*ft_ftoa(float f);
-char				*ft_dtoa(double d);
-char				*ft_ldtoa(long double ld);
+char				*ft_ftoa(float f, t_uint32 pre);
+char				*ft_dtoa(double d, t_uint32 pre);
+char				*ft_ldtoa(long double ld, t_uint32 pre);
 
 #endif

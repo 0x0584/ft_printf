@@ -101,6 +101,10 @@ int		check_conversion(char **fmt, t_frmt *frmt)
 	}
 	else if (*bar == 'x' || *bar == 'X')
 		frmt->conv = CONV_UHEX;
+	else if (*bar == 'g' || *bar == 'G')
+		frmt->conv = CONV_GDBL;
+	else if (*bar == 'a' || *bar == 'A')
+		frmt->conv = CONV_HDBL;
 	else if (*bar == 'e' || *bar == 'E')
 		frmt->conv = CONV_EDBL;
 	else if (*bar == 'f' || *bar == 'F')

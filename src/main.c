@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include "ft_printf.h"
+#include "ieeefp.h"
 
 int main(void)
 {
@@ -24,13 +25,14 @@ int main(void)
 	   unsigned problem
 	*/
 
-	char *fmt = "[left (%0#10X) right (% d) zero (%o)]\n";
-	ft_printf(fmt, 89999, 50, 1993);
+	char *fmt = "[left (%+8.2f) right (%.4f) zero (%.7f)]\n";
+	ft_printf(fmt, 10.00899, 50.5555, 1993.43);
 	ft_putendl("------------------------");
-	printf(fmt, 89999, 50, 1993);
+	printf(fmt, 10.00899, 50.5555, 1993.43);
 
-	char *bar = ft_itoa_base(-13, BASE_DEC);
-	/* printf("%s", bar); */
+	char *bar = ft_dtoa(0.00899L, 4);
+
+	printf("(%s)", bar);
 	free(bar);
 	return 0;
 }
