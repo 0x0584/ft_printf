@@ -13,16 +13,39 @@
 #include "format.h"
 
 /*
- * FIXME: try to allocated memory fpr exatly dest size chars
- *
- * IDEA:
- * =====
- *
- * move over the string to count the length
- * allocated memory for exactly that length + 1
- * code the process of decoding
- */
+  FIXME: try to allocated memory fpr exatly dest size chars
+
+  IDEA:
+  =====
+
+  move over the string to count the length
+  allocated memory for exactly that length + 1
+  code the process of decoding
+*/
 static t_int8 dest[0xffff];
+
+/*
+  BUG: unsigned conversions have problem with negative numbers
+
+  it's probably due to conversions are all treated as intmax_t, while unsigned
+  numbers consided the sign bit as significat bit. probably I have to create a
+  one for each data type
+
+	format (%#04x) arg -89999
+
+	mine:	(0xFFFFFFFFFFFEA071)
+	glibc:	(0xfffea071)
+
+	format (%#04o) arg -89999
+
+	mine:	(01777777777777777520161)
+	glibc:	(037777520161)
+
+	format	(%#04o) arg 89999
+
+	mine:	(0257617)
+	glibc:	(0257617)
+*/
 
 char			*format_handle_conversion(t_frmt *frmt)
 {

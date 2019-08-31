@@ -149,6 +149,7 @@ char			*handle_string(t_frmt *frmt);
 bool			format_check_alterform(char **astr, t_frmt *frmt, size_t *pad);
 void			flag_getprefix_or_sign (t_frmt *frmt, char **astr, size_t *pad);
 void			flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad);
+void			flag_adjust_padding(t_frmt *frmt, char **astr, size_t *pad);
 char			*format_handle_conversion(t_frmt *frmt);
 
 #endif

@@ -21,7 +21,7 @@ int		ft_printf(const char *fmt, ...)
 	t_buff	*buff;
 	char	*tmp;
 	t_list	*lstfrmt;
-	int		count;
+	int		n_chars;
 	int index = 0;
 	va_list args;
 
@@ -45,7 +45,8 @@ int		ft_printf(const char *fmt, ...)
 	format_to_buff(lstfrmt, buff);
 	ft_lstdel(&lstfrmt, format_free);
 	va_end(args);
-	count = buff_write(1, buff);
+	ft_putendl("");
+	n_chars = buff_write(1, buff);
 	buff_free(&buff);
-	return (count);
+	return (n_chars);
 }

@@ -57,7 +57,6 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 	t_list	*e;
 	t_frmt	*frmt;
 	char	*s_frmt;
-	char	tmp_sign;
 	size_t	padding_size;
 	size_t slen;
 
@@ -89,22 +88,20 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		/* alternate form and Sign or Space */
 		flag_getprefix_or_sign(frmt, &s_frmt, &padding_size);
 
-		/* Field width */
-		/* XXX: Check this when flag + and space */
-		if (frmt->width && padding_size && !HAS_FLAG(frmt, FL_ZERO))
-			ft_strpad(&s_frmt, ' ', padding_size,
-					  HAS_FLAG(frmt, FL_MINUS) ? TOWARD_TAIL : TOWARD_HEAD);
+		flag_adjust_padding(frmt, &s_frmt, &padding_size);
 
-		/* Zero padding */
-		flag_zero_padding(frmt, &s_frmt, &padding_size);
-
-		/* format_set_precision(&s_frmt, frmt); */
+		ft_putstr("must not be NULL: >>> ");
+		ft_putstr(s_frmt);
+		getchar();
 
 		if (!buff_append(buff, s_frmt, ft_strlen(s_frmt)))
 		{
 			ft_putendl_fd("buff doesn't have a room left'", 2);
 			break;
 		}
+
+		if (s_frmt == NULL)
+		ft_putendl_fd("s_frmt was empty", 2);
 
 		ft_putstr("{");
 		buff_write(1, buff);
@@ -115,5 +112,5 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 	}
 
 	if (s_frmt == NULL)
-		ft_putendl("s_frmt was empty");
+		ft_putendl_fd("s_frmt was empty", 2);
 }

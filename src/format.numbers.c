@@ -64,18 +64,21 @@ char	*format_ieee_float(t_frmt *frmt)
 
 bool	format_check_alterform(char **astr, t_frmt *frmt, size_t *pad)
 {
-	if (!HAS_FLAG(frmt, FL_HASH) || !format_isnumeric(frmt))
+	if (!(SAFE_PTRVAL(astr)) || !HAS_FLAG(frmt, FL_HASH)
+			|| !format_isnumeric(frmt))
 		return (false);
 
 	if (frmt->conv == CONV_UOCT && ft_strcmp(*astr, "0"))
 	{
 		ft_strprepend(astr, "0");
-		*pad -= 1;
+		if (*pad)
+			*pad -= 1;
 	}
 	else if (frmt->conv == CONV_UHEX)
 	{
 		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x" );
-		*pad -= 2;
+		if (*pad)
+			*pad -= 2;
 	}
 /*
   call buffutils_pad(dest, "0", 1) for %o
