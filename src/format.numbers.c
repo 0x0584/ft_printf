@@ -12,6 +12,8 @@
 
 #include "format.h"
 
+/* FIXME: move loat functions into format.ieeefp.c */
+
 bool	format_isnumeric(t_frmt *frmt)
 {
 	t_int8 c;
@@ -60,16 +62,21 @@ char	*format_ieee_float(t_frmt *frmt)
 	/* 		: ft_ldtoa(frmt->data.d, frmt->precision)); */
 }
 
-void	format_check_alterform(char **astr, t_frmt *frmt)
+bool	format_check_alterform(char **astr, t_frmt *frmt, size_t *pad)
 {
 	if (!HAS_FLAG(frmt, FL_HASH) || !format_isnumeric(frmt))
-		return ;
+		return (false);
 
 	if (frmt->conv == CONV_UOCT && ft_strcmp(*astr, "0"))
+	{
 		ft_strprepend(astr, "0");
+		*pad -= 1;
+	}
 	else if (frmt->conv == CONV_UHEX)
+	{
 		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x" );
-
+		*pad -= 2;
+	}
 /*
   call buffutils_pad(dest, "0", 1) for %o
   call buffutils_pad(dest, "0x", 2) for %x
@@ -79,4 +86,5 @@ void	format_check_alterform(char **astr, t_frmt *frmt)
   dest = ft_format_ieee_float(frmt, trailing_is_on) // default off
 */
 
+	return (true);
 }

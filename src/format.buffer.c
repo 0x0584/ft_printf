@@ -77,7 +77,7 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 
 		/*
 		   NOTE:
-		   create a fomrmat string and re edit it! stop concerning about
+		   create a fomrmat string and reedit it! stop concerning about
 		   performance for now
 		 */
 
@@ -86,79 +86,23 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		if (frmt->width > (slen = ft_strlen(s_frmt)) && frmt->width)
 			padding_size = frmt->width - slen;
 
-		/* format_check_alterform(&s_frmt, frmt); */
-
-		/* Sign or Space */
-		/* XXX: plus overrides the space */
-		if (frmt->conv == CONV_INT && format_getsign(frmt) != '-'
-			&& (HAS_FLAG(frmt, FL_PLUS) || HAS_FLAG(frmt, FL_SPACE)))
-		{
-
-			ft_strpad(&s_frmt, HAS_FLAG(frmt, FL_PLUS) ? '+' : ' ', 1,
-						TOWARD_HEAD);
-			/* XXX: remove padding_size from  */
-			if (padding_size)
-				padding_size--;
-		}
+		/* alternate form and Sign or Space */
+		flag_getprefix_or_sign(frmt, &s_frmt, &padding_size);
 
 		/* Field width */
-		/* TODO: Check this when flag + and space */
+		/* XXX: Check this when flag + and space */
 		if (frmt->width && padding_size && !HAS_FLAG(frmt, FL_ZERO))
 			ft_strpad(&s_frmt, ' ', padding_size,
 					  HAS_FLAG(frmt, FL_MINUS) ? TOWARD_TAIL : TOWARD_HEAD);
 
 		/* Zero padding */
-		/* FIXME: ignore zero padding when precision */
-		if (HAS_FLAG(frmt, FL_ZERO) && !HAS_FLAG(frmt, FL_MINUS)
-				&& frmt->width && padding_size
-				&& !(format_isnumeric(frmt) && frmt->prec))
-		{
-			tmp_sign = *s_frmt;
-			ft_putstr(" ?? "); ft_putendl(s_frmt);
-
-			ft_strpad(&s_frmt, '0', padding_size, TOWARD_HEAD);
-
-			ft_putstr(" >");
-			getchar();
-
-			if (tmp_sign == '+' && !HAS_FLAG(frmt, FL_PLUS)
-					&& HAS_FLAG(frmt, FL_SPACE))
-				tmp_sign = ' ';
-			if (tmp_sign == '+' || tmp_sign == '-' || tmp_sign == ' ')
-				ft_strreplace(&s_frmt, (char []){tmp_sign, '\0'}, "");
-			if (tmp_sign == '+' || tmp_sign == '-' || tmp_sign == ' ')
-				ft_strinsert_at(&s_frmt, (char []){tmp_sign, '\0'}, 0);
-
-			/* if (tmp_sign == '+' || tmp_sign == '-') */
-			/* { */
-			/* 	ft_strreplace(&s_frmt, (char []){tmp_sign, '\0'}, "0"); */
-			/* 	ft_strreplace(&s_frmt, "0", (char []){tmp_sign, '\0'}); */
-			/* } */
-			ft_putendl(s_frmt);
-			getchar();
-
-			/* ft_strpad(&s_frmt, HAS_FLAG(frmt, FL_ZERO) ? '0' : ' ', */
-			/* 			padding_size - (format_getsign(frmt) == '-' */
-			/* 						&& HAS_FLAG(frmt, FL_ZERO)), */
-			/* 			TOWARD_HEAD); */
-			/* if (format_getsign(frmt) == '-' && HAS_FLAG(frmt, FL_ZERO)) */
-			/* { */
-			/* 	ft_strreplace(&s_frmt, "-", "0"); */
-			/* 	ft_strinsert_at(&s_frmt, "-", 0); */
-			/* } */
-			/* if (HAS_FLAG(frmt, FL_PLUS) || HAS_FLAG(frmt, FL_SPACE)) */
-			/* 	ft_strreplace(&s_frmt, "0", ""); */
-		}
-
-		/* if (frmt->width && padding_size */
-		/* 		&& !(HAS_FLAG(frmt, FL_MINUS) || HAS_FLAG(frmt, FL_ZERO))) */
-		/* 	ft_strpad(&s_frmt, ' ', padding_size, TOWARD_TAIL); */
+		flag_zero_padding(frmt, &s_frmt, &padding_size);
 
 		/* format_set_precision(&s_frmt, frmt); */
 
 		if (!buff_append(buff, s_frmt, ft_strlen(s_frmt)))
 		{
-			ft_putendl("buff doesn't have a room left'");
+			ft_putendl_fd("buff doesn't have a room left'", 2);
 			break;
 		}
 

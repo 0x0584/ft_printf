@@ -23,7 +23,7 @@ int main(void)
 	   NOTE: negative and octal are not working good? probably an
 	   unsigned problem
 	*/
-	char *fmt = "[left (%+8d) right (% d) zero (%o)]\n";
+	char *fmt = "[left (%+-8d) right (% d) zero (%o)]\n";
 	ft_printf(fmt, 1770, 50, 1993);
 	ft_putendl("------------------------");
 	printf(fmt, 1770, 50, 1993);
