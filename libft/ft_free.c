@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtoupper.c                                    :+:      :+:    :+:   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/06 14:34:48 by archid-           #+#    #+#             */
-/*   Updated: 2019/08/06 14:38:58 by archid-          ###   ########.fr       */
+/*   Created: 2019/07/26 17:25:59 by archid-           #+#    #+#             */
+/*   Updated: 2019/07/26 17:37:28 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_ldtoa(long double ld)
+void	ft_free(void (*del)(void *o), void *ptr, ...)
 {
-	(void)ld;
+	va_list args;
+	void	*vp;
 
-	return (NULL);
+	ASSERT_DO(ptr, del(ptr));
+	va_start(args, ptr);
+	while ((vp = va_arg(args, void *)) != NULL)
+		ASSERT_DO(vp, del(vp));
+	va_end(args);
 }

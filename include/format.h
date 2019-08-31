@@ -18,6 +18,7 @@
 
 # define FLAG(fl)					(1U << fl)
 # define IS_FLAG(val, fl)			((val & FLAG(fl)) != 0)
+# define HAS_FLAG(frmt, fl)			(IS_FLAG(frmt->flags, fl))
 
 typedef enum	e_flags
 {
@@ -107,8 +108,8 @@ typedef struct	s_format
 	bool	    	is_upcase;	  /* set when a conversion is uppercase */
 
 	t_data	    	data;
-	int		    	width;
-	int		    	prec;
+	t_uint32    	width;
+	t_uint32	   	prec;
 }				t_frmt;
 
 void			handle_format(char **fmt, t_plist *alstfrmt, int *index);
@@ -144,5 +145,8 @@ char			*handle_signed_deci(t_frmt *frmt);
 char			*handle_floating_point(t_frmt *frmt);
 char			*handle_char(t_frmt *frmt);
 char			*handle_string(t_frmt *frmt);
+
+void			format_check_alterform(char **astr, t_frmt *frmt);
+char			*format_handle_conversion(t_frmt *frmt);
 
 #endif

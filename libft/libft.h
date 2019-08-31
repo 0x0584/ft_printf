@@ -77,12 +77,13 @@ void			*ft_memalloc(size_t size);
 void			*ft_dumb_realloc(void **ptr, size_t old, size_t new);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 void			ft_memdel(void **mem);
-void			ft_memdel_all(void (*del)(void *o), void *ptr, ...);
+void			ft_free(void (*del)(void *o), void *ptr, ...);
 void			ft_bzero(void *s, size_t n);
 
 void			ft_strinsert_at(char **str, char const *src, size_t index);
 void			ft_strreplace(char **str, char const *base, char const *to);
 void			ft_strpad(char **astr, char c, size_t n, bool left);
+void			ft_strsubswap(char **astr, const char *s1, const char *s2);
 void			ft_strctrim(char **str, char c, bool left);
 void			ft_strtoupper(char **str);
 char			*ft_strnew(size_t size);

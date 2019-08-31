@@ -24,6 +24,29 @@
  */
 static t_int8 dest[0xffff];
 
+char			*format_handle_conversion(t_frmt *frmt)
+{
+	char *str;
+
+	str = NULL;
+	if (frmt->conv == CONV_INT)
+		str =  handle_signed_deci(frmt);
+	else if (frmt->conv == CONV_UOCT)
+		str = handle_unsigned_deci(frmt, BASE_OCT);
+	else if (frmt->conv == CONV_UDEC)
+		str = handle_unsigned_deci(frmt, BASE_DEC);
+	else if (frmt->conv == CONV_UHEX)
+		str = handle_unsigned_deci(frmt, BASE_UHEX);
+	else if (format_isfloat(frmt))
+		str = handle_floating_point(frmt);
+	else if (frmt->conv == CONV_CHAR)
+		str = handle_char(frmt);
+	else if (frmt->conv == CONV_STR || frmt->conv == CONV_FRMT)
+		str = handle_string(frmt);
+
+	return (str);
+}
+
 char	*handle_unsigned_deci(t_frmt *frmt, const char *base)
 {
 	char *str;

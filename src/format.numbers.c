@@ -60,12 +60,12 @@ char	*format_ieee_float(t_frmt *frmt)
 	/* 		: ft_ldtoa(frmt->data.d, frmt->precision)); */
 }
 
-void	format_alterform(char **astr, t_frmt *frmt)
+void	format_check_alterform(char **astr, t_frmt *frmt)
 {
-	if (!format_isnumeric(frmt))
+	if (!HAS_FLAG(frmt, FL_HASH) || !format_isnumeric(frmt))
 		return ;
 
-	if (frmt->conv == CONV_UOCT)
+	if (frmt->conv == CONV_UOCT && ft_strcmp(*astr, "0"))
 		ft_strprepend(astr, "0");
 	else if (frmt->conv == CONV_UHEX)
 		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x" );

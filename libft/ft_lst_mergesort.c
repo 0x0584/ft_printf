@@ -8,7 +8,6 @@
 
 #include "libft.h"
 
-
 static t_plist		helper_merge(t_plist left, t_plist right,
 							   int (cmp)(t_plist, t_plist))
 {

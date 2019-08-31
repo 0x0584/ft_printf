@@ -77,7 +77,7 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	ft_putendl("begin handle format");
 	ft_putendl(*fmt);
 
-	getchar();
+	/* getchar(); */
 	*fmt += 1;
 	check_flags(fmt, &frmt);
 	frmt.iarg = hungry_getnbr(fmt);
