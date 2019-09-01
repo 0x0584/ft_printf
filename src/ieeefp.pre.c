@@ -1,6 +1,24 @@
 #include "libft.h"
 #include "ieeefp.h"
 
+static void		skip_leading_zeros(char **astr)
+{
+	size_t	i;
+	char	*str;
+
+	i = 0;
+	str = *astr;
+	while (str[i] && str[i] == '0')
+		i++;
+	if (str[i] && str[i] == '.')
+		i--;
+	if (!i)
+		return ;
+	str = ft_strdup(*astr + i);
+	ft_strdel(astr);
+	*astr = str;
+}
+
 static bool		has_trailing_zeros(char *buff, size_t index)
 {
 	while (buff[index])
@@ -11,7 +29,7 @@ static bool		has_trailing_zeros(char *buff, size_t index)
 	return (true);
 }
 
-static void		round_nearest_even(char **fp_buff, t_ieee_fmt ftype,
+static void		round_nearest_even(char **fp_buff, t_ieee_fmt style,
 										int *exp, int preci)
 {
 	char			*buff;
@@ -19,7 +37,7 @@ static void		round_nearest_even(char **fp_buff, t_ieee_fmt ftype,
 	t_uint32		carry;
 
 	buff = *fp_buff;
-	i = MAX(ftype == IEEE_EXPONENT ? 0 : *exp, 0) + preci;
+	i = MAX(style == IEEE_EXPONENT ? 0 : *exp, 0) + preci;
 	if (!buff[i + 1] || buff[i + 1] < '5' || (buff[i + 1] == '5'
 		&& IS_EVEN(buff[i] - '0') && has_trailing_zeros(buff, i + 2)))
 		return ;
@@ -40,54 +58,38 @@ static void		round_nearest_even(char **fp_buff, t_ieee_fmt ftype,
 	buff[i] += 1;
 }
 
-static void		prepare_fp_buff(char **buff, t_ieee_fmt ftype,
+static void		prepare_fp_buff(char **buff, t_ieee_fmt style,
 									int *exp, int preci)
 {
 	t_int32			npad;
 	size_t			buff_size;
 
 	buff_size = ft_strlen(*buff);
-	if (*exp < 0 && ftype == IEEE_NORMAL)
+	if (*exp < 0 && style == IEEE_NORMAL)
 		ft_strpad(buff, '0', -*exp, TOWARD_HEAD);
 	if (*exp <= 0)
 		npad = MAX(preci - (buff_size - 1), 0);
 	else
-		npad = MAX(*exp - (buff_size - 1), 0) + preci -
-			(*exp > ((int)buff_size - 1) ? 0 : ft_strlen(*buff + *exp + 1));
+		npad = MAX(*exp - (buff_size - 1), 0) + preci
+			- (*exp > ((ssize_t)buff_size - 1)
+					? 0 : ft_strlen(*buff + *exp + 1));
 	(void)printf(" << %d %zu\n", ABS(npad), buff_size);
 	/* (void)getchar(); */
 	ft_strpad(buff, '0', ABS(npad), TOWARD_TAIL);
-	round_nearest_even(buff, ftype, exp, preci);
+	round_nearest_even(buff, style, exp, preci);
 }
 
-void	skip_leading_zeros(char **astr)
-{
-	size_t	i;
-	char	*str;
-
-	i = 0;
-	str = *astr;
-	while (str[i] && str[i] == '0')
-		i++;
-	if (str[i] && str[i] == '.')
-		i--;
-	if (!i)
-		return ;
-	str = ft_strdup(*astr + i);
-	ft_strdel(astr);
-	*astr = str;
-}
-
-void	handle_precision(char **fp_buff, t_ieee_fmt ftype, int exp, int preci)
+void	dragon4_prec(char **fp_buff, t_int32 exp, t_ieee_fmt style,
+						t_uint32 preci)
 {
 	char	*fp;
 	char	*tmp;
 	int		exp2;
 
-	prepare_fp_buff(fp_buff, ftype, &exp, preci);
-	exp2 = MAX(ftype == IEEE_EXPONENT ? 0 : exp, 0);
-	ft_putendl("^^^");
+	prepare_fp_buff(fp_buff, style, &exp, preci);
+	exp2 = MAX(style == IEEE_EXPONENT ? 0 : exp, 0);
 	fp = ft_strrdup(*fp_buff, *fp_buff + exp2);
+	ft_putnumber(exp); ft_putstr(" >>> "); ft_putendl(fp);
 	getchar();
 	if (preci)
 	{

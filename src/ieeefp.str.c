@@ -15,16 +15,18 @@ char	*ieee_ftoa(float f, t_uint32 prec)
 	return (NULL);
 }
 
-char	*ieee_dtoa(double d, t_uint32 prec)
+char	*ieee_dtoa(double d, t_uint32 prec, t_ieee_fmt style, t_int32 *exp)
 {
 	char		*buff;
-	t_int32		exp;
+	t_int32		exp2;
 	t_ieeefp	fp;
 
 	buff = ft_strnew(DRAGON4_BUFF_SIZE);
 	fp.d.d = d;
-	exp = dragon4(fp, IEEE_DOUBLE, buff, DRAGON4_BUFF_SIZE);
+	exp2 = dragon4(fp, IEEE_DOUBLE, buff, DRAGON4_BUFF_SIZE);
 	ft_putendl("----");
-	handle_precision(&buff, IEEE_NORMAL, exp, 6);
+	dragon4_prec(&buff, exp2, style, prec);
+	if (exp)
+		*exp = exp2;
 	return (buff);
 }

@@ -97,14 +97,14 @@ typedef enum		e_ieee_floating_point_format
 }					t_ieee_fmt;
 
 t_int32				dragon4(t_ieeefp fp, t_ieeetype type,
-								char *buff, t_uint32 buff_size);
-void				dragon4_prec(char **fp_buff, int exp, int preci);
-
+									char *buff, t_uint32 buff_size);
+void				dragon4_prec(char **fp_buff, t_int32 exp,
+									t_ieee_fmt style, t_uint32 preci);
 char				*ieee_ftoa(float f, t_uint32 prec);
-char				*ieee_dtoa(double d, t_uint32 prec);
+char				*ieee_dtoa(double d, t_uint32 prec,
+									t_ieee_fmt style, t_int32 *exp);
 char				*ieee_ldtoa(long double ld, t_uint32 prec);
-
-void				ieee_sci_style(char **astr);
+void				ieee_sci_style(char **astr, t_int32 exp);
 char 				*ieee_hex_style(t_ieeefp fp);
 void				ieee_suitable_style(char **astr);
 

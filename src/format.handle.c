@@ -103,6 +103,7 @@ char	*handle_floating_point(t_frmt *frmt)
 	char *str;
 	t_ieeefp fp;
 	t_int32 exp;
+	t_ieee_fmt style;
 
 	ft_putendl("here");
 	if (frmt->conv == CONV_HDBL)
@@ -115,13 +116,22 @@ char	*handle_floating_point(t_frmt *frmt)
 	}
 	else
 	{
+		style = IEEE_NORMAL;
+		if (frmt->conv == CONV_EDBL)
+			style = IEEE_EXPONENT;
+		else if (frmt->conv == CONV_GDBL)
+		    style = IEEE_SUITABLE;
+
+		/* NOTE: here you have to alter the exponent */
+
 		str = (frmt->length == MOD_L_CAP)
 			? ieee_ldtoa(frmt->data.d, frmt->prec)
-				: ieee_dtoa(frmt->data.d, frmt->prec);
+			: ieee_dtoa(frmt->data.d, frmt->prec, style, &exp);
 		ft_putstr(" dbl ?? "); ft_putendl(str);
 		getchar();
+
 		if (frmt->conv == CONV_EDBL)
-			ieee_sci_style(&str);
+			ieee_sci_style(&str, exp);
 		else if (frmt->conv == CONV_GDBL)
 			ieee_suitable_style(&str);
 	}
