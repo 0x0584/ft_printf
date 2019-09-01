@@ -1,4 +1,5 @@
 NAME	= ft_printf
+LIBFT	= -Ilibft -Llibft -lft
 
 SRCDIR	= src
 DEPDIR	= include
@@ -9,9 +10,10 @@ DEPS	:= $(shell find $(DEPDIR) -type f -name '*.h')
 OBJS	:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 CC		= gcc
-RM		= rm -rf
 CFLAGS	= -Wall -Wextra -ggdb # -Werror
-LDFLAGS = -I$(DEPDIR) -Ilibft -Llibft -lft
+LDFLAGS = -I$(DEPDIR) $(LIBFT)
+
+RM		= rm -rf
 
 all: setup $(NAME)
 	@echo -e "\ncompilation done."

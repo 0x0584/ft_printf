@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "format.h"
+#include "ieeefp.h"
 
 /*
   FIXME: try to allocated memory fpr exatly dest size chars
@@ -100,14 +101,31 @@ char	*handle_signed_deci(t_frmt *frmt)
 char	*handle_floating_point(t_frmt *frmt)
 {
 	char *str;
+	t_ieeefp fp;
+	t_int32 exp;
 
-	/* if (frmt->length == MOD_L) */
-	/* 	str = ft_ldtoa(frmt->data.d, frmt->precision); */
-	/* else */
-	/* 	str = ft_dtoa(frmt->data.d, frmt->precision); */
-	(void)frmt;
-	str = NULL;
-	return str;
+	ft_putendl("here");
+	if (frmt->conv == CONV_HDBL)
+	{
+		if (frmt->length == MOD_L_CAP)
+			fp.ld.ld = frmt->data.ld;
+		else
+			fp.d.d = frmt->data.d;
+		str = ieee_hex_style(fp);
+	}
+	else
+	{
+		str = (frmt->length == MOD_L_CAP)
+			? ieee_ldtoa(frmt->data.d, frmt->prec)
+				: ieee_dtoa(frmt->data.d, frmt->prec);
+		ft_putstr(" dbl ?? "); ft_putendl(str);
+		getchar();
+		if (frmt->conv == CONV_EDBL)
+			ieee_sci_style(&str);
+		else if (frmt->conv == CONV_GDBL)
+			ieee_suitable_style(&str);
+	}
+	return (str);
 }
 
 char	*handle_char(t_frmt *frmt)

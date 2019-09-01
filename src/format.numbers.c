@@ -53,15 +53,6 @@ char	format_getsign(t_frmt *frmt)
 	return ('+');
 }
 
-char	*format_ieee_float(t_frmt *frmt)
-{
-	(void)frmt;
-	return (NULL);
-	/* return ((frmt->length == MOD_LL) */
-	/* 		? ft_dtoa(frmt->data.ld, frmt->precision) */
-	/* 		: ft_ldtoa(frmt->data.d, frmt->precision)); */
-}
-
 bool	format_check_alterform(char **astr, t_frmt *frmt, size_t *pad)
 {
 	if (!(SAFE_PTRVAL(astr)) || !HAS_FLAG(frmt, FL_HASH)

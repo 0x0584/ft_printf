@@ -100,11 +100,27 @@ int		check_conversion(char **fmt, t_frmt *frmt)
 		frmt->conv = CONV_UDEC;
 	}
 	else if (*bar == 'x' || *bar == 'X')
+	{
 		frmt->conv = CONV_UHEX;
+		frmt->is_upcase = (*bar == 'X');
+	}
 	else if (*bar == 'e' || *bar == 'E')
+	{
 		frmt->conv = CONV_EDBL;
+		frmt->is_upcase = (*bar == 'E');
+	}
+	else if (*bar == 'g' || *bar == 'G')
+	{
+		frmt->conv = CONV_GDBL;
+		frmt->is_upcase = (*bar == 'G');
+	}
+	else if (*bar == 'a' || *bar == 'A')
+	{
+		frmt->conv = CONV_HDBL;
+		frmt->is_upcase = (*bar == 'A');
+	}
 	else if (*bar == 'f' || *bar == 'F')
-		frmt->conv = (*bar == 'F' ? CONV_LDBL : CONV_DBL);
+		frmt->conv = (frmt->length == MOD_L_CAP ? CONV_LDBL : CONV_DBL);
 	else if (*bar == 'c' || *bar == 'C')
 	{
 		frmt->length = (*bar == 'C' ? MOD_L : frmt->length);

@@ -71,6 +71,7 @@ static int		cmp_by_frmtindex(t_plist e1, t_plist e2)
 void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 {
 	t_frmt			frmt;
+	bool			has_radix;
 
 	ft_bzero(&frmt, sizeof(t_frmt));
 	frmt.ifrmt = *index;
@@ -78,7 +79,12 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	ft_putendl(*fmt);
 
 	/* getchar(); */
+
 	*fmt += 1;
+
+	/* FIXME: not handling %%
+	   should append % to the buffer and quit */
+	/* if ((++(*fmt))[0] == '%') */
 	check_flags(fmt, &frmt);
 	frmt.iarg = hungry_getnbr(fmt);
 	if (*fmt[0] != '$')
@@ -91,10 +97,13 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 		*fmt += 1;
 	if (frmt.iarg)
 		frmt.width = hungry_getnbr(fmt);
-	*fmt += (*fmt[0] == '.');
+	has_radix = (*fmt[0] == '.');
+	*fmt += has_radix;
 	frmt.prec = hungry_getnbr(fmt);
 	check_modifier(fmt, &frmt);
 	check_conversion(fmt, &frmt);
+	if (format_isfloat(&frmt) && !frmt.prec && !has_radix)
+		frmt.prec = 6;
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
 }
 
@@ -108,7 +117,7 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 	e = *alstfrmt;
 	while (e && (frmt = (t_frmt *)e->content))
 	{
-		format_dbg(frmt);
+		/* format_dbg(frmt); */
 		/* getchar(); */
 		if (frmt->conv == CONV_FRMT)
 		{
@@ -138,7 +147,7 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 					|| frmt->conv == CONV_GDBL || frmt->conv == CONV_EDBL
 					|| frmt->conv == CONV_HDBL)
 		{
-			if (frmt->length == MOD_L)
+			if (frmt->length == MOD_L_CAP)
 				frmt->data.ld = va_arg(*arglst, long double);
 			else
 				frmt->data.d = va_arg(*arglst, double);
@@ -151,7 +160,7 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 				frmt->data.str = va_arg(*arglst, char *);
 		}
 		format_dbg(frmt);
-		/* getchar(); */
+		getchar();
 		LST_NEXT(e);
 	}
 	ft_putendl("------ end of getting data -------");

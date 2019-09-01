@@ -23,11 +23,19 @@ int main(void)
 	   NOTE: negative and octal are not working good? probably an
 	   unsigned problem
 	*/
+	/* char *foo = ft_strdup("000this is000"); */
+	/* ft_strctrim(&foo, '0', TOWARD_HEAD); */
+	/* ft_putendl(foo); */
+	/* getchar(); */
+	/* ft_strctrim(&foo, '0', TOWARD_TAIL); */
+	/* ft_putendl(foo); */
+	/* ft_strdel(&foo); */
 
-	char *fmt = "[left (%0#10X) right (% d) zero (%o)]\n";
-	ft_printf(fmt, 89999, 50, 1993);
+
+	char *fmt = "[left (%e) (%.3e) (%e) (%+10.8f) right (%#06x) zero (%#08o)]\n";
+	ft_printf(fmt, 89.999, 89.999, 0.01333453, 89.999, 1412, 1993);
 	ft_putendl("------------------------");
-	printf(fmt, 89999, 50, 1993);
+	printf(fmt, 89.999, 89.999, 0.01333453, 89.999, 1412, 1993);
 
 	char *bar = ft_itoa_base(-13, BASE_DEC);
 	/* printf("%s", bar); */
