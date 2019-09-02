@@ -101,7 +101,7 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		}
 
 		if (s_frmt == NULL)
-		ft_putendl_fd("s_frmt was empty", 2);
+			ft_putendl_fd("s_frmt was empty", 2);
 
 		ft_putstr("{");
 		buff_write(1, buff);

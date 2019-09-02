@@ -110,7 +110,8 @@ void	dragon4_prec(char **fp_buff, t_int32 *exp, t_ieee_fmt style,
 	ft_putnumber(*exp); ft_putstr(" >>> "); ft_putendl(fp);
 	getchar();
 
-	if (preci)	{
+	if (preci)
+	{
 		ft_strappend(&fp, ".");
 		skip_leading_zeros(&fp);
 		tmp = ft_strrdup(int_part + exp2 + 1, int_part + exp2 + preci);

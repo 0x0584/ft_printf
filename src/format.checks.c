@@ -120,7 +120,10 @@ int		check_conversion(char **fmt, t_frmt *frmt)
 		frmt->is_upcase = (*bar == 'A');
 	}
 	else if (*bar == 'f' || *bar == 'F')
+	{
 		frmt->conv = (frmt->length == MOD_L_CAP ? CONV_LDBL : CONV_DBL);
+		frmt->is_upcase = (*bar == 'F');
+	}
 	else if (*bar == 'c' || *bar == 'C')
 	{
 		frmt->length = (*bar == 'C' ? MOD_L : frmt->length);

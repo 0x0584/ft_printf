@@ -2,7 +2,7 @@
 #include "libft.h"
 
 /* NOTE: remove sci exponent from precision before handling style */
-void	ieee_sci_style(char **astr, t_int32 exp)
+void	ieee_sci_style(char **astr, t_int32 exp, bool upcase)
 {
 	char	*fp_sci;
 
@@ -24,7 +24,7 @@ void	ieee_sci_style(char **astr, t_int32 exp)
 	ft_putstr(" fp_sci after append sign ?? "); ft_putendl(fp_sci);
 	getchar();
 
-	ft_strinsert_at(&fp_sci, "e", 0);
+	ft_strinsert_at(&fp_sci, upcase ? "E" : "e", 0);
 	ft_strinsert_at(&fp_sci, *astr, 0);
 
 	ft_strdel(astr);
@@ -35,15 +35,14 @@ void	ieee_sci_style(char **astr, t_int32 exp)
 	getchar();
 }
 
-char	*ieee_hex_style(t_ieeefp fp)
+char	*ieee_hex_style(t_ieeefp fp, bool upcase)
 {
 	char *result;
 	char *tmp;
 
-
 }
 
-void	ieee_suitable_style(char **astr)
+void	ieee_suitable_style(char **astr, bool upcase)
 {
 
 }

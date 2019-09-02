@@ -104,9 +104,9 @@ char				*ieee_ftoa(float f, t_uint32 prec);
 char				*ieee_dtoa(double d, t_uint32 prec,
 									t_ieee_fmt style, t_int32 *exp);
 char				*ieee_ldtoa(long double ld, t_uint32 prec);
-void				ieee_sci_style(char **astr, t_int32 exp);
-char 				*ieee_hex_style(t_ieeefp fp);
-void				ieee_suitable_style(char **astr);
+void				ieee_sci_style(char **astr, t_int32 exp, bool upcase);
+char 				*ieee_hex_style(t_ieeefp fp, bool upcase);
+void				ieee_suitable_style(char **astr, bool upcase);
 
 
 #endif

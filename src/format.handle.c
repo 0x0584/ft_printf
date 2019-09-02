@@ -60,7 +60,8 @@ char			*format_handle_conversion(t_frmt *frmt)
 	else if (frmt->conv == CONV_UDEC)
 		str = handle_unsigned_deci(frmt, BASE_DEC);
 	else if (frmt->conv == CONV_UHEX)
-		str = handle_unsigned_deci(frmt, BASE_UHEX);
+		str = handle_unsigned_deci(frmt,
+								   frmt->is_upcase ? BASE_UHEX : BASE_LHEX);
 	else if (format_isfloat(frmt))
 		str = handle_floating_point(frmt);
 	else if (frmt->conv == CONV_CHAR)
@@ -112,7 +113,7 @@ char	*handle_floating_point(t_frmt *frmt)
 			fp.ld.ld = frmt->data.ld;
 		else
 			fp.d.d = frmt->data.d;
-		str = ieee_hex_style(fp);
+		str = ieee_hex_style(fp, frmt->is_upcase);
 	}
 	else
 	{
@@ -131,9 +132,9 @@ char	*handle_floating_point(t_frmt *frmt)
 		getchar();
 
 		if (frmt->conv == CONV_EDBL)
-			ieee_sci_style(&str, exp);
+			ieee_sci_style(&str, exp, frmt->is_upcase);
 		else if (frmt->conv == CONV_GDBL)
-			ieee_suitable_style(&str);
+			ieee_suitable_style(&str, frmt->is_upcase);
 	}
 	return (str);
 }
