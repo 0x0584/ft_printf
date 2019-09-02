@@ -71,7 +71,7 @@ static void		prepare_fp_buff(char **buff, t_ieee_fmt style,
 		npad = MAX(preci - (buff_size - 1), 0);
 	else
 		npad = MAX(*exp - (buff_size - 1), 0) + preci
-			- (*exp > ((ssize_t)buff_size - 1)
+				- (*exp > ((ssize_t)buff_size - 1)
 					? 0 : ft_strlen(*buff + *exp + 1));
 	(void)printf(" << %d %zu\n", ABS(npad), buff_size);
 	/* (void)getchar(); */
@@ -79,23 +79,41 @@ static void		prepare_fp_buff(char **buff, t_ieee_fmt style,
 	round_nearest_even(buff, style, exp, preci);
 }
 
-void	dragon4_prec(char **fp_buff, t_int32 exp, t_ieee_fmt style,
+void	dragon4_prec(char **fp_buff, t_int32 *exp, t_ieee_fmt style,
 						t_uint32 preci)
 {
 	char	*fp;
 	char	*tmp;
+	char	*int_part;
 	int		exp2;
 
-	prepare_fp_buff(fp_buff, style, &exp, preci);
-	exp2 = MAX(style == IEEE_EXPONENT ? 0 : exp, 0);
-	fp = ft_strrdup(*fp_buff, *fp_buff + exp2);
-	ft_putnumber(exp); ft_putstr(" >>> "); ft_putendl(fp);
+	ft_putstr(" fp_buff ?? "); ft_putendl(*fp_buff);
 	getchar();
-	if (preci)
+
+	prepare_fp_buff(fp_buff, style, exp, preci);
+
+	ft_putstr(" prepered fp_buff ?? "); ft_putendl(*fp_buff);
+	getchar();
+
+	int_part = *fp_buff;
+	if (*int_part == '0' && style == IEEE_EXPONENT)
 	{
+		while (*int_part && *int_part == '0')
+			int_part++;
+		*exp *= -1;
+		exp2 = 0;
+	}
+	else
+		exp2 = MAX(style == IEEE_EXPONENT ? 0 : *exp, 0);
+	fp = ft_strrdup(int_part, int_part + exp2);
+
+	ft_putnumber(*exp); ft_putstr(" >>> "); ft_putendl(fp);
+	getchar();
+
+	if (preci)	{
 		ft_strappend(&fp, ".");
 		skip_leading_zeros(&fp);
-		tmp = ft_strrdup(*fp_buff + exp2 + 1, *fp_buff + exp2 + preci);
+		tmp = ft_strrdup(int_part + exp2 + 1, int_part + exp2 + preci);
 		ft_strappend(&fp, tmp);
 		ft_strdel(&tmp);
 	}

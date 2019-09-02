@@ -16,7 +16,7 @@ void	ieee_sci_style(char **astr, t_int32 exp)
 	ft_putstr(" fp_sci as exp ?? "); ft_putendl(fp_sci);
 	getchar();
 
-	if (*fp_sci == '-' && ft_strlen(fp_sci) < 2)
+	if (*fp_sci == '-' && ft_strlen(fp_sci) < 3)
 		ft_strinsert_at(&fp_sci, "0", 1);
 	else if (*fp_sci != '-')
 		ft_strinsert_at(&fp_sci, ft_strlen(fp_sci) < 2 ? "+0" : "+", 0);
