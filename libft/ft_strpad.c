@@ -9,7 +9,7 @@ void	ft_strpad(char **astr, char c, size_t n, bool left)
 	if (!astr || !*astr || !n)
 		return ;
 	size = ft_strlen(*astr) + n;
-	ft_putstr(" ;;; |"); ft_putstr(*astr);
+	/* ft_putstr(" ;;; |"); ft_putstr(*astr); */
 
 	if (!(tmp = ft_strnew(size)))
 		return ;
@@ -21,8 +21,8 @@ void	ft_strpad(char **astr, char c, size_t n, bool left)
 	if (!left)
 		while (i < n)
 			tmp[size - n + i++] = c;
-	ft_putstr(" >> |"); ft_putstr(tmp);
-	getchar();
+	/* ft_putstr(" >> |"); ft_putstr(tmp); */
+	/* getchar(); */
 	ft_strdel(astr);
 	*astr = tmp;
 }

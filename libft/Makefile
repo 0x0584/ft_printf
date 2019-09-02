@@ -23,6 +23,7 @@ CFLAGS	= -Wall -Wextra -ggdb # -Werror
 all: $(NAME)
 
 $(NAME): $(OBJS)
+	@echo -e ""
 	ar rc $(NAME) $^
 
 %.o: %.c $(DEPS)
@@ -30,8 +31,11 @@ $(NAME): $(OBJS)
 
 clean:
 	$(RM) $(OBJS)
+	@echo -e ""
 
-fclean: clean
+fclean:
+	$(RM) $(OBJS)
 	$(RM) $(NAME)
+	@echo -e ""
 
 re: fclean all

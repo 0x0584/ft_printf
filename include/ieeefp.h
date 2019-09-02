@@ -97,11 +97,16 @@ typedef enum		e_ieee_floating_point_format
 }					t_ieee_fmt;
 
 t_int32				dragon4(t_ieeefp fp, t_ieeetype type,
-								char *buff, t_uint32 buff_size);
-void				handle_precision(char **fp_buff, t_ieee_fmt ftype,
-										int exp, int preci);
-char				*ft_ftoa(float f, t_uint32 pre);
-char				*ft_dtoa(double d, t_uint32 pre);
-char				*ft_ldtoa(long double ld, t_uint32 pre);
+									char *buff, t_uint32 buff_size);
+void				dragon4_prec(char **fp_buff, t_int32 *exp,
+									t_ieee_fmt style, t_uint32 preci);
+char				*ieee_ftoa(float f, t_uint32 prec);
+char				*ieee_dtoa(double d, t_uint32 prec,
+									t_ieee_fmt style, t_int32 *exp);
+char				*ieee_ldtoa(long double ld, t_uint32 prec);
+void				ieee_sci_style(char **astr, t_int32 exp, bool upcase);
+char 				*ieee_hex_style(t_ieeefp fp, bool upcase);
+void				ieee_suitable_style(char **astr, bool upcase);
+
 
 #endif

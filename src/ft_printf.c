@@ -32,7 +32,7 @@ int		ft_printf(const char *fmt, ...)
 	{
 		if (*fmt == '%')
 		{
-			handle_format((char **)&fmt, &lstfrmt, &index);
+			format_handle((char **)&fmt, &lstfrmt, &index);
 			continue;
 		}
 		tmp = ft_strchr(fmt, '%');
@@ -40,12 +40,12 @@ int		ft_printf(const char *fmt, ...)
 			ft_strrdup(fmt, fmt + str_len_diff(fmt, tmp))), sizeof(t_frmt)));
 		fmt = tmp;
 	}
-	handle_relative_args(&args, &lstfrmt);
-	ft_putendl("------ handled relative args -----");
+	/* ft_putendl("------ handled relative args -----"); */
+	format_populate(&lstfrmt, &args);
 	format_to_buff(lstfrmt, buff);
 	ft_lstdel(&lstfrmt, format_free);
 	va_end(args);
-	ft_putendl("");
+	/* ft_putendl(""); */
 	n_chars = buff_write(1, buff);
 	buff_free(&buff);
 	return (n_chars);

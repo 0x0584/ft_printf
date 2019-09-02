@@ -14,6 +14,8 @@
 # define TYPES_H
 
 # include <stdarg.h>
+# include <stdlib.h>
+# include <stdio.h>
 # include <stdbool.h>
 
 # define INT_VALMAX					(2147483647)

@@ -60,7 +60,8 @@ char			*format_handle_conversion(t_frmt *frmt)
 	else if (frmt->conv == CONV_UDEC)
 		str = handle_unsigned_deci(frmt, BASE_DEC);
 	else if (frmt->conv == CONV_UHEX)
-		str = handle_unsigned_deci(frmt, BASE_UHEX);
+		str = handle_unsigned_deci(frmt,
+								   frmt->is_upcase ? BASE_UHEX : BASE_LHEX);
 	else if (format_isfloat(frmt))
 		str = handle_floating_point(frmt);
 	else if (frmt->conv == CONV_CHAR)
@@ -108,15 +109,41 @@ char	*handle_signed_deci(t_frmt *frmt)
 char	*handle_floating_point(t_frmt *frmt)
 {
 	char *str;
+	t_ieeefp fp;
+	t_int32 exp;
+	t_ieee_fmt style;
 
-	printf(" HERE !!!! %f\n", frmt->data.d);
-	if (frmt->length == MOD_L_CAP)
-		str = ft_ldtoa(frmt->data.ld, frmt->prec);
+	/* ft_putendl("here"); */
+	if (frmt->conv == CONV_HDBL)
+	{
+		if (frmt->length == MOD_L_CAP)
+			fp.ld.ld = frmt->data.ld;
+		else
+			fp.d.d = frmt->data.d;
+		str = ieee_hex_style(fp, frmt->is_upcase);
+	}
 	else
-		str = ft_dtoa(frmt->data.d, frmt->prec);
-	ft_putstr(" fp ? "); ft_putendl(str);
-	getchar();
-	return str;
+	{
+		style = IEEE_NORMAL;
+		if (frmt->conv == CONV_EDBL)
+			style = IEEE_EXPONENT;
+		else if (frmt->conv == CONV_GDBL)
+		    style = IEEE_SUITABLE;
+
+		/* NOTE: here you have to alter the exponent */
+
+		str = (frmt->length == MOD_L_CAP)
+			? ieee_ldtoa(frmt->data.d, frmt->prec)
+			: ieee_dtoa(frmt->data.d, frmt->prec, style, &exp);
+		/* ft_putstr(" dbl ?? "); ft_putendl(str); */
+		/* getchar(); */
+
+		if (frmt->conv == CONV_EDBL)
+			ieee_sci_style(&str, exp, frmt->is_upcase);
+		else if (frmt->conv == CONV_GDBL)
+			ieee_suitable_style(&str, frmt->is_upcase);
+	}
+	return (str);
 }
 
 char	*handle_char(t_frmt *frmt)

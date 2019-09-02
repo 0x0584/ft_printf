@@ -112,8 +112,8 @@ typedef struct	s_format
 	t_uint32	   	prec;
 }				t_frmt;
 
-void			handle_format(char **fmt, t_plist *alstfrmt, int *index);
-int				handle_relative_args(va_list *arglst, t_plist *alstfrmt);
+void			format_handle(char **fmt, t_plist *alstfrmt, int *index);
+int				format_populate(t_plist *alstfrmt, va_list *arglst);
 void			format_free(void *dat, size_t size);
 t_frmt			*format_const_string(int index, char *str);
 
@@ -146,7 +146,6 @@ char			*handle_floating_point(t_frmt *frmt);
 char			*handle_char(t_frmt *frmt);
 char			*handle_string(t_frmt *frmt);
 
-bool			format_check_alterform(char **astr, t_frmt *frmt, size_t *pad);
 void			flag_getprefix_or_sign (t_frmt *frmt, char **astr, size_t *pad);
 void			flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad);
 void			flag_adjust_padding(t_frmt *frmt, char **astr, size_t *pad);

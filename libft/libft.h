@@ -17,11 +17,9 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
 
-#include "types.h"
+# include "types.h"
 
 # define BASE_LHEX							"0123456789abcdef"
 # define BASE_UHEX							"0123456789ABCDEF"

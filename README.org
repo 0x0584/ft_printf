@@ -31,7 +31,6 @@ $ git log --date=short --pretty=format:%ad | sort | uniq -c
 DEADLINE: <2019-07-31 Wed> SCHEDULED: <2019-06-26 Wed>
 
 :LOGBOOK:
-CLOCK: [2019-07-26 Fri 20:28]--[2019-08-15 Thu 16:04] => 475:36
 CLOCK: [2019-07-26 Fri 11:08]--[2019-07-26 Fri 11:33] =>  0:25
 CLOCK: [2019-07-26 Fri 08:50]--[2019-07-26 Fri 10:50] =>  2:00
 CLOCK: [2019-07-26 Fri 08:41]--[2019-07-26 Fri 08:50] =>  0:09
