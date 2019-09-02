@@ -2,7 +2,7 @@
 
  ft_printf is a project which leads to the AI branch. sounds good!
 
-* TODOs [12/17]
+* TODOs [10/17]
 
 + [X] +get format string info+
 + [X] +handle relative args+
@@ -12,16 +12,104 @@
 + [X] +handle 0 padding flag+
 + [X] +handle + at beginning of positive+
 + [X] +handle space at beginning of positive number+
-+ [X] handle # flags
++ [ ] handle # flags
 + [X] +handle width+
 + [X] +handle left width+
 + [ ] handle .n precision
 + [ ] handle .* precision
 + [ ] *handle %f and %Lf*
 + [ ] *handle %a and %A*
-+ [X] *handle %e and %E*
++ [ ] *handle %e and %E*
 + [ ] fulfill the printf familly (aprintf, sprintf, snprintf)!!
 
 #+BEGIN_SRC shell
 $ git log --date=short --pretty=format:%ad | sort | uniq -c
 #+END_SRC
+* DONE IEEE 754 [3/3]
+- State "DONE"       from "TODO"       [2019-08-09 Fri 11:55]
+
+DEADLINE: <2019-07-31 Wed> SCHEDULED: <2019-06-26 Wed>
+
+:LOGBOOK:
+CLOCK: [2019-07-26 Fri 11:08]--[2019-07-26 Fri 11:33] =>  0:25
+CLOCK: [2019-07-26 Fri 08:50]--[2019-07-26 Fri 10:50] =>  2:00
+CLOCK: [2019-07-26 Fri 08:41]--[2019-07-26 Fri 08:50] =>  0:09
+:END:
+
+- [X] read float's s/e/m
+- [X] compute the product
+- [X] turn the product into string
+
+** DONE Handle BigInt [3/3]
+
+- State "DONE"       from "IN-PROGRESS" [2019-07-25 Thu 00:06]
+- State "IN-PROGRESS" from              [2019-07-22 Mon 07:46]
+
+DEADLINE: <2019-07-24 Wed>
+
+This is not hard, but full of things that you have to do twice!
+If I couldn't do this, then I am not /The God/!
+
+- [X] create the type
+- [X] create add/sub
+- [X] create multiplication
+
+* DONE Handle Flags [5/5]
+
+- State "DONE"       from "IN-PROGRESS" [2019-08-31 Sat 19:22]
+- State "IN-PROGRESS" from "TODO"       [2019-08-28 Wed 16:41]
+
+DEADLINE: <2019-08-31 Sat 00:00> SCHEDULED: <2019-08-17 Sat>
+
+:LOGBOOK:
+CLOCK: [2019-08-31 Sat 03:25]--[2019-08-31 Sat 19:22] => 15:57
+CLOCK: [2019-08-29 Thu 17:28]--[2019-08-29 Thu 23:28] =>  6:00
+CLOCK: [2019-07-26 Fri 08:31]--[2019-07-26 Fri 08:40] =>  0:09
+:END:
+
+- [X] the =#= flag
+- [X] the =+= flag and the bug for negative numbers which shows sign two
+- [X] The =' '= space flag for positive sign
+- [X] the =-= negative field width
+- [X] the zero =0= for padding with zeros
+
+** IN-PROGRESS handling precision [0/3]
+
+- State "IN-PROGRESS" from "PENDING"        [2019-08-31 Sat 19:23]
+- State "PENDING"    from "IN-PROGRESS"     [2019-08-29 Thu 19:28]
++ State "IN-PROGRESS" from "TODO"           [2019-08-28 Wed 17:01]
+
+DEADLINE: <2019-08-29 Thu 00:00> SCHEDULED: <2019-08-28 Wed 05:02>
+
+:PROPERTIES:
+:Effort:   5:15
+:END:
+:LOGBOOK:
+CLOCK: [2019-08-31 Sat 19:23]--[2019-08-31 Sat 19:31] =>  0:08
+CLOCK: [2019-08-28 Wed 18:45]--[2019-08-28 Wed 21:00] =>  2:15
+:END:
+
++ [ ] print float conversion
++ [ ] handle the different conversion cases
++ [ ] Create a function to set precision based on conversion
+
+* UNDER-REVISING Handle Float [4/4]
+DEADLINE: <2019-09-01 Sun 00:00> SCHEDULED: <2019-08-10 Sat>
+# DEADLINE: <2019-08-20 Tue>
+:LOGBOOK:
+CLOCK: [2019-08-17 Sat 19:13]--[2019-08-17 Sat 19:13] =>  0:00
+CLOCK: [2019-08-16 Fri 00:12]--[2019-08-16 Fri 01:05] =>  0:53
+CLOCK: [2019-08-15 Thu 21:05]--[2019-08-15 Thu 22:12] =>  1:07
+CLOCK: [2019-08-15 Thu 17:22]--[2019-08-15 Thu 19:40] =>  2:18
+CLOCK: [2019-08-15 Thu 16:04]--[2019-08-15 Thu 16:54] =>  0:50
+CLOCK: [2019-08-15 Thu 16:02]--[2019-08-15 Thu 16:03] =>  0:01
+:END:
+
+# - [X] %eE scientific expression
+# - [X] %aA hexa float
+# - [X] %fF normal floating point representation
+# - [X] %gG either of the two based on some specification
+#   /Document about this/
+#   /Look for this online, there must be an answer/
+
+This would be done within format.buffer.c
