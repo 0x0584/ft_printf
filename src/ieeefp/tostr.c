@@ -24,7 +24,7 @@ char	*ieee_dtoa(double d, t_uint32 prec, t_ieee_fmt style, t_int32 *exp)
 	buff = ft_strnew(DRAGON4_BUFF_SIZE);
 	fp.d.d = d;
 	exp2 = dragon4(fp, IEEE_DOUBLE, buff, DRAGON4_BUFF_SIZE);
-	ft_putendl("----");
+	/* ft_putendl("----"); */
 	dragon4_prec(&buff, &exp2, style, prec);
 	if (exp)
 		*exp = exp2;

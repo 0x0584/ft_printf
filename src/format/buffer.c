@@ -90,8 +90,9 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 
 		flag_adjust_padding(frmt, &s_frmt, &padding_size);
 
-		ft_putstr("must not be NULL: >>> ");
+		ft_putstr("must not be NULL: >>> [");
 		ft_putstr(s_frmt);
+		ft_putendl("]");
 		getchar();
 
 		if (!buff_append(buff, s_frmt, ft_strlen(s_frmt)))
@@ -103,9 +104,9 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		if (s_frmt == NULL)
 			ft_putendl_fd("s_frmt was empty", 2);
 
-		ft_putstr("{");
+		ft_putstr("whole buffer: {");
 		buff_write(1, buff);
-		ft_putendl("}");
+		ft_putendl("}\n");
 
 		e = e->next;
 		ft_strdel(&s_frmt);

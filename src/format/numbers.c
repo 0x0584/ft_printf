@@ -52,33 +52,3 @@ char	format_getsign(t_frmt *frmt)
 	}
 	return ('+');
 }
-
-bool	format_check_alterform(char **astr, t_frmt *frmt, size_t *pad)
-{
-	if (!(SAFE_PTRVAL(astr)) || !HAS_FLAG(frmt, FL_HASH)
-			|| !format_isnumeric(frmt))
-		return (false);
-
-	if (frmt->conv == CONV_UOCT && ft_strcmp(*astr, "0"))
-	{
-		ft_strprepend(astr, "0");
-		if (*pad)
-			*pad -= 1;
-	}
-	else if (frmt->conv == CONV_UHEX)
-	{
-		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x" );
-		if (*pad)
-			*pad -= 2;
-	}
-/*
-  call buffutils_pad(dest, "0", 1) for %o
-  call buffutils_pad(dest, "0x", 2) for %x
-  call buffutils_pad(dest, "0X", 1) for %X
-
-  if format_isfloat(frmt)
-  dest = ft_format_ieee_float(frmt, trailing_is_on) // default off
-*/
-
-	return (true);
-}

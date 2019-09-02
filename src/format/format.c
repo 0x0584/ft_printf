@@ -68,15 +68,16 @@ static int		cmp_by_frmtindex(t_plist e1, t_plist e2)
 	return (foo->ifrmt < bar->ifrmt);
 }
 
-void			handle_format(char **fmt, t_list **alstfrmt, int *index)
+void			format_handle(char **fmt, t_list **alstfrmt, int *index)
 {
 	t_frmt			frmt;
 	bool			has_radix;
 
 	ft_bzero(&frmt, sizeof(t_frmt));
 	frmt.ifrmt = *index;
-	ft_putendl("begin handle format");
-	ft_putendl(*fmt);
+
+	/* ft_putendl("begin handle format"); */
+	/* ft_putendl(*fmt); */
 
 	/* getchar(); */
 
@@ -85,6 +86,7 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	/* FIXME: not handling %%
 	   should append % to the buffer and quit */
 	/* if ((++(*fmt))[0] == '%') */
+
 	check_flags(fmt, &frmt);
 	frmt.iarg = hungry_getnbr(fmt);
 	if (*fmt[0] != '$')
@@ -107,13 +109,14 @@ void			handle_format(char **fmt, t_list **alstfrmt, int *index)
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
 }
 
-int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
+int				format_populate(t_plist *alstfrmt, va_list *arglst)
 {
 	t_list	*e;
 	t_frmt	*frmt;
 
 	if (sort_lstfrmt)
 		ft_lst_mergesort(alstfrmt, cmp_by_argindex);
+
 	e = *alstfrmt;
 	while (e && (frmt = (t_frmt *)e->content))
 	{
@@ -159,11 +162,11 @@ int				handle_relative_args(va_list *arglst, t_plist *alstfrmt)
 			else
 				frmt->data.str = va_arg(*arglst, char *);
 		}
-		format_dbg(frmt);
-		getchar();
+		/* format_dbg(frmt); */
+		/* getchar(); */
 		LST_NEXT(e);
 	}
-	ft_putendl("------ end of getting data -------");
+	/* ft_putendl("------ end of getting data -------"); */
 	if (sort_lstfrmt)
 		ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
 	/* sort_lstfrmt = true; */

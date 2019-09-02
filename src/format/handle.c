@@ -106,7 +106,7 @@ char	*handle_floating_point(t_frmt *frmt)
 	t_int32 exp;
 	t_ieee_fmt style;
 
-	ft_putendl("here");
+	/* ft_putendl("here"); */
 	if (frmt->conv == CONV_HDBL)
 	{
 		if (frmt->length == MOD_L_CAP)
@@ -128,8 +128,8 @@ char	*handle_floating_point(t_frmt *frmt)
 		str = (frmt->length == MOD_L_CAP)
 			? ieee_ldtoa(frmt->data.d, frmt->prec)
 			: ieee_dtoa(frmt->data.d, frmt->prec, style, &exp);
-		ft_putstr(" dbl ?? "); ft_putendl(str);
-		getchar();
+		/* ft_putstr(" dbl ?? "); ft_putendl(str); */
+		/* getchar(); */
 
 		if (frmt->conv == CONV_EDBL)
 			ieee_sci_style(&str, exp, frmt->is_upcase);
