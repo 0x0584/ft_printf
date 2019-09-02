@@ -3,7 +3,7 @@ LIBFT	= -Ilibft -Llibft -lft
 
 SRCDIR	= src
 DEPDIR	= include
-OBJDIR	= objs
+OBJDIR	= obj
 
 SRCS	:= $(shell find $(SRCDIR) -type f -name '*.c')
 DEPS	:= $(shell find $(DEPDIR) -type f -name '*.h')
@@ -15,21 +15,21 @@ LDFLAGS = -I$(DEPDIR) $(LIBFT)
 
 RM		= rm -rf
 
-all: setup $(NAME)
+all: $(NAME)
 	@echo -e "\ncompilation done."
 
-$(NAME): $(OBJS) $(DEPS)
+$(NAME): setup $(OBJS) $(DEPS)
 	@echo -e "\nlinking the executable.."
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
 
 setup:
 	@echo "making libft.."
 	@make -C ./libft/
 	@echo -e "\ncompiling object files.."
-	@mkdir -p $(OBJDIR)
 
 test: all
 	./$(NAME)
