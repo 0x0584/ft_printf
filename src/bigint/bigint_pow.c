@@ -1,9 +1,9 @@
 #include "bigint.h"
 
-t_bigint		bigint_pow(t_bigint u, t_uint32 exp)
+t_bigint		bigint_pow(t_bigint u, t_u32 exp)
 {
 	t_bigint tmp;
-	t_uint32 exp2;
+	t_u32 exp2;
 
 	tmp = bigint_init(1);
 	if (exp == 0)

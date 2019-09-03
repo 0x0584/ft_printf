@@ -14,7 +14,7 @@
 
 void	ft_putnumber_fd(int n, int fd)
 {
-	t_uint64 u;
+	t_u64 u;
 
 	u = (n < 0) ? -n : n;
 	if (n < 0)

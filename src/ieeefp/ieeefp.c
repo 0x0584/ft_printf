@@ -36,56 +36,70 @@ const t_bigint	bigten = {1, {10}};
 static void		set_num_denum(t_ieeefp fp, t_ieeetype type,
 								t_bigint *num, t_bigint *denum)
 {
-	t_uint128		man;
-	t_int32			exp;
+	t_u128		man;
+	t_s32		exp;
 
 	if (type == IEEE_FLOAT)
 	{
-		man = (t_uint128) fp.f.ieee.m + (fp.f.ieee.e ? F32BIT_IMPL : 0ULL);
-		exp = (t_int32) fp.f.ieee.e - F32BIT_FULLBAIS + (fp.f.ieee.e ? 0 : 1);
+		man = (t_u128)(fp.f.ieee.m + (fp.f.ieee.e ? F32BIT_IMPL : 0ULL));
+		exp = (t_s32)(fp.f.ieee.e - F32BIT_FULLBAIS + (fp.f.ieee.e ? 0 : 1));
 	}
 	else if (type == IEEE_DOUBLE)
 	{
-		man = (t_uint128) fp.d.ieee.m + (fp.d.ieee.e ? F64BIT_IMPL : 0ULL);
-		exp = (t_int32) fp.d.ieee.e - F64BIT_FULLBAIS + (fp.d.ieee.e ? 0 : 1);
+		man = (t_u128)(fp.d.ieee.m + (fp.d.ieee.e ? F64BIT_IMPL : 0ULL));
+		exp = (t_s32)(fp.d.ieee.e - F64BIT_FULLBAIS + (fp.d.ieee.e ? 0 : 1));
 	}
 	else
 	{
-		man = (t_uint128) fp.ld.ieee.m1 + (fp.ld.ieee.e ? F128BIT_IMPL : 0ULL);
-		exp = (t_int32) fp.ld.ieee.e - F128BIT_FULLBAIS + (fp.ld.ieee.e ? 0 : 1);
+		man = (t_u128)(fp.ld.ieee.m1 + (fp.ld.ieee.e ? F128BIT_IMPL : 0ULL));
+		exp = (t_s32)(fp.ld.ieee.e - F128BIT_FULLBAIS + (fp.ld.ieee.e ? 0 : 1));
 	}
+
+	ft_putstr(" man and exp");
+
+	ft_putnumber(man);
+	ft_putstr(" ");
+	ft_putnumber(exp);
+
+
 	*num = bigint_init(man);
 	*denum = bigint_init(1);
-	if (exp >= 0)
-		bigint_asbin(bigint_inbls(num, exp));
+
+	if (exp > 0)
+		bigint_inbls(num, exp);
 	else
 		bigint_inbls(denum, -exp);
+
+	/* ft_putendl("\n ???  in get num denum"); */
+	/* bigint_asbin(*num); */
+	/* bigint_asbin(*denum); */
+	/* getchar(); */
 }
 
-static t_uint32	get_sci_exponent(long double d)
+static t_u32	get_sci_exponent(long double d)
 {
-	t_int32			exp;
-	bool			sign;
+	t_s32			exp;
 
 	exp = 0;
 	if (d == .0 || (d >= 1.0 && d <= 9.0))
 		return (exp);
-	sign = (d < .0);
 	if (d < .0)
 		d *= -1;
 	if (d >= 10.0)
+	{
 		while (d >= 10.0 && ++exp)
 			d /= 10;
-	else
-		while (d < 1.0 && ++exp)
-			d *= 10;
-	return (sign ? -exp : exp);
+		return exp;
+	}
+	while (d < 1.0 && ++exp)
+		d *= 10;
+	return (-exp);
 }
 
-static t_int32	get_as_fraction(t_ieeefp fp, t_ieeetype type,
+static t_s32	get_as_fraction(t_ieeefp fp, t_ieeetype type,
 									t_bigint *num, t_bigint *denum)
 {
-	t_int32			exp;
+	t_s32	exp;
 
 	set_num_denum(fp, type, num, denum);
 	if (type == IEEE_FLOAT)
@@ -94,53 +108,89 @@ static t_int32	get_as_fraction(t_ieeefp fp, t_ieeetype type,
 		exp = get_sci_exponent(fp.d.d);
 	else
 		exp = get_sci_exponent(fp.ld.ld);
-	if (!exp)
+	if (exp == 0)
 		return (0);
 	else if (exp > 0)
-		bigint_inmul(denum, bigint_pow(bigten, exp));
+		bigint_inmul(denum, bigint_pow(bigten, (t_u32)exp));
 	else
-		bigint_inmul(num, bigint_pow(bigten, -exp));
+		bigint_inmul(num, bigint_pow(bigten, (t_u32)-exp));
+
+	/* ft_putendl("\n ???  after mul"); */
+	/* bigint_asbin(*num); */
+	/* bigint_asbin(*denum); */
+	/* getchar(); */
+
 	return (exp);
 }
 
 /* to get digits of the fraction we have constructed */
-static t_uint16	dumb_div(t_bigint num, t_bigint denum)
+static t_u16	dumb_div(t_bigint num, t_bigint denum)
 {
-	t_uint16		result;
-	t_bigint		foo;
-	int				diff;
+	t_u16		result;
+	t_bigint	foo;
+	int			diff;
 
 	result = 5;
-	foo = bigint_intmul(denum, result);
+	foo = bigint_umul(denum, result);
 	if ((diff = bigint_cmp(num, foo)) > 0)
 	{
 		while ((diff = bigint_cmp(num, bigint_inadd(&foo, denum))) > 0)
+		{
 			result++;
+			/* ft_putnumber(result); */
+			/* ft_putendl("##"); */
+			/* ft_putendl("num"); */
+			/* bigint_asbin(num); */
+			/* ft_putendl("denum"); */
+			/* bigint_asbin(denum); */
+
+			/* ft_putendl("foo"); */
+			/* bigint_asbin(foo); */
+			/* getchar(); */
+
+		}
 		return (!diff ? result + 1 : result);
 	}
 	else if (diff < 0)
 	{
 		while ((diff = bigint_cmp(num, bigint_insub(&foo, denum)) < 0))
-				result--;
+		{
+			result--;
+			/* ft_putnumber(diff); */
+			/* ft_putendl("@@"); */
+			/* getchar(); */
+
+		}
 		return (result - 1);
 	}
 	return (result);
 }
 
-t_int32			dragon4(t_ieeefp fp, t_ieeetype type,
-							char *buff, t_uint32 buff_size)
+t_s32			dragon4(t_ieeefp fp, t_ieeetype type,
+							char *buff, t_u32 buff_size)
 {
-	t_bigint		num;
-	t_bigint		denum;
-	t_uint32		i;
-	t_int32			exp;
+	t_bigint	num;
+	t_bigint	denum;
+	t_u32		i;
+	t_s32		exp;
 
 	i = 0;
 	exp = get_as_fraction(fp, type, &num, &denum);
+	ft_putnumber(exp);
+	getchar();
+	/* ft_putendl(" initial "); */
+	/* ft_putendl("num"); */
+	/* bigint_asbin(num); */
+	/* ft_putendl("denum"); */
+	/* bigint_asbin(denum); */
+	/* getchar(); */
+
 	while (num.size && i < buff_size)
 	{
 		buff[i] = '0' + dumb_div(num, denum);
-		bigint_insub(&num, bigint_intmul(denum, buff[i++] - '0'));
+		/* ft_putendl("\ncurrent digit is: "); ft_putchar(buff[i]); */
+		/* getchar(); */
+		bigint_insub(&num, bigint_umul(denum, buff[i++] - '0'));
 		bigint_inmul(&num, bigten);
 	}
 	return (exp);

@@ -20,10 +20,12 @@ int main(void)
 	/* ft_putendl("------------------------"); */
 	/* printf("[left %-6d right %6d zero % 06d]\n", 10, 50, -13); */
 
+
 	/*
 	   NOTE: negative and octal are not working good? probably an
 	   unsigned problem
 	*/
+
 	/* char *foo = ft_strdup("000this is000"); */
 	/* ft_strctrim(&foo, '0', TOWARD_HEAD); */
 	/* ft_putendl(foo); */
@@ -32,11 +34,16 @@ int main(void)
 	/* ft_putendl(foo); */
 	/* ft_strdel(&foo); */
 
+	t_ieeefp fp;
 
-	char *fmt = "@ (%.4e) @ (%.3e) @ (%.0E) @ (%+10.1f) @ (%.2f) @ (%#08x) @\n";
-	ft_printf(fmt, 89.999, 89.999, 1.0001343453, 89.999, 89.999, 999);
+	fp.d.d = 0;
+	fp.d.ieee.e = 0x7FF;
+
+	/* printf("%d", MAX(-1, 0)); */
+	char *fmt = "(%+.0f) (%+.0e) (%f) (%#08x)\n";
+	ft_printf(fmt, 89.00999, -89.00999, fp.d, 99999);
 	ft_putendl("------------------------");
-	printf(fmt, 89.999, 89.999, 1.0001343453, 89.999, 89.999, 999);
+	printf(fmt, 89.00999, -89.00999, fp.d, 99999);
 
 	/* char *bar = ieee_dtoa(0.00899L, 4); */
 

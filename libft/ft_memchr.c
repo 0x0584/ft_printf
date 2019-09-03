@@ -15,12 +15,12 @@
 void	*ft_memchr(const void *s, int c, size_t n)
 {
 	size_t	i;
-	t_int8	*buff;
+	t_s8	*buff;
 
 	i = 0;
-	buff = (t_int8 *)s;
+	buff = (t_s8 *)s;
 	while (i < n)
-		if (buff[i] == (t_int8)c)
+		if (buff[i] == (t_s8)c)
 			return (buff + i);
 		else
 			i++;

@@ -4,7 +4,7 @@
 
 int		bigint_cmp(t_bigint u, t_bigint v)
 {
-	t_uint32 index;
+	t_u32 index;
 
 	if (u.size != v.size)
 		return (CMP(u.size, v.size));

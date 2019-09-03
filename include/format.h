@@ -87,8 +87,8 @@ typedef union	u_data
 	double				d;
 	long double			ld;
 	char				*str;
-	t_int32				*wstr;
-	t_int32				wc;
+	t_s32				*wstr;
+	t_s32				wc;
 	unsigned char		*ustr;
 
 	void			    *p;
@@ -108,8 +108,9 @@ typedef struct	s_format
 	bool	    	is_upcase;	  /* set when a conversion is uppercase */
 
 	t_data	    	data;
-	t_uint32    	width;
-	t_uint32	   	prec;
+	t_u32    	width;
+	t_u32	   	prec;
+	bool			has_radix;
 }				t_frmt;
 
 void			format_handle(char **fmt, t_plist *alstfrmt, int *index);

@@ -14,13 +14,13 @@
 
 int		ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	t_int8	*buff1;
-	t_int8	*buff2;
+	t_s8	*buff1;
+	t_s8	*buff2;
 	size_t	i;
 
 	i = 0;
-	buff1 = (t_int8 *)s1;
-	buff2 = (t_int8 *)s2;
+	buff1 = (t_s8 *)s1;
+	buff2 = (t_s8 *)s2;
 	if (n == 0)
 		return (0);
 	while (buff1[i] == buff2[i] && --n)

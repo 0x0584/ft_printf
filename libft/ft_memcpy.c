@@ -15,12 +15,12 @@
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	i;
-	t_int8	*dbuff;
-	t_int8	*sbuff;
+	t_s8	*dbuff;
+	t_s8	*sbuff;
 
 	i = 0;
-	dbuff = (t_int8 *)dest;
-	sbuff = (t_int8 *)src;
+	dbuff = (t_s8 *)dest;
+	sbuff = (t_s8 *)src;
 	while (i < n)
 	{
 		dbuff[i] = sbuff[i];

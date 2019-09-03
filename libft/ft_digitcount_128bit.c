@@ -12,10 +12,10 @@
 
 #include "libft.h"
 
-t_int32		ft_digitcount_128bit(t_int128 n)
+t_s32		ft_digitcount_128bit(t_s128 n)
 {
-	t_int32		count;
-	t_uint128	u;
+	t_s32		count;
+	t_u128	u;
 
 	if (n == 0)
 		return (1);

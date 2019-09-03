@@ -2,7 +2,7 @@
 #include "libft.h"
 
 /* NOTE: remove sci exponent from precision before handling style */
-void	ieee_sci_style(char **astr, t_int32 exp, bool upcase)
+void	ieee_sci_style(char **astr, t_s32 exp, bool upcase)
 {
 	char	*fp_sci;
 

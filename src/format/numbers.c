@@ -16,7 +16,7 @@
 
 bool	format_isnumeric(t_frmt *frmt)
 {
-	t_int8 c;
+	t_s8 c;
 
 	c = frmt->conv;
 	return (c == CONV_INT || c == CONV_UOCT
@@ -25,7 +25,7 @@ bool	format_isnumeric(t_frmt *frmt)
 
 bool	format_isfloat(t_frmt *frmt)
 {
-	t_int8 c;
+	t_s8 c;
 
 	c = frmt->conv;
 	return (c == CONV_DBL || c == CONV_LDBL

@@ -1,11 +1,11 @@
 #include "bigint.h"
 
-t_bigint	bigint_intmul(t_bigint big, t_uint32 num)
+t_bigint	bigint_umul(t_bigint big, t_u32 num)
 {
 	t_bigint result;
-	t_uint64 muled;
-	t_uint64 carry;
-	t_uint32 i;
+	t_u64 muled;
+	t_u64 carry;
+	t_u32 i;
 
 	i = 0;
 	ft_bzero(&result, sizeof(t_bigint));
@@ -15,12 +15,12 @@ t_bigint	bigint_intmul(t_bigint big, t_uint32 num)
 	carry = 0UL;
 	while (i < big.size)
 	{
-		muled = carry + (t_uint64)big.block[i] * (t_uint64)num;
-		result.block[i++] = (t_uint32)(muled & BLOCK_MASK);
+		muled = carry + (t_u64)big.block[i] * (t_u64)num;
+		result.block[i++] = (t_u32)(muled & BLOCK_MASK);
 		carry = muled >> BLOCK_SIZE;
 	}
 	if (carry && i < BLOCK_MAX)
-		result.block[i] = (t_uint32)(carry & BLOCK_MASK);
+		result.block[i] = (t_u32)(carry & BLOCK_MASK);
 	result.size = bigint_size(result);
 	return (result);
 }
@@ -29,7 +29,7 @@ t_bigint	bigint_mul(t_bigint u, t_bigint v)
 {
 	t_bigint order[2];
 	t_bigint result;
-	t_uint32 shift;
+	t_u32 shift;
 
 	shift = 0;
 	order[0] = bigint_minof(u, v);
@@ -38,7 +38,7 @@ t_bigint	bigint_mul(t_bigint u, t_bigint v)
 	while (shift < order[0].size)
 	{
 		bigint_inadd(&result,
-						bigint_bls(bigint_intmul(order[1],
+						bigint_bls(bigint_umul(order[1],
 													order[0].block[shift]),
 									shift * BLOCK_SIZE));
 		shift++;

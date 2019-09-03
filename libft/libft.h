@@ -119,7 +119,7 @@ void			ft_strprepend(char **dest, const char *prefix);
 void			ft_strappend(char **astr, const char *s);
 
 int				ft_atoi(const char *s);
-t_int128		ft_atoll(const char *s);
+t_s128		ft_atoll(const char *s);
 int				ft_strequ(char const *s1, char const *s2);
 int				ft_strnequ(char const *s1, char const *s2, size_t n);
 void			ft_striter(char *s, void (*f)(char *));
@@ -149,25 +149,25 @@ t_list			*ft_lstpop(t_list **alst);
 
 char			*ft_strrdup(const char *head, const char *tail);
 void			*ft_memdup(const void *mem, size_t n);
-t_int16			ft_wordcount(char const *s, char using);
+t_s16			ft_wordcount(char const *s, char using);
 
 int				ft_power(int x, int y);
 int				ft_sqrt(int nb);
 
-t_int8			ft_digitcount(int n);
+t_s8			ft_digitcount(int n);
 
-t_int32			ft_digitcount_128bit(t_int128 n);
+t_s32			ft_digitcount_128bit(t_s128 n);
 
 int				ft_isspace(int c);
 int				ft_isblank(int c);
 int				ft_iscntrl(int c);
 int				ft_swap(void *u, void *v, size_t size);
 
-t_int64			ft_utf8tostr(t_int8 *dest, size_t destsz,
-								const t_int32 *wsrc, size_t srcsz);
-t_int16			ft_utf8tostr_ch(t_int8 *dest, t_int32 wch);
+t_s64			ft_utf8tostr(t_s8 *dest, size_t destsz,
+								const t_s32 *wsrc, size_t srcsz);
+t_s16			ft_utf8tostr_ch(t_s8 *dest, t_s32 wch);
 
-char			*ft_itoa_base(t_int128 nb, const char *base);
-char			*ft_utoa_base(t_uint128 nb, const char *base);
+char			*ft_itoa_base(t_s128 nb, const char *base);
+char			*ft_utoa_base(t_u128 nb, const char *base);
 
 #endif

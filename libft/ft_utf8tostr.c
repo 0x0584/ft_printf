@@ -12,14 +12,14 @@
 
 #include "libft.h"
 
-t_int64		ft_utf8tostr(t_int8 *dest, size_t destsz,
-						 const t_int32 *wsrc, size_t srcsz)
+t_s64		ft_utf8tostr(t_s8 *dest, size_t destsz,
+						 const t_s32 *wsrc, size_t srcsz)
 {
-	t_int64 i;
-	t_int64 n_bytes[2];
+	t_s64 i;
+	t_s64 n_bytes[2];
 
 	i = 0;
-	ft_bzero(n_bytes, 2 * sizeof(t_int64));
+	ft_bzero(n_bytes, 2 * sizeof(t_s64));
 	ft_bzero(dest, destsz);
 	while (wsrc[i] && srcsz - i && destsz - n_bytes[1])
 	{

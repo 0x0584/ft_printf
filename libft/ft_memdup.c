@@ -14,9 +14,9 @@
 
 void	*ft_memdup(const void *mem, size_t n)
 {
-	t_int8 *buff;
+	t_s8 *buff;
 
-	if (!(buff = ALLOC(t_int8 *, n, sizeof(t_int8))))
+	if (!(buff = ALLOC(t_s8 *, n, sizeof(t_s8))))
 		return (NULL);
 	return (ft_memcpy(buff, mem, n));
 }

@@ -23,7 +23,7 @@
   allocated memory for exactly that length + 1
   code the process of decoding
 */
-static t_int8 dest[0xffff];
+static t_s8 dest[0xffff];
 
 /*
   BUG: unsigned conversions have problem with negative numbers
@@ -100,26 +100,61 @@ char	*handle_signed_deci(t_frmt *frmt)
 }
 
 /*
-   BUG:
+   XXX: %.0f shows weird output!
 
-   %.0f shows weird output!
+   NOTE:
 
+   procedure is as the following:
+
+   get value of va_arg() as either double or long double.
+     - check if value is inf
+     - check if value is nan
 */
+
+char	*ieee_sp_as_str(t_ieeesp sp, t_frmt *frmt)
+{
+	char *s;
+	bool is_sp;
+
+	s = NULL;
+	is_sp = false;
+
+	if ((is_sp = (sp == IEEE_INFINI_P || sp == IEEE_INFINI_N)))
+		s = ft_strdup(frmt->is_upcase ? "INF" : "inf");
+	else if ((is_sp = sp == IEEE_NOT_A_NUMBER))
+		s = ft_strdup(frmt->is_upcase ? "NAN" : "nan");
+	if (is_sp)
+	{
+		if (sp == IEEE_NOT_A_NUMBER)
+			frmt->flags &= ~(FLAG(FL_SPACE) | FLAG(FL_PLUS));
+		frmt->flags &= ~FLAG(FL_ZERO);
+	}
+	return (s);
+}
 
 char	*handle_floating_point(t_frmt *frmt)
 {
 	char *str;
 	t_ieeefp fp;
-	t_int32 exp;
+	t_s32 exp;
 	t_ieee_fmt style;
+	t_ieeesp sp;
 
-	/* ft_putendl("here"); */
+	if (format_isfloat(frmt) && !frmt->has_radix)
+		frmt->prec = 6;
+
+	if (frmt->length == MOD_L_CAP)
+		fp.ld.ld = frmt->data.ld;
+	else
+		fp.d.d = frmt->data.d;
+
+	if ((sp = is_special_value(fp, IEEE_DOUBLE)))
+		return ieee_sp_as_str(sp, frmt);
+
+	ft_putendl("here");
+	getchar();
 	if (frmt->conv == CONV_HDBL)
 	{
-		if (frmt->length == MOD_L_CAP)
-			fp.ld.ld = frmt->data.ld;
-		else
-			fp.d.d = frmt->data.d;
 		str = ieee_hex_style(fp, frmt->is_upcase);
 	}
 	else
@@ -128,13 +163,25 @@ char	*handle_floating_point(t_frmt *frmt)
 		if (frmt->conv == CONV_EDBL)
 			style = IEEE_EXPONENT;
 		else if (frmt->conv == CONV_GDBL)
-		    style = IEEE_SUITABLE;
+		{
+			/*
+			   NOTE: is style is suitable, allow trim
+			*/
+			style = IEEE_SUITABLE;
+			if (frmt->has_radix && !frmt->prec)
+				frmt->prec = 1;
+		}
 
-		/* NOTE: here you have to alter the exponent */
+		/*
+		   XXX: here you have to alter the exponent
+		   sending the exponent by reference
+		*/
 
+		/* NOTE: this should be ieee_tostr() */
 		str = (frmt->length == MOD_L_CAP)
 			? ieee_ldtoa(frmt->data.d, frmt->prec)
 			: ieee_dtoa(frmt->data.d, frmt->prec, style, &exp);
+
 		/* ft_putstr(" dbl ?? "); ft_putendl(str); */
 		/* getchar(); */
 
@@ -142,6 +189,25 @@ char	*handle_floating_point(t_frmt *frmt)
 			ieee_sci_style(&str, exp, frmt->is_upcase);
 		else if (frmt->conv == CONV_GDBL)
 			ieee_suitable_style(&str, frmt->is_upcase);
+		/* FIXME: this belongs to flags.alterform() */
+		if (HAS_FLAG(frmt, FL_HASH) && (frmt->has_radix && !frmt->prec))
+			ft_strappend(&str, ".");
+		if (HAS_FLAG(frmt, FL_HASH) && ft_strchr(str, '.'))
+			/* TODO: trim zeros */
+			;
+
+		/*
+
+		   num
+		   0000000000010110010000001010001110101101000110001101001001011111
+		   denum
+		   0000000000000010100000000000000000000000000000000000000000000000
+		   num
+		   0000000011011110100001100110010011000010111110000011011110110110
+		   denum
+		   0000000000000000010000000000000000000000000000000000000000000000
+
+		*/
 	}
 	return (str);
 }

@@ -1,9 +1,9 @@
 #include "bigint.h"
 
-t_bigint	bigint_bls(t_bigint u, t_uint32 shift)
+t_bigint	bigint_bls(t_bigint u, t_u32 shift)
 {
 	t_bigint result;
-	t_uint32 i;
+	t_u32 i;
 
 	if (!shift)
 		return (bigint_dup(u));
@@ -26,7 +26,7 @@ t_bigint	bigint_bls(t_bigint u, t_uint32 shift)
 	return (result);
 }
 
-t_bigint	bigint_inbls(t_bigint *u, t_uint32 shift)
+t_bigint	bigint_inbls(t_bigint *u, t_u32 shift)
 {
 	return (*u = bigint_bls(*u, shift));
 }

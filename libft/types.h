@@ -32,17 +32,17 @@
 **			   --------------- Number types ---------------
 */
 
-typedef char						t_int8;
-typedef short						t_int16;
-typedef int							t_int32;
-typedef long						t_int64;
-typedef long long					t_int128;
+typedef char						t_s8;
+typedef short						t_s16;
+typedef int							t_s32;
+typedef long						t_s64;
+typedef long long					t_s128;
 
-typedef unsigned char				t_uint8;
-typedef unsigned short				t_uint16;
-typedef unsigned int				t_uint32;
-typedef unsigned long				t_uint64;
-typedef unsigned long long			t_uint128;
+typedef unsigned char				t_u8;
+typedef unsigned short				t_u16;
+typedef unsigned int				t_u32;
+typedef unsigned long				t_u64;
+typedef unsigned long long			t_u128;
 
 /*
 **		--------------- Objects are just (void *) ---------------

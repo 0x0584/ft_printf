@@ -39,38 +39,38 @@
 union		u_ieee754_float
 {
 	float				f;
-	t_uint32			i;
+	t_u32			i;
 	struct	s_ieee_float
 	{
-		t_uint32	m:23;
-		t_uint8		e:8;
-		t_uint8		s:1;
+		t_u32	m:23;
+		t_u8		e:8;
+		t_u8		s:1;
 	}					ieee;
 };
 
 union		u_ieee754_double
 {
 	double				d;
-	t_uint64			i;
+	t_u64			i;
 	struct	s_ieee_double
 	{
-		t_uint64	m:52;
-		t_uint16	e:11;
-		t_uint8		s:1;
+		t_u64	m:52;
+		t_u16	e:11;
+		t_u8		s:1;
 	}					ieee;
 };
 
 union		u_ieee754_long_double
 {
 	long double			ld;
-	t_uint128			i;
+	t_u128			i;
 
 	struct	s_ieee_long_double
 	{
-		t_uint64	m1:63;
-		t_uint64	m2:1;
-		t_uint16	e:15;
-		t_uint8		s:1;
+		t_u64	m1:63;
+		t_u64	m2:1;
+		t_u16	e:15;
+		t_u8		s:1;
 	}					ieee;
 };
 
@@ -78,8 +78,16 @@ typedef enum		e_ieee_floating_point_types
 {
 	IEEE_FLOAT,
 	IEEE_DOUBLE,
-	IEEE_LONG_DOUBLE
+	IEEE_LONG_DOUBLE,
 }					t_ieeetype;
+
+typedef enum		e_special_values
+{
+	IEEE_NA,
+	IEEE_INFINI_P,
+	IEEE_INFINI_N,
+	IEEE_NOT_A_NUMBER,
+}					t_ieeesp;
 
 typedef union		u_ieee_floating_point
 {
@@ -96,17 +104,18 @@ typedef enum		e_ieee_floating_point_format
 	IEEE_SUITABLE
 }					t_ieee_fmt;
 
-t_int32				dragon4(t_ieeefp fp, t_ieeetype type,
-									char *buff, t_uint32 buff_size);
-void				dragon4_prec(char **fp_buff, t_int32 *exp,
-									t_ieee_fmt style, t_uint32 preci);
-char				*ieee_ftoa(float f, t_uint32 prec);
-char				*ieee_dtoa(double d, t_uint32 prec,
-									t_ieee_fmt style, t_int32 *exp);
-char				*ieee_ldtoa(long double ld, t_uint32 prec);
-void				ieee_sci_style(char **astr, t_int32 exp, bool upcase);
+t_s32				dragon4(t_ieeefp fp, t_ieeetype type,
+									char *buff, t_u32 buff_size);
+void				dragon4_prec(char **fp_buff, t_s32 *exp,
+									t_ieee_fmt style, t_u32 preci);
+char				*ieee_ftoa(float f, t_u32 prec);
+char				*ieee_dtoa(double d, t_u32 prec,
+									t_ieee_fmt style, t_s32 *exp);
+char				*ieee_ldtoa(long double ld, t_u32 prec);
+void				ieee_sci_style(char **astr, t_s32 exp, bool upcase);
 char 				*ieee_hex_style(t_ieeefp fp, bool upcase);
 void				ieee_suitable_style(char **astr, bool upcase);
 
+t_ieeesp is_special_value(t_ieeefp fp, t_ieeetype type);
 
 #endif

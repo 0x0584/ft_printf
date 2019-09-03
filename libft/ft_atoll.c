@@ -12,10 +12,10 @@
 
 #include "libft.h"
 
-t_int128	ft_atoll(const char *s)
+t_s128	ft_atoll(const char *s)
 {
-	t_int128	result;
-	t_int128	sign;
+	t_s128	result;
+	t_s128	sign;
 	char		*str;
 	size_t		len;
 
@@ -31,5 +31,5 @@ t_int128	ft_atoll(const char *s)
 	result = 0;
 	while (ft_isdigit(*str))
 		result += ft_power(10, --len) * (*str++ - '0');
-	return ((t_int128)result * sign);
+	return ((t_s128)result * sign);
 }

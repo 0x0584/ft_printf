@@ -74,7 +74,6 @@ static int		cmp_by_frmtindex(t_plist e1, t_plist e2)
 void			format_handle(char **fmt, t_list **alstfrmt, int *index)
 {
 	t_frmt			frmt;
-	bool			has_radix;
 
 	ft_bzero(&frmt, sizeof(t_frmt));
 	frmt.ifrmt = *index;
@@ -103,13 +102,13 @@ void			format_handle(char **fmt, t_list **alstfrmt, int *index)
 
 	if (frmt.iarg)
 		frmt.width = hungry_getnbr(fmt);
-	has_radix = (*fmt[0] == '.');
-	*fmt += has_radix;
+	frmt.has_radix = (*fmt[0] == '.');
+	*fmt += frmt.has_radix;
 	frmt.prec = hungry_getnbr(fmt);
 	check_modifier(fmt, &frmt);
 	check_conversion(fmt, &frmt);
-	if (format_isfloat(&frmt) && !frmt.prec && !has_radix)
-		frmt.prec = 6;
+	/* if (format_isfloat(&frmt) && !frmt.prec && !frmt.has_radix) */
+	/* 	frmt.prec = 6; */
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
 }
 
@@ -162,7 +161,7 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 		else if (frmt->conv == CONV_STR)
 		{
 			if (frmt->length == MOD_L)
-				frmt->data.wstr = va_arg(*arglst, t_int32 *);
+				frmt->data.wstr = va_arg(*arglst, t_s32 *);
 			else
 				frmt->data.str = va_arg(*arglst, char *);
 		}

@@ -12,13 +12,13 @@
 
 #include "libft.h"
 
-t_int16		ft_utf8tostr_ch(t_int8 *dest, t_int32 wch)
+t_s16		ft_utf8tostr_ch(t_s8 *dest, t_s32 wch)
 {
-	t_int16 i;
+	t_s16 i;
 
 	i = 0;
     if (wch <= 0x7F)
-        dest[i++] = (t_int8)wch;
+        dest[i++] = (t_s8)wch;
     else if (wch <= 0x7FF)
 	{
         dest[i++] = 0xC0 | (wch >> 6);

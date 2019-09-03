@@ -15,16 +15,16 @@
 void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 {
 	size_t	i;
-	t_int8	*dbuff;
-	t_int8	*sbuff;
+	t_s8	*dbuff;
+	t_s8	*sbuff;
 
 	i = 0;
-	dbuff = (t_int8 *)dest;
-	sbuff = (t_int8 *)src;
+	dbuff = (t_s8 *)dest;
+	sbuff = (t_s8 *)src;
 	while (i < n)
 	{
 		dbuff[i] = sbuff[i];
-		if (sbuff[i] == (t_int8)c)
+		if (sbuff[i] == (t_s8)c)
 			return (dbuff + i + 1);
 		i++;
 	}
