@@ -40,10 +40,10 @@ int main(void)
 	fp.d.ieee.e = 0x7FF;
 
 	/* printf("%d", MAX(-1, 0)); */
-	char *fmt = "(%+.0f) (%+.0e) (%f) (%#08x)\n";
-	ft_printf(fmt, 89.00999, -89.00999, fp.d, 99999);
+	char *fmt = "(%08u) (%08o) (%08d) (%s) (%p)\n";
+	ft_printf(fmt, 1412, 1412, 1412, "this", &fp);
 	ft_putendl("------------------------");
-	printf(fmt, 89.00999, -89.00999, fp.d, 99999);
+	printf(fmt, 1412, 1412, 1412, "this", &fp);
 
 	/* char *bar = ieee_dtoa(0.00899L, 4); */
 

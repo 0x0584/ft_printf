@@ -2,8 +2,8 @@
 
 static bool	check_alterform(char **astr, t_frmt *frmt, size_t *pad)
 {
-	if (!(SAFE_PTRVAL(astr)) || !HAS_FLAG(frmt, FL_HASH)
-			|| !format_isnumeric(frmt))
+	if (!(SAFE_PTRVAL(astr)) || !(frmt->conv != CONV_PTR
+		|| (!HAS_FLAG(frmt, FL_HASH) || !format_isnumeric(frmt))))
 		return (false);
 
 	if (frmt->conv == CONV_UOCT && ft_strcmp(*astr, "0"))
@@ -12,7 +12,7 @@ static bool	check_alterform(char **astr, t_frmt *frmt, size_t *pad)
 		if (*pad)
 			*pad -= 1;
 	}
-	else if (frmt->conv == CONV_UHEX)
+	else if ((frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH)) || frmt->conv == CONV_PTR)
 	{
 		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x" );
 		if (*pad)
@@ -75,7 +75,7 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 		/* ft_putstr(" >"); */
 		/* getchar(); */
 
-		if (frmt->conv == CONV_INT)
+		if (frmt->conv == CONV_INT || format_isfloat(frmt))
 		{
 			if (tmp_sign == '+' && !HAS_FLAG(frmt, FL_PLUS)
 				&& HAS_FLAG(frmt, FL_SPACE))
@@ -85,7 +85,8 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 			if (tmp_sign == '+' || tmp_sign == '-' || tmp_sign == ' ')
 				ft_strinsert_at(astr, (char []){tmp_sign, '\0'}, 0);
 		}
-		else if (frmt->conv == CONV_UHEX)
+		else if ((frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
+					|| frmt->conv == CONV_PTR)
 		{
 			ft_strreplace(astr, frmt->is_upcase ? "0X" : "0x", "");
 			ft_strinsert_at(astr, frmt->is_upcase ? "0X" : "0x", 0);

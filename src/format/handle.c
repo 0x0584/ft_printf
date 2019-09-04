@@ -59,7 +59,7 @@ char			*format_handle_conversion(t_frmt *frmt)
 		str = handle_unsigned_deci(frmt, BASE_OCT);
 	else if (frmt->conv == CONV_UDEC)
 		str = handle_unsigned_deci(frmt, BASE_DEC);
-	else if (frmt->conv == CONV_UHEX)
+	else if (frmt->conv == CONV_UHEX || frmt->conv == CONV_PTR)
 		str = handle_unsigned_deci(frmt,
 								   frmt->is_upcase ? BASE_UHEX : BASE_LHEX);
 	else if (format_isfloat(frmt))
@@ -77,26 +77,26 @@ char	*handle_unsigned_deci(t_frmt *frmt, const char *base)
 	char *str;
 
 	if (frmt->length == MOD_LL)
-		str = ft_utoa_base(frmt->data.ll, base);
-	else if (frmt->length == MOD_L)
-		str = ft_utoa_base(frmt->data.l, base);
+		str = ft_utoa_base((t_u128)frmt->data.ll, base);
+	else if (frmt->length == MOD_L || frmt->conv == CONV_PTR)
+		str = ft_utoa_base((t_u64)frmt->data.l, base);
 	else if (frmt->length == MOD_H)
-		str = ft_utoa_base(frmt->data.s, base);
+		str = ft_utoa_base((t_u16)frmt->data.s, base);
 	else
-		str = ft_utoa_base(frmt->data.i, base);
+		str = ft_utoa_base((t_u32)frmt->data.i, base);
 	return (str);
 }
 
 char	*handle_signed_deci(t_frmt *frmt)
 {
 	if (frmt->length == MOD_LL)
-		return ft_itoa_base(frmt->data.ll, BASE_DEC);
+		return ft_itoa_base((t_s128)frmt->data.ll, BASE_DEC);
 	else if (frmt->length == MOD_L)
-		return ft_itoa_base(frmt->data.l, BASE_DEC);
+		return ft_itoa_base((t_s64)frmt->data.l, BASE_DEC);
 	else if (frmt->length == MOD_H)
-		return ft_itoa_base(frmt->data.s, BASE_DEC);
+		return ft_itoa_base((t_s16)frmt->data.s, BASE_DEC);
 	else
-		return ft_itoa_base(frmt->data.i, BASE_DEC);
+		return ft_itoa_base((t_s32)frmt->data.i, BASE_DEC);
 }
 
 /*
@@ -190,11 +190,9 @@ char	*handle_floating_point(t_frmt *frmt)
 		else if (frmt->conv == CONV_GDBL)
 			ieee_suitable_style(&str, frmt->is_upcase);
 		/* FIXME: this belongs to flags.alterform() */
-		if (HAS_FLAG(frmt, FL_HASH) && (frmt->has_radix && !frmt->prec))
-			ft_strappend(&str, ".");
-		if (HAS_FLAG(frmt, FL_HASH) && ft_strchr(str, '.'))
+		if (HAS_FLAG(frmt, FL_HASH) && !ft_strchr(str, '.'))
 			/* TODO: trim zeros */
-			;
+			ft_strappend(&str, ".");
 
 		/*
 
@@ -236,7 +234,7 @@ char	*handle_string(t_frmt *frmt)
 	char *str;
 	int ret;
 
-	if (frmt->length != MOD_L)
+	if (frmt->conv == CONV_FRMT || frmt->length != MOD_L)
 		return ft_strdup(frmt->data.str);
 
 	ft_bzero(dest, 0xffff);
