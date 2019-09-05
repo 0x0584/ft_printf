@@ -42,11 +42,17 @@ int main(void)
 	/* double dd = 0.99999; */
 
 	/* printf("%d", MAX(-1, 0)); */
-	char *fmt = "(%8.2s) (%8.8s) (%8.10s) (%8.0s)\n";
+	/* char *fmt = "(%8.2s) (%8.8s) (%8.10s) (%8.0s)\n"; */
 
-	ft_printf(fmt,  "this", "this", "this", "this");
+	/* ft_printf(fmt,  "this", "this", "this", "this"); */
+	/* ft_putendl("------------------------"); */
+	/* printf(fmt, "this", "this", "this", "this"); */
+
+	char *fmt = "(%10a)\n";
+
+	ft_printf(fmt, 3.1425);
 	ft_putendl("------------------------");
-	printf(fmt, "this", "this", "this", "this");
+	printf(fmt, 3.1425);
 
 	/* char *bar = ieee_dtoa(0.00899L, 4); */
 

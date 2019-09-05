@@ -34,7 +34,8 @@
 # define F32BIT_FULLBAIS		(F32BIT_MAN + F32BIT_BAIS)
 # define F32BIT_IMPL			(1ULL << F32BIT_MAN)
 
-# define DRAGON4_BUFF_SIZE		52
+# define GET_MAN(m, e, i)			(t_u128)(m + (e ? i : 0ULL))
+# define GET_EXP(e, b)				(t_s32)(e - b + (e ? 0 : 1))
 
 union		u_ieee754_float
 {
@@ -89,11 +90,15 @@ typedef enum		e_special_values
 	IEEE_NOT_A_NUMBER,
 }					t_ieeesp;
 
-typedef union		u_ieee_floating_point
+typedef struct		s_ieee_floating_point
 {
-	union u_ieee754_long_double ld;
-	union u_ieee754_double		d;
-	union u_ieee754_float		f;
+	t_ieeetype				type;
+	union			u_ieeefp
+	{
+		union u_ieee754_long_double ld;
+		union u_ieee754_double		d;
+		union u_ieee754_float		f;
+	}						as;
 }					t_ieeefp;
 
 typedef enum		e_ieee_floating_point_format
@@ -104,18 +109,14 @@ typedef enum		e_ieee_floating_point_format
 	IEEE_SUITABLE
 }					t_ieee_fmt;
 
-t_s32				dragon4(t_ieeefp fp, t_ieeetype type,
-									char *buff, t_u32 buff_size);
-void				dragon4_prec(char **fp_buff, t_s32 *exp,
-									t_ieee_fmt style, t_u32 preci);
-char				*ieee_ftoa(float f, t_u32 prec);
-char				*ieee_dtoa(double d, t_u32 prec,
-									t_ieee_fmt style, t_s32 *exp);
-char				*ieee_ldtoa(long double ld, t_u32 prec);
 void				ieee_sci_style(char **astr, t_s32 exp, bool upcase);
-char 				*ieee_hex_style(t_ieeefp fp, bool upcase);
+char 				*ieee_hex_style(t_ieeefp *fp, t_u32 prec,bool upcase);
 void				ieee_suitable_style(char **astr, bool upcase);
+void				ieee_extract_parts(t_ieeefp *fp, t_u128 *man, t_s32 *exp);
+void				ieee_extract_hex_parts(t_ieeefp *fp, t_u128 *man,
+												t_s32 *exp);
+bool				ieee_get_sign(t_ieeefp *fp);
+t_ieeesp			ieee_is_spval(t_ieeefp *fp);
 
-t_ieeesp is_special_value(t_ieeefp fp, t_ieeetype type);
 
 #endif

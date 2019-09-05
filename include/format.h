@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "buffer.h"
+# include "ieeefp.h"
 
 # define FLAG(fl)					(1U << fl)
 # define IS_FLAG(val, fl)			((val & FLAG(fl)) != 0)
@@ -156,5 +157,8 @@ void			flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_prefix(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_precision(t_frmt *frmt, char **astr, size_t *pad);
+
+char			*ieee_sp_as_str(t_ieeesp sp, t_frmt *frmt);
+char			*ieee_tostr(t_ieeefp *fp, t_ieee_fmt style, t_frmt *frmt);
 
 #endif

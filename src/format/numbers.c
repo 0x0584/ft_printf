@@ -29,7 +29,8 @@ bool	format_isfloat(t_frmt *frmt)
 
 	c = frmt->conv;
 	return (c == CONV_DBL || c == CONV_LDBL
-				|| c == CONV_GDBL || c == CONV_EDBL);
+				|| c == CONV_GDBL || c == CONV_EDBL
+				|| c == CONV_HDBL);
 }
 
 char	format_getsign(t_frmt *frmt)

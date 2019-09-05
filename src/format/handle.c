@@ -111,52 +111,30 @@ char	*handle_signed_deci(t_frmt *frmt)
      - check if value is nan
 */
 
-char	*ieee_sp_as_str(t_ieeesp sp, t_frmt *frmt)
-{
-	char *s;
-	bool is_sp;
-
-	s = NULL;
-	is_sp = false;
-
-	if ((is_sp = (sp == IEEE_INFINI_P || sp == IEEE_INFINI_N)))
-		s = ft_strdup(frmt->is_upcase ? "INF" : "inf");
-	else if ((is_sp = sp == IEEE_NOT_A_NUMBER))
-		s = ft_strdup(frmt->is_upcase ? "NAN" : "nan");
-	if (is_sp)
-	{
-		if (sp == IEEE_NOT_A_NUMBER)
-			frmt->flags &= ~(FLAG(FL_SPACE) | FLAG(FL_PLUS));
-		frmt->flags &= ~FLAG(FL_ZERO);
-	}
-	return (s);
-}
-
 char	*handle_floating_point(t_frmt *frmt)
 {
 	char *str;
 	t_ieeefp fp;
-	t_s32 exp;
 	t_ieee_fmt style;
 	t_ieeesp sp;
 
-	if (format_isfloat(frmt) && !frmt->has_radix)
+	if (format_isfloat(frmt) && !frmt->has_radix
+			&& frmt->conv != CONV_HDBL)
 		frmt->prec = 6;
-
 	if (frmt->length == MOD_L_CAP)
-		fp.ld.ld = frmt->data.ld;
-	else
-		fp.d.d = frmt->data.d;
-
-	if ((sp = is_special_value(fp, IEEE_DOUBLE)))
-		return ieee_sp_as_str(sp, frmt);
-
-	ft_putendl("here");
-	getchar();
-	if (frmt->conv == CONV_HDBL)
 	{
-		str = ieee_hex_style(fp, frmt->is_upcase);
+		fp.as.ld.ld = frmt->data.ld;
+		fp.type = IEEE_LONG_DOUBLE;
 	}
+	else
+	{
+		fp.as.d.d = frmt->data.d;
+		fp.type = IEEE_DOUBLE;
+	}
+	if ((sp = ieee_is_spval(&fp)))
+		return ieee_sp_as_str(sp, frmt);
+	if (frmt->conv == CONV_HDBL)
+		str = ieee_hex_style(&fp, frmt->prec, frmt->is_upcase);
 	else
 	{
 		style = IEEE_NORMAL;
@@ -165,7 +143,7 @@ char	*handle_floating_point(t_frmt *frmt)
 		else if (frmt->conv == CONV_GDBL)
 		{
 			/*
-			   NOTE: is style is suitable, allow trim
+			   XXX: is style is suitable, allow trim
 			*/
 			style = IEEE_SUITABLE;
 			if (frmt->has_radix && !frmt->prec)
@@ -177,23 +155,23 @@ char	*handle_floating_point(t_frmt *frmt)
 		   sending the exponent by reference
 		*/
 
-		/* NOTE: this should be ieee_tostr() */
-		str = (frmt->length == MOD_L_CAP)
-			? ieee_ldtoa(frmt->data.d, frmt->prec)
-			: ieee_dtoa(frmt->data.d, frmt->prec, style, &exp);
+		/* XXX: this should be ieee_tostr() */
+		/* str = (frmt->length == MOD_L_CAP) */
+		/* 	? ieee_ldtoa(frmt->data.d, frmt->prec) */
+		/* 	: ieee_dtoa(frmt->data.d, frmt->prec, style, &exp); */
 
+		str = ieee_tostr(&fp, style, frmt);
 		/* ft_putstr(" dbl ?? "); ft_putendl(str); */
 		/* getchar(); */
 
 		/* FIXME: this belongs to flags.alterform() */
-		if (HAS_FLAG(frmt, FL_HASH) && !ft_strchr(str, '.'))
-			/* TODO: trim zeros */
-			ft_strappend(&str, ".");
+		/* if (HAS_FLAG(frmt, FL_HASH) && !ft_strchr(str, '.')) */
+		/* 	/\* TODO: trim zeros *\/ */
+		/* 	ft_strappend(&str, "."); */
 
-		if (frmt->conv == CONV_EDBL)
-			ieee_sci_style(&str, exp, frmt->is_upcase);
-		else if (frmt->conv == CONV_GDBL)
-			ieee_suitable_style(&str, frmt->is_upcase);
+		/* if (frmt->conv == CONV_EDBL) */
+		/* 	ieee_sci_style(&str, exp, frmt->is_upcase); */
+
 		/*
 
 		   num

@@ -71,6 +71,9 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		s_frmt = format_handle_conversion(frmt);
 
 		printf("current format as string: [%s]\n", s_frmt);
+		if (s_frmt == NULL)
+			break ;
+
 
 		/*
 		   NOTE:
