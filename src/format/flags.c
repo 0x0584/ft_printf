@@ -2,20 +2,21 @@
 
 static bool	check_alterform(char **astr, t_frmt *frmt, size_t *pad)
 {
-	if (!(SAFE_PTRVAL(astr)) || !(frmt->conv != CONV_PTR
-		|| (!HAS_FLAG(frmt, FL_HASH) || !format_isnumeric(frmt))))
+	if (!(SAFE_PTRVAL(astr)) || !frmt || !pad
+			|| ((!HAS_FLAG(frmt, FL_HASH) || !(format_isnumeric(frmt)))
+					&& frmt->conv != CONV_PTR))
 		return (false);
-
 	if (frmt->conv == CONV_UOCT && ft_strcmp(*astr, "0"))
 	{
 		ft_strprepend(astr, "0");
 		if (*pad)
 			*pad -= 1;
 	}
-	else if ((frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH)) || frmt->conv == CONV_PTR)
+	else if ((frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
+				|| frmt->conv == CONV_PTR)
 	{
 		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x" );
-		if (*pad)
+		if (*pad > 1)
 			*pad -= 2;
 	}
 /*
@@ -34,19 +35,29 @@ void		flag_getprefix_or_sign (t_frmt *frmt, char **astr, size_t *pad)
 {
 	if (!frmt || !SAFE_PTRVAL(astr) || !pad)
 		return ;
+
+	ft_putstr("inside flag_prefix() >>>[");
+	ft_putstr(*astr); 	ft_putstr("]");
+	getchar();
+
 	/* XXX: plus overrides the space */
-	if (!check_alterform(astr, frmt, pad))
-		if ((HAS_FLAG(frmt, FL_PLUS) || HAS_FLAG(frmt, FL_SPACE))
+	if (check_alterform(astr, frmt, pad))
+		return ;
+	if ((HAS_FLAG(frmt, FL_PLUS) || HAS_FLAG(frmt, FL_SPACE))
 			&& (frmt->conv == CONV_INT || format_isfloat(frmt))
 			&& format_getsign(frmt) != '-')
-		{
+	{
 
-			ft_strpad(astr, HAS_FLAG(frmt, FL_PLUS) ? '+' : ' ', 1,
-					  TOWARD_HEAD);
-			/* XXX: decrement size of padding when sign */
-			if (*pad)
-				*pad -= 1;
-		}
+		ft_strpad(astr, HAS_FLAG(frmt, FL_PLUS) ? '+' : ' ', 1,
+				  TOWARD_HEAD);
+		/* XXX: decrement size of padding when sign */
+		if (*pad)
+			*pad -= 1;
+	}
+	ft_putstr("outside flag_prefix() >>>[");
+	ft_putstr(*astr); 	ft_putstr("]");
+	getchar();
+
 }
 
 void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
@@ -56,9 +67,11 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 	if (!frmt || !SAFE_PTRVAL(astr) || !pad)
 		return ;
 
-	/* ft_putstr("inside flag_zero_padding() >>> "); */
-	/* ft_putstr(*astr); */
-	/* getchar(); */
+	ft_putstr("inside flag_zero_padding() >>>[");
+	ft_putstr(*astr); 	ft_putstr("]");
+	getchar();
+
+	ft_putstr(" ?? "); ft_putendl(*astr);
 
 	/* Zero padding */
 	/* FIXME: ignore zero padding when precision */
@@ -67,18 +80,18 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 			&& !(format_isnumeric(frmt) && frmt->prec))
 	{
 		tmp_sign = *astr[0];
-		/* ft_putstr(" ?? "); ft_putendl(*astr); */
+		ft_putstr(" ?? "); ft_putendl(*astr);
 
 		ft_strpad(astr, '0', *pad, TOWARD_HEAD);
 
-		/* ft_putstr(" !? "); ft_putendl(*astr); */
-		/* ft_putstr(" >"); */
-		/* getchar(); */
+		ft_putstr(" !? "); ft_putendl(*astr);
+		ft_putstr(" >");
+		getchar();
 
 		if (frmt->conv == CONV_INT || format_isfloat(frmt))
 		{
 			if (tmp_sign == '+' && !HAS_FLAG(frmt, FL_PLUS)
-				&& HAS_FLAG(frmt, FL_SPACE))
+					&& HAS_FLAG(frmt, FL_SPACE))
 				tmp_sign = ' ';
 			if (tmp_sign == '+' || tmp_sign == '-' || tmp_sign == ' ')
 				ft_strreplace(astr, (char []){tmp_sign, '\0'}, "");
@@ -91,9 +104,9 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 			ft_strreplace(astr, frmt->is_upcase ? "0X" : "0x", "");
 			ft_strinsert_at(astr, frmt->is_upcase ? "0X" : "0x", 0);
 		}
-		/* ft_putendl(*astr); */
-		/* getchar(); */
 	}
+		ft_putendl(*astr);
+		getchar();
 
 }
 

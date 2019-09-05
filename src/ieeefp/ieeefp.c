@@ -78,7 +78,7 @@ static void		set_num_denum(t_ieeefp fp, t_ieeetype type,
 
 static t_u32	get_sci_exponent(long double d)
 {
-	t_s32			exp;
+	t_s32	exp;
 
 	exp = 0;
 	if (d == .0 || (d >= 1.0 && d <= 9.0))

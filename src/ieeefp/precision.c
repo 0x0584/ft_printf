@@ -32,9 +32,9 @@ static bool		has_trailing_zeros(char *buff, size_t index)
 static void		round_nearest_even(char **fp_buff, t_ieee_fmt style,
 										int *exp, int prec)
 {
-	char			*buff;
-	size_t			i;
-	bool		carry;
+	char	*buff;
+	size_t	i;
+	bool	carry;
 
 	buff = *fp_buff;
 	i = MAX(style == IEEE_EXPONENT ? 0 : *exp, 0) + prec;
@@ -55,14 +55,10 @@ static void		round_nearest_even(char **fp_buff, t_ieee_fmt style,
 		buff[i] = '1';
 		buff[MAX((*exp)++, 0) + prec + 1] = '0';
 	}
-
+	else
+		buff[i] += 1;
 	ft_putstr(" round // "); ft_putendl(buff);
 	getchar();
-
-
-
-	buff[i] += 1;
-	/* buff[i] += 1; */
 	ft_putstr(" round \\ "); ft_putendl(buff);
 	getchar();
 
@@ -94,6 +90,8 @@ static void		prepare_fp_buff(char **buff, t_ieee_fmt style,
 		npad = MAX(*exp - (t_s32)buff_size, 0) + prec
 				- (*exp < (t_s32)buff_size ? 0 : ft_strlen(*buff + *exp + 1));
 	}
+	if (npad < 0)
+		npad += buff_size;
 	ft_putendl(*buff + *exp + 1);
 	(void)printf(" to << %d %zu\n", npad, buff_size);
 	(void)getchar();

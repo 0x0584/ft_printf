@@ -78,6 +78,7 @@ void			ft_memdel(void **mem);
 void			ft_free(void (*del)(void *o), void *ptr, ...);
 void			ft_bzero(void *s, size_t n);
 
+void			ft_strchange(char **astr, char *s);
 void			ft_strinsert_at(char **str, char const *src, size_t index);
 void			ft_strreplace(char **str, char const *base, char const *to);
 void			ft_strpad(char **astr, char c, size_t n, bool left);

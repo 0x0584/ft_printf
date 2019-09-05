@@ -118,6 +118,7 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst);
 void			format_free(void *dat, size_t size);
 t_frmt			*format_const_string(int index, char *str);
 
+
 /*
 ** format.checks.c: verify conversion and modifiers. also flags
 */
@@ -141,6 +142,8 @@ char			*format_ieee_float(t_frmt *frmt);
 **
 */
 
+char			*format_handle_conversion(t_frmt *frmt);
+
 char			*handle_unsigned_deci(t_frmt *frmt, const char *base);
 char			*handle_signed_deci(t_frmt *frmt);
 char			*handle_floating_point(t_frmt *frmt);
@@ -150,6 +153,8 @@ char			*handle_string(t_frmt *frmt);
 void			flag_getprefix_or_sign (t_frmt *frmt, char **astr, size_t *pad);
 void			flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad);
 void			flag_adjust_padding(t_frmt *frmt, char **astr, size_t *pad);
-char			*format_handle_conversion(t_frmt *frmt);
+
+void			adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad);
+void			adjust_str_precision(t_frmt *frmt, char **astr, size_t *pad);
 
 #endif

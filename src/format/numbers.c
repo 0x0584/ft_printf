@@ -20,7 +20,7 @@ bool	format_isnumeric(t_frmt *frmt)
 
 	c = frmt->conv;
 	return (c == CONV_INT || c == CONV_UOCT
-				|| c == CONV_UDEC || c == CONV_UHEX);
+			|| c == CONV_UDEC || c == CONV_UHEX);
 }
 
 bool	format_isfloat(t_frmt *frmt)

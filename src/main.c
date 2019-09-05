@@ -34,16 +34,19 @@ int main(void)
 	/* ft_putendl(foo); */
 	/* ft_strdel(&foo); */
 
-	t_ieeefp fp;
+	/* t_ieeefp fp; */
 
-	fp.d.d = 0;
-	fp.d.ieee.e = 0x7FF;
+	/* fp.d.d = 0; */
+	/* fp.d.ieee.e = 0x7FF; */
+
+	/* double dd = 0.99999; */
 
 	/* printf("%d", MAX(-1, 0)); */
-	char *fmt = "(%08u) (%08o) (%08d) (%s) (%p)\n";
-	ft_printf(fmt, 1412, 1412, 1412, "this", &fp);
+	char *fmt = "(%8.2s) (%8.8s) (%8.10s) (%8.0s)\n";
+
+	ft_printf(fmt,  "this", "this", "this", "this");
 	ft_putendl("------------------------");
-	printf(fmt, 1412, 1412, 1412, "this", &fp);
+	printf(fmt, "this", "this", "this", "this");
 
 	/* char *bar = ieee_dtoa(0.00899L, 4); */
 

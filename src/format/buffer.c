@@ -40,7 +40,7 @@ void			format_dbg(t_frmt *frmt)
 }
 
 /*
-  TODO: YOU HAVE TO create a function to everything
+  XXX: YOU HAVE TO create a function to everything
 
   those ifs must all be some foo functions, put them in an
   array or something..
@@ -49,8 +49,6 @@ void			format_dbg(t_frmt *frmt)
 /*
    FIXME: this should return a bool
 */
-
-# define HASH_FLAG_SIZE(f)		(HAS_FLAG(f, FL_HASH) + (f->conv == CONV_UHEX))
 
 void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
@@ -87,7 +85,8 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 
 		/* alternate form and Sign or Space */
 		flag_getprefix_or_sign(frmt, &s_frmt, &padding_size);
-
+		adjust_int_precision(frmt, &s_frmt, &padding_size);
+		adjust_str_precision(frmt, &s_frmt, &padding_size);
 		flag_adjust_padding(frmt, &s_frmt, &padding_size);
 
 		ft_putstr("must not be NULL: >>> [");

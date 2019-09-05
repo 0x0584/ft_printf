@@ -102,7 +102,7 @@ char	*handle_signed_deci(t_frmt *frmt)
 /*
    XXX: %.0f shows weird output!
 
-   NOTE:
+   XXX: handle special values
 
    procedure is as the following:
 
@@ -185,15 +185,15 @@ char	*handle_floating_point(t_frmt *frmt)
 		/* ft_putstr(" dbl ?? "); ft_putendl(str); */
 		/* getchar(); */
 
-		if (frmt->conv == CONV_EDBL)
-			ieee_sci_style(&str, exp, frmt->is_upcase);
-		else if (frmt->conv == CONV_GDBL)
-			ieee_suitable_style(&str, frmt->is_upcase);
 		/* FIXME: this belongs to flags.alterform() */
 		if (HAS_FLAG(frmt, FL_HASH) && !ft_strchr(str, '.'))
 			/* TODO: trim zeros */
 			ft_strappend(&str, ".");
 
+		if (frmt->conv == CONV_EDBL)
+			ieee_sci_style(&str, exp, frmt->is_upcase);
+		else if (frmt->conv == CONV_GDBL)
+			ieee_suitable_style(&str, frmt->is_upcase);
 		/*
 
 		   num
