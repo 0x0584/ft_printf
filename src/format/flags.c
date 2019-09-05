@@ -1,6 +1,6 @@
 #include "format.h"
 
-static bool	check_alterform(char **astr, t_frmt *frmt, size_t *pad)
+bool	flag_alterform(t_frmt *frmt, char **astr, size_t *pad)
 {
 	if (!(SAFE_PTRVAL(astr)) || !frmt || !pad
 			|| ((!HAS_FLAG(frmt, FL_HASH) || !(format_isnumeric(frmt)))
@@ -19,45 +19,8 @@ static bool	check_alterform(char **astr, t_frmt *frmt, size_t *pad)
 		if (*pad > 1)
 			*pad -= 2;
 	}
-/*
-  call buffutils_pad(dest, "0", 1) for %o
-  call buffutils_pad(dest, "0x", 2) for %x
-  call buffutils_pad(dest, "0X", 1) for %X
-
-  if format_isfloat(frmt)
-  dest = ft_format_ieee_float(frmt, trailing_is_on) // default off
-*/
 
 	return (true);
-}
-
-void		flag_getprefix_or_sign (t_frmt *frmt, char **astr, size_t *pad)
-{
-	if (!frmt || !SAFE_PTRVAL(astr) || !pad)
-		return ;
-
-	ft_putstr("inside flag_prefix() >>>[");
-	ft_putstr(*astr); 	ft_putstr("]");
-	getchar();
-
-	/* XXX: plus overrides the space */
-	if (check_alterform(astr, frmt, pad))
-		return ;
-	if ((HAS_FLAG(frmt, FL_PLUS) || HAS_FLAG(frmt, FL_SPACE))
-			&& (frmt->conv == CONV_INT || format_isfloat(frmt))
-			&& format_getsign(frmt) != '-')
-	{
-
-		ft_strpad(astr, HAS_FLAG(frmt, FL_PLUS) ? '+' : ' ', 1,
-				  TOWARD_HEAD);
-		/* XXX: decrement size of padding when sign */
-		if (*pad)
-			*pad -= 1;
-	}
-	ft_putstr("outside flag_prefix() >>>[");
-	ft_putstr(*astr); 	ft_putstr("]");
-	getchar();
-
 }
 
 void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
@@ -108,23 +71,4 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 		ft_putendl(*astr);
 		getchar();
 
-}
-
-void		flag_adjust_padding(t_frmt *frmt, char **astr, size_t *pad)
-{
-	if (!frmt || !SAFE_PTRVAL(astr) || !pad)
-		return ;
-
-	/* Field width */
-	if (frmt->width && *pad)
-	{
-		if (HAS_FLAG(frmt, FL_MINUS))
-			ft_strpad(astr, ' ', *pad, TOWARD_TAIL);
-		else if (!HAS_FLAG(frmt, FL_ZERO))
-			ft_strpad(astr, ' ', *pad, TOWARD_HEAD);
-	}
-
-	/* Zero padding */
-	if (!HAS_FLAG(frmt, FL_MINUS))
-		flag_zero_padding(frmt, astr, pad);
 }

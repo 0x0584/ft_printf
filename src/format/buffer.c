@@ -84,10 +84,10 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 			padding_size = frmt->width - slen;
 
 		/* alternate form and Sign or Space */
-		flag_getprefix_or_sign(frmt, &s_frmt, &padding_size);
-		adjust_int_precision(frmt, &s_frmt, &padding_size);
-		adjust_str_precision(frmt, &s_frmt, &padding_size);
-		flag_adjust_padding(frmt, &s_frmt, &padding_size);
+
+		adjust_prefix(frmt, &s_frmt, &padding_size);
+		adjust_precision(frmt, &s_frmt, &padding_size);
+		adjust_padding(frmt, &s_frmt, &padding_size);
 
 		ft_putstr("must not be NULL: >>> [");
 		ft_putstr(s_frmt);

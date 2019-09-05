@@ -21,6 +21,7 @@ all: $(NAME)
 $(NAME): setup $(OBJS) $(DEPS)
 	@echo -e "\nlinking the executable.."
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LDFLAGS)
+# ar rc libftprintf.a $(OBJS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)

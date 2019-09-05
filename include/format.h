@@ -150,11 +150,11 @@ char			*handle_floating_point(t_frmt *frmt);
 char			*handle_char(t_frmt *frmt);
 char			*handle_string(t_frmt *frmt);
 
-void			flag_getprefix_or_sign (t_frmt *frmt, char **astr, size_t *pad);
+bool			flag_alterform(t_frmt *frmt, char **astr, size_t *pad);
 void			flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad);
-void			flag_adjust_padding(t_frmt *frmt, char **astr, size_t *pad);
 
-void			adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad);
-void			adjust_str_precision(t_frmt *frmt, char **astr, size_t *pad);
+void			adjust_prefix(t_frmt *frmt, char **astr, size_t *pad);
+void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad);
+void			adjust_precision(t_frmt *frmt, char **astr, size_t *pad);
 
 #endif
