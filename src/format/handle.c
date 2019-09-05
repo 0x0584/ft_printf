@@ -59,9 +59,11 @@ char			*format_handle_conversion(t_frmt *frmt)
 		str = handle_unsigned_deci(frmt, BASE_OCT);
 	else if (frmt->conv == CONV_UDEC)
 		str = handle_unsigned_deci(frmt, BASE_DEC);
+	else if (frmt->conv == CONV_UBIN)
+		str = handle_unsigned_deci(frmt, BASE_BIN);
 	else if (frmt->conv == CONV_UHEX || frmt->conv == CONV_PTR)
-		str = handle_unsigned_deci(frmt,
-								   frmt->is_upcase ? BASE_UHEX : BASE_LHEX);
+		str = handle_unsigned_deci(frmt, frmt->is_upcase
+											? BASE_UHEX : BASE_LHEX);
 	else if (format_isfloat(frmt))
 		str = handle_floating_point(frmt);
 	else if (frmt->conv == CONV_CHAR)

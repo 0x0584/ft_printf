@@ -140,7 +140,8 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 				frmt->data.i = va_arg(*arglst, int);
 		}
 		else if (frmt->conv == CONV_UOCT || frmt->conv == CONV_UDEC
-					|| frmt->conv == CONV_UHEX || frmt->conv == CONV_PTR)
+					|| frmt->conv == CONV_UBIN || frmt->conv == CONV_UHEX
+					|| frmt->conv == CONV_PTR)
 		{
 		    if (frmt->length == MOD_L || frmt->conv == CONV_PTR)
 				frmt->data.ul = va_arg(*arglst, unsigned long);

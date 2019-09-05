@@ -19,7 +19,7 @@ bool	format_isnumeric(t_frmt *frmt)
 	t_s8 c;
 
 	c = frmt->conv;
-	return (c == CONV_INT || c == CONV_UOCT
+	return (c == CONV_INT || c == CONV_UOCT || c == CONV_UBIN
 				|| c == CONV_UDEC || c == CONV_UHEX);
 }
 

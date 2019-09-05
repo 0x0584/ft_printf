@@ -99,6 +99,11 @@ int		check_conversion(char **fmt, t_frmt *frmt)
 		frmt->length = (*bar == 'U' ? MOD_L : frmt->length);
 		frmt->conv = CONV_UDEC;
 	}
+	else if (*bar == 'b' || *bar == 'B')
+	{
+		frmt->conv = CONV_UBIN;
+		frmt->is_upcase = (*bar == 'B');
+	}
 	else if (*bar == 'x' || *bar == 'X')
 	{
 		frmt->conv = CONV_UHEX;

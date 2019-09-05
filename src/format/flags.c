@@ -18,8 +18,17 @@ bool	flag_alterform(t_frmt *frmt, char **astr, size_t *pad)
 		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x" );
 		if (*pad > 1)
 			*pad -= 2;
+		else if (*pad <= 1)
+			*pad = 0;
 	}
-
+	else if (frmt->conv == CONV_UBIN)
+	{
+		ft_strprepend(astr, frmt->is_upcase ?  "0B" : "0b" );
+		if (*pad > 1)
+			*pad -= 2;
+		else if (*pad <= 1)
+			*pad = 0;
+	}
 	return (true);
 }
 
@@ -66,6 +75,11 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 		{
 			ft_strreplace(astr, frmt->is_upcase ? "0X" : "0x", "");
 			ft_strinsert_at(astr, frmt->is_upcase ? "0X" : "0x", 0);
+		}
+		else if (frmt->conv == CONV_UBIN && HAS_FLAG(frmt, FL_HASH))
+		{
+			ft_strreplace(astr, frmt->is_upcase ? "0B" : "0b", "");
+			ft_strinsert_at(astr, frmt->is_upcase ? "0B" : "0b", 0);
 		}
 	}
 		ft_putendl(*astr);

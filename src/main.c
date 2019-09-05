@@ -48,11 +48,11 @@ int main(void)
 	/* ft_putendl("------------------------"); */
 	/* printf(fmt, "this", "this", "this", "this"); */
 
-	char *fmt = "(%10a)\n";
+	char *fmt = "(%8b)\n";
 
-	ft_printf(fmt, 3.1425);
+	ft_printf(fmt, 9);
 	ft_putendl("------------------------");
-	printf(fmt, 3.1425);
+	/* printf(fmt, ); */
 
 	/* char *bar = ieee_dtoa(0.00899L, 4); */
 
