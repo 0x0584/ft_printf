@@ -39,17 +39,6 @@ void			format_dbg(t_frmt *frmt)
 	printf("# flag %d\n-------------------\n", HAS_FLAG(frmt, FL_HASH));
 }
 
-/*
-  XXX: YOU HAVE TO create a function to everything
-
-  those ifs must all be some foo functions, put them in an
-  array or something..
-*/
-
-/*
-   FIXME: this should return a bool
-*/
-
 void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
 	t_list	*e;
@@ -64,56 +53,15 @@ void			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		frmt = (t_frmt *)e->content;
 		padding_size = 0;
 		slen = 0;
-
-		/* format_dbg(frmt); */
-		/* getchar(); */
-
-		s_frmt = format_handle_conversion(frmt);
-
-		printf("current format as string: [%s]\n", s_frmt);
-		if (s_frmt == NULL)
+		if ((s_frmt = format_handle_conversion(frmt)) == NULL)
 			break ;
-
-
-		/*
-		   NOTE:
-		   create a fomrmat string and reedit it! stop concerning about
-		   performance for now
-		 */
-
-		/* TODO: create format_set_precision(CONV_CHAR **, t_frmt *) */
-
 		if (frmt->width > (slen = ft_strlen(s_frmt)) && frmt->width)
 			padding_size = frmt->width - slen;
-
-		/* alternate form and Sign or Space */
-
 		adjust_prefix(frmt, &s_frmt, &padding_size);
 		adjust_precision(frmt, &s_frmt, &padding_size);
 		adjust_padding(frmt, &s_frmt, &padding_size);
-
-		ft_putstr("must not be NULL: >>> [");
-		ft_putstr(s_frmt);
-		ft_putendl("]");
-		getchar();
-
-		if (!buff_append(buff, s_frmt, ft_strlen(s_frmt)))
-		{
-			ft_putendl_fd("buff doesn't have a room left'", 2);
-			break;
-		}
-
-		if (s_frmt == NULL)
-			ft_putendl_fd("s_frmt was empty", 2);
-
-		ft_putstr("whole buffer: {");
-		buff_write(1, buff);
-		ft_putendl("}\n");
-
-		e = e->next;
+		buff_append(buff, s_frmt, ft_strlen(s_frmt));
+		LST_NEXT(e);
 		ft_strdel(&s_frmt);
 	}
-
-	if (s_frmt == NULL)
-		ft_putendl_fd("s_frmt was empty", 2);
 }

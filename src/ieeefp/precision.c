@@ -57,11 +57,6 @@ static void		round_nearest_even(char **fp_buff, t_ieee_fmt style,
 	}
 	else
 		buff[i] += 1;
-	ft_putstr(" round // "); ft_putendl(buff);
-	getchar();
-	ft_putstr(" round \\ "); ft_putendl(buff);
-	getchar();
-
 }
 
 static void		prepare_fp_buff(char **buff, t_ieee_fmt style,
@@ -70,36 +65,15 @@ static void		prepare_fp_buff(char **buff, t_ieee_fmt style,
 	t_s32			npad;
 	size_t			buff_size;
 
-	ft_putstr(" buff !? "); ft_putendl(*buff);
-	getchar();
-
 	buff_size = ft_strlen(*buff) - 1;
-
 	if (*exp < 0 && style == IEEE_NORMAL)
 		ft_strpad(buff, '0', -*exp, TOWARD_HEAD);
-
-	ft_putstr(" buff !? "); ft_putendl(*buff);
-	getchar();
-
 	if (*exp <= 0)
 		npad = MAX(prec - buff_size, 0);
 	else
-	{
-
-		/* getchar(); */
 		npad = MAX(*exp - (t_s32)buff_size, 0) + prec
 				- (*exp < (t_s32)buff_size ? 0 : ft_strlen(*buff + *exp + 1));
-	}
-	if (npad < 0)
-		npad += buff_size;
-	ft_putendl(*buff + *exp + 1);
-	(void)printf(" to << %d %zu\n", npad, buff_size);
-	(void)getchar();
 	ft_strpad(buff, '0', ABS(npad), TOWARD_TAIL);
-
-	ft_putstr(" buff !? "); ft_putendl(*buff);
-	getchar();
-
 	round_nearest_even(buff, style, exp, prec);
 }
 
@@ -112,14 +86,7 @@ void	dragon4_prec(char **fp_buff, t_s32 *exp, t_ieee_fmt style,
 	char	*frac_part;
 	int		exp2;
 
-	ft_putstr(" fp_buff ?? "); ft_putendl(*fp_buff);
-	getchar();
-
 	prepare_fp_buff(fp_buff, style, exp, prec);
-
-	ft_putstr(" prepered fp_buff ?? "); ft_putendl(*fp_buff);
-	getchar();
-
 	int_part = *fp_buff;
 	if (*int_part == '0' && style == IEEE_EXPONENT)
 	{
@@ -132,10 +99,6 @@ void	dragon4_prec(char **fp_buff, t_s32 *exp, t_ieee_fmt style,
 		exp2 = MAX(style == IEEE_EXPONENT ? 0 : *exp, 0);
 	fp = ft_strrdup(int_part, int_part + exp2);
 	frac_part = prec ? int_part + exp2 : NULL;
-
-	/* ft_putnumber(*exp); ft_putstr(" >>> "); ft_putendl(fp); */
-	/* getchar(); */
-
 	if (frac_part)
 	{
 		ft_strappend(&fp, ".");

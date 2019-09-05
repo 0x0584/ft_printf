@@ -36,14 +36,11 @@ static int		hungry_getnbr(char **str)
 {
 	char *bar;
 	int foo;
-	bool first_run;
 
-	first_run = true;
-	bar = *str;
+ 	bar = *str;
 	foo = 0;
 	while (ft_isdigit(*bar))
 	{
-		first_run = false;
 		foo = (foo << 3) + (foo << 1);
 		foo += (*bar++ - '0');
 	}
@@ -77,18 +74,7 @@ void			format_handle(char **fmt, t_list **alstfrmt, int *index)
 
 	ft_bzero(&frmt, sizeof(t_frmt));
 	frmt.ifrmt = *index;
-
-	/* ft_putendl("begin handle format"); */
-	/* ft_putendl(*fmt); */
-
-	/* getchar(); */
-
 	*fmt += 1;
-
-	/* FIXME: not handling %%
-	   should append % to the buffer and quit */
-	/* if ((++(*fmt))[0] == '%') */
-
 	check_flags(fmt, &frmt);
 	frmt.iarg = hungry_getnbr(fmt);
 	if (*fmt[0] == '$')
@@ -99,7 +85,6 @@ void			format_handle(char **fmt, t_list **alstfrmt, int *index)
 		frmt.iarg = 0;
 		sort_lstfrmt = false;
 	}
-
 	if (frmt.iarg)
 		frmt.width = hungry_getnbr(fmt);
 	frmt.has_radix = (*fmt[0] == '.');
@@ -107,8 +92,6 @@ void			format_handle(char **fmt, t_list **alstfrmt, int *index)
 	frmt.prec = hungry_getnbr(fmt);
 	check_modifier(fmt, &frmt);
 	check_conversion(fmt, &frmt);
-	/* if (format_isfloat(&frmt) && !frmt.prec && !frmt.has_radix) */
-	/* 	frmt.prec = 6; */
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
 }
 
@@ -119,12 +102,9 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 
 	if (sort_lstfrmt)
 		ft_lst_mergesort(alstfrmt, cmp_by_argindex);
-
 	e = *alstfrmt;
 	while (e && (frmt = (t_frmt *)e->content))
 	{
-		/* format_dbg(frmt); */
-		/* getchar(); */
 		if (frmt->conv == CONV_FRMT)
 		{
 			LST_NEXT(e);
@@ -166,13 +146,10 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 			else
 				frmt->data.str = va_arg(*arglst, char *);
 		}
-		/* format_dbg(frmt); */
-		/* getchar(); */
 		LST_NEXT(e);
 	}
-	/* ft_putendl("------ end of getting data -------"); */
 	if (sort_lstfrmt)
 		ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
-	/* sort_lstfrmt = true; */
+	sort_lstfrmt = true;
 	return (1);
 }

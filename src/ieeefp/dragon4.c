@@ -38,26 +38,13 @@ static void		set_num_denum(t_ieeefp *fp, t_bigint *num, t_bigint *denum)
 	t_u128		man;
 	t_s32		exp;
 
-
-	ft_putstr(" man and exp");
 	ieee_extract_parts(fp, &man, &exp);
-	ft_putnumber(man);
-	ft_putstr(" ");
-	ft_putnumber(exp);
-
-
 	*num = bigint_init(man);
 	*denum = bigint_init(1);
-
 	if (exp > 0)
 		bigint_inbls(num, exp);
 	else
 		bigint_inbls(denum, -exp);
-
-	/* ft_putendl("\n ???  in get num denum"); */
-	/* bigint_asbin(*num); */
-	/* bigint_asbin(*denum); */
-	/* getchar(); */
 }
 
 static t_u32	get_sci_exponent(long double d)
@@ -97,12 +84,6 @@ static t_s32	get_as_fraction(t_ieeefp *fp, t_bigint *num, t_bigint *denum)
 		bigint_inmul(denum, bigint_pow(bigten, (t_u32)exp));
 	else
 		bigint_inmul(num, bigint_pow(bigten, (t_u32)-exp));
-
-	/* ft_putendl("\n ???  after mul"); */
-	/* bigint_asbin(*num); */
-	/* bigint_asbin(*denum); */
-	/* getchar(); */
-
 	return (exp);
 }
 
@@ -118,32 +99,13 @@ static t_u16	dumb_div(t_bigint num, t_bigint denum)
 	if ((diff = bigint_cmp(num, foo)) > 0)
 	{
 		while ((diff = bigint_cmp(num, bigint_inadd(&foo, denum))) > 0)
-		{
 			result++;
-			/* ft_putnumber(result); */
-			/* ft_putendl("##"); */
-			/* ft_putendl("num"); */
-			/* bigint_asbin(num); */
-			/* ft_putendl("denum"); */
-			/* bigint_asbin(denum); */
-
-			/* ft_putendl("foo"); */
-			/* bigint_asbin(foo); */
-			/* getchar(); */
-
-		}
 		return (!diff ? result + 1 : result);
 	}
 	else if (diff < 0)
 	{
 		while ((diff = bigint_cmp(num, bigint_insub(&foo, denum)) < 0))
-		{
 			result--;
-			/* ft_putnumber(diff); */
-			/* ft_putendl("@@"); */
-			/* getchar(); */
-
-		}
 		return (result - 1);
 	}
 	return (result);
@@ -157,24 +119,12 @@ t_s32			dragon4(t_ieeefp *fp, char **abuff)
 	t_s32		exp;
 	char		*buff;
 
-	buff = ft_strnew(DRAGON4_BUFF_SIZE);
 	i = 0;
+	buff = ft_strnew(DRAGON4_BUFF_SIZE);
 	exp = get_as_fraction(fp, &num, &denum);
-	ft_putnumber(exp);
-	getchar();
-
-	/* ft_putendl(" initial "); */
-	/* ft_putendl("num"); */
-	/* bigint_asbin(num); */
-	/* ft_putendl("denum"); */
-	/* bigint_asbin(denum); */
-	/* getchar(); */
-
 	while (num.size && i < DRAGON4_BUFF_SIZE)
 	{
 		buff[i] = '0' + dumb_div(num, denum);
-		/* ft_putendl("\ncurrent digit is: "); ft_putchar(buff[i]); */
-		/* getchar(); */
 		bigint_insub(&num, bigint_umul(denum, buff[i++] - '0'));
 		bigint_inmul(&num, bigten);
 	}

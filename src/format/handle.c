@@ -101,18 +101,6 @@ char	*handle_signed_deci(t_frmt *frmt)
 		return ft_itoa_base((t_s32)frmt->data.i, BASE_DEC);
 }
 
-/*
-   XXX: %.0f shows weird output!
-
-   XXX: handle special values
-
-   procedure is as the following:
-
-   get value of va_arg() as either double or long double.
-     - check if value is inf
-     - check if value is nan
-*/
-
 char	*handle_floating_point(t_frmt *frmt)
 {
 	char *str;
@@ -136,7 +124,7 @@ char	*handle_floating_point(t_frmt *frmt)
 	if ((sp = ieee_is_spval(&fp)))
 		return ieee_sp_as_str(sp, frmt);
 	if (frmt->conv == CONV_HDBL)
-		str = ieee_hex_style(&fp, frmt->prec, frmt->is_upcase);
+		return ieee_hex_style(&fp, frmt->prec, frmt->is_upcase);
 	else
 	{
 		style = IEEE_NORMAL;
@@ -144,48 +132,11 @@ char	*handle_floating_point(t_frmt *frmt)
 			style = IEEE_EXPONENT;
 		else if (frmt->conv == CONV_GDBL)
 		{
-			/*
-			   XXX: is style is suitable, allow trim
-			*/
 			style = IEEE_SUITABLE;
 			if (frmt->has_radix && !frmt->prec)
 				frmt->prec = 1;
 		}
-
-		/*
-		   XXX: here you have to alter the exponent
-		   sending the exponent by reference
-		*/
-
-		/* XXX: this should be ieee_tostr() */
-		/* str = (frmt->length == MOD_L_CAP) */
-		/* 	? ieee_ldtoa(frmt->data.d, frmt->prec) */
-		/* 	: ieee_dtoa(frmt->data.d, frmt->prec, style, &exp); */
-
 		str = ieee_tostr(&fp, style, frmt);
-		/* ft_putstr(" dbl ?? "); ft_putendl(str); */
-		/* getchar(); */
-
-		/* FIXME: this belongs to flags.alterform() */
-		/* if (HAS_FLAG(frmt, FL_HASH) && !ft_strchr(str, '.')) */
-		/* 	/\* TODO: trim zeros *\/ */
-		/* 	ft_strappend(&str, "."); */
-
-		/* if (frmt->conv == CONV_EDBL) */
-		/* 	ieee_sci_style(&str, exp, frmt->is_upcase); */
-
-		/*
-
-		   num
-		   0000000000010110010000001010001110101101000110001101001001011111
-		   denum
-		   0000000000000010100000000000000000000000000000000000000000000000
-		   num
-		   0000000011011110100001100110010011000010111110000011011110110110
-		   denum
-		   0000000000000000010000000000000000000000000000000000000000000000
-
-		*/
 	}
 	return (str);
 }
@@ -205,7 +156,6 @@ char	*handle_char(t_frmt *frmt)
 		ft_utf8tostr_ch(dest, frmt->data.i);
 		str = ft_strdup(dest);
 	}
-
 	return (str);
 }
 
@@ -216,7 +166,6 @@ char	*handle_string(t_frmt *frmt)
 
 	if (frmt->conv == CONV_FRMT || frmt->length != MOD_L)
 		return ft_strdup(frmt->data.str);
-
 	ft_bzero(dest, 0xffff);
 	ret = ft_utf8tostr(dest, 0xffff, frmt->data.wstr, 0xffff);
 	str = ft_strrdup(dest, dest + ret);

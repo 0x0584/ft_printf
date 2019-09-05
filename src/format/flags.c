@@ -38,28 +38,12 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 
 	if (!frmt || !SAFE_PTRVAL(astr) || !pad)
 		return ;
-
-	ft_putstr("inside flag_zero_padding() >>>[");
-	ft_putstr(*astr); 	ft_putstr("]");
-	getchar();
-
-	ft_putstr(" ?? "); ft_putendl(*astr);
-
-	/* Zero padding */
-	/* FIXME: ignore zero padding when precision */
 	if (HAS_FLAG(frmt, FL_ZERO) && !HAS_FLAG(frmt, FL_MINUS)
 			&& frmt->width && *pad
 			&& !(format_isnumeric(frmt) && frmt->prec))
 	{
 		tmp_sign = *astr[0];
-		ft_putstr(" ?? "); ft_putendl(*astr);
-
 		ft_strpad(astr, '0', *pad, TOWARD_HEAD);
-
-		ft_putstr(" !? "); ft_putendl(*astr);
-		ft_putstr(" >");
-		getchar();
-
 		if (frmt->conv == CONV_INT || format_isfloat(frmt))
 		{
 			if (tmp_sign == '+' && !HAS_FLAG(frmt, FL_PLUS)
@@ -82,7 +66,4 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 			ft_strinsert_at(astr, frmt->is_upcase ? "0B" : "0b", 0);
 		}
 	}
-		ft_putendl(*astr);
-		getchar();
-
 }

@@ -2,10 +2,10 @@
 
 void		bigint_asbin(t_bigint u)
 {
-	char		*tmp;
+	char	*tmp;
 	t_u16	i;
 	t_u16	rem_bits;
-	char		buff[sizeof(t_u32) * 8 + 1];
+	char	buff[sizeof(t_u32) * 8 + 1];
 
 	i = u.size;
 	while (i--)
