@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "buffer.h"
 # include "ieeefp.h"
+# include "colors.h"
 
 # define FLAG(fl)					(1U << fl)
 # define IS_FLAG(val, fl)			((val & FLAG(fl)) != 0)
@@ -59,7 +60,7 @@ typedef	enum	e_conversions
 {
 	CONV_INT, CONV_UBIN, CONV_UOCT, CONV_UDEC, CONV_UHEX,
 	CONV_DBL, CONV_LDBL, CONV_GDBL, CONV_EDBL, CONV_HDBL,
-	CONV_CHAR, CONV_STR, CONV_PTR,
+	CONV_CHAR, CONV_STR, CONV_PTR, CONV_COLOR,
 
 	CONV_FRMT = -2, CONV_NA
 }				t_conv;
@@ -115,6 +116,8 @@ typedef struct	s_format
 }				t_frmt;
 
 void			format_handle(char **fmt, t_plist *alstfrmt, int *index);
+void			format_apply_color(char **fmt, t_list **alstfrmt,
+										int *index);
 int				format_populate(t_plist *alstfrmt, va_list *arglst);
 void			format_free(void *dat, size_t size);
 t_frmt			*format_const_string(int index, char *str);

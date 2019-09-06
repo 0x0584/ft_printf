@@ -48,9 +48,9 @@ int main(void)
 	/* ft_putendl("------------------------"); */
 	/* printf(fmt, "this", "this", "this", "this"); */
 
-	char *fmt = "(%8o) (%8lu) (%8x) (%8hb)\n";
+	char *fmt = "%{bold} this %{reset}\n";
 
-	ft_printf(fmt, -9, -9, -9, -9);
+	ft_printf(fmt);
 	ft_putendl("------------------------");
 	/* printf(fmt, -9, -9, -9); */
 

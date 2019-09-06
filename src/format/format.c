@@ -75,6 +75,12 @@ void			format_handle(char **fmt, t_list **alstfrmt, int *index)
 	ft_bzero(&frmt, sizeof(t_frmt));
 	frmt.ifrmt = *index;
 	*fmt += 1;
+
+	if (*fmt[0] == '{')
+	{
+		format_apply_color(fmt, alstfrmt, index);
+		return ;
+	}
 	check_flags(fmt, &frmt);
 	frmt.iarg = hungry_getnbr(fmt);
 	if (*fmt[0] == '$')
