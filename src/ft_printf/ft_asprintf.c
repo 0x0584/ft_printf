@@ -7,19 +7,22 @@ int		ft_asprintf(char **astr, const char *fmt, ...)
 	t_list	*lstfrmt;
 	int		n_chars;
 
-	if (!astr)
-		return (-1);
 	lstfrmt = NULL;
-	buff = buff_alloc(0x20);
+	n_chars  = 0;
+	if (!astr || !(buff = buff_alloc(0x20)))
+		return (-1);
 	va_start(args, fmt);
 	format_parse(fmt, &lstfrmt);
 	format_populate(&lstfrmt, &args);
-	format_to_buff(lstfrmt, buff);
+	if (!format_to_buff(lstfrmt, buff))
+		return (-1);
 	ft_lstdel(&lstfrmt, format_free);
 	va_end(args);
-	n_chars = buff->len;
-	*astr = ft_strdup(buff->base);
+	if (!n_chars)
+	{
+		n_chars = buff->len;
+		*astr = ft_strdup(buff->base);
+	}
 	buff_free(&buff);
 	return (n_chars);
-
 }

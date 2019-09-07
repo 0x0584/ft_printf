@@ -1,5 +1,4 @@
 #include "format.h"
-#define str_len_diff(s1, s2) (s2 ? (size_t)(s2 - s1 - 1) : ft_strlen(s1))
 
 /* FIXME: free string as so */
 void	format_free(void *dat, size_t size)
@@ -28,12 +27,12 @@ void	format_parse(const char *fmt, t_list **alstfrmt)
 	{
 		if (*fmt == '%')
 		{
-			format_handle((char **)&fmt, alstfrmt, &index);
+			format_doparse((char **)&fmt, alstfrmt, &index);
 			continue;
 		}
 		tmp = ft_strchr(fmt, '%');
 		ft_lstpush(alstfrmt, ft_lstnew(format_const_string(index,
-			ft_strrdup(fmt, fmt + str_len_diff(fmt, tmp))), sizeof(t_frmt)));
+			ft_strrdup(fmt, fmt + LEN_DIFF(fmt, tmp))), sizeof(t_frmt)));
 		fmt = tmp;
 	}
 }

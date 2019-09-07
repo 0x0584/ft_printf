@@ -39,29 +39,30 @@ void			format_dbg(t_frmt *frmt)
 	printf("# flag %d\n-------------------\n", HAS_FLAG(frmt, FL_HASH));
 }
 
-void			format_to_buff(t_list *lstfrmt, t_buff *buff)
+bool			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
-	t_list	*e;
-	t_frmt	*frmt;
-	char	*s_frmt;
-	size_t	padding_size;
-	size_t slen;
+	t_list			*e;
+	t_frmt			*frmt;
+	char			*s_frmt;
+	size_t			padding_size;
+	size_t			slen;
 
 	e = lstfrmt;
 	while (e)
 	{
-		frmt = (t_frmt *)e->content;
-		padding_size = 0;
 		slen = 0;
+		padding_size = 0;
+		frmt = (t_frmt *)e->content;
 		if ((s_frmt = format_handle_conversion(frmt)) == NULL)
-			break ;
+			return (false);
 		if (frmt->width > (slen = ft_strlen(s_frmt)) && frmt->width)
 			padding_size = frmt->width - slen;
 		adjust_prefix(frmt, &s_frmt, &padding_size);
 		adjust_precision(frmt, &s_frmt, &padding_size);
 		adjust_padding(frmt, &s_frmt, &padding_size);
 		buff_append(buff, s_frmt, ft_strlen(s_frmt));
-		LST_NEXT(e);
 		ft_strdel(&s_frmt);
+		LST_NEXT(e);
 	}
+	return (true);
 }

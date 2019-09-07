@@ -50,10 +50,9 @@ static int		cmp_by_frmtindex(t_plist e1, t_plist e2)
 	return (foo->ifrmt < bar->ifrmt);
 }
 
-void			format_handle(char **fmt, t_list **alstfrmt, int *index)
+void			format_doparse(char **fmt, t_list **alstfrmt, int *index)
 {
 	t_frmt			frmt;
-
 
 	*fmt += 1;
 	if (format_apply_color(fmt, alstfrmt, index))

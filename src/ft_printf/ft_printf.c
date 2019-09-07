@@ -21,14 +21,18 @@ int		ft_printf(const char *fmt, ...)
 	int		n_chars;
 
 	lstfrmt = NULL;
-	buff = buff_alloc(0x20);
+	n_chars = 0;
+	if  (!(buff = buff_alloc(0x20)))
+		return (-1);
 	va_start(args, fmt);
 	format_parse(fmt, &lstfrmt);
 	format_populate(&lstfrmt, &args);
-	format_to_buff(lstfrmt, buff);
+	if (!format_to_buff(lstfrmt, buff))
+		n_chars = -1;
 	ft_lstdel(&lstfrmt, format_free);
 	va_end(args);
-	n_chars = buff_write(1, buff);
+	if (!n_chars)
+		n_chars = buff_write(1, buff);
 	buff_free(&buff);
 	return (n_chars);
 }

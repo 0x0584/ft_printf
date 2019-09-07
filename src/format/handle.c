@@ -40,38 +40,35 @@
 static char		*handle_unsigned_deci(t_frmt *frmt, const char *base)
 {
 	if (frmt->length == MOD_LL)
-		return ft_utoa_base((t_u128)frmt->data.ull, base);
+		return (ft_utoa_base((t_u128)frmt->data.ull, base));
 	else if (frmt->length == MOD_L || frmt->conv == CONV_PTR)
-		return ft_utoa_base((t_u64)frmt->data.ul, base);
+		return (ft_utoa_base((t_u64)frmt->data.ul, base));
 	else if (frmt->length == MOD_H)
-		return ft_utoa_base((t_u16)frmt->data.us, base);
+		return (ft_utoa_base((t_u16)frmt->data.us, base));
 	else if (frmt->length == MOD_HH)
-		return ft_utoa_base((t_u8)frmt->data.uc, base);
+		return (ft_utoa_base((t_u8)frmt->data.uc, base));
 	else if (frmt->length == MOD_Z)
-		return ft_utoa_base((size_t)frmt->data.usz, base);
+		return (ft_utoa_base((size_t)frmt->data.usz, base));
 	else if (frmt->length == MOD_J)
-		return ft_utoa_base((uintmax_t)frmt->data.uj, base);
-	else
-		return ft_utoa_base((t_u32)frmt->data.ui, base);
-	return (NULL);
+		return (ft_utoa_base((uintmax_t)frmt->data.uj, base));
+	return (ft_utoa_base((t_u32)frmt->data.ui, base));
 }
 
 static char	*handle_signed_deci(t_frmt *frmt)
 {
 	if (frmt->length == MOD_LL)
-		return ft_itoa_base((t_s128)frmt->data.ll, BASE_DEC);
+		return (ft_itoa_base((t_s128)frmt->data.ll, BASE_DEC));
 	else if (frmt->length == MOD_L)
-		return ft_itoa_base((t_s64)frmt->data.l, BASE_DEC);
+		return (ft_itoa_base((t_s64)frmt->data.l, BASE_DEC));
 	else if (frmt->length == MOD_H)
-		return ft_itoa_base((t_s16)frmt->data.s, BASE_DEC);
+		return (ft_itoa_base((t_s16)frmt->data.s, BASE_DEC));
 	else if (frmt->length == MOD_HH)
-		return ft_itoa_base((t_s8)frmt->data.c, BASE_DEC);
+		return (ft_itoa_base((t_s8)frmt->data.c, BASE_DEC));
 	else if (frmt->length == MOD_Z)
-		return ft_itoa_base((ssize_t)frmt->data.sz, BASE_DEC);
+		return (ft_itoa_base((ssize_t)frmt->data.sz, BASE_DEC));
 	else if (frmt->length == MOD_J)
-		return ft_itoa_base((intmax_t)frmt->data.j, BASE_DEC);
-	else
-		return ft_itoa_base((t_s32)frmt->data.i, BASE_DEC);
+		return (ft_itoa_base((intmax_t)frmt->data.j, BASE_DEC));
+	return (ft_itoa_base((t_s32)frmt->data.i, BASE_DEC));
 }
 
 static char		*handle_floating_point(t_frmt *frmt)
@@ -87,7 +84,7 @@ static char		*handle_floating_point(t_frmt *frmt)
 	if ((sp = ieee_is_spval(&fp)))
 		return ieee_sp_as_str(sp, frmt);
 	if (frmt->conv == CONV_HDBL)
-		return ieee_hex_style(&fp, frmt->prec, frmt->is_upcase);
+		return (ieee_hex_style(&fp, frmt->prec, frmt->is_upcase));
 	style = IEEE_NORMAL;
 	if (frmt->conv == CONV_EDBL)
 		style = IEEE_EXPONENT;
@@ -97,26 +94,19 @@ static char		*handle_floating_point(t_frmt *frmt)
 		if (frmt->has_radix && !frmt->prec)
 			frmt->prec = 1;
 	}
-	return ieee_tostr(&fp, style, frmt);
+	return (ieee_tostr(&fp, style, frmt));
 }
 
 static char		*handle_char(t_frmt *frmt)
 {
-	char *str;
 	char dest[5];
 
+	ft_bzero(dest, 5);
 	if (frmt->length != MOD_L)
-	{
-		str = ft_strnew(1);
-		*str = (char)frmt->data.i;
-	}
+		*dest = (char)frmt->data.i;
 	else
-	{
-		ft_bzero(dest, 5);
 		utf8_tostr_ch(dest, frmt->data.wc);
-		str = ft_strdup(dest);
-	}
-	return (str);
+	return (ft_strdup(dest));
 }
 
 static char		*handle_string(t_frmt *frmt)
@@ -125,7 +115,7 @@ static char		*handle_string(t_frmt *frmt)
 
 	if (frmt->conv == CONV_FRMT || frmt->length != MOD_L)
 		return ft_strdup(frmt->data.str);
-	str = ft_strnew(0);
+	str = NULL;
 	utf8_tostr(&str, frmt->data.wstr);
 	return (str);
 }

@@ -25,6 +25,8 @@
 # define LONG_TYPES					"DOUSC"
 # define UPPER_TYPES				"XFEAGB"
 
+# define LEN_DIFF(s1, s2)			(s2 ? (size_t)(s2 - s1 - 1) : ft_strlen(s1))
+
 typedef enum	e_flags
 {
 	FL_NA,
@@ -120,10 +122,11 @@ typedef struct	s_format
 }				t_frmt;
 
 void			format_parse(const char *fmt, t_list **alstfrmt);
-void			format_handle(char **fmt, t_plist *alstfrmt, int *index);
+void			format_doparse(char **fmt, t_plist *alstfrmt, int *index);
 bool			format_apply_color(char **fmt, t_list **alstfrmt,
 										int *index);
 int				format_populate(t_plist *alstfrmt, va_list *arglst);
+bool			format_to_buff(t_list *lstfrmt, t_buff *buff);
 void			format_free(void *dat, size_t size);
 t_frmt			*format_const_string(int index, char *str);
 
@@ -144,7 +147,6 @@ int				check_flags(char **fmt, t_frmt *frmt);
 ** format.buffer.c: fill a buffer from a list of t_frmt
 */
 
-void			format_to_buff(t_list *lstfrmt, t_buff *buff);
 void			format_dbg(t_frmt *frmt);
 bool			format_isnumeric(t_frmt *frmt);
 bool			format_isfloat(t_frmt *frmt);
