@@ -80,6 +80,6 @@ bool			format_apply_color(char **fmt, t_list **alstfrmt, int *index)
 		return true;
 	ft_lstpush(alstfrmt,
 					ft_lstnew(format_const_string(*index, col.base),
-							  sizeof(t_frmt)));
+								sizeof(t_frmt)));
 	return true;
 }

@@ -14,11 +14,10 @@
 #define FT_PRINTF_H
 
 # include "libft.h"
+# include "format.h"
 
 int		ft_printf(const char *fmt, ...);
 int		ft_dprintf(const int fd, const char *fmt, ...);
-int		ft_sprintf(char *str, const char *fmt, ...);
-int		ft_snprintf(char *str, size_t size, const char *fmt, ...);
 int		ft_asprintf(char **ret, const char *fmt, ...);
 
 #endif

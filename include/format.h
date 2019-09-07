@@ -119,6 +119,7 @@ typedef struct	s_format
 	bool			prec_as_arg;
 }				t_frmt;
 
+void			format_parse(const char *fmt, t_list **alstfrmt);
 void			format_handle(char **fmt, t_plist *alstfrmt, int *index);
 bool			format_apply_color(char **fmt, t_list **alstfrmt,
 										int *index);

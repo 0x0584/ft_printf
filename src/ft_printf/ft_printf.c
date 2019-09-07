@@ -11,41 +11,23 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "format.h"
 
-#define str_len_diff(s1, s2) (s2 ? (size_t)(s2 - s1 - 1) : ft_strlen(s1))
-
-/* int		ft_dprintf(const int fd, const char *fmt, ...) */
+/* FIXME: add negative error return  */
 int		ft_printf(const char *fmt, ...)
 {
+	va_list args;
 	t_buff	*buff;
-	char	*tmp;
 	t_list	*lstfrmt;
 	int		n_chars;
-	int index = 0;
-	va_list args;
 
 	lstfrmt = NULL;
 	buff = buff_alloc(0x20);
 	va_start(args, fmt);
-	while (fmt && ++index)
-	{
-		if (*fmt == '%')
-		{
-			format_handle((char **)&fmt, &lstfrmt, &index);
-			continue;
-		}
-		tmp = ft_strchr(fmt, '%');
-		ft_lstpush(&lstfrmt, ft_lstnew(format_const_string(index,
-			ft_strrdup(fmt, fmt + str_len_diff(fmt, tmp))), sizeof(t_frmt)));
-		fmt = tmp;
-	}
-	/* ft_putendl("------ handled relative args -----"); */
+	format_parse(fmt, &lstfrmt);
 	format_populate(&lstfrmt, &args);
 	format_to_buff(lstfrmt, buff);
 	ft_lstdel(&lstfrmt, format_free);
 	va_end(args);
-	/* ft_putendl(""); */
 	n_chars = buff_write(1, buff);
 	buff_free(&buff);
 	return (n_chars);

@@ -2,7 +2,7 @@
 
  ft_printf is a project which leads to the AI branch. sounds good!
 
-* TODOs [10/17]
+* TODOs [16/17]
 
 + [X] +get format string info+
 + [X] +handle relative args+
@@ -12,15 +12,15 @@
 + [X] +handle 0 padding flag+
 + [X] +handle + at beginning of positive+
 + [X] +handle space at beginning of positive number+
-+ [ ] handle # flags
++ [X] +handle # flags+
 + [X] +handle width+
 + [X] +handle left width+
-+ [ ] handle .n precision
++ [X] +handle .n precision+
 + [ ] handle .* precision
-+ [ ] *handle %f and %Lf*
-+ [ ] *handle %a and %A*
-+ [ ] *handle %e and %E*
-+ [ ] fulfill the printf familly (aprintf, sprintf, snprintf)!!
++ [X] +handle %f and %Lf+
++ [X] +handle %a and %A+
++ [X] +handle %e and %E+
++ [X] fulfill the printf familly (asprintf, dprintf)!!
 
 #+BEGIN_SRC shell
 $ git log --date=short --pretty=format:%ad | sort | uniq -c
@@ -93,8 +93,9 @@ CLOCK: [2019-08-28 Wed 18:45]--[2019-08-28 Wed 21:00] =>  2:15
 + [ ] handle the different conversion cases
 + [ ] Create a function to set precision based on conversion
 
-* UNDER-REVISING Handle Float [4/4]
+* DONE Handle Float [4/4]
 DEADLINE: <2019-09-01 Sun 00:00> SCHEDULED: <2019-08-10 Sat>
+- State "DONE"       from "UNDER-REVISING" [2019-09-07 Sat 18:10]
 # DEADLINE: <2019-08-20 Tue>
 :LOGBOOK:
 CLOCK: [2019-08-17 Sat 19:13]--[2019-08-17 Sat 19:13] =>  0:00
