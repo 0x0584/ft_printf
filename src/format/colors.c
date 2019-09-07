@@ -1,18 +1,5 @@
 #include "format.h"
 
-/*
-   NOTE:
-
-   We, have fg: bg:
-*/
-
-#define FG_INDICATOR				"fg:"
-
-enum e_marks
-{
-	FG_MARK, BG_MARK, SP_MARK
-};
-
 static char *all_colors[][2] =
 {
 	{"black_fg", COL_FG_BLACK},
@@ -82,14 +69,17 @@ static t_color	read_color(char **fmt)
 	return (col);
 }
 
-void			format_apply_color(char **fmt, t_list **alstfrmt, int *index)
+bool			format_apply_color(char **fmt, t_list **alstfrmt, int *index)
 {
 	t_color			col;
 
+	if (*fmt[0] != '{')
+		return (false);
 	*fmt += 1;
 	if (!(col = read_color(fmt)).base)
-		return ;
+		return true;
 	ft_lstpush(alstfrmt,
 					ft_lstnew(format_const_string(*index, col.base),
 							  sizeof(t_frmt)));
+	return true;
 }

@@ -1,3 +1,0 @@
-* Things to keep in mind
-
-+ always check is va_arg has returned NULL!!

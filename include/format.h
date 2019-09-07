@@ -22,6 +22,9 @@
 # define IS_FLAG(val, fl)			((val & FLAG(fl)) != 0)
 # define HAS_FLAG(frmt, fl)			(IS_FLAG(frmt->flags, fl))
 
+# define LONG_TYPES					"DOUSC"
+# define UPPER_TYPES				"XFEAGB"
+
 typedef enum	e_flags
 {
 	FL_NA,
@@ -75,28 +78,28 @@ typedef	enum	e_conversions
 
 typedef union	u_data
 {
-	short				s;
-	int					i;
-	long				l;
-	long long			ll;
+	t_s8		c;
+	t_s16		s;
+	t_s32		i;
+	t_s64		l;
+	t_s128		ll;
+	ssize_t		sz;
+	intmax_t	j;
 
-	unsigned char		c;
-	unsigned short		us;
-	unsigned char		uc;
-	unsigned int		ui;
-	unsigned long		ul;
-	unsigned long long	ull;
-	double				d;
-	long double			ld;
-	char				*str;
-	t_s32				*wstr;
-	t_s32				wc;
-	unsigned char		*ustr;
+	t_u8		uc;
+	t_u16		us;
+	t_u32		ui;
+	t_u64		ul;
+	t_u128		ull;
+	size_t		usz;
+	uintmax_t	uj;
 
-	void			    *p;
-	intmax_t j;
-	uintmax_t jj;
+	double		d;
+	long double	ld;
 
+	char		*str;
+	wchar_t		*wstr;
+	wchar_t		wc;
 }				t_data;
 
 typedef struct	s_format
@@ -110,18 +113,24 @@ typedef struct	s_format
 	bool	    	is_upcase;	  /* set when a conversion is uppercase */
 
 	t_data	    	data;
-	t_u32    	width;
-	t_u32	   	prec;
+	t_u32			width;
+	t_u32			prec;
 	bool			has_radix;
+	bool			prec_as_arg;
 }				t_frmt;
 
 void			format_handle(char **fmt, t_plist *alstfrmt, int *index);
-void			format_apply_color(char **fmt, t_list **alstfrmt,
+bool			format_apply_color(char **fmt, t_list **alstfrmt,
 										int *index);
 int				format_populate(t_plist *alstfrmt, va_list *arglst);
 void			format_free(void *dat, size_t size);
 t_frmt			*format_const_string(int index, char *str);
 
+
+bool			get_signed_args(t_frmt *frmt, va_list *arglst);
+bool			get_unsigned_args(t_frmt *frmt, va_list *arglst);
+bool			get_floating_point_args(t_frmt *frmt, va_list *arglst);
+bool			get_string_args(t_frmt *frmt, va_list *arglst);
 
 /*
 ** format.checks.c: verify conversion and modifiers. also flags
@@ -148,12 +157,6 @@ char			*format_ieee_float(t_frmt *frmt);
 
 char			*format_handle_conversion(t_frmt *frmt);
 
-char			*handle_unsigned_deci(t_frmt *frmt, const char *base);
-char			*handle_signed_deci(t_frmt *frmt);
-char			*handle_floating_point(t_frmt *frmt);
-char			*handle_char(t_frmt *frmt);
-char			*handle_string(t_frmt *frmt);
-
 bool			flag_alterform(t_frmt *frmt, char **astr, size_t *pad);
 void			flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad);
 
@@ -163,5 +166,6 @@ void			adjust_precision(t_frmt *frmt, char **astr, size_t *pad);
 
 char			*ieee_sp_as_str(t_ieeesp sp, t_frmt *frmt);
 char			*ieee_tostr(t_ieeefp *fp, t_ieee_fmt style, t_frmt *frmt);
+void			ieee_set_fp(t_ieeefp *fp, t_frmt *frmt);
 
 #endif

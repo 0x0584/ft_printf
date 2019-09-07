@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "ft_printf.h"
 #include "ieeefp.h"
+#include "utf8.h"
 
 int main(void)
 {
@@ -47,12 +48,28 @@ int main(void)
 	/* ft_printf(fmt,  "this", "this", "this", "this"); */
 	/* ft_putendl("------------------------"); */
 	/* printf(fmt, "this", "this", "this", "this"); */
+	/* char foo[5]; */
+	/* char *dest = NULL, *dest2 = ft_strnew(0); */
 
-	char *fmt = "%{bold} this %{reset}\n";
+    wchar_t *wstr = L"♥♦♣♠", *bar = wstr;
 
-	ft_printf(fmt);
+
+	/* while (*bar != L'\0') */
+	/* { */
+	/* 	ft_bzero(foo, 5); */
+	/* 	u8_tostr_ch(foo, *bar++); */
+	/* 	ft_strappend(&dest2, foo); */
+	/* } */
+	/* u8_tostr(&dest, wstr); */
+
+	/* printf("(%s) %u", dest, sizeof(wchar_t)); */
+	/* free(dest2); */
+
+	char *fmt = "%{cyan_fg} this %{red_fg} (%.3ls) %{reset} %{bold} (%.4f) %{reset}\n";
+
+	ft_printf(fmt, bar, 0.099382);
 	ft_putendl("------------------------");
-	/* printf(fmt, -9, -9, -9); */
+	printf(fmt, bar, 0.099382);
 
 	/* char *bar = ieee_dtoa(0.00899L, 4); */
 

@@ -156,17 +156,12 @@ int				ft_power(int x, int y);
 int				ft_sqrt(int nb);
 
 t_s8			ft_digitcount(int n);
-
 t_s32			ft_digitcount_128bit(t_s128 n);
 
 int				ft_isspace(int c);
 int				ft_isblank(int c);
 int				ft_iscntrl(int c);
 int				ft_swap(void *u, void *v, size_t size);
-
-t_s64			ft_utf8tostr(t_s8 *dest, size_t destsz,
-								const t_s32 *wsrc, size_t srcsz);
-t_s16			ft_utf8tostr_ch(t_s8 *dest, t_s32 wch);
 
 char			*ft_itoa_base(t_s128 nb, const char *base);
 char			*ft_utoa_base(t_u128 nb, const char *base);

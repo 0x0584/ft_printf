@@ -1,4 +1,5 @@
 #include "ieeefp.h"
+#include "format.h"
 
 void	ieee_extract_parts(t_ieeefp *fp, t_u128 *man, t_s32 *exp)
 {
@@ -50,4 +51,18 @@ bool	ieee_get_sign(t_ieeefp *fp)
 	else
 		sign = fp->as.ld.ieee.s;
 	return (sign);
+}
+
+void		ieee_set_fp(t_ieeefp *fp, t_frmt *frmt)
+{
+	if (frmt->length == MOD_L_CAP)
+	{
+		fp->as.ld.ld = frmt->data.ld;
+		fp->type = IEEE_LONG_DOUBLE;
+	}
+	else
+	{
+		fp->as.d.d = frmt->data.d;
+		fp->type = IEEE_DOUBLE;
+	}
 }

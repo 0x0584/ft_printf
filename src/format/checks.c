@@ -60,16 +60,7 @@ int		check_modifier(char **fmt, t_frmt *frmt)
 	return (0);
 }
 
-#define ALL_TYPES			"dbouxffgeacsp"
-#define LONG_TYPES			"DOUSC"
-#define UPPER_TYPES			"XEAG"
-
-int		check_conversion(char **fmt, t_frmt *frmt)
-{
-	char *bar;
-	/* char *foo; */
-
-	/* TODO: find the bug in this one! */
+	/* BUG: find the bug in this one! */
 
 	/*
 	if ((foo = ft_strchr(ALL_TYPES, ft_tolower(*bar))))
@@ -82,68 +73,59 @@ int		check_conversion(char **fmt, t_frmt *frmt)
 		frmt->is_upcase = true;
 	*/
 
-	bar = *fmt;
-
-	if (*bar == 'd' || *bar == 'D' || *bar == 'i')
-	{
-		frmt->length = (*bar == 'D' ? MOD_L : frmt->length);
+static bool	check_integer_conversions(t_frmt *frmt, char conv)
+{
+	if (conv == 'd' || conv == 'D' || conv == 'i')
 		frmt->conv = CONV_INT;
-	}
-	else if (*bar == 'o' || *bar == 'O')
-	{
-		frmt->length = (*bar == 'O' ? MOD_L : frmt->length);
+	else if (conv == 'o' || conv == 'O')
 		frmt->conv = CONV_UOCT;
-	}
-	else if (*bar == 'u' || *bar == 'U')
-	{
-		frmt->length = (*bar == 'U' ? MOD_L : frmt->length);
+	else if (conv == 'u' || conv == 'U')
 		frmt->conv = CONV_UDEC;
-	}
-	else if (*bar == 'b' || *bar == 'B')
-	{
+	else if (conv == 'b' || conv == 'B')
 		frmt->conv = CONV_UBIN;
-		frmt->is_upcase = (*bar == 'B');
-	}
-	else if (*bar == 'x' || *bar == 'X')
-	{
+	else if (conv == 'x' || conv == 'X')
 		frmt->conv = CONV_UHEX;
-		frmt->is_upcase = (*bar == 'X');
-	}
-	else if (*bar == 'e' || *bar == 'E')
-	{
-		frmt->conv = CONV_EDBL;
-		frmt->is_upcase = (*bar == 'E');
-	}
-	else if (*bar == 'g' || *bar == 'G')
-	{
-		frmt->conv = CONV_GDBL;
-		frmt->is_upcase = (*bar == 'G');
-	}
-	else if (*bar == 'a' || *bar == 'A')
-	{
-		frmt->conv = CONV_HDBL;
-		frmt->is_upcase = (*bar == 'A');
-	}
-	else if (*bar == 'f' || *bar == 'F')
-	{
-		frmt->conv = (frmt->length == MOD_L_CAP ? CONV_LDBL : CONV_DBL);
-		frmt->is_upcase = (*bar == 'F');
-	}
-	else if (*bar == 'c' || *bar == 'C')
-	{
-		frmt->length = (*bar == 'C' ? MOD_L : frmt->length);
-		frmt->conv = CONV_CHAR;
-	}
-	else if (*bar == 's' || *bar == 'S')
-	{
-		frmt->length = *bar == 'S' ? MOD_L : frmt->length;
-		frmt->conv = CONV_STR;
-	}
-	else if (*bar == 'p')
-		frmt->conv = CONV_PTR;
 	else
-		return (0);
+		return false;
+	return (true);
+}
 
+static bool		check_floating_point_conv(t_frmt *frmt, char conv)
+{
+	if (conv == 'e' || conv == 'E')
+		frmt->conv = CONV_EDBL;
+	else if (conv == 'g' || conv == 'G')
+		frmt->conv = CONV_GDBL;
+	else if (conv == 'a' || conv == 'A')
+		frmt->conv = CONV_HDBL;
+	else if (conv == 'f' || conv == 'F')
+		frmt->conv = (frmt->length == MOD_L_CAP ? CONV_LDBL : CONV_DBL);
+	else
+		return (false);
+	return (true);
+}
+
+int		check_conversion(char **fmt, t_frmt *frmt)
+{
+	char *bar;
+
+	bar = *fmt;
+	if (!check_integer_conversions(frmt ,*bar))
+		if (!check_floating_point_conv(frmt, *bar))
+		{
+			if (*bar == 'c' || *bar == 'C')
+				frmt->conv = CONV_CHAR;
+			else if (*bar == 's' || *bar == 'S')
+				frmt->conv = CONV_STR;
+			else if (*bar == 'p')
+				frmt->conv = CONV_PTR;
+			else
+				return (0);
+		}
+	if (ft_strchr(LONG_TYPES, *bar))
+		frmt->length = MOD_L;
+	if (ft_strchr(UPPER_TYPES, *bar))
+		frmt->is_upcase = true;
 	*fmt = ++bar;
 	return (1);
 }

@@ -1,4 +1,5 @@
 #include "format.h"
+#include "utf8.h"
 
 static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 {
@@ -26,22 +27,33 @@ static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 	return true;
 }
 
+/* TODO: handle precision for wide characters too */
 static bool		adjust_str_precision(t_frmt *frmt, char **astr, size_t *pad)
 {
 	char *tmp;
+	size_t len;
 
 	if (!astr || !frmt || !pad || frmt->conv != CONV_STR
-			|| ft_strlen(*astr) <= frmt->prec)
+			|| frmt->prec >= (len = (frmt->length == MOD_L
+										? utf8_wstrlen(frmt->data.wstr)
+											: ft_strlen(*astr))))
 		return false;
-	if (!frmt->prec)
+	if (frmt->has_radix)
 	{
-		*pad += ft_strlen(*astr);
-		ft_strchange(astr, ft_strdup(""));
-		return false;
+		if (!frmt->prec)
+		{
+			*pad += len;
+			ft_strchange(astr, ft_strdup(""));
+			return false;
+		}
+		if (frmt->length == MOD_L)
+			tmp = ft_strrdup(*astr, utf8_moveto(frmt->data.wstr,
+													*astr, frmt->prec) - 1);
+		else
+			tmp = ft_strrdup(*astr, *astr + frmt->prec - 1);
+		*pad += (len - frmt->prec);
+		ft_strchange(astr, tmp);
 	}
-	tmp = ft_strrdup(*astr, *astr + frmt->prec - 1);
-	*pad += (ft_strlen(*astr) - ft_strlen(tmp));
-	ft_strchange(astr, tmp);
 	return (true);
 }
 

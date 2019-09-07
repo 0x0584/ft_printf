@@ -14,24 +14,6 @@
 
 static bool sort_lstfrmt = true;
 
-/* FIXME: free string as so */
-void	format_free(void *dat, size_t size)
-{
-	if (size)
-		free(dat);
-}
-
-t_frmt	*format_const_string(int index, char *str)
-{
-	static t_frmt frmt;
-
-	ft_bzero(&frmt, sizeof(t_frmt));
-	frmt.conv = CONV_FRMT;
-	frmt.ifrmt = index;
-	frmt.data.str = str;
-	return (&frmt);
-}
-
 static int		hungry_getnbr(char **str)
 {
 	char *bar;
@@ -72,16 +54,12 @@ void			format_handle(char **fmt, t_list **alstfrmt, int *index)
 {
 	t_frmt			frmt;
 
+
+	*fmt += 1;
+	if (format_apply_color(fmt, alstfrmt, index))
+		return ;
 	ft_bzero(&frmt, sizeof(t_frmt));
 	frmt.ifrmt = *index;
-	*fmt += 1;
-
-	if (*fmt[0] == '{')
-	{
-		format_apply_color(fmt, alstfrmt, index);
-		return ;
-	}
-	check_flags(fmt, &frmt);
 	frmt.iarg = hungry_getnbr(fmt);
 	if (*fmt[0] == '$')
 		*fmt += 1;
@@ -91,6 +69,7 @@ void			format_handle(char **fmt, t_list **alstfrmt, int *index)
 		frmt.iarg = 0;
 		sort_lstfrmt = false;
 	}
+	check_flags(fmt, &frmt);
 	if (frmt.iarg)
 		frmt.width = hungry_getnbr(fmt);
 	frmt.has_radix = (*fmt[0] == '.');
@@ -116,42 +95,10 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 			LST_NEXT(e);
 			continue;
 		}
-		if (frmt->conv == CONV_INT || frmt->conv == CONV_CHAR)
-		{
-		    if (frmt->length == MOD_LL)
-				frmt->data.ll = va_arg(*arglst, long long);
-			else if (frmt->length == MOD_L)
-				frmt->data.l = va_arg(*arglst, long);
-			else
-				frmt->data.i = va_arg(*arglst, int);
-		}
-		else if (frmt->conv == CONV_UOCT || frmt->conv == CONV_UDEC
-					|| frmt->conv == CONV_UBIN || frmt->conv == CONV_UHEX
-					|| frmt->conv == CONV_PTR)
-		{
-		    if (frmt->length == MOD_L || frmt->conv == CONV_PTR)
-				frmt->data.ul = va_arg(*arglst, unsigned long);
-			else if (frmt->length == MOD_LL)
-				frmt->data.ull = va_arg(*arglst, unsigned long long);
-			else
-				frmt->data.ui = va_arg(*arglst, unsigned int);
-		}
-		else if (frmt->conv == CONV_DBL || frmt->conv == CONV_LDBL
-					|| frmt->conv == CONV_GDBL || frmt->conv == CONV_EDBL
-					|| frmt->conv == CONV_HDBL)
-		{
-			if (frmt->length == MOD_L_CAP)
-				frmt->data.ld = va_arg(*arglst, long double);
-			else
-				frmt->data.d = va_arg(*arglst, double);
-		}
-		else if (frmt->conv == CONV_STR)
-		{
-			if (frmt->length == MOD_L)
-				frmt->data.wstr = va_arg(*arglst, t_s32 *);
-			else
-				frmt->data.str = va_arg(*arglst, char *);
-		}
+		if (!get_signed_args(frmt, arglst))
+			if (!get_unsigned_args(frmt, arglst))
+				if (!get_floating_point_args(frmt, arglst))
+					(void)get_string_args(frmt, arglst);
 		LST_NEXT(e);
 	}
 	if (sort_lstfrmt)
