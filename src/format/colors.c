@@ -44,8 +44,6 @@ static char *get_color(char *buff)
 	return (NULL);
 }
 
-#define COLORS_BUFF_SIZE			11
-
 static t_color	read_color(char **fmt)
 {
 	char		buff[COLORS_BUFF_SIZE];

@@ -27,6 +27,8 @@
 # define COL_BG_CYAN		   "\x1b[46m"
 # define COL_BG_WHITE		   "\x1b[47m"
 
+#define COLORS_BUFF_SIZE			11
+
 typedef struct	s_color
 {
 	char *base;

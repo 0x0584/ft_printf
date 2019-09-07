@@ -65,7 +65,7 @@ int main(void)
 	/* printf("(%s) %u", dest, sizeof(wchar_t)); */
 	/* free(dest2); */
 
-	char *fmt = "%{cyan_fg} this %{red_fg} (%2$.3ls) %{reset} "
+	char *fmt = "%{cyan_fg} this (%%) %{red_fg} (%2$.3ls) %{reset} "
 		"%{bold} (%1$.4f) %{reset}\n";
 	char *s = NULL;
 

@@ -54,7 +54,6 @@ void			format_doparse(char **fmt, t_list **alstfrmt, int *index)
 {
 	t_frmt			frmt;
 
-	*fmt += 1;
 	if (format_apply_color(fmt, alstfrmt, index))
 		return ;
 	ft_bzero(&frmt, sizeof(t_frmt));
