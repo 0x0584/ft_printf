@@ -65,16 +65,18 @@ int main(void)
 	/* printf("(%s) %u", dest, sizeof(wchar_t)); */
 	/* free(dest2); */
 
-	char *fmt = "%{cyan_fg} this %{red_fg} (%.3ls) %{reset} "
-		"%{bold} (%.4f) %{reset}\n";
+	char *fmt = "%{cyan_fg} this %{red_fg} (%2$.3ls) %{reset} "
+		"%{bold} (%1$.4f) %{reset}\n";
 	char *s = NULL;
 
-	ft_printf(fmt, bar, 0.099382);
-	ft_dprintf(2, fmt, bar, 0.099382);
-	ft_asprintf(&s, fmt, bar, 0.099382);
+	ft_printf(fmt, 0.099382, bar);
+	ft_dprintf(2, fmt, 0.099382, bar);
+	ft_asprintf(&s, fmt, 0.099382, bar);
 
-	ft_putendl(s);
+	ft_putstr(s);
 	free(s);
+	/* int ret = printf(" this is", 10); */
+	/* printf("%d", ret); */
 	/* char *bar = ieee_dtoa(0.00899L, 4); */
 
 	/* printf("(%s)", bar); */

@@ -37,13 +37,6 @@
 # define ALLOC(type, n, sz)					((type)ft_memalloc((n) * (sz)))
 # define SAFE_PTRVAL(ptr)					(ptr && *ptr)
 
-/* TODO: remove the four below macros. they are not in the norm! */
-# define ASSERT_RET(expr, ret)				if ((expr)) return (ret)
-# define UNLESS_RET(expr, ret)				if (!(expr)) return (ret)
-
-# define ASSERT_DO(expr, do_this)			if ((expr)) do_this
-# define UNLESS_DO(expr, do_this)			if (!(expr)) do_this
-
 # define LST_NEXT(e)						e = e->next
 
 # define GET_DIGI(i)						((i) - '0')

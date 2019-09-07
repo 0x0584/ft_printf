@@ -19,7 +19,8 @@ char	*ft_strrev(const char *str)
 
 	walker[0] = 0;
 	walker[1] = ft_strlen(str);
-	UNLESS_RET(rev = ft_strnew(walker[1]), NULL);
+	if (!(rev = ft_strnew(walker[1])))
+		return (NULL);
 	while (walker[0] < walker[1])
 	{
 		rev[walker[0]] = str[walker[1] - walker[0] - 1];

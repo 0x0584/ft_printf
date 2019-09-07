@@ -10,15 +10,24 @@
 #																			   #
 #******************************************************************************#
 
+DEBUG	= 0
+
 NAME	= libft.a
 RM		= rm -f
 
 DEPS	= libft.h
 SRCS	= $(shell find . -type f -name "*.c")
+OBJDIR	= obj
 OBJS	= $(patsubst %.c, %.o, $(SRCS))
 
 CC		= gcc
-CFLAGS	= -Wall -Wextra -ggdb # -Werror
+CFLAGS	= -Wall -Wextra
+
+ifeq ($(DEBUG), 1)
+	CFLAGS += -ggdb
+else
+	CFLAGS += -Werror
+endif
 
 all: $(NAME)
 
@@ -31,11 +40,9 @@ $(NAME): $(OBJS)
 
 clean:
 	$(RM) $(OBJS)
-	@echo -e ""
 
 fclean:
 	$(RM) $(OBJS)
 	$(RM) $(NAME)
-	@echo -e ""
 
 re: fclean all

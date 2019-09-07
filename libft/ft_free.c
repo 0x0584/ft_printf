@@ -17,9 +17,11 @@ void	ft_free(void (*del)(void *o), void *ptr, ...)
 	va_list args;
 	void	*vp;
 
-	ASSERT_DO(ptr, del(ptr));
+	if (ptr)
+		del(ptr);
 	va_start(args, ptr);
 	while ((vp = va_arg(args, void *)) != NULL)
-		ASSERT_DO(vp, del(vp));
+		if (vp)
+			del(vp);
 	va_end(args);
 }

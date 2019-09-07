@@ -17,9 +17,11 @@ ssize_t		ft_strnprepend(char **dest, const char *prefix, size_t prefixsz)
 	char	*s;
 	size_t	destsz;
 
-	UNLESS_RET(dest && *dest, -1);
+	if (!dest || !*dest)
+		return (-1);
 	destsz = ft_strlen(*dest);
-	UNLESS_RET(s = ft_strnew(destsz + prefixsz), 0);
+	if (!(s = ft_strnew(destsz + prefixsz)))
+		return (0);
 	while(destsz--)
 		s[destsz + prefixsz] = (*dest)[destsz];
 	while (prefixsz--)

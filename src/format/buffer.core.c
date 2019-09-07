@@ -16,8 +16,9 @@ t_buff		*buff_alloc(size_t size)
 {
 	t_buff *foo;
 
-	UNLESS_RET(foo = ALLOC(t_buff *, 1, sizeof(t_buff)), NULL);
-	UNLESS_RET(foo->base = ALLOC(char *, size + 1, sizeof(char)), NULL);
+	if (!(foo = ALLOC(t_buff *, 1, sizeof(t_buff)))
+			|| !(foo->base = ALLOC(char *, size + 1, sizeof(char))))
+		return (NULL);
 	foo->len = 0;
 	foo->size = size;
 	return (foo);

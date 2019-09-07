@@ -12,7 +12,7 @@
 
 #include "format.h"
 
-static bool sort_lstfrmt = true;
+static bool		g_sort_lstfrmt = true;
 
 static int		hungry_getnbr(char **str)
 {
@@ -67,7 +67,7 @@ void			format_handle(char **fmt, t_list **alstfrmt, int *index)
 	{
 		frmt.width = frmt.iarg;
 		frmt.iarg = 0;
-		sort_lstfrmt = false;
+		g_sort_lstfrmt = false;
 	}
 	check_flags(fmt, &frmt);
 	if (frmt.iarg)
@@ -85,7 +85,7 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 	t_list	*e;
 	t_frmt	*frmt;
 
-	if (sort_lstfrmt)
+	if (g_sort_lstfrmt)
 		ft_lst_mergesort(alstfrmt, cmp_by_argindex);
 	e = *alstfrmt;
 	while (e && (frmt = (t_frmt *)e->content))
@@ -101,8 +101,8 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 					(void)get_string_args(frmt, arglst);
 		LST_NEXT(e);
 	}
-	if (sort_lstfrmt)
+	if (g_sort_lstfrmt)
 		ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
-	sort_lstfrmt = true;
+	g_sort_lstfrmt = true;
 	return (1);
 }

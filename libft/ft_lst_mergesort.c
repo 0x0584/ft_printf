@@ -14,8 +14,8 @@ static t_plist		helper_merge(t_plist left, t_plist right,
 	t_plist root;
 	bool	sort_on_left;
 
-	UNLESS_RET(left, right);
-	UNLESS_RET(right, left);
+	if (!left || !right)
+		return (!left ? right : left);
 	sort_on_left = cmp(left, right) > 0;
 	root = sort_on_left ? left : right;
 	root->next = helper_merge(sort_on_left ? left->next : left,
