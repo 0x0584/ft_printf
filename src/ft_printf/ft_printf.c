@@ -12,7 +12,6 @@
 
 #include "ft_printf.h"
 
-/* FIXME: add negative error return  */
 int		ft_printf(const char *fmt, ...)
 {
 	va_list args;

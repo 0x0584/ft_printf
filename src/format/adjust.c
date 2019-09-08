@@ -7,35 +7,26 @@ static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 	t_s64 n_pad;
 
  	if (!astr || !frmt || !pad || !format_isnumeric(frmt))
-		return false;
+		return (false);
 	if (!ft_strcmp(*astr, "0") && frmt->has_radix && !frmt->prec)
 	{
 		ft_strchange(astr, ft_strdup(""));
 		*pad += 1;
-		return true;
+		return (true);
 	}
 	if (frmt->conv == CONV_INT && ft_strchr(" +-", tmp = *astr[0]))
 		ft_strreplace(astr, (char []){tmp, '\0'}, "");
-	if (frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH)
-			&& ft_strcmp(*astr, "0"))
-		ft_strreplace(astr, frmt->is_upcase ? "0X" : "0x", "");
+	do_adjust_prefix(astr, frmt, true, false);
 	if ((n_pad = frmt->prec - ft_strlen(*astr)) < 0)
 		n_pad = 0;
-	if ((t_s64)*pad > n_pad)
-		*pad -= n_pad;
-	else
-		*pad = 0;
-	if (n_pad)
-		ft_strpad(astr, '0', (t_u32)n_pad, TOWARD_HEAD);
+	*pad -= (*pad > (size_t)n_pad) ? (size_t)n_pad : *pad;
+	ft_strpad(astr, '0', (t_u32)n_pad, TOWARD_HEAD);
 	if (ft_strchr("+ -", tmp))
 		ft_strinsert_at(astr, (char []){tmp, '\0'}, 0);
-	if (frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH)
-			&& ft_strcmp(*astr, "0"))
-		ft_strinsert_at(astr, frmt->is_upcase ? "0X" : "0x", 0);
-	return true;
+	do_adjust_prefix(astr, frmt, false, true);
+	return (true);
 }
 
-/* TODO: handle precision for wide characters too */
 static bool		adjust_str_precision(t_frmt *frmt, char **astr, size_t *pad)
 {
 	char *tmp;
@@ -45,7 +36,7 @@ static bool		adjust_str_precision(t_frmt *frmt, char **astr, size_t *pad)
 			|| frmt->prec >= (len = (frmt->length == MOD_L
 										? utf8_wstrlen(frmt->data.wstr)
 											: ft_strlen(*astr))))
-		return false;
+		return (false);
 	if (frmt->has_radix)
 	{
 		if (!frmt->prec)
@@ -89,7 +80,7 @@ void			adjust_prefix(t_frmt *frmt, char **astr, size_t *pad)
 	}
 }
 
-void		adjust_padding(t_frmt *frmt, char **astr, size_t *pad)
+void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad)
 {
 	if (!frmt || !SAFE_PTRVAL(astr) || !pad)
 		return ;
@@ -102,6 +93,8 @@ void		adjust_padding(t_frmt *frmt, char **astr, size_t *pad)
 		else if (!HAS_FLAG(frmt, FL_ZERO))
 			ft_strpad(astr, ' ', *pad, TOWARD_HEAD);
 	}
-	if (!HAS_FLAG(frmt, FL_MINUS))
+	if (HAS_FLAG(frmt, FL_ZERO) && !HAS_FLAG(frmt, FL_MINUS)
+			&& frmt->width && *pad
+			&& !(format_isnumeric(frmt) && frmt->prec))
 		flag_zero_padding(frmt, astr, pad);
 }

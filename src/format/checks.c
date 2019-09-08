@@ -60,20 +60,7 @@ int		check_modifier(char **fmt, t_frmt *frmt)
 	return (0);
 }
 
-	/* BUG: find the bug in this one! */
-
-	/*
-	if ((foo = ft_strchr(ALL_TYPES, ft_tolower(*bar))))
-		frmt->conv = foo - bar;
-	ft_putstr(foo);
-	getchar();
-	if ((foo = ft_strchr(LONG_TYPES, *bar)))
-		frmt->length = MOD_L;
-	if ((foo = ft_strchr(UPPER_TYPES, *bar)))
-		frmt->is_upcase = true;
-	*/
-
-static bool	check_integer_conversions(t_frmt *frmt, char conv)
+static bool		check_integer_conversions(t_frmt *frmt, char conv)
 {
 	if (conv == 'd' || conv == 'D' || conv == 'i')
 		frmt->conv = CONV_INT;
@@ -86,7 +73,7 @@ static bool	check_integer_conversions(t_frmt *frmt, char conv)
 	else if (conv == 'x' || conv == 'X')
 		frmt->conv = CONV_UHEX;
 	else
-		return false;
+		return (false);
 	return (true);
 }
 
@@ -105,7 +92,7 @@ static bool		check_floating_point_conv(t_frmt *frmt, char conv)
 	return (true);
 }
 
-int		check_conversion(char **fmt, t_frmt *frmt)
+int			check_conversion(char **fmt, t_frmt *frmt)
 {
 	char *bar;
 
@@ -122,7 +109,6 @@ int		check_conversion(char **fmt, t_frmt *frmt)
 			else
 				return (0);
 		}
-
 	if (ft_strchr(LONG_TYPES, *bar))
 		frmt->length = MOD_L;
 	if (ft_strchr(UPPER_TYPES, *bar))

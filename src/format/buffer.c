@@ -11,41 +11,62 @@
 /* ************************************************************************** */
 
 #include "format.h"
+#include "buffer.h"
 
-#include <stdio.h>
-
-void			format_dbg(t_frmt *frmt)
+t_buff		*buff_alloc(size_t size)
 {
-	char *format = NULL;
+	t_buff *foo;
 
-	if (frmt->conv == CONV_INT || frmt->conv == CONV_CHAR)
-		format = "INTEGER";
-	else if (frmt->conv == CONV_UOCT || frmt->conv == CONV_UDEC
-				|| frmt->conv == CONV_UHEX || frmt->conv == CONV_PTR)
-		format = "UNSIGNED";
-	else if (frmt->conv == CONV_DBL || frmt->conv == CONV_LDBL
-				|| frmt->conv == CONV_GDBL || frmt->conv == CONV_EDBL)
-		format = "DOUBLE";
-	else if (frmt->conv == CONV_STR || frmt->conv == CONV_FRMT)
-		format = "STRING";
-
-	printf("conv: %s lenght: %d\n", format, frmt->length);
-	printf("arg: %d fmt:%d\n", frmt->iarg, frmt->ifrmt);
-	printf("precision: %d width: %d\n", frmt->prec, frmt->width);
-	printf("0 flag: %d | + flag: %d | ", HAS_FLAG(frmt, FL_ZERO),
-											HAS_FLAG(frmt, FL_PLUS));
-	printf("' ' flag: %d | - flag: %d | ", HAS_FLAG(frmt, FL_SPACE),
-		   HAS_FLAG(frmt, FL_MINUS));
-	printf("# flag %d\n-------------------\n", HAS_FLAG(frmt, FL_HASH));
+	if (!(foo = ALLOC(t_buff *, 1, sizeof(t_buff)))
+			|| !(foo->base = ALLOC(char *, size + 1, sizeof(char))))
+		return (NULL);
+	foo->len = 0;
+	foo->size = size;
+	return (foo);
 }
 
-int				format_to_buff(t_list *lstfrmt, t_buff *buff)
+void		buff_free(t_buff **buff)
 {
-	t_frmt			*frmt;
-	char			*s_frmt;
-	size_t			padding_size;
-	size_t			slen;
-	int				n_char_convs;
+	if (!buff)
+		return ;
+
+	free((*buff)->base);
+	free(*buff);
+	*buff = NULL;
+}
+
+size_t		buff_append(t_buff *buff, const char *str, size_t size)
+{
+	char	*foo;
+
+	if (!buff || !str)
+		return (0);
+	if (size + buff->len > buff->size + 1)
+	{
+		foo = buff->base;
+		buff->size = size + buff->size * 2;
+		buff->base = ALLOC(char *, size + buff->size * 2, sizeof(char));
+		(void)ft_memcpy(buff->base, foo, buff->len);
+		free(foo);
+	}
+	ft_memcpy(buff->base + buff->len, str, size);
+	return (buff->len += size);
+}
+
+ssize_t		buff_write(const int fd, t_buff *buff)
+{
+	if (fd < 0)
+		return (fd);
+	return write(fd, buff->base, buff->len);
+}
+
+int			format_to_buff(t_list *lstfrmt, t_buff *buff)
+{
+	t_frmt		*frmt;
+	char		*s_frmt;
+	size_t		padding_size;
+	size_t		slen;
+	int			n_char_convs;
 
 	n_char_convs = 0;
 	while (lstfrmt)

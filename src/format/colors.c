@@ -1,6 +1,6 @@
 #include "format.h"
 
-static char *all_colors[][2] =
+static char *g_all_colors[][2] =
 {
 	{"black_fg", COL_FG_BLACK},
 	{"red_fg", COL_FG_RED},
@@ -35,10 +35,10 @@ static char *get_color(char *buff)
 	t_s16 i;
 
 	i = 0;
-	while (buff && all_colors[i][0])
+	while (buff && g_all_colors[i][0])
 	{
-		if (!ft_strcmp(all_colors[i][0], buff))
-			return (all_colors[i][1]);
+		if (!ft_strcmp(g_all_colors[i][0], buff))
+			return (g_all_colors[i][1]);
 		i++;
 	}
 	return (NULL);
@@ -75,9 +75,9 @@ bool			format_apply_color(char **fmt, t_list **alstfrmt, int *index)
 		return (false);
 	*fmt += 1;
 	if (!(col = read_color(fmt)).base)
-		return true;
+		return (true);
 	ft_lstpush(alstfrmt,
 					ft_lstnew(format_const_string(*index, col.base),
 								sizeof(t_frmt)));
-	return true;
+	return (true);
 }

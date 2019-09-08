@@ -1,5 +1,25 @@
 #include "format.h"
 
+void	do_adjust_prefix(char **astr, t_frmt *frmt, bool replace, bool insert)
+{
+	char *prefix;
+
+	if (!(SAFE_PTRVAL(astr)) || !frmt || !ft_strcmp(*astr, "0"))
+		return ;
+	prefix = NULL;
+	if (frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
+		prefix = frmt->is_upcase ? "0X" : "0x";
+	else if (frmt->conv == CONV_UBIN && HAS_FLAG(frmt, FL_HASH))
+		prefix = frmt->is_upcase ? "0B" : "0b";
+	if (prefix)
+	{
+		if (replace)
+			ft_strreplace(astr, prefix, "");
+		if (insert)
+			ft_strinsert_at(astr, prefix, 0);
+	}
+}
+
 bool	flag_alterform(t_frmt *frmt, char **astr, size_t *pad)
 {
 	if (!(SAFE_PTRVAL(astr)) || !frmt || !pad
@@ -16,18 +36,14 @@ bool	flag_alterform(t_frmt *frmt, char **astr, size_t *pad)
 				&& ft_strcmp(*astr, "0")) || frmt->conv == CONV_PTR)
 	{
 		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x");
-		if (*pad > 1)
-			*pad -= 2;
-		else if (*pad <= 1)
-			*pad = 0;
+		if (*pad)
+			*pad -= (*pad <= 1 ? 1 : 2);
 	}
-	else if (frmt->conv == CONV_UBIN)
+	else if (frmt->conv == CONV_UBIN && HAS_FLAG(frmt, FL_HASH))
 	{
 		ft_strprepend(astr, frmt->is_upcase ?  "0B" : "0b" );
-		if (*pad > 1)
-			*pad -= 2;
-		else if (*pad <= 1)
-			*pad = 0;
+		if (*pad)
+			*pad -= (*pad <= 1 ? 1 : 2);
 	}
 	return (true);
 }
@@ -38,32 +54,21 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 
 	if (!frmt || !SAFE_PTRVAL(astr) || !pad)
 		return ;
-	if (HAS_FLAG(frmt, FL_ZERO) && !HAS_FLAG(frmt, FL_MINUS)
-			&& frmt->width && *pad
-			&& !(format_isnumeric(frmt) && frmt->prec))
+	tmp_sign = *astr[0];
+	ft_strpad(astr, '0', *pad, TOWARD_HEAD);
+	if (frmt->conv == CONV_INT || format_isfloat(frmt))
 	{
-		tmp_sign = *astr[0];
-		ft_strpad(astr, '0', *pad, TOWARD_HEAD);
-		if (frmt->conv == CONV_INT || format_isfloat(frmt))
-		{
-			if (tmp_sign == '+' && !HAS_FLAG(frmt, FL_PLUS)
-					&& HAS_FLAG(frmt, FL_SPACE))
-				tmp_sign = ' ';
-			if (tmp_sign == '+' || tmp_sign == '-' || tmp_sign == ' ')
-				ft_strreplace(astr, (char []){tmp_sign, '\0'}, "");
-			if (tmp_sign == '+' || tmp_sign == '-' || tmp_sign == ' ')
-				ft_strinsert_at(astr, (char []){tmp_sign, '\0'}, 0);
-		}
-		else if ((frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
-					|| frmt->conv == CONV_PTR)
-		{
-			ft_strreplace(astr, frmt->is_upcase ? "0X" : "0x", "");
-			ft_strinsert_at(astr, frmt->is_upcase ? "0X" : "0x", 0);
-		}
-		else if (frmt->conv == CONV_UBIN && HAS_FLAG(frmt, FL_HASH))
-		{
-			ft_strreplace(astr, frmt->is_upcase ? "0B" : "0b", "");
-			ft_strinsert_at(astr, frmt->is_upcase ? "0B" : "0b", 0);
-		}
+		if (tmp_sign == '+' && !HAS_FLAG(frmt, FL_PLUS)
+				&& HAS_FLAG(frmt, FL_SPACE))
+			tmp_sign = ' ';
+		if (tmp_sign == '+' || tmp_sign == '-' || tmp_sign == ' ')
+			ft_strreplace(astr, (char []){tmp_sign, '\0'}, "");
+		if (tmp_sign == '+' || tmp_sign == '-' || tmp_sign == ' ')
+			ft_strinsert_at(astr, (char []){tmp_sign, '\0'}, 0);
 	}
+	else if ((frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
+				|| frmt->conv == CONV_PTR)
+		do_adjust_prefix(astr, frmt, true, true);
+	else if (frmt->conv == CONV_UBIN && HAS_FLAG(frmt, FL_HASH))
+		do_adjust_prefix(astr, frmt, true, true);
 }
