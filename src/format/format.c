@@ -14,21 +14,6 @@
 
 static bool		g_sort_lstfrmt = true;
 
-static int		hungry_getnbr(char **str)
-{
-	char *bar;
-	int foo;
-
- 	bar = *str;
-	foo = 0;
-	while (ft_isdigit(*bar))
-	{
-		foo = (foo << 3) + (foo << 1);
-		foo += (*bar++ - '0');
-	}
-	*str = bar;
-	return (foo);
-}
 
 static int		cmp_by_argindex(t_plist e1, t_plist e2)
 {
@@ -58,18 +43,9 @@ void			format_doparse(char **fmt, t_list **alstfrmt, int *index)
 		return ;
 	ft_bzero(&frmt, sizeof(t_frmt));
 	frmt.ifrmt = *index;
-	frmt.iarg = hungry_getnbr(fmt);
-	if (*fmt[0] == '$')
-		*fmt += 1;
-	else
-	{
-		frmt.width = frmt.iarg;
-		frmt.iarg = 0;
-		g_sort_lstfrmt = false;
-	}
+	set_arg_index(fmt, &frmt);
 	check_flags(fmt, &frmt);
-	if (frmt.iarg)
-		frmt.width = hungry_getnbr(fmt);
+	frmt.width = hungry_getnbr(fmt);
 	frmt.has_radix = (*fmt[0] == '.');
 	*fmt += frmt.has_radix;
 	frmt.prec = hungry_getnbr(fmt);

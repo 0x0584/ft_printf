@@ -10,7 +10,8 @@ static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 		return false;
 	if (frmt->conv == CONV_INT && ft_strchr(" +-", tmp = *astr[0]))
 		ft_strreplace(astr, (char []){tmp, '\0'}, "");
-	if (frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
+	if (frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH)
+			&& ft_strcmp(*astr, "0"))
 		ft_strreplace(astr, frmt->is_upcase ? "0X" : "0x", "");
 	if ((n_pad = frmt->prec - ft_strlen(*astr)) < 0)
 		n_pad = 0;
@@ -22,7 +23,8 @@ static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 		ft_strpad(astr, '0', (t_u32)n_pad, TOWARD_HEAD);
 	if (ft_strchr("+ -", tmp))
 		ft_strinsert_at(astr, (char []){tmp, '\0'}, 0);
-	if (frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
+	if (frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH)
+			&& ft_strcmp(*astr, "0"))
 		ft_strinsert_at(astr, frmt->is_upcase ? "0X" : "0x", 0);
 	return true;
 }

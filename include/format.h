@@ -171,4 +171,7 @@ char			*ieee_sp_as_str(t_ieeesp sp, t_frmt *frmt);
 char			*ieee_tostr(t_ieeefp *fp, t_ieee_fmt style, t_frmt *frmt);
 void			ieee_set_fp(t_ieeefp *fp, t_frmt *frmt);
 
+int				hungry_getnbr(char **str);
+void			set_arg_index(char **fmt, t_frmt *frmt);
+
 #endif

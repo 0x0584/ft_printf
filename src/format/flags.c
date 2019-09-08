@@ -12,10 +12,10 @@ bool	flag_alterform(t_frmt *frmt, char **astr, size_t *pad)
 		if (*pad)
 			*pad -= 1;
 	}
-	else if ((frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
-				|| frmt->conv == CONV_PTR)
+	else if ((frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH)
+				&& ft_strcmp(*astr, "0")) || frmt->conv == CONV_PTR)
 	{
-		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x" );
+		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x");
 		if (*pad > 1)
 			*pad -= 2;
 		else if (*pad <= 1)

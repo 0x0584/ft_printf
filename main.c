@@ -10,76 +10,311 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "ft_printf.h"
-#include "ieeefp.h"
-#include "utf8.h"
+
+/* source: https://github.com/BartMassey/printf-tests */
+
+#define TEST(buf, ret, fmt, ...) do {							\
+        char *lbuf = NULL;										\
+        int lret = ft_asprintf(&lbuf, fmt, ## __VA_ARGS__);		\
+        if ((lret != ret) || (ft_strcmp(lbuf, buf))) {			\
+            failed++;											\
+            printf("* FAIL %s: Line %5d; ret: %3d - %3d  |  "	\
+                   "their '%s'\t- mine '%s'\n",					\
+                   "gg", __LINE__,								\
+                   ret, lret, buf, lbuf);						\
+			ft_strdel(&lbuf);									\
+        }														\
+    } while(0);
 
 int main(void)
 {
-	/* ft_printf("[left %-6d right %6d zero % 06d]\n", 10, 50, -13); */
-	/* ft_putendl("------------------------"); */
-	/* printf("[left %-6d right %6d zero % 06d]\n", 10, 50, -13); */
+	int failed = 0;
 
+    /* Ein String ohne alles */
+    TEST("Hallo heimur", 12, "Hallo heimur")
 
-	/*
-	   NOTE: negative and octal are not working good? probably an
-	   unsigned problem
-	*/
+    /* Einfache Konvertierungen */
+    TEST("Hallo heimur",   12, "%s",       "Hallo heimur")
+    TEST("1024",            4, "%d",       1024)
+    TEST("-1024",           5, "%d",       -1024)
+    TEST("1024",            4, "%i",       1024)
+    TEST("-1024",           5, "%i",       -1024)
+    TEST("1024",            4, "%u",       1024u)
+    TEST("4294966272",     10, "%u",       -1024u)
+    TEST("777",             3, "%o",       0777u)
+    TEST("37777777001",    11, "%o",       -0777u)
+    TEST("1234abcd",        8, "%x",       0x1234abcdu)
+    TEST("edcb5433",        8, "%x",       -0x1234abcdu)
+    TEST("1234ABCD",        8, "%X",       0x1234abcdu)
+    TEST("EDCB5433",        8, "%X",       -0x1234abcdu)
+    TEST("x",               1, "%c",       'x')
+    TEST("%",               1, "%%")
 
-	/* char *foo = ft_strdup("000this is000"); */
-	/* ft_strctrim(&foo, '0', TOWARD_HEAD); */
-	/* ft_putendl(foo); */
-	/* getchar(); */
-	/* ft_strctrim(&foo, '0', TOWARD_TAIL); */
-	/* ft_putendl(foo); */
-	/* ft_strdel(&foo); */
+    /* Mit %c kann man auch Nullbytes ausgeben */
+    TEST("\0",              1, "%c",       '\0')
 
-	/* t_ieeefp fp; */
+    /* Vorzeichen erzwingen (Flag +) */
+    TEST("Hallo heimur",   12, "%+s",      "Hallo heimur")
+    TEST("+1024",           5, "%+d",      1024)
+    TEST("-1024",           5, "%+d",      -1024)
+    TEST("+1024",           5, "%+i",      1024)
+    TEST("-1024",           5, "%+i",      -1024)
+    TEST("1024",            4, "%+u",      1024u)
+    TEST("4294966272",     10, "%+u",      -1024u)
+    TEST("777",             3, "%+o",      0777u)
+    TEST("37777777001",    11, "%+o",      -0777u)
+    TEST("1234abcd",        8, "%+x",      0x1234abcdu)
+    TEST("edcb5433",        8, "%+x",      -0x1234abcdu)
+    TEST("1234ABCD",        8, "%+X",      0x1234abcdu)
+    TEST("EDCB5433",        8, "%+X",      -0x1234abcdu)
+    TEST("x",               1, "%+c",      'x')
 
-	/* fp.d.d = 0; */
-	/* fp.d.ieee.e = 0x7FF; */
+    /* Vorzeichenplatzhalter erzwingen (Flag <space>) */
+    TEST("Hallo heimur",   12, "% s",      "Hallo heimur")
+    TEST(" 1024",           5, "% d",      1024)
+    TEST("-1024",           5, "% d",      -1024)
+    TEST(" 1024",           5, "% i",      1024)
+    TEST("-1024",           5, "% i",      -1024)
+    TEST("1024",            4, "% u",      1024u)
+    TEST("4294966272",     10, "% u",      -1024u)
+    TEST("777",             3, "% o",      0777u)
+    TEST("37777777001",    11, "% o",      -0777u)
+    TEST("1234abcd",        8, "% x",      0x1234abcdu)
+    TEST("edcb5433",        8, "% x",      -0x1234abcdu)
+    TEST("1234ABCD",        8, "% X",      0x1234abcdu)
+    TEST("EDCB5433",        8, "% X",      -0x1234abcdu)
+    TEST("x",               1, "% c",      'x')
 
-	/* double dd = 0.99999; */
+    /* Flag + hat Vorrang über <space> */
+    TEST("Hallo heimur",   12, "%+ s",      "Hallo heimur")
+    TEST("+1024",           5, "%+ d",      1024)
+    TEST("-1024",           5, "%+ d",      -1024)
+    TEST("+1024",           5, "%+ i",      1024)
+    TEST("-1024",           5, "%+ i",      -1024)
+    TEST("1024",            4, "%+ u",      1024u)
+    TEST("4294966272",     10, "%+ u",      -1024u)
+    TEST("777",             3, "%+ o",      0777u)
+    TEST("37777777001",    11, "%+ o",      -0777u)
+    TEST("1234abcd",        8, "%+ x",      0x1234abcdu)
+    TEST("edcb5433",        8, "%+ x",      -0x1234abcdu)
+    TEST("1234ABCD",        8, "%+ X",      0x1234abcdu)
+    TEST("EDCB5433",        8, "%+ X",      -0x1234abcdu)
+    TEST("x",               1, "%+ c",      'x')
 
-	/* printf("%d", MAX(-1, 0)); */
-	/* char *fmt = "(%8.2s) (%8.8s) (%8.10s) (%8.0s)\n"; */
+    /* Alternative Form */
+    TEST("0777",            4, "%#o",      0777u)
+    TEST("037777777001",   12, "%#o",      -0777u)
+    TEST("0x1234abcd",     10, "%#x",      0x1234abcdu)
+    TEST("0xedcb5433",     10, "%#x",      -0x1234abcdu)
+    TEST("0X1234ABCD",     10, "%#X",      0x1234abcdu)
+    TEST("0XEDCB5433",     10, "%#X",      -0x1234abcdu)
+    TEST("0",               1, "%#o",      0u)
+    TEST("0",               1, "%#x",      0u)
+    TEST("0",               1, "%#X",      0u)
 
-	/* ft_printf(fmt,  "this", "this", "this", "this"); */
-	/* ft_putendl("------------------------"); */
-	/* printf(fmt, "this", "this", "this", "this"); */
-	/* char foo[5]; */
-	/* char *dest = NULL, *dest2 = ft_strnew(0); */
+    /* Feldbreite: Kleiner als Ausgabe */
+    TEST("Hallo heimur",   12, "%1s",      "Hallo heimur")
+    TEST("1024",            4, "%1d",      1024)
+    TEST("-1024",           5, "%1d",      -1024)
+    TEST("1024",            4, "%1i",      1024)
+    TEST("-1024",           5, "%1i",      -1024)
+    TEST("1024",            4, "%1u",      1024u)
+    TEST("4294966272",     10, "%1u",      -1024u)
+    TEST("777",             3, "%1o",      0777u)
+    TEST("37777777001",    11, "%1o",      -0777u)
+    TEST("1234abcd",        8, "%1x",      0x1234abcdu)
+    TEST("edcb5433",        8, "%1x",      -0x1234abcdu)
+    TEST("1234ABCD",        8, "%1X",      0x1234abcdu)
+    TEST("EDCB5433",        8, "%1X",      -0x1234abcdu)
+    TEST("x",               1, "%1c",      'x')
 
-    wchar_t *wstr = L"♥♦♣♠", *bar = wstr;
+    /* Feldbreite: Größer als Ausgabe */
+    TEST("               Hallo",  20, "%20s",      "Hallo")
+    TEST("                1024",  20, "%20d",      1024)
+    TEST("               -1024",  20, "%20d",      -1024)
+    TEST("                1024",  20, "%20i",      1024)
+    TEST("               -1024",  20, "%20i",      -1024)
+    TEST("                1024",  20, "%20u",      1024u)
+    TEST("          4294966272",  20, "%20u",      -1024u)
+    TEST("                 777",  20, "%20o",      0777u)
+    TEST("         37777777001",  20, "%20o",      -0777u)
+    TEST("            1234abcd",  20, "%20x",      0x1234abcdu)
+    TEST("            edcb5433",  20, "%20x",      -0x1234abcdu)
+    TEST("            1234ABCD",  20, "%20X",      0x1234abcdu)
+    TEST("            EDCB5433",  20, "%20X",      -0x1234abcdu)
+    TEST("                   x",  20, "%20c",      'x')
 
+    /* Feldbreite: Linksbündig */
+    TEST("Hallo               ",  20, "%-20s",      "Hallo")
+    TEST("1024                ",  20, "%-20d",      1024)
+    TEST("-1024               ",  20, "%-20d",      -1024)
+    TEST("1024                ",  20, "%-20i",      1024)
+    TEST("-1024               ",  20, "%-20i",      -1024)
+    TEST("1024                ",  20, "%-20u",      1024u)
+    TEST("4294966272          ",  20, "%-20u",      -1024u)
+    TEST("777                 ",  20, "%-20o",      0777u)
+    TEST("37777777001         ",  20, "%-20o",      -0777u)
+    TEST("1234abcd            ",  20, "%-20x",      0x1234abcdu)
+    TEST("edcb5433            ",  20, "%-20x",      -0x1234abcdu)
+    TEST("1234ABCD            ",  20, "%-20X",      0x1234abcdu)
+    TEST("EDCB5433            ",  20, "%-20X",      -0x1234abcdu)
+    TEST("x                   ",  20, "%-20c",      'x')
 
-	/* while (*bar != L'\0') */
-	/* { */
-	/* 	ft_bzero(foo, 5); */
-	/* 	u8_tostr_ch(foo, *bar++); */
-	/* 	ft_strappend(&dest2, foo); */
-	/* } */
-	/* u8_tostr(&dest, wstr); */
+    /* Feldbreite: Padding mit 0 */
+    TEST("00000000000000001024",  20, "%020d",      1024)
+    TEST("-0000000000000001024",  20, "%020d",      -1024)
+    TEST("00000000000000001024",  20, "%020i",      1024)
+    TEST("-0000000000000001024",  20, "%020i",      -1024)
+    TEST("00000000000000001024",  20, "%020u",      1024u)
+    TEST("00000000004294966272",  20, "%020u",      -1024u)
+    TEST("00000000000000000777",  20, "%020o",      0777u)
+    TEST("00000000037777777001",  20, "%020o",      -0777u)
+    TEST("0000000000001234abcd",  20, "%020x",      0x1234abcdu)
+    TEST("000000000000edcb5433",  20, "%020x",      -0x1234abcdu)
+    TEST("0000000000001234ABCD",  20, "%020X",      0x1234abcdu)
+    TEST("000000000000EDCB5433",  20, "%020X",      -0x1234abcdu)
 
-	/* printf("(%s) %u", dest, sizeof(wchar_t)); */
-	/* free(dest2); */
+    /* Feldbreite: Padding und alternative Form */
+    TEST("                0777",  20, "%#20o",      0777u)
+    TEST("        037777777001",  20, "%#20o",      -0777u)
+    TEST("          0x1234abcd",  20, "%#20x",      0x1234abcdu)
+    TEST("          0xedcb5433",  20, "%#20x",      -0x1234abcdu)
+    TEST("          0X1234ABCD",  20, "%#20X",      0x1234abcdu)
+    TEST("          0XEDCB5433",  20, "%#20X",      -0x1234abcdu)
 
-	char *fmt = "%{cyan_fg} this (%%) %{red_fg} (%2$.3ls) %{reset} "
-		"%{bold} (%1$.4f) %{reset}\n";
-	char *s = NULL;
+    TEST("00000000000000000777",  20, "%#020o",     0777u)
+    TEST("00000000037777777001",  20, "%#020o",     -0777u)
+    TEST("0x00000000001234abcd",  20, "%#020x",     0x1234abcdu)
+    TEST("0x0000000000edcb5433",  20, "%#020x",     -0x1234abcdu)
+    TEST("0X00000000001234ABCD",  20, "%#020X",     0x1234abcdu)
+    TEST("0X0000000000EDCB5433",  20, "%#020X",     -0x1234abcdu)
 
-	ft_printf(fmt, 0.099382, bar);
-	ft_dprintf(2, fmt, 0.099382, bar);
-	ft_asprintf(&s, fmt, 0.099382, bar);
+    /* Feldbreite: - hat Vorrang vor 0 */
+    TEST("Hallo               ",  20, "%0-20s",      "Hallo")
+    TEST("1024                ",  20, "%0-20d",      1024)
+    TEST("-1024               ",  20, "%0-20d",      -1024)
+    TEST("1024                ",  20, "%0-20i",      1024)
+    TEST("-1024               ",  20, "%0-20i",      -1024)
+    TEST("1024                ",  20, "%0-20u",      1024u)
+    TEST("4294966272          ",  20, "%0-20u",      -1024u)
+    TEST("777                 ",  20, "%-020o",      0777u)
+    TEST("37777777001         ",  20, "%-020o",      -0777u)
+    TEST("1234abcd            ",  20, "%-020x",      0x1234abcdu)
+    TEST("edcb5433            ",  20, "%-020x",      -0x1234abcdu)
+    TEST("1234ABCD            ",  20, "%-020X",      0x1234abcdu)
+    TEST("EDCB5433            ",  20, "%-020X",      -0x1234abcdu)
+    TEST("x                   ",  20, "%-020c",      'x')
 
-	ft_putstr(s);
-	free(s);
-	/* int ret = printf(" this is", 10); */
-	/* printf("%d", ret); */
-	/* char *bar = ieee_dtoa(0.00899L, 4); */
+    /* Feldbreite: Aus Parameter */
+    TEST("               Hallo",  20, "%*s",      20, "Hallo")
+    TEST("                1024",  20, "%*d",      20, 1024)
+    TEST("               -1024",  20, "%*d",      20, -1024)
+    TEST("                1024",  20, "%*i",      20, 1024)
+    TEST("               -1024",  20, "%*i",      20, -1024)
+    TEST("                1024",  20, "%*u",      20, 1024u)
+    TEST("          4294966272",  20, "%*u",      20, -1024u)
+    TEST("                 777",  20, "%*o",      20, 0777u)
+    TEST("         37777777001",  20, "%*o",      20, -0777u)
+    TEST("            1234abcd",  20, "%*x",      20, 0x1234abcdu)
+    TEST("            edcb5433",  20, "%*x",      20, -0x1234abcdu)
+    TEST("            1234ABCD",  20, "%*X",      20, 0x1234abcdu)
+    TEST("            EDCB5433",  20, "%*X",      20, -0x1234abcdu)
+    TEST("                   x",  20, "%*c",      20, 'x')
 
-	/* printf("(%s)", bar); */
-	/* free(bar); */
+    /* Präzision / Mindestanzahl von Ziffern */
+    TEST("Hallo heimur",           12, "%.20s",      "Hallo heimur")
+    TEST("00000000000000001024",   20, "%.20d",      1024)
+    TEST("-00000000000000001024",  21, "%.20d",      -1024)
+    TEST("00000000000000001024",   20, "%.20i",      1024)
+    TEST("-00000000000000001024",  21, "%.20i",      -1024)
+    TEST("00000000000000001024",   20, "%.20u",      1024u)
+    TEST("00000000004294966272",   20, "%.20u",      -1024u)
+    TEST("00000000000000000777",   20, "%.20o",      0777u)
+    TEST("00000000037777777001",   20, "%.20o",      -0777u)
+    TEST("0000000000001234abcd",   20, "%.20x",      0x1234abcdu)
+    TEST("000000000000edcb5433",   20, "%.20x",      -0x1234abcdu)
+    TEST("0000000000001234ABCD",   20, "%.20X",      0x1234abcdu)
+    TEST("000000000000EDCB5433",   20, "%.20X",      -0x1234abcdu)
+
+    /* Feldbreite und Präzision */
+    TEST("               Hallo",   20, "%20.5s",     "Hallo heimur")
+    TEST("               01024",   20, "%20.5d",      1024)
+    TEST("              -01024",   20, "%20.5d",      -1024)
+    TEST("               01024",   20, "%20.5i",      1024)
+    TEST("              -01024",   20, "%20.5i",      -1024)
+    TEST("               01024",   20, "%20.5u",      1024u)
+    TEST("          4294966272",   20, "%20.5u",      -1024u)
+    TEST("               00777",   20, "%20.5o",      0777u)
+    TEST("         37777777001",   20, "%20.5o",      -0777u)
+    TEST("            1234abcd",   20, "%20.5x",      0x1234abcdu)
+    TEST("          00edcb5433",   20, "%20.10x",     -0x1234abcdu)
+    TEST("            1234ABCD",   20, "%20.5X",      0x1234abcdu)
+    TEST("          00EDCB5433",   20, "%20.10X",     -0x1234abcdu)
+
+    /* Präzision: 0 wird ignoriert */
+    TEST("               Hallo",   20, "%020.5s",    "Hallo heimur")
+    TEST("               01024",   20, "%020.5d",     1024)
+    TEST("              -01024",   20, "%020.5d",     -1024)
+    TEST("               01024",   20, "%020.5i",     1024)
+    TEST("              -01024",   20, "%020.5i",     -1024)
+    TEST("               01024",   20, "%020.5u",     1024u)
+    TEST("          4294966272",   20, "%020.5u",     -1024u)
+    TEST("               00777",   20, "%020.5o",     0777u)
+    TEST("         37777777001",   20, "%020.5o",     -0777u)
+    TEST("            1234abcd",   20, "%020.5x",     0x1234abcdu)
+    TEST("          00edcb5433",   20, "%020.10x",    -0x1234abcdu)
+    TEST("            1234ABCD",   20, "%020.5X",     0x1234abcdu)
+    TEST("          00EDCB5433",   20, "%020.10X",    -0x1234abcdu)
+
+    /* Präzision 0 */
+    TEST("",                        0, "%.0s",        "Hallo heimur")
+    TEST("                    ",   20, "%20.0s",      "Hallo heimur")
+    TEST("",                        0, "%.s",         "Hallo heimur")
+    TEST("                    ",   20, "%20.s",       "Hallo heimur")
+    TEST("                1024",   20, "%20.0d",      1024)
+    TEST("               -1024",   20, "%20.d",       -1024)
+    TEST("                    ",   20, "%20.d",       0)
+    TEST("                1024",   20, "%20.0i",      1024)
+    TEST("               -1024",   20, "%20.i",       -1024)
+    TEST("                    ",   20, "%20.i",       0)
+    TEST("                1024",   20, "%20.u",       1024u)
+    TEST("          4294966272",   20, "%20.0u",      -1024u)
+    TEST("                    ",   20, "%20.u",       0u)
+    TEST("                 777",   20, "%20.o",       0777u)
+    TEST("         37777777001",   20, "%20.0o",      -0777u)
+    TEST("                    ",   20, "%20.o",       0u)
+    TEST("            1234abcd",   20, "%20.x",       0x1234abcdu)
+    TEST("            edcb5433",   20, "%20.0x",      -0x1234abcdu)
+    TEST("                    ",   20, "%20.x",       0u)
+    TEST("            1234ABCD",   20, "%20.X",       0x1234abcdu)
+    TEST("            EDCB5433",   20, "%20.0X",      -0x1234abcdu)
+    TEST("                    ",   20, "%20.X",       0u)
+
+    /*
+     * Präzision und Feldbreite aus Parameter.
+     * + hat Vorrang vor <space>, - hat Vorrang vor 0 (das eh ignoriert wird,
+     * weil eine Präzision angegeben ist)
+     */
+    TEST("Hallo               ",   20, "% -0+*.*s",    20,  5, "Hallo heimur")
+    TEST("+01024              ",   20, "% -0+*.*d",    20,  5,  1024)
+    TEST("-01024              ",   20, "% -0+*.*d",    20,  5,  -1024)
+    TEST("+01024              ",   20, "% -0+*.*i",    20,  5,  1024)
+    TEST("-01024              ",   20, "% 0-+*.*i",    20,  5,  -1024)
+    TEST("01024               ",   20, "% 0-+*.*u",    20,  5,  1024u)
+    TEST("4294966272          ",   20, "% 0-+*.*u",    20,  5,  -1024u)
+    TEST("00777               ",   20, "%+ -0*.*o",    20,  5,  0777u)
+    TEST("37777777001         ",   20, "%+ -0*.*o",    20,  5,  -0777u)
+    TEST("1234abcd            ",   20, "%+ -0*.*x",    20,  5,  0x1234abcdu)
+    TEST("00edcb5433          ",   20, "%+ -0*.*x",    20, 10,  -0x1234abcdu)
+    TEST("1234ABCD            ",   20, "% -+0*.*X",    20,  5,  0x1234abcdu)
+    TEST("00EDCB5433          ",   20, "% -+0*.*X",    20, 10,  -0x1234abcdu)
+
+    if (failed == 0) {
+        printf("* PASS sprintf\n");
+    } else {
+        printf("* %d Testfaelle fehlgeschlagen\n", failed);
+    }
+
 	return 0;
 }

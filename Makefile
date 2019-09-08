@@ -1,4 +1,4 @@
-DEBUG	= 0
+DEBUG	= 1
 
 NAME	= libftprintf.a
 LIBFT	= -Ilibft -Llibft -lft
