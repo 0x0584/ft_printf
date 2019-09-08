@@ -1,116 +1,36 @@
 * About
 
- ft_printf is a project which leads to the AI branch. sounds good!
+=ft_printf= is a project which leads to the AI branch. sounds good! it was based on the [[https://linux.die.net/man/3/printf][printf(3)]] in the man page
 
-* TODOs [16/17]
+* Features
 
-+ [X] +get format string info+
-+ [X] +handle relative args+
-+ [X] +handle utf8+
-+ [X] +handle %d and %s and %c+
-+ [X] +handle %ls and %lc+
-+ [X] +handle 0 padding flag+
-+ [X] +handle + at beginning of positive+
-+ [X] +handle space at beginning of positive number+
-+ [X] +handle # flags+
-+ [X] +handle width+
-+ [X] +handle left width+
-+ [X] +handle .n precision+
-+ [ ] handle .* precision
-+ [X] +handle %f and %Lf+
-+ [X] +handle %a and %A+
-+ [X] +handle %e and %E+
-+ [X] fulfill the printf familly (asprintf, dprintf)!!
+** Conversions
 
-#+BEGIN_SRC shell
-$ git log --date=short --pretty=format:%ad | sort | uniq -c
-#+END_SRC
-* DONE IEEE 754 [3/3]
-- State "DONE"       from "TODO"       [2019-08-09 Fri 11:55]
++ integer numbers
+    + =dDi= as =int=
+    + =bBouxX= as =unsigned int= in bases 2, 8, 10, 16
++ floating point numbers
+    + =fF= as normal floating point
+    + =eE= as scientific exponent
+    + =gG= as suitable representation
+    + =aA= as hexadecimal representation
++ strings and characters
+    + =sS= for string and UTF-8 strings
+    + =cC= for characters and UTF-8 characters
++ memory addresses =p=
 
-DEADLINE: <2019-07-31 Wed> SCHEDULED: <2019-06-26 Wed>
+** Length modifiers
 
-:LOGBOOK:
-CLOCK: [2019-07-26 Fri 11:08]--[2019-07-26 Fri 11:33] =>  0:25
-CLOCK: [2019-07-26 Fri 08:50]--[2019-07-26 Fri 10:50] =>  2:00
-CLOCK: [2019-07-26 Fri 08:41]--[2019-07-26 Fri 08:50] =>  0:09
-:END:
++ integer numbers for either signed ot unsigned
+    + =hh= as =char=
+    + =h= as =short=
+    + =l= as =long= (if used with =sc= it's like =SC=. ignored when =fFeEgGaA=)
+    + =ll= as =long long=
+    + =z= as =size_t=
+    + =j= as =intmax_t=
++ floating point numbers
+    + =L= as =long double= used with =fFeEgGaA=
 
-- [X] read float's s/e/m
-- [X] compute the product
-- [X] turn the product into string
+* Colors
 
-** DONE Handle BigInt [3/3]
-
-- State "DONE"       from "IN-PROGRESS" [2019-07-25 Thu 00:06]
-- State "IN-PROGRESS" from              [2019-07-22 Mon 07:46]
-
-DEADLINE: <2019-07-24 Wed>
-
-This is not hard, but full of things that you have to do twice!
-If I couldn't do this, then I am not /The God/!
-
-- [X] create the type
-- [X] create add/sub
-- [X] create multiplication
-
-* DONE Handle Flags [5/5]
-
-- State "DONE"       from "IN-PROGRESS" [2019-08-31 Sat 19:22]
-- State "IN-PROGRESS" from "TODO"       [2019-08-28 Wed 16:41]
-
-DEADLINE: <2019-08-31 Sat 00:00> SCHEDULED: <2019-08-17 Sat>
-
-:LOGBOOK:
-CLOCK: [2019-08-31 Sat 03:25]--[2019-08-31 Sat 19:22] => 15:57
-CLOCK: [2019-08-29 Thu 17:28]--[2019-08-29 Thu 23:28] =>  6:00
-CLOCK: [2019-07-26 Fri 08:31]--[2019-07-26 Fri 08:40] =>  0:09
-:END:
-
-- [X] the =#= flag
-- [X] the =+= flag and the bug for negative numbers which shows sign two
-- [X] The =' '= space flag for positive sign
-- [X] the =-= negative field width
-- [X] the zero =0= for padding with zeros
-
-** IN-PROGRESS handling precision [0/3]
-
-- State "IN-PROGRESS" from "PENDING"        [2019-08-31 Sat 19:23]
-- State "PENDING"    from "IN-PROGRESS"     [2019-08-29 Thu 19:28]
-+ State "IN-PROGRESS" from "TODO"           [2019-08-28 Wed 17:01]
-
-DEADLINE: <2019-08-29 Thu 00:00> SCHEDULED: <2019-08-28 Wed 05:02>
-
-:PROPERTIES:
-:Effort:   5:15
-:END:
-:LOGBOOK:
-CLOCK: [2019-08-31 Sat 19:23]--[2019-08-31 Sat 19:31] =>  0:08
-CLOCK: [2019-08-28 Wed 18:45]--[2019-08-28 Wed 21:00] =>  2:15
-:END:
-
-+ [ ] print float conversion
-+ [ ] handle the different conversion cases
-+ [ ] Create a function to set precision based on conversion
-
-* DONE Handle Float [4/4]
-DEADLINE: <2019-09-01 Sun 00:00> SCHEDULED: <2019-08-10 Sat>
-- State "DONE"       from "UNDER-REVISING" [2019-09-07 Sat 18:10]
-# DEADLINE: <2019-08-20 Tue>
-:LOGBOOK:
-CLOCK: [2019-08-17 Sat 19:13]--[2019-08-17 Sat 19:13] =>  0:00
-CLOCK: [2019-08-16 Fri 00:12]--[2019-08-16 Fri 01:05] =>  0:53
-CLOCK: [2019-08-15 Thu 21:05]--[2019-08-15 Thu 22:12] =>  1:07
-CLOCK: [2019-08-15 Thu 17:22]--[2019-08-15 Thu 19:40] =>  2:18
-CLOCK: [2019-08-15 Thu 16:04]--[2019-08-15 Thu 16:54] =>  0:50
-CLOCK: [2019-08-15 Thu 16:02]--[2019-08-15 Thu 16:03] =>  0:01
-:END:
-
-# - [X] %eE scientific expression
-# - [X] %aA hexa float
-# - [X] %fF normal floating point representation
-# - [X] %gG either of the two based on some specification
-#   /Document about this/
-#   /Look for this online, there must be an answer/
-
-This would be done within format.buffer.c
+used like =%{color}= and the colors are te standard POSIX 8 colors, red, yellow, green, blue, cyan, magenta. As well as black & white. Having a suffix =_fg= or =_bg= for foregraound and background. =reset= is a special color, it resets the output to the original color.

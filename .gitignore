@@ -8,6 +8,6 @@ other/
 *.zip
 /TAGS
 *.a
-*.exe
-
+*.exe*
+*.txt
 *.bak
