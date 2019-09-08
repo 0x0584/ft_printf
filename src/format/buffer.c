@@ -39,22 +39,23 @@ void			format_dbg(t_frmt *frmt)
 	printf("# flag %d\n-------------------\n", HAS_FLAG(frmt, FL_HASH));
 }
 
-bool			format_to_buff(t_list *lstfrmt, t_buff *buff)
+int				format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
-	t_list			*e;
 	t_frmt			*frmt;
 	char			*s_frmt;
 	size_t			padding_size;
 	size_t			slen;
+	int				n_char_convs;
 
-	e = lstfrmt;
-	while (e)
+	n_char_convs = 0;
+	while (lstfrmt)
 	{
 		slen = 0;
 		padding_size = 0;
-		frmt = (t_frmt *)e->content;
+		frmt = (t_frmt *)lstfrmt->content;
+		n_char_convs += (frmt->conv == CONV_CHAR && frmt->data.c == '\0');
 		if ((s_frmt = format_handle_conversion(frmt)) == NULL)
-			return (false);
+			return (-1);
 		if (frmt->width > (slen = ft_strlen(s_frmt)) && frmt->width)
 			padding_size = frmt->width - slen;
 		adjust_prefix(frmt, &s_frmt, &padding_size);
@@ -62,7 +63,7 @@ bool			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		adjust_padding(frmt, &s_frmt, &padding_size);
 		buff_append(buff, s_frmt, ft_strlen(s_frmt));
 		ft_strdel(&s_frmt);
-		LST_NEXT(e);
+		LST_NEXT(lstfrmt);
 	}
-	return (true);
+	return (n_char_convs);
 }

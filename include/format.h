@@ -31,7 +31,9 @@ typedef enum	e_flags
 {
 	FL_NA,
 
-	FL_ZERO, FL_SPACE, FL_MINUS, FL_PLUS, FL_HASH
+	FL_ZERO, FL_SPACE,
+	FL_MINUS, FL_PLUS,
+	FL_HASH
 }				t_flags;
 
 
@@ -80,32 +82,33 @@ typedef	enum	e_conversions
 
 typedef union	u_data
 {
-	t_s8		c;
-	t_s16		s;
-	t_s32		i;
-	t_s64		l;
-	t_s128		ll;
-	ssize_t		sz;
-	intmax_t	j;
+	t_s8		    c;
+	t_s16		    s;
+	t_s32		    i;
+	t_s64		    l;
+	t_s128		    ll;
+	ssize_t		    sz;
+	intmax_t	    j;
 
-	t_u8		uc;
-	t_u16		us;
-	t_u32		ui;
-	t_u64		ul;
-	t_u128		ull;
-	size_t		usz;
-	uintmax_t	uj;
+	t_u8		    uc;
+	t_u16		    us;
+	t_u32		    ui;
+	t_u64		    ul;
+	t_u128		    ull;
+	size_t		    usz;
+	uintmax_t	    uj;
 
-	double		d;
-	long double	ld;
+	double			d;
+	long double		ld;
 
-	char		*str;
-	wchar_t		*wstr;
-	wchar_t		wc;
+	char			*str;
+	wchar_t			*wstr;
+	wchar_t			wc;
 }				t_data;
 
 typedef struct	s_format
 {
+	t_data	    	data;
 	int		        iarg;
 	int		    	ifrmt;
 
@@ -114,10 +117,10 @@ typedef struct	s_format
 	t_conv	    	conv;
 	bool	    	is_upcase;	  /* set when a conversion is uppercase */
 
-	t_data	    	data;
 	t_u32			width;
-	t_u32			prec;
+	bool			width_as_arg;
 	bool			has_radix;
+	t_u32			prec;
 	bool			prec_as_arg;
 }				t_frmt;
 
@@ -126,7 +129,7 @@ void			format_doparse(char **fmt, t_plist *alstfrmt, int *index);
 bool			format_apply_color(char **fmt, t_list **alstfrmt,
 										int *index);
 int				format_populate(t_plist *alstfrmt, va_list *arglst);
-bool			format_to_buff(t_list *lstfrmt, t_buff *buff);
+int				format_to_buff(t_list *lstfrmt, t_buff *buff);
 void			format_free(void *dat, size_t size);
 t_frmt			*format_const_string(int index, char *str);
 
@@ -171,7 +174,8 @@ char			*ieee_sp_as_str(t_ieeesp sp, t_frmt *frmt);
 char			*ieee_tostr(t_ieeefp *fp, t_ieee_fmt style, t_frmt *frmt);
 void			ieee_set_fp(t_ieeefp *fp, t_frmt *frmt);
 
-int				hungry_getnbr(char **str);
 void			set_arg_index(char **fmt, t_frmt *frmt);
+void			set_precision(char **fmt, t_frmt *frmt);
+void			set_width(char **fmt, t_frmt *frmt);
 
 #endif

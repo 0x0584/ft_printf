@@ -66,18 +66,3 @@ bool	get_string_args(t_frmt *frmt, va_list *arglst)
 		frmt->data.str = va_arg(*arglst, char *);
 	return (true);
 }
-
-void	set_arg_index(char **fmt, t_frmt *frmt)
-{
-	char *tmp;
-
-	tmp = *fmt;
-	frmt->iarg = hungry_getnbr(fmt);
-	if (*fmt[0] == '$')
-		*fmt += 1;
-	else
-	{
-		*fmt = tmp;
-		frmt->iarg = 0;
-	}
-}

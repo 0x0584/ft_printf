@@ -122,6 +122,7 @@ int		check_conversion(char **fmt, t_frmt *frmt)
 			else
 				return (0);
 		}
+
 	if (ft_strchr(LONG_TYPES, *bar))
 		frmt->length = MOD_L;
 	if (ft_strchr(UPPER_TYPES, *bar))

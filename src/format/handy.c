@@ -1,21 +1,5 @@
 #include "format.h"
 
-int		hungry_getnbr(char **str)
-{
-	char *bar;
-	int foo;
-
- 	bar = *str;
-	foo = 0;
-	while (ft_isdigit(*bar))
-	{
-		foo = (foo << 3) + (foo << 1);
-		foo += (*bar++ - '0');
-	}
-	*str = bar;
-	return (foo);
-}
-
 void	format_free(void *dat, size_t size)
 {
 	if (size)

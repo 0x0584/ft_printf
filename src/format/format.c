@@ -45,10 +45,8 @@ void			format_doparse(char **fmt, t_list **alstfrmt, int *index)
 	frmt.ifrmt = *index;
 	set_arg_index(fmt, &frmt);
 	check_flags(fmt, &frmt);
-	frmt.width = hungry_getnbr(fmt);
-	frmt.has_radix = (*fmt[0] == '.');
-	*fmt += frmt.has_radix;
-	frmt.prec = hungry_getnbr(fmt);
+	set_width(fmt, &frmt);
+	set_precision(fmt, &frmt);
 	check_modifier(fmt, &frmt);
 	check_conversion(fmt, &frmt);
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
@@ -67,8 +65,12 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 		if (frmt->conv == CONV_FRMT)
 		{
 			LST_NEXT(e);
-			continue;
+			continue ;
 		}
+		if (frmt->width_as_arg)
+			frmt->width = va_arg(*arglst, unsigned int);
+		if (frmt->prec_as_arg)
+			frmt->prec = va_arg(*arglst, unsigned int);
 		if (!get_signed_args(frmt, arglst))
 			if (!get_unsigned_args(frmt, arglst))
 				if (!get_floating_point_args(frmt, arglst))

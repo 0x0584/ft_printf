@@ -12,7 +12,7 @@
 
 #include "buffer.h"
 
-t_buff		*buff_alloc(size_t size)
+t_buff			*buff_alloc(size_t size)
 {
 	t_buff *foo;
 
@@ -24,7 +24,7 @@ t_buff		*buff_alloc(size_t size)
 	return (foo);
 }
 
-void		buff_free(t_buff **buff)
+void			buff_free(t_buff **buff)
 {
 	if (!buff)
 		return ;

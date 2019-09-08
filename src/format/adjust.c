@@ -8,6 +8,12 @@ static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 
  	if (!astr || !frmt || !pad || !format_isnumeric(frmt))
 		return false;
+	if (!ft_strcmp(*astr, "0") && frmt->has_radix && !frmt->prec)
+	{
+		ft_strchange(astr, ft_strdup(""));
+		*pad += 1;
+		return true;
+	}
 	if (frmt->conv == CONV_INT && ft_strchr(" +-", tmp = *astr[0]))
 		ft_strreplace(astr, (char []){tmp, '\0'}, "");
 	if (frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH)
@@ -87,6 +93,8 @@ void		adjust_padding(t_frmt *frmt, char **astr, size_t *pad)
 {
 	if (!frmt || !SAFE_PTRVAL(astr) || !pad)
 		return ;
+	if (frmt->prec)
+		frmt->flags &= ~FLAG(FL_ZERO);
 	if (frmt->width && *pad)
 	{
 		if (HAS_FLAG(frmt, FL_MINUS))

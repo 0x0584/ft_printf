@@ -27,12 +27,11 @@ int		ft_printf(const char *fmt, ...)
 	va_start(args, fmt);
 	format_parse(fmt, &lstfrmt);
 	format_populate(&lstfrmt, &args);
-	if (!format_to_buff(lstfrmt, buff))
-		n_chars = -1;
+	n_chars = format_to_buff(lstfrmt, buff);
 	ft_lstdel(&lstfrmt, format_free);
 	va_end(args);
-	if (!n_chars)
-		n_chars = buff_write(1, buff);
+	if (n_chars >= 0)
+		n_chars += buff_write(1, buff);
 	buff_free(&buff);
 	return (n_chars);
 }

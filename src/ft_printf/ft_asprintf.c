@@ -14,13 +14,12 @@ int		ft_asprintf(char **astr, const char *fmt, ...)
 	va_start(args, fmt);
 	format_parse(fmt, &lstfrmt);
 	format_populate(&lstfrmt, &args);
-	if (!format_to_buff(lstfrmt, buff))
-		return (-1);
+	n_chars = format_to_buff(lstfrmt, buff);
 	ft_lstdel(&lstfrmt, format_free);
 	va_end(args);
-	if (!n_chars)
+	if (n_chars >= 0)
 	{
-		n_chars = buff->len;
+		n_chars += buff->len;
 		*astr = ft_strdup(buff->base);
 	}
 	buff_free(&buff);
