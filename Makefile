@@ -30,6 +30,7 @@ all: $(NAME)
 
 $(NAME): setup $(OBJS) $(DEPS)
 	@echo -e "\nbuilding the library.."
+	@rm -rf $(NAME)
 	ar rc $(NAME) $(OBJS)
 
 ifeq ($(DEBUG), 1)

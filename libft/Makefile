@@ -33,6 +33,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@echo -e ""
+	@rm -rf $(NAME)
 	ar rc $(NAME) $^
 
 %.o: %.c $(DEPS)

@@ -66,3 +66,13 @@ void		ieee_set_fp(t_ieeefp *fp, t_frmt *frmt)
 		fp->type = IEEE_DOUBLE;
 	}
 }
+
+bool	ieee_is_zero(t_ieeefp *fp)
+{
+	if (fp->type == IEEE_FLOAT)
+		return fp->as.f.f == 0.0;
+	else if (fp->type == IEEE_DOUBLE)
+		return fp->as.d.d == 0.0;
+	else
+		return fp->as.ld.ld == 0.0;
+}

@@ -44,6 +44,8 @@ void			format_doparse(char **fmt, t_list **alstfrmt, int *index)
 	ft_bzero(&frmt, sizeof(t_frmt));
 	frmt.ifrmt = *index;
 	set_arg_index(fmt, &frmt);
+	if (frmt.iarg == 0)
+		g_sort_lstfrmt = false;
 	check_flags(fmt, &frmt);
 	set_width(fmt, &frmt);
 	set_precision(fmt, &frmt);

@@ -121,6 +121,13 @@ t_s32			dragon4(t_ieeefp *fp, char **abuff)
 
 	i = 0;
 	buff = ft_strnew(DRAGON4_BUFF_SIZE);
+	if (abuff)
+		*abuff = buff;
+	if (ieee_is_zero(fp))
+	{
+		*buff = '0';
+		return (0);
+	}
 	exp = get_as_fraction(fp, &num, &denum);
 	while (num.size && i < DRAGON4_BUFF_SIZE)
 	{
@@ -128,7 +135,5 @@ t_s32			dragon4(t_ieeefp *fp, char **abuff)
 		bigint_insub(&num, bigint_umul(denum, buff[i++] - '0'));
 		bigint_inmul(&num, bigten);
 	}
-	if (abuff)
-		*abuff = buff;
 	return (exp);
 }
