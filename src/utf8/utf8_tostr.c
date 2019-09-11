@@ -54,3 +54,16 @@ void		utf8_tostr(t_s8 **dest, const wchar_t *wsrc)
 		ft_strappend(dest, buff);
 	}
 }
+
+
+char		*utf8_moveto(wchar_t *s, char *buff, size_t nth_ch)
+{
+	size_t len;
+	size_t walk;
+
+	len = 0;
+	walk = 0;
+	while (walk < nth_ch)
+		len += utf8_chlen(s[walk++]);
+	return (buff + len);
+}

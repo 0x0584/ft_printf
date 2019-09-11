@@ -14,7 +14,6 @@
 
 static bool		g_sort_lstfrmt = true;
 
-
 static int		cmp_by_argindex(t_plist e1, t_plist e2)
 {
 	t_frmt *foo;
@@ -78,6 +77,11 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 				if (!get_floating_point_args(frmt, arglst))
 					(void)get_string_args(frmt, arglst);
 		LST_NEXT(e);
+		while (e && ((t_frmt *)e->content)->iarg == frmt->iarg)
+		{
+			((t_frmt *)e->content)->data = frmt->data;
+			LST_NEXT(e);
+		}
 	}
 	if (g_sort_lstfrmt)
 		ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);

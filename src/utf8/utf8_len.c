@@ -34,15 +34,3 @@ size_t		utf8_wstrlen(wchar_t *s)
 		len++;
 	return (len);
 }
-
-char		*utf8_moveto(wchar_t *s, char *buff, size_t nth_ch)
-{
-	size_t len;
-	size_t walk;
-
-	len = 0;
-	walk = 0;
-	while (walk < nth_ch)
-		len += utf8_chlen(s[walk++]);
-	return (buff + len);
-}

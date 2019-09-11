@@ -12,6 +12,7 @@
 
 #include "format.h"
 #include "buffer.h"
+#include "utf8.h"
 
 t_buff		*buff_alloc(size_t size)
 {
@@ -64,9 +65,9 @@ int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
 	t_frmt		*frmt;
 	char		*s_frmt;
+	int			n_char_convs;
 	size_t		padding_size;
 	size_t		slen;
-	int			n_char_convs;
 
 	n_char_convs = 0;
 	while (lstfrmt)
@@ -75,9 +76,15 @@ int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		padding_size = 0;
 		frmt = (t_frmt *)lstfrmt->content;
 		n_char_convs += (frmt->conv == CONV_CHAR && frmt->data.c == '\0');
-		if ((s_frmt = format_handle_conversion(frmt)) == NULL)
+		if (!(s_frmt = format_handle_conversion(frmt)))
 			return (-1);
-		if (frmt->width > (slen = ft_strlen(s_frmt)) && frmt->width)
+		if (frmt->conv == CONV_STR && frmt->length == MOD_L)
+			slen = utf8_wstrlen(frmt->data.wstr);
+		else if (frmt->conv == CONV_CHAR && frmt->length == MOD_L)
+			slen = 1;
+		else
+			slen = ft_strlen(s_frmt);
+		if (frmt->width > slen && frmt->width)
 			padding_size = frmt->width - slen;
 		adjust_prefix(frmt, &s_frmt, &padding_size);
 		adjust_precision(frmt, &s_frmt, &padding_size);

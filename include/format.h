@@ -36,24 +36,6 @@ typedef enum	e_flags
 	FL_HASH
 }				t_flags;
 
-
-/* XXX: add enums and union into format structure */
-/*
-   XXX: create a flags enum, add mask...
-   just create enums and move on. you're trying to
-   implement many things at one.
-*/
-
-/* the general rule of a format string:
- *
- *	%{{arg-index}{$}}{0(blank)#-+'}{min-width}.{precision}{len-modi}{type}
- */
-
-/*
-   XXX: add priorities
-   never ask anybody not listen to anyone!
-*/
-
 typedef enum	e_length_modifiers
 {
 	MOD_HH, MOD_H,
@@ -71,14 +53,6 @@ typedef	enum	e_conversions
 
 	CONV_FRMT = -2, CONV_NA
 }				t_conv;
-
-
-/* NOTE:
- *
- * i'm not sure about all the type conversion the man in not clean
- * about those (or it might be just me) * so i've putted here any
- * possible data type
- */
 
 typedef union	u_data
 {
