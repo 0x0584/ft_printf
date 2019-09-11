@@ -1,6 +1,8 @@
 * About
 
-=ft_printf= is a project which leads to the AI branch. sounds good! it was based on the [[https://linux.die.net/man/3/printf][printf(3)]] in the man page
+=ft_printf= is a project which leads to the AI branch. sounds good! It was based on the [[https://linux.die.net/man/3/printf][printf(3)]] in the man page. The main idea is to take a [[https://alvinalexander.com/programming/printf-format-cheat-sheet][formatting string]] and a set of arguments, process those arguments then print the /formatted result/ to standard output. Also we can print the result to a file descriptor or a string using either =ft_dprintf= or =ft_asprintf= (ft_asprintf allocates memory).
+
+To get into this, we need to handle [[https://en.wikipedia.org/wiki/UTF-8][UTF-8]] in order to print =wchar_t= strings, also in order to handle floating point numbers we need to handle [[http://www.ryanjuckett.com/programming/printing-floating-point-numbers/][IEEE 754]] format. Otherwise, the rest is just conversions from int to ASCII and checking this and setting that.. mostly if-statements.
 
 * Features
 
