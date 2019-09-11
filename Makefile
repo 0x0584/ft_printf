@@ -1,4 +1,4 @@
-DEBUG	= 0
+DEBUG	= 1
 
 NAME	= libftprintf.a
 LIBFT	= -Ilibft -Llibft -lft
@@ -24,6 +24,8 @@ ifeq ($(DEBUG), 1)
 else
 	CFLAGS += -Werror
 endif
+
+.PHONY: all setup clean fclean re
 
 all: $(NAME)
 	@echo -e "\ncompilation done."

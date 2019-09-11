@@ -76,12 +76,9 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 			if (!get_unsigned_args(frmt, arglst))
 				if (!get_floating_point_args(frmt, arglst))
 					(void)get_string_args(frmt, arglst);
-		LST_NEXT(e);
-		while (e && ((t_frmt *)e->content)->iarg == frmt->iarg)
-		{
+		while ((LST_NEXT(e)) && g_sort_lstfrmt && e->content
+					&& ((t_frmt *)e->content)->iarg == frmt->iarg)
 			((t_frmt *)e->content)->data = frmt->data;
-			LST_NEXT(e);
-		}
 	}
 	if (g_sort_lstfrmt)
 		ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
