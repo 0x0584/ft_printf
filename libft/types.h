@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <stdint.h>
 
 # define INT_VALMAX					(2147483647)
 # define INT_VALMIN					(-2147483648)

@@ -3,8 +3,8 @@
 
 static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 {
-	char tmp;
-	t_s64 n_pad;
+	char	tmp;
+	t_s64	n_pad;
 
  	if (!astr || !frmt || !pad || !format_isnumeric(frmt))
 		return (false);
@@ -14,7 +14,8 @@ static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 		*pad += 1;
 		return (true);
 	}
-	if (frmt->conv == CONV_INT && ft_strchr(" +-", tmp = *astr[0]))
+	tmp = *astr[0];
+	if (frmt->conv == CONV_INT && ft_strchr(" +-", tmp))
 		ft_strreplace(astr, (char []){tmp, '\0'}, "");
 	do_adjust_prefix(astr, frmt, true, false);
 	if ((n_pad = frmt->prec - ft_strlen(*astr)) < 0)

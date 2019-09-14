@@ -11,32 +11,10 @@
 /* ************************************************************************** */
 
 #include "format.h"
-#include "utf8.h"
 #include "ieeefp.h"
+#include "utf8.h"
 
-/*
-  BUG: unsigned conversions have problem with negative numbers
-
-  it's probably due to conversions are all treated as intmax_t, while unsigned
-  numbers consided the sign bit as significat bit. probably I have to create a
-  one for each data type
-
-	format (%#04x) arg -89999
-
-	mine:	(0xFFFFFFFFFFFEA071)
-	glibc:	(0xfffea071)
-
-	format (%#04o) arg -89999
-
-	mine:	(01777777777777777520161)
-	glibc:	(037777520161)
-
-	format	(%#04o) arg 89999
-
-	mine:	(0257617)
-	glibc:	(0257617)
-*/
-
+/* XXX: a cast was all it needs */
 static char		*handle_unsigned_deci(t_frmt *frmt, const char *base)
 {
 	if (frmt->length == MOD_LL)
@@ -54,7 +32,7 @@ static char		*handle_unsigned_deci(t_frmt *frmt, const char *base)
 	return (ft_utoa_base((t_u32)frmt->data.ui, base));
 }
 
-static char	*handle_signed_deci(t_frmt *frmt)
+static char		*handle_signed_deci(t_frmt *frmt)
 {
 	if (frmt->length == MOD_LL)
 		return (ft_itoa_base((t_s128)frmt->data.ll, BASE_DEC));
@@ -73,17 +51,17 @@ static char	*handle_signed_deci(t_frmt *frmt)
 
 static char		*handle_floating_point(t_frmt *frmt)
 {
+	char			*s;
 	t_ieeefp		fp;
 	t_ieee_fmt		style;
-	t_ieeesp		sp;
 
-	if (format_isfloat(frmt) && !frmt->has_radix
-			&& frmt->conv != CONV_HDBL)
+	if (format_isfloat(frmt) && frmt->conv != CONV_HDBL
+			&& !frmt->has_radix)
 		frmt->prec = 6;
 	ieee_set_fp(&fp, frmt);
-	if ((sp = ieee_is_spval(&fp)))
-		return ieee_sp_as_str(sp, frmt);
-	if (frmt->conv == CONV_HDBL)
+	if ((s =ieee_sp_as_str(&fp, frmt)))
+		return (s);
+	else if (frmt->conv == CONV_HDBL)
 		return (ieee_hex_style(&fp, frmt->prec, frmt->is_upcase));
 	style = IEEE_NORMAL;
 	if (frmt->conv == CONV_EDBL)
@@ -122,25 +100,22 @@ static char		*handle_string(t_frmt *frmt)
 
 char			*format_handle_conversion(t_frmt *frmt)
 {
-	char *str;
-
-	str = NULL;
 	if (frmt->conv == CONV_INT)
-		str =  handle_signed_deci(frmt);
+		return  handle_signed_deci(frmt);
 	else if (frmt->conv == CONV_UOCT)
-		str = handle_unsigned_deci(frmt, BASE_OCT);
+		return handle_unsigned_deci(frmt, BASE_OCT);
 	else if (frmt->conv == CONV_UDEC)
-		str = handle_unsigned_deci(frmt, BASE_DEC);
+		return handle_unsigned_deci(frmt, BASE_DEC);
 	else if (frmt->conv == CONV_UBIN)
-		str = handle_unsigned_deci(frmt, BASE_BIN);
+		return handle_unsigned_deci(frmt, BASE_BIN);
 	else if (frmt->conv == CONV_UHEX || frmt->conv == CONV_PTR)
-		str = handle_unsigned_deci(frmt, frmt->is_upcase
+		return handle_unsigned_deci(frmt, frmt->is_upcase
 											? BASE_UHEX : BASE_LHEX);
 	else if (format_isfloat(frmt))
-		str = handle_floating_point(frmt);
+		return handle_floating_point(frmt);
 	else if (frmt->conv == CONV_CHAR)
-		str = handle_char(frmt);
+		return handle_char(frmt);
 	else if (frmt->conv == CONV_STR || frmt->conv == CONV_FRMT)
-		str = handle_string(frmt);
-	return (str);
+		return handle_string(frmt);
+	return (NULL);
 }

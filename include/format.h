@@ -145,7 +145,8 @@ void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_precision(t_frmt *frmt, char **astr, size_t *pad);
 void			do_adjust_prefix(char **astr, t_frmt *frmt,
 									bool replace, bool insert);
-char			*ieee_sp_as_str(t_ieeesp sp, t_frmt *frmt);
+
+char			*ieee_sp_as_str(t_ieeefp *fp, t_frmt *frmt);
 char			*ieee_tostr(t_ieeefp *fp, t_ieee_fmt style, t_frmt *frmt);
 void			ieee_set_fp(t_ieeefp *fp, t_frmt *frmt);
 

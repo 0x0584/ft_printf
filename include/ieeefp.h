@@ -116,7 +116,6 @@ void				ieee_extract_parts(t_ieeefp *fp, t_u128 *man, t_s32 *exp);
 void				ieee_extract_hex_parts(t_ieeefp *fp, t_u128 *man,
 												t_s32 *exp);
 bool				ieee_get_sign(t_ieeefp *fp);
-t_ieeesp			ieee_is_spval(t_ieeefp *fp);
 bool				ieee_is_zero(t_ieeefp *fp);
 
 #endif

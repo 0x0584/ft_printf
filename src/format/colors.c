@@ -62,7 +62,7 @@ static t_color	read_color(char **fmt)
 	}
 	if ((*fmt)[size] != '}')
 		return col;
-	col.base = get_color(buff);
+	col.base = ft_strdup(get_color(buff));
 	*fmt += size + 1;
 	return (col);
 }

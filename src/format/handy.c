@@ -2,6 +2,14 @@
 
 void	format_free(void *dat, size_t size)
 {
+	t_frmt *frmt;
+
+	frmt = (t_frmt *)dat;
+	if (frmt->conv == CONV_FRMT)
+	{
+		free(frmt->data.str);
+		frmt->data.str = NULL;
+	}
 	if (size)
 		free(dat);
 }
@@ -22,7 +30,7 @@ static bool		format_percentage(char **fmt, t_list **alst, int *index)
 	if ((*fmt)[0] != '%')
 		return (false);
 
-	ft_lstpush(alst, ft_lstnew(format_const_string(*index, "%"),
+	ft_lstpush(alst, ft_lstnew(format_const_string(*index, ft_strdup("%")),
 									sizeof(t_frmt)));
 	*fmt += 1;
 	return (true);
@@ -30,9 +38,10 @@ static bool		format_percentage(char **fmt, t_list **alst, int *index)
 
 void			format_parse(const char *fmt, t_list **alstfrmt)
 {
-	int index = 0;
-	char *tmp;
+	int		index;
+	char	*tmp;
 
+	index = 0;
 	while (fmt && ++index)
 	{
 		if (*fmt == '%')

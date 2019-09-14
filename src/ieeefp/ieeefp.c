@@ -18,7 +18,6 @@ void	ieee_extract_parts(t_ieeefp *fp, t_u128 *man, t_s32 *exp)
 		*man = GET_MAN(fp->as.ld.ieee.m1, fp->as.ld.ieee.e, F128BIT_IMPL);
 		*exp = GET_EXP(fp->as.ld.ieee.e, F128BIT_FULLBAIS);
 	}
-
 }
 
 void	ieee_extract_hex_parts(t_ieeefp *fp, t_u128 *man, t_s32 *exp)
@@ -53,20 +52,6 @@ bool	ieee_get_sign(t_ieeefp *fp)
 	return (sign);
 }
 
-void		ieee_set_fp(t_ieeefp *fp, t_frmt *frmt)
-{
-	if (frmt->length == MOD_L_CAP)
-	{
-		fp->as.ld.ld = frmt->data.ld;
-		fp->type = IEEE_LONG_DOUBLE;
-	}
-	else
-	{
-		fp->as.d.d = frmt->data.d;
-		fp->type = IEEE_DOUBLE;
-	}
-}
-
 bool	ieee_is_zero(t_ieeefp *fp)
 {
 	if (fp->type == IEEE_FLOAT)
@@ -75,4 +60,16 @@ bool	ieee_is_zero(t_ieeefp *fp)
 		return fp->as.d.d == 0.0;
 	else
 		return fp->as.ld.ld == 0.0;
+}
+
+void		ieee_set_fp(t_ieeefp *fp, t_frmt *frmt)
+{
+	bool islong;
+
+	islong = (frmt->length == MOD_L_CAP);
+	if (islong)
+		fp->as.ld.ld = frmt->data.ld;
+	else
+		fp->as.d.d = frmt->data.d;
+	fp->type = islong ? IEEE_LONG_DOUBLE : IEEE_DOUBLE;
 }
