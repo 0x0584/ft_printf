@@ -1,11 +1,24 @@
-DEBUG	= 1
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/09/15 14:47:40 by archid-           #+#    #+#              #
+#    Updated: 2019/09/15 17:49:56 by archid-          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+DEBUG	:= 1
 
 NAME	= libftprintf.a
-LIBFT	= -Ilibft -Llibft -lft
+FTDIR	= libft 
+LIBFT	= -L$(FTDIR) -lft
 
-RM		= rm -rf
-MAIN	= main.c
 EXEC	= ft_printf
+MAIN	= main.c
+RM		= rm -rf
 
 SRCDIR	= src
 DEPDIR	= include
@@ -17,7 +30,11 @@ OBJS	:= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRCS))
 
 CC		= gcc
 CFLAGS	= -Wall -Wextra
-LDFLAGS = -I$(DEPDIR) $(LIBFT)
+LDFLAGS = -I$(DEPDIR) -I$(FTDIR)
+
+GRN		= \033[0;32m[+]\033[0m
+RED		= \033[0;31m[-]\033[0m
+YLW		= \033[0;33m[*]\033[0m
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -ggdb
@@ -27,17 +44,15 @@ endif
 
 .PHONY: all setup clean fclean re
 
-all: $(NAME)
-	@echo -e "\ncompilation done."
+all: setup $(NAME)
 
-$(NAME): setup $(OBJS) $(DEPS)
-	@echo -e "\nbuilding the library.."
+$(NAME): $(OBJS)
+	@printf  "$(YLW) acrhiving $(NAME)..\n"
 	@rm -rf $(NAME)
-	ar rc $(NAME) $(OBJS)
-
+	ar rc $(NAME) $^ libft/libft.a
 ifeq ($(DEBUG), 1)
-	@echo -e "\ncreating the executable.."
-	$(CC) $(CFLAGS) -o $(EXEC) $(MAIN) $(NAME) $(LDFLAGS)
+	@printf  "$(GRN) creating the executable..\n"
+	$(CC) $(CFLAGS) -o $(EXEC) $(MAIN) $(NAME) $(LDFLAGS) $(LIBFT)
 endif
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
@@ -45,24 +60,22 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
 
 setup:
-	@echo -e "\nmaking libft.."
+	@printf  "$(GRN) making libft..\n"
 	@make -C ./libft/
-	@echo -e "\ncompiling object files.."
+	@printf  "$(GRN) compiling object files..\n"
 
 test: all
 	./$(NAME)
 
-clean:
-	@echo -e "cleaning.."
+clean: 
+	@printf  "$(RED) cleaning..\n"
 	@make -C ./libft/ clean
-	@echo -e ""
-	$(RM) $(OBJS)
+	$(RM) $(notdir $(OBJS))
 
-fclean:
-	@echo -e "cleaning.."
+fclean: 
+	@printf  "$(RED) cleaning everything..\n"
 	@make -C ./libft/ fclean
-	@echo -e ""
-	$(RM) $(OBJS)
+	$(RM) $(notdir $(OBJS))
 	$(RM) $(OBJDIR)
 	$(RM) $(NAME)
 

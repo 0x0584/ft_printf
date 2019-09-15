@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/06 15:05:15 by archid-           #+#    #+#             */
-/*   Updated: 2019/08/06 15:52:58 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/15 16:31:00 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ static char		*handle_string(t_frmt *frmt)
 	str = NULL;
 	if (frmt->conv == CONV_FRMT || frmt->length != MOD_L)
 	{
+		if (!frmt->data.str)
+			return (ft_strdup("(null)"));
 		str = ft_strdup(frmt->data.str);
 		if (frmt->reverse_string)
 			ft_strchange(&str, ft_strrev(str));
@@ -101,6 +103,8 @@ static char		*handle_string(t_frmt *frmt)
 			ft_strchange(&str, ft_strnonprintable(str));
 		return (str);
 	}
+	if (!frmt->data.wstr)
+		return (ft_strdup("(null)"));
 	utf8_tostr(&str, frmt->data.wstr);
 	return (str);
 }

@@ -10,7 +10,7 @@
 #																			   #
 #******************************************************************************#
 
-DEBUG	= 1
+DEBUG	= 1 
 
 NAME	= libft.a
 RM		= rm -f
@@ -23,6 +23,8 @@ OBJS	= $(patsubst %.c, %.o, $(SRCS))
 CC		= gcc
 CFLAGS	= -Wall -Wextra
 
+YLW		= \033[0;33m[*]\033[0m
+
 ifeq ($(DEBUG), 1)
 	CFLAGS += -ggdb
 else
@@ -32,18 +34,18 @@ endif
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo -e ""
+	@printf "$(YLW) archiving $(NAME)..\n"
 	@rm -rf $(NAME)
 	ar rc $(NAME) $^
 
 %.o: %.c $(DEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-clean:
-	$(RM) $(OBJS)
+clean: 
+	$(RM) $(notdir $(OBJS))
 
-fclean:
-	$(RM) $(OBJS)
+fclean: 
+	$(RM) $(notdir $(OBJS))
 	$(RM) $(NAME)
 
 re: fclean all
