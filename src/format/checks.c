@@ -102,8 +102,13 @@ int			check_conversion(char **fmt, t_frmt *frmt)
 		{
 			if (*bar == 'c' || *bar == 'C')
 				frmt->conv = CONV_CHAR;
-			else if (*bar == 's' || *bar == 'S')
+			else if (*bar == 's' || *bar == 'S'
+						|| *bar == 'r' || *bar == 'v')
+			{
 				frmt->conv = CONV_STR;
+				frmt->reverse_string = (*bar == 'r');
+				frmt->non_printable = (*bar == 'v');
+			}
 			else if (*bar == 'p')
 				frmt->conv = CONV_PTR;
 			else

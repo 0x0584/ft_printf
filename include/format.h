@@ -90,7 +90,8 @@ typedef struct	s_format
 	t_modif	    	length;
 	t_conv	    	conv;
 	bool	    	is_upcase;	  /* set when a conversion is uppercase */
-
+	bool			reverse_string;
+	bool			non_printable;
 	t_u32			width;
 	bool			width_as_arg;
 	bool			has_radix;
