@@ -91,9 +91,16 @@ static char		*handle_string(t_frmt *frmt)
 {
 	char *str;
 
-	if (frmt->conv == CONV_FRMT || frmt->length != MOD_L)
-		return ft_strdup(frmt->data.str);
 	str = NULL;
+	if (frmt->conv == CONV_FRMT || frmt->length != MOD_L)
+	{
+		str = ft_strdup(frmt->data.str);
+		if (frmt->reverse_string)
+			ft_strchange(&str, ft_strrev(str));
+		else if (frmt->non_printable)
+			ft_strchange(&str, ft_strnonprintable(str));
+		return (str);
+	}
 	utf8_tostr(&str, frmt->data.wstr);
 	return (str);
 }

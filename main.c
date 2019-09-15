@@ -24,8 +24,7 @@ int main(void)
 
 
 	/*
-	   NOTE: negative and octal are not working good? probably an
-	   unsigned problem
+	  XXX: a cast was enough
 	*/
 
 	/* char *foo = ft_strdup("000this is000"); */
@@ -52,7 +51,7 @@ int main(void)
 	/* char foo[5]; */
 	/* char *dest = NULL, *dest2 = ft_strnew(0); */
 
-    	// wchar_t *wstr = L"漢字漢字漢字", *bar = L"♥♦♣♠";
+	// wchar_t *wstr = L"漢字漢字漢字", *bar = L"♥♦♣♠";
 
 	/* while (*bar != L'\0') */
 	/* { */
@@ -112,21 +111,13 @@ int main(void)
 
 	ft_printf("%{cyan_fg}%{underline}Flag s%{reset}%{cyan_fg}\n\n"
 			  "(%1$s) (%1$.5s) (%1$5.s) (%1$5.3s) (%1$5.5s) (%1$5.8s) "
-			  "(%1$+s) (%1$0s)\n\n"
+			  "(%1$+s) (%1$0s)\n"
 			  "(%2$ls) (%2$.5ls) (%2$5.ls) (%2$5.3ls) (%2$5.5ls) (%2$5.8ls) "
 			  "(%2$+ls) (%2$0ls)\n"
+			  "(%1$r) (%1$.5r) (%1$5.r) (%1$5.1r) (%1$5.5r) (%1$5.8r) "
+			  "(%1$+r) (%1$0r)\n"
+			  "(%3$v)\n"
 			  "\n%{reset}\n",
-			  "fuzz", L"♥♦♣♠");
-	/* ft_dprintf(2, fmt, 0.099382, bar); */
-	/* ft_asprintf(&s, fmt, 0.099382, bar); */
-
-	/* ft_putstr(s); */
-	/* free(s); */
-	/* int ret = printf(" this is", 10); */
-	/* printf("%d", ret); */
-	/* char *bar = ieee_dtoa(0.00899L, 4); */
-
-	/* printf("(%s)", bar); */
-	/* free(bar); */
+			  "fuzz", L"♥♦♣♠", (char []){1, 2, '\n', '\t', 'a', 'b', '\0'});
 	return 0;
 }

@@ -15,16 +15,17 @@ To get into this, we need to handle [[https://en.wikipedia.org/wiki/UTF-8][UTF-8
 ** Conversions
 
 + integer numbers
-    + =dDi= as =int=
-    + =bBouxX= as =unsigned int= in bases 2, 8, 10, 16
+  + =dDi= as =int=
+  + =bBouxX= as =unsigned int= in bases 2, 8, 10, 16
 + floating point numbers
-    + =fF= as normal floating point
-    + =eE= as scientific exponent
-    + =gG= as suitable representation
-    + =aA= as hexadecimal representation
+  + =fF= as normal floating point
+  + =eE= as scientific exponent
+  + =gG= as suitable representation
+  + =aA= as hexadecimal representation
 + strings and characters
-    + =sS= for string and UTF-8 strings
-    + =cC= for characters and UTF-8 characters
+  + =sS= for ASCII string and UTF-8 strings
+  + =rv= for ASCII strings only (reserved and non-printables)
+  + =cC= for characters and UTF-8 characters
 + memory addresses =p=
 
 ** Length modifiers

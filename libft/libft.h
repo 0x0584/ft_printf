@@ -111,9 +111,10 @@ char			*ft_strtrim(char const *s);
 char			*ft_strjoin(char const *s1, char const *s2);
 void			ft_strprepend(char **dest, const char *prefix);
 void			ft_strappend(char **astr, const char *s);
+char			*ft_strnonprintable(const char *str);
 
 int				ft_atoi(const char *s);
-t_s128		ft_atoll(const char *s);
+t_s128			ft_atoll(const char *s);
 int				ft_strequ(char const *s1, char const *s2);
 int				ft_strnequ(char const *s1, char const *s2, size_t n);
 void			ft_striter(char *s, void (*f)(char *));
