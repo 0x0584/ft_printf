@@ -8,13 +8,14 @@ static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 
  	if (!astr || !frmt || !pad || !format_isnumeric(frmt))
 		return (false);
-	if (!ft_strcmp(*astr, "0") && frmt->has_radix && !frmt->prec)
+	if (!ft_strcmp(*astr + (IS_PREFIX_SIGN((*astr)[0])), "0")
+			&& frmt->has_radix && !frmt->prec)
 	{
-		ft_strchange(astr, ft_strdup(""));
+		ft_strchange(astr, ft_strdup((*astr)[0] == '0'
+						? "" :(char []){(*astr)[0], '\0'}));
 		*pad += 1;
-		return (true);
 	}
-	tmp = *astr[0];
+	tmp = (*astr)[0];
 	if (frmt->conv == CONV_INT && ft_strchr(" +-", tmp))
 		ft_strreplace(astr, (char []){tmp, '\0'}, "");
 	do_adjust_prefix(astr, frmt, true, false);

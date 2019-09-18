@@ -52,6 +52,10 @@ int		check_modifier(char **fmt, t_frmt *frmt)
 			len = (*(bar + 1) == 'l') ? MOD_LL : MOD_L;
 		else if (*bar == 'L')
 			len = MOD_L_CAP;
+		else if (*bar == 'z')
+			len = MOD_Z;
+		else if (*bar == 'j')
+			len = MOD_J;
 		if (len != MOD_NA)
 			*fmt = bar + 1 + (len == MOD_HH || len == MOD_LL);
 		frmt->length = len;

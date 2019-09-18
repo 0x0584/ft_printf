@@ -22,6 +22,8 @@
 # define IS_FLAG(val, fl)			((val & FLAG(fl)) != 0)
 # define HAS_FLAG(frmt, fl)			(IS_FLAG(frmt->flags, fl))
 
+# define IS_PREFIX_SIGN(c)			(c == '+' || c == '-' || c == ' ')
+
 # define LONG_TYPES					"DOUSC"
 # define UPPER_TYPES				"XFEAGB"
 

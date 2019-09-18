@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::	  */
-/*	 format.buffer.c									:+:		 :+:	:+:	  */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2019/06/23 15:17:54 by archid-		   #+#	  #+#			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   format.buffer.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/23 15:17:54 by archid-           #+#    #+#             */
 /*   Updated: 2019/09/15 16:40:14 by archid-          ###   ########.fr       */
-/*																			  */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "format.h"
@@ -58,7 +58,7 @@ ssize_t		buff_write(const int fd, t_buff *buff)
 {
 	if (fd < 0)
 		return (fd);
-	return write(fd, buff->base, buff->len);
+	return (write(fd, buff->base, buff->len));
 }
 
 int			format_to_buff(t_list *lstfrmt, t_buff *buff)
