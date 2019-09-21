@@ -18,18 +18,17 @@
 
 int main(void)
 {
-	ft_printf("[%.i]\n\n", 0);
+	/* BUG: it seems like %O and %D should not be  */
+	/* ft_printf("\n%024hho et%#1.2o %0012.O\n", (unsigned char)12, 0, 123654789); */
+	/* printf("\n%024hho et%#1.2o %0012.O\n", (unsigned char)12, 0, 123654789); */
 
-	/*
-	  XXX: precision issues
-	  NOTE: it was about FL_PLUS and precision
-	*/
+	/* ft_printf("toto %###.0o%#.O et %#.1o !\n", 0, 0, 0); */
+	/* printf("toto %###.0o%#.O et %#.1o !\n", 0, 0, 0); */
 
-	ft_printf("[toto%.0d et %+.i et  %   .0D !!!]\n", 0, 0, 0);
-	printf("[toto%.0d et %+.i et  %   .0D !!!]\n", 0, 0, 0);
+	char *foo = "this";
+	char *fmt = "[%5d]\n";
 
-	ft_printf("hello % .d this is a test\n", 0);
-	printf("hello % .d this is a test\n", 0);
-
+	ft_printf("toto%.0d et %+.i et  %   .0d !!!\n", 0, 0, 0);
+	printf("toto%.0d et %+.i et  %   .0d !!!\n", 0, 0, 0);
 	return 0;
 }

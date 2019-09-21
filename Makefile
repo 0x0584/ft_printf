@@ -13,8 +13,7 @@
 DEBUG	:= 1
 
 NAME	= libftprintf.a
-FTDIR	= libft 
-LIBFT	= -L$(FTDIR) -lft
+FTDIR	= libft
 
 EXEC	= ft_printf
 MAIN	= main.c
@@ -49,15 +48,18 @@ all: setup $(NAME)
 $(NAME): $(OBJS)
 	@printf  "$(YLW) acrhiving $(NAME)..\n"
 	@rm -rf $(NAME)
-	ar rc $(NAME) $^ libft/libft.a
+	ar rc $(NAME) $(shell find $(FTDIR) -name '*.o') $^
+
 ifeq ($(DEBUG), 1)
 	@printf  "$(GRN) creating the executable..\n"
-	$(CC) $(CFLAGS) -o $(EXEC) $(MAIN) $(NAME) $(LDFLAGS) $(LIBFT)
+	@$(CC) $(CFLAGS) -o $(EXEC) $(MAIN) $(NAME) $(LDFLAGS)
 endif
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
+	@$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
+
+# FIXME: if file is modifed, only then do setup
 
 setup:
 	@printf  "$(GRN) making libft..\n"
@@ -67,16 +69,17 @@ setup:
 test: all
 	./$(NAME)
 
-clean: 
+clean:
 	@printf  "$(RED) cleaning..\n"
 	@make -C ./libft/ clean
 	$(RM) $(notdir $(OBJS))
 
-fclean: 
+fclean:
 	@printf  "$(RED) cleaning everything..\n"
 	@make -C ./libft/ fclean
 	$(RM) $(notdir $(OBJS))
 	$(RM) $(OBJDIR)
 	$(RM) $(NAME)
 
-re: fclean all
+re: fclean
+	make

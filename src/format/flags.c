@@ -1,5 +1,6 @@
 #include "format.h"
 
+/* FIXME: this must be named adjust_base_prefix() */
 void	do_adjust_prefix(char **astr, t_frmt *frmt, bool replace, bool insert)
 {
 	char *prefix;

@@ -25,7 +25,7 @@ t_frmt	*format_const_string(int index, char *str)
 	return (&frmt);
 }
 
-static bool		format_percentage(char **fmt, t_list **alst, int *index)
+ bool	format_percentage(char **fmt, t_list **alst, int *index)
 {
 	if ((*fmt)[0] != '%')
 		return (false);
@@ -47,8 +47,7 @@ void			format_parse(const char *fmt, t_list **alstfrmt)
 		if (*fmt == '%')
 		{
 			fmt++;
-			if (!format_percentage((char **)&fmt, alstfrmt, &index))
-				format_doparse((char **)&fmt, alstfrmt, &index);
+			format_doparse((char **)&fmt, alstfrmt, &index);
 			continue;
 		}
 		tmp = ft_strchr(fmt, '%');

@@ -10,7 +10,7 @@
 #																			   #
 #******************************************************************************#
 
-DEBUG	= 1 
+DEBUG	= 1
 
 NAME	= libft.a
 RM		= rm -f
@@ -36,15 +36,15 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@printf "$(YLW) archiving $(NAME)..\n"
 	@rm -rf $(NAME)
-	ar rc $(NAME) $^
+	@ar rc $(NAME) $^
 
 %.o: %.c $(DEPS)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-clean: 
+clean:
 	$(RM) $(notdir $(OBJS))
 
-fclean: 
+fclean:
 	$(RM) $(notdir $(OBJS))
 	$(RM) $(NAME)
 

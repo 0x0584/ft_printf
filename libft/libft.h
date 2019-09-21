@@ -29,6 +29,7 @@
 
 # define IS_ODD(a)							((a) & 1U)
 # define IS_EVEN(a)							(!IS_ODD(a))
+
 # define ABS(x)								((x) < 0 ? (x) * -1 : (x))
 # define MAX(a, b)							((a) > (b) ? (a) : (b))
 # define MIN(a, b)							((a) < (b) ? (a) : (b))

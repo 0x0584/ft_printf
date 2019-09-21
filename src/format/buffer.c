@@ -84,7 +84,7 @@ int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 			slen = 1;
 		else
 			slen = ft_strlen(s_frmt);
-		if (frmt->width > slen && frmt->width)
+		if (frmt->width >= slen && frmt->width)
 			padding_size = frmt->width - slen;
 		adjust_prefix(frmt, &s_frmt, &padding_size);
 		adjust_precision(frmt, &s_frmt, &padding_size);

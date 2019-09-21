@@ -46,6 +46,8 @@ void			format_doparse(char **fmt, t_list **alstfrmt, int *index)
 	if (frmt.iarg == 0)
 		g_sort_lstfrmt = false;
 	check_flags(fmt, &frmt);
+	if (format_percentage(fmt, alstfrmt, index))
+		return ;
 	set_width(fmt, &frmt);
 	set_precision(fmt, &frmt);
 	check_modifier(fmt, &frmt);

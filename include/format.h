@@ -10,6 +10,8 @@
 /*																			  */
 /* ************************************************************************** */
 
+/* FIXME: check the names later... */
+
 #ifndef FORMAT_H
 # define FORMAT_H
 
@@ -94,22 +96,23 @@ typedef struct	s_format
 	bool	    	is_upcase;	  /* set when a conversion is uppercase */
 	bool			reverse_string;
 	bool			non_printable;
+
 	t_u32			width;
 	bool			width_as_arg;
+
 	bool			has_radix;
 	t_u32			prec;
 	bool			prec_as_arg;
 }				t_frmt;
 
-void			format_parse(const char *fmt, t_list **alstfrmt);
-void			format_doparse(char **fmt, t_plist *alstfrmt, int *index);
-bool			format_apply_color(char **fmt, t_list **alstfrmt,
-										int *index);
-int				format_populate(t_plist *alstfrmt, va_list *arglst);
+void			format_parse(const char *fmt, t_list **alst);
+void			format_doparse(char **fmt, t_plist *alst, int *index);
+bool			format_apply_color(char **fmt, t_list **alst, int *index);
+bool			format_percentage(char **fmt, t_list **alst, int *index);
+int				format_populate(t_plist *alst, va_list *arglst);
 int				format_to_buff(t_list *lstfrmt, t_buff *buff);
 void			format_free(void *dat, size_t size);
 t_frmt			*format_const_string(int index, char *str);
-
 
 bool			get_signed_args(t_frmt *frmt, va_list *arglst);
 bool			get_unsigned_args(t_frmt *frmt, va_list *arglst);
