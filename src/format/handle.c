@@ -95,7 +95,7 @@ static char		*handle_string(t_frmt *frmt)
 	if (frmt->conv == CONV_FRMT || frmt->length != MOD_L)
 	{
 		if (!frmt->data.str)
-			return (ft_strdup("(null)"));
+			return (ft_strdup(frmt->prec >= 6 || !frmt->has_radix ? "(null)" : ""));
 		str = ft_strdup(frmt->data.str);
 		if (frmt->reverse_string)
 			ft_strchange(&str, ft_strrev(str));
@@ -104,7 +104,7 @@ static char		*handle_string(t_frmt *frmt)
 		return (str);
 	}
 	if (!frmt->data.wstr)
-		return (ft_strdup("(null)"));
+		return (ft_strdup(frmt->prec >= 6 ? "(null)" : ""));
 	utf8_tostr(&str, frmt->data.wstr);
 	return (str);
 }

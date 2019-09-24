@@ -67,8 +67,9 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 		if (tmp_sign == '+' || tmp_sign == '-' || tmp_sign == ' ')
 			ft_strinsert_at(astr, (char []){tmp_sign, '\0'}, 0);
 	}
-	else if ((frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
-				|| frmt->conv == CONV_PTR)
+	else if (((frmt->conv == CONV_UHEX || frmt->conv == CONV_UBIN)
+				&& HAS_FLAG(frmt, FL_HASH)) || frmt->conv == CONV_PTR)
+		// BUG: only insert when exists
 		do_adjust_prefix(astr, frmt, true, true);
 	else if (frmt->conv == CONV_UBIN && HAS_FLAG(frmt, FL_HASH))
 		do_adjust_prefix(astr, frmt, true, true);

@@ -71,11 +71,12 @@ void			adjust_prefix(t_frmt *frmt, char **astr, size_t *pad)
 		return ;
 	if ((HAS_FLAG(frmt, FL_PLUS) || HAS_FLAG(frmt, FL_SPACE))
 			&& (frmt->conv == CONV_INT || format_isfloat(frmt)))
-		if (format_getsign(frmt) != '-')
+	{		if (format_getsign(frmt) != '-')
 			ft_strpad(astr, HAS_FLAG(frmt, FL_PLUS) ? '+' : ' ', 1,
 						TOWARD_HEAD);
-	/* FIXME: IS_PREFIX_SIGN() */
-	*pad -= (*pad ? ft_strchr("+ ", (*astr)[0]) != NULL : 0);
+		/* FIXME: IS_PREFIX_SIGN() */
+		*pad -= (*pad ? ft_strchr("+ ", (*astr)[0]) != NULL : 0);
+	}
 }
 
 void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad)

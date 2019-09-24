@@ -75,13 +75,15 @@ int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		slen = 0;
 		padding_size = 0;
 		frmt = (t_frmt *)lstfrmt->content;
-		n_char_convs += (frmt->conv == CONV_CHAR && frmt->data.c == '\0');
+		/* BUG: '\0' this should be printed properly */
+		n_char_convs += (frmt->conv == CONV_CHAR && ((frmt->length == MOD_L
+						  && frmt->data.wc == L'\0') || (frmt->data.c == '\0')));
 		if (!(s_frmt = format_handle_conversion(frmt)))
 			return (-1);
-		if (frmt->conv == CONV_STR && frmt->length == MOD_L)
-			slen = utf8_wstrlen(frmt->data.wstr);
-		else if (frmt->conv == CONV_CHAR && frmt->length == MOD_L)
+		if (frmt->conv == CONV_CHAR)
 			slen = 1;
+		else if (frmt->conv == CONV_STR && frmt->length == MOD_L)
+			slen = utf8_wstrlen(frmt->data.wstr);
 		else
 			slen = ft_strlen(s_frmt);
 		if (frmt->width >= slen && frmt->width)

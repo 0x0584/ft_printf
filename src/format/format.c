@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::	  */
-/*	 format.c											:+:		 :+:	:+:	  */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2019/06/17 22:20:34 by archid-		   #+#	  #+#			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   format.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/17 22:20:34 by archid-           #+#    #+#             */
 /*   Updated: 2019/08/06 14:17:44 by archid-          ###   ########.fr       */
-/*																			  */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "format.h"
@@ -46,11 +46,11 @@ void			format_doparse(char **fmt, t_list **alstfrmt, int *index)
 	if (frmt.iarg == 0)
 		g_sort_lstfrmt = false;
 	check_flags(fmt, &frmt);
-	if (format_percentage(fmt, alstfrmt, index))
-		return ;
 	set_width(fmt, &frmt);
 	set_precision(fmt, &frmt);
 	check_modifier(fmt, &frmt);
+	if (format_percentage(fmt, alstfrmt, index))
+		return ;
 	check_conversion(fmt, &frmt);
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
 }
