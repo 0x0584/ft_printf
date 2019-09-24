@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/06 15:05:15 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/15 16:31:00 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/24 15:56:36 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,20 +91,22 @@ static char		*handle_string(t_frmt *frmt)
 {
 	char *str;
 
+	/* NOTE: on linux (null) won't appear if it has no space left (precision < 6) */
 	str = NULL;
 	if (frmt->conv == CONV_FRMT || frmt->length != MOD_L)
 	{
 		if (!frmt->data.str)
-			return (ft_strdup(frmt->prec >= 6 || !frmt->has_radix ? "(null)" : ""));
-		str = ft_strdup(frmt->data.str);
+			return (ft_strdup("(null)"));
 		if (frmt->reverse_string)
-			ft_strchange(&str, ft_strrev(str));
+			ft_strchange(&str, ft_strrev(frmt->data.str));
 		else if (frmt->non_printable)
-			ft_strchange(&str, ft_strnonprintable(str));
+			ft_strchange(&str, ft_strnonprintable(frmt->data.str));
+		else
+			str = ft_strdup(frmt->data.str);
 		return (str);
 	}
 	if (!frmt->data.wstr)
-		return (ft_strdup(frmt->prec >= 6 ? "(null)" : ""));
+		return (ft_strdup("(null)"));
 	utf8_tostr(&str, frmt->data.wstr);
 	return (str);
 }
@@ -128,5 +130,7 @@ char			*format_handle_conversion(t_frmt *frmt)
 		return handle_char(frmt);
 	else if (frmt->conv == CONV_STR || frmt->conv == CONV_FRMT)
 		return handle_string(frmt);
+	else if (frmt->conv == CONV_PERC)
+		return (ft_strdup("%"));
 	return (NULL);
 }

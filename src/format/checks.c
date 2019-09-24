@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/23 13:53:22 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/08/06 14:17:44 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/24 15:53:45 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ int			check_conversion(char **fmt, t_frmt *frmt)
 			}
 			else if (*bar == 'p')
 				frmt->conv = CONV_PTR;
+			else if (*bar == '%')
+				frmt->conv = CONV_PERC;
 			else
 				return (0);
 		}

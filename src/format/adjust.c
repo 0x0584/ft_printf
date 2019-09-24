@@ -10,21 +10,20 @@ static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 		return (false);
 	tmp_c = (*astr)[0];
 	if (!ft_strcmp(*astr + (IS_PREFIX_SIGN(tmp_c)), "0")
+		&& !HAS_FLAG(frmt, FL_HASH)
 			&& frmt->has_radix && !frmt->prec)
 		ft_strchange(astr, ft_strdup(tmp_c == '0'
 						? "" : (char []){tmp_c, '\0'}));
-	/* BUG: should not increment when sign is - */
-	/* *pad += (*astr)[0] || IS_PREFIX_SIGN(tmp_c); */
 	if (frmt->conv == CONV_INT && ft_strchr(" +-", tmp_c))
 		ft_strreplace(astr, (char []){tmp_c, '\0'}, "");
-	do_adjust_prefix(astr, frmt, true, false);
+	adjust_base_prefix(astr, frmt, true, false);
 	if ((n_pad = frmt->prec - ft_strlen(*astr)) < 0)
 		n_pad = 0;
 	*pad -= (*pad > (size_t)n_pad) ? (size_t)n_pad : *pad;
 	ft_strpad(astr, '0', (t_u32)n_pad, TOWARD_HEAD);
 	if (ft_strchr("+ -", tmp_c))
 		ft_strinsert_at(astr, (char []){tmp_c, '\0'}, 0);
-	do_adjust_prefix(astr, frmt, false, true);
+	adjust_base_prefix(astr, frmt, false, true);
 	return (true);
 }
 
@@ -71,10 +70,10 @@ void			adjust_prefix(t_frmt *frmt, char **astr, size_t *pad)
 		return ;
 	if ((HAS_FLAG(frmt, FL_PLUS) || HAS_FLAG(frmt, FL_SPACE))
 			&& (frmt->conv == CONV_INT || format_isfloat(frmt)))
-	{		if (format_getsign(frmt) != '-')
+	{
+		if (format_getsign(frmt) != '-')
 			ft_strpad(astr, HAS_FLAG(frmt, FL_PLUS) ? '+' : ' ', 1,
 						TOWARD_HEAD);
-		/* FIXME: IS_PREFIX_SIGN() */
 		*pad -= (*pad ? ft_strchr("+ ", (*astr)[0]) != NULL : 0);
 	}
 }
@@ -83,7 +82,7 @@ void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad)
 {
 	if (!frmt || !SAFE_PTRVAL(astr) || !pad)
 		return ;
-	if (frmt->prec)
+	if (frmt->has_radix)
 		frmt->flags &= ~FLAG(FL_ZERO);
 	if (frmt->width && *pad)
 	{

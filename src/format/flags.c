@@ -1,7 +1,14 @@
 #include "format.h"
 
-/* FIXME: this must be named adjust_base_prefix() */
-void	do_adjust_prefix(char **astr, t_frmt *frmt, bool replace, bool insert)
+
+/*
+   XXX: this must be named adjust_base_prefix()
+
+   NOTE: altered the behavior of this function. now if replace
+		 and insert are both true, we only insert if we find it.
+*/
+
+void	adjust_base_prefix(char **astr, t_frmt *frmt, bool replace, bool insert)
 {
 	char *prefix;
 
@@ -14,9 +21,17 @@ void	do_adjust_prefix(char **astr, t_frmt *frmt, bool replace, bool insert)
 		prefix = frmt->is_upcase ? "0B" : "0b";
 	if (prefix)
 	{
-		if (replace)
+		if (replace && insert)
+		{
+			if (ft_strstr(*astr, prefix))
+			{
+				ft_strreplace(astr, prefix, "");
+				ft_strinsert_at(astr, prefix, 0);
+			}
+		}
+		else if (replace)
 			ft_strreplace(astr, prefix, "");
-		if (insert)
+		else if (insert)
 			ft_strinsert_at(astr, prefix, 0);
 	}
 }
@@ -70,7 +85,7 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 	else if (((frmt->conv == CONV_UHEX || frmt->conv == CONV_UBIN)
 				&& HAS_FLAG(frmt, FL_HASH)) || frmt->conv == CONV_PTR)
 		// BUG: only insert when exists
-		do_adjust_prefix(astr, frmt, true, true);
+		adjust_base_prefix(astr, frmt, true, true);
 	else if (frmt->conv == CONV_UBIN && HAS_FLAG(frmt, FL_HASH))
-		do_adjust_prefix(astr, frmt, true, true);
+		adjust_base_prefix(astr, frmt, true, true);
 }

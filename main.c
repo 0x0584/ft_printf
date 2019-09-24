@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 20:00:58 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/27 09:12:17 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/24 16:50:10 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,30 @@ int main(void)
 	/* ft_bzero(buffer, 200); */
 	/* printf("\n %s %d %d", buffer, ret, ret2); */
 
-	ft_printf("%p %s", NULL, NULL);
-	printf("%p %s", NULL, NULL);
+	/* ft_printf("%p %s", NULL, NULL); */
+	/* printf("%p %s", NULL, NULL); */
+
+	/* int myret = ft_printf("u%4.2ss %-1.s\n %---5.3s \n", "coco", NULL, "yooo"); */
+	/* int ret = printf("u%4.2ss %-1.s\n %---5.3s \n", "coco", NULL, "yooo"); */
+
+	/* printf("my: %d th:%d", myret, ret); */
+
+	/* ft_printf("cc%#.4X et %#0012x %#04hX !!\n", 0xaef, 0xe, (unsigned short)0); */
+	/* printf("cc%#.4X et %#0012x %#04hX !!\n", 0xaef, 0xe, (unsigned short)0); */
+
+	int myret = ft_printf("toto %##.0xet %#.X%###.1x\n", 0, 0, 0);
+	int ret = printf("toto %##.0xet %#.X%###.1x\n", 0, 0, 0);
+
+	printf("[%d %d]\n", ret, myret);
+
+	/* wchar_t	s[4]; */
+
+	/* s[0] = 0x53; */
+	/* s[1] = 0xd800; */
+	/* s[2] = 0x81000; */
+	/* s[3] = '\0'; */
+
+	/* ft_printf("%S\n", s); */
+	/* printf("%S\n", s); */
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/28 23:08:36 by archid-		   #+#	  #+#			  */
-/*	 Updated: 2019/07/02 17:08:56 by archid-		  ###	########.fr		  */
+/*   Updated: 2019/09/24 16:48:00 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_s16		utf8_tostr_ch(t_s8 *dest, t_s32 wch)
         dest[i++] = 0x80 | ((wch >> 6) & 0x3F);
         dest[i++] = 0x80 | (wch & 0x3F);
     }
-    else
+    else if (wch <= 0x1FFFFF)
 	{
         dest[i++] = 0xF0 | (wch >> 18);
         dest[i++] = 0x80 | ((wch >> 12) & 0x3F);

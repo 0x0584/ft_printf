@@ -6,7 +6,7 @@
 #	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		   #
 #												  +#+#+#+#+#+	+#+			   #
 #	 Created: 2019/03/30 17:28:04 by archid-		   #+#	  #+#			   #
-#	 Updated: 2019/06/30 01:28:46 by archid-		  ###	########.fr		   #
+#    Updated: 2019/09/23 17:51:10 by archid-          ###   ########.fr        #
 #																			   #
 #******************************************************************************#
 
@@ -23,7 +23,7 @@ OBJS	= $(patsubst %.c, %.o, $(SRCS))
 CC		= gcc
 CFLAGS	= -Wall -Wextra
 
-YLW		= \033[0;33m[*]\033[0m
+YLW		= \033[0;33m[o]\033[0m
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -ggdb
@@ -42,10 +42,10 @@ $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(notdir $(OBJS))
+	@$(RM) $(notdir $(OBJS))
 
 fclean:
-	$(RM) $(notdir $(OBJS))
-	$(RM) $(NAME)
+	@$(RM) $(notdir $(OBJS))
+	@$(RM) $(NAME)
 
 re: fclean all

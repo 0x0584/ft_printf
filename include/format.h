@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/17 22:16:27 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/08/06 15:51:27 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/24 16:18:39 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef	enum	e_conversions
 {
 	CONV_INT, CONV_UBIN, CONV_UOCT, CONV_UDEC, CONV_UHEX,
 	CONV_DBL, CONV_LDBL, CONV_GDBL, CONV_EDBL, CONV_HDBL,
-	CONV_CHAR, CONV_STR, CONV_PTR, CONV_COLOR,
+	CONV_CHAR, CONV_STR, CONV_PTR, CONV_COLOR, CONV_PERC,
 
 	CONV_FRMT = -2, CONV_NA
 }				t_conv;
@@ -149,7 +149,7 @@ void			flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_prefix(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_precision(t_frmt *frmt, char **astr, size_t *pad);
-void			do_adjust_prefix(char **astr, t_frmt *frmt,
+void			adjust_base_prefix(char **astr, t_frmt *frmt,
 									bool replace, bool insert);
 
 char			*ieee_sp_as_str(t_ieeefp *fp, t_frmt *frmt);

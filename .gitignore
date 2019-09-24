@@ -11,3 +11,4 @@ other/
 *.exe*
 *.txt
 *.bak
+obj/
