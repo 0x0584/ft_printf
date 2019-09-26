@@ -6,7 +6,7 @@
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:17:54 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/15 16:40:14 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/26 14:56:08 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,16 @@ ssize_t		buff_write(const int fd, t_buff *buff)
 	return (write(fd, buff->base, buff->len));
 }
 
+void		dbg_str(char *s, bool log)
+{
+	/* if (!log) */
+	/* 	return ; */
+	/* ft_putstr("{"); */
+	/* ft_putstr(s); */
+	/* ft_putendl("}"); */
+	/* getchar(); */
+}
+
 int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
 	t_frmt		*frmt;
@@ -69,12 +79,15 @@ int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 	size_t		padding_size;
 	size_t		slen;
 
+	bool do_print;
+
 	n_char_convs = 0;
 	while (lstfrmt)
 	{
 		slen = 0;
 		padding_size = 0;
 		frmt = (t_frmt *)lstfrmt->content;
+		do_print = frmt->conv != CONV_FRMT;
 		/* BUG: '\0' this should be printed properly */
 		n_char_convs += (frmt->conv == CONV_CHAR && ((frmt->length == MOD_L
 						  && frmt->data.wc == L'\0') || (frmt->data.c == '\0')));
@@ -88,9 +101,19 @@ int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 			slen = ft_strlen(s_frmt);
 		if (frmt->width >= slen && frmt->width)
 			padding_size = frmt->width - slen;
+
+		dbg_str("before prefix", do_print);
+		dbg_str(s_frmt, do_print);
 		adjust_prefix(frmt, &s_frmt, &padding_size);
+		dbg_str("before precision", do_print);
+		dbg_str(s_frmt, do_print);
 		adjust_precision(frmt, &s_frmt, &padding_size);
+		dbg_str("before padding", do_print);
+		dbg_str(s_frmt, do_print);
 		adjust_padding(frmt, &s_frmt, &padding_size);
+		dbg_str("appending..", do_print);
+		dbg_str(s_frmt, do_print);
+		/* ft_putendl("--------------"); */
 		buff_append(buff, s_frmt, ft_strlen(s_frmt));
 		ft_strdel(&s_frmt);
 		LST_NEXT(lstfrmt);

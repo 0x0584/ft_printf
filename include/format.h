@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/17 22:16:27 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/09/24 16:18:39 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/26 14:48:26 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define UPPER_TYPES				"XFEAGB"
 
 # define LEN_DIFF(s1, s2)			(s2 ? (size_t)(s2 - s1 - 1) : ft_strlen(s1))
+
+void		dbg_str(char *s, bool);
 
 typedef enum	e_flags
 {
@@ -149,7 +151,7 @@ void			flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_prefix(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_precision(t_frmt *frmt, char **astr, size_t *pad);
-void			adjust_base_prefix(char **astr, t_frmt *frmt,
+bool			adjust_base_prefix(char **astr, t_frmt *frmt,
 									bool replace, bool insert);
 
 char			*ieee_sp_as_str(t_ieeefp *fp, t_frmt *frmt);

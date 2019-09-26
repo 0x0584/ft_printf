@@ -2,18 +2,24 @@
 
 
 /*
-   XXX: this must be named adjust_base_prefix()
+	XXX:	this must be named adjust_base_prefix()
+	BUG:	insertion and replace are not working in case of zero!
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   NOTE: altered the behavior of this function. now if replace
-		 and insert are both true, we only insert if we find it.
+	NOTE:	this must be rewritten!! it's ugly code!!
+	NOTE:	altered the behavior of this function. now if replace
+			and insert are both true, we only insert if we find it.
 */
 
-void	adjust_base_prefix(char **astr, t_frmt *frmt, bool replace, bool insert)
+bool	adjust_base_prefix(char **astr, t_frmt *frmt, bool replace, bool insert)
 {
 	char *prefix;
+	bool status;
 
-	if (!(SAFE_PTRVAL(astr)) || !frmt || !ft_strcmp(*astr, "0"))
-		return ;
+	status = false;
+	if (!(SAFE_PTRVAL(astr)) || !frmt || !ft_strcmp(*astr, "0")
+			|| !HAS_FLAG(frmt, FL_HASH))
+		return status;
 	prefix = NULL;
 	if (frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
 		prefix = frmt->is_upcase ? "0X" : "0x";
@@ -23,21 +29,26 @@ void	adjust_base_prefix(char **astr, t_frmt *frmt, bool replace, bool insert)
 	{
 		if (replace && insert)
 		{
-			if (ft_strstr(*astr, prefix))
+			if ((status = (ft_strstr(*astr, prefix) != NULL)))
 			{
 				ft_strreplace(astr, prefix, "");
 				ft_strinsert_at(astr, prefix, 0);
 			}
 		}
 		else if (replace)
-			ft_strreplace(astr, prefix, "");
-		else if (insert)
+		{
+			if ((status = (ft_strstr(*astr, prefix)) != NULL))
+				ft_strreplace(astr, prefix, "");
+		}
+		else if ((status = insert))
 			ft_strinsert_at(astr, prefix, 0);
 	}
+	return (status);
 }
 
 bool	flag_alterform(t_frmt *frmt, char **astr, size_t *pad)
 {
+	/* dbg_str("in alter", true); */
 	if (!(SAFE_PTRVAL(astr)) || !frmt || !pad
 			|| ((!HAS_FLAG(frmt, FL_HASH) || !(format_isnumeric(frmt)))
 					&& frmt->conv != CONV_PTR))
@@ -47,6 +58,7 @@ bool	flag_alterform(t_frmt *frmt, char **astr, size_t *pad)
 		ft_strprepend(astr, "0");
 		if (*pad)
 			*pad -= 1;
+		dbg_str("in octa", true);
 	}
 	else if ((frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH)
 				&& ft_strcmp(*astr, "0")) || frmt->conv == CONV_PTR)
@@ -54,6 +66,7 @@ bool	flag_alterform(t_frmt *frmt, char **astr, size_t *pad)
 		ft_strprepend(astr, frmt->is_upcase ?  "0X" : "0x");
 		if (*pad)
 			*pad -= (*pad <= 1 ? 1 : 2);
+		dbg_str("in hexa", true);
 	}
 	else if (frmt->conv == CONV_UBIN && HAS_FLAG(frmt, FL_HASH))
 	{
@@ -68,8 +81,10 @@ void		flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad)
 {
 	char tmp_sign;
 
+	/* dbg_str("in zero padding", true); */
 	if (!frmt || !SAFE_PTRVAL(astr) || !pad)
 		return ;
+
 	tmp_sign = *astr[0];
 	ft_strpad(astr, '0', *pad, TOWARD_HEAD);
 	if (frmt->conv == CONV_INT || format_isfloat(frmt))

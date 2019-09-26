@@ -5,25 +5,36 @@ static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 {
 	char	tmp_c;
 	t_s64	n_pad;
+	bool has_base_prefix;
 
+
+	dbg_str("inside int_precision", true);
  	if (!SAFE_PTRVAL(astr) || !frmt || !pad || !format_isnumeric(frmt))
 		return (false);
+	has_base_prefix = adjust_base_prefix(astr, frmt, true, false);
 	tmp_c = (*astr)[0];
+	/* dbg_str(*astr, true); */
 	if (!ft_strcmp(*astr + (IS_PREFIX_SIGN(tmp_c)), "0")
-		&& !HAS_FLAG(frmt, FL_HASH)
-			&& frmt->has_radix && !frmt->prec)
-		ft_strchange(astr, ft_strdup(tmp_c == '0'
-						? "" : (char []){tmp_c, '\0'}));
-	if (frmt->conv == CONV_INT && ft_strchr(" +-", tmp_c))
+		&& frmt->has_radix && !frmt->prec &&
+		!(HAS_FLAG(frmt, FL_HASH) && frmt->conv == CONV_UOCT))
+	{
+
+		ft_strchange(astr, ft_strdup(tmp_c == '0' ? ""
+										: (char []){tmp_c, '\0'}));
+		*pad += (tmp_c == '0');
+		/* ft_putendl("it found a ZERO!"); */
+		/* dbg_str(*astr, true); */
+	}
+	if (frmt->conv == CONV_INT && IS_PREFIX_SIGN(tmp_c))
 		ft_strreplace(astr, (char []){tmp_c, '\0'}, "");
-	adjust_base_prefix(astr, frmt, true, false);
 	if ((n_pad = frmt->prec - ft_strlen(*astr)) < 0)
 		n_pad = 0;
-	*pad -= (*pad > (size_t)n_pad) ? (size_t)n_pad : *pad;
+	*pad -= (*pad > (size_t)n_pad ? (size_t)n_pad : *pad);
 	ft_strpad(astr, '0', (t_u32)n_pad, TOWARD_HEAD);
-	if (ft_strchr("+ -", tmp_c))
+	if (IS_PREFIX_SIGN(tmp_c))
 		ft_strinsert_at(astr, (char []){tmp_c, '\0'}, 0);
-	adjust_base_prefix(astr, frmt, false, true);
+	if (has_base_prefix)
+		adjust_base_prefix(astr, frmt, false, true);
 	return (true);
 }
 
