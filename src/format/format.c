@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:20:34 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/24 15:56:53 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/27 21:44:15 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void			format_doparse(char **fmt, t_list **alstfrmt, int *index)
 	check_modifier(fmt, &frmt);
 	/* if (format_percentage(fmt, alstfrmt, index)) */
 	/* 	return ; */
-	check_conversion(fmt, &frmt);
+	if (!check_conversion(fmt, &frmt))
+		return ;
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));
 }
 
@@ -70,10 +71,7 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 			LST_NEXT(e);
 			continue ;
 		}
-		if (frmt->width_as_arg)
-			frmt->width = va_arg(*arglst, unsigned int);
-		if (frmt->prec_as_arg)
-			frmt->prec = va_arg(*arglst, unsigned int);
+		get_wild_args(frmt, arglst);
 		if (!get_signed_args(frmt, arglst))
 			if (!get_unsigned_args(frmt, arglst))
 				if (!get_floating_point_args(frmt, arglst))

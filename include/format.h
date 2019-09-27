@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/17 22:16:27 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/09/26 19:09:11 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/27 21:42:59 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -164,5 +164,6 @@ void			ieee_set_fp(t_ieeefp *fp, t_frmt *frmt);
 void			set_arg_index(char **fmt, t_frmt *frmt);
 void			set_precision(char **fmt, t_frmt *frmt);
 void			set_width(char **fmt, t_frmt *frmt);
+void			get_wild_args(t_frmt *frmt, va_list *alst);
 
 #endif

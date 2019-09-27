@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/15 14:47:40 by archid-           #+#    #+#              #
-#    Updated: 2019/09/24 16:02:58 by archid-          ###   ########.fr        #
+#    Updated: 2019/09/27 19:25:26 by archid-          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ setup:
 clean:
 	@printf  "$(RED) cleaning..\n"
 	@make -C ./libft/ clean
-	@$(RM) $(notdir $(OBJS))
+	@$(RM) $(shell find $(OBJDIR) -name '*.o' -type f)
 
 fclean:
 	@printf  "$(RED) cleaning everything..\n"

@@ -52,7 +52,6 @@ void	set_precision(char **fmt, t_frmt *frmt)
 	}
 }
 
-
 void	set_arg_index(char **fmt, t_frmt *frmt)
 {
 	char *tmp;
@@ -65,5 +64,29 @@ void	set_arg_index(char **fmt, t_frmt *frmt)
 	{
 		*fmt = tmp;
 		frmt->iarg = 0;
+	}
+}
+
+void	get_wild_args(t_frmt *frmt, va_list *alst)
+{
+	int tmp;
+
+	if (!frmt || !alst)
+		return ;
+	if (frmt->width_as_arg)
+	{
+		if ((tmp = va_arg(*alst, int)) < 0)
+			frmt->flags |= FLAG(FL_MINUS);
+		frmt->width = ABS(tmp);
+	}
+	if (frmt->prec_as_arg)
+	{
+		if ((tmp = va_arg(*alst, int)) < 0)
+		{
+			frmt->prec = 0;
+			frmt->has_radix = false;
+		}
+		else
+			frmt->prec = tmp;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:17:54 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/27 14:22:37 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/27 17:40:54 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,8 @@ ssize_t		buff_write(const int fd, t_buff *buff)
 
 void		dbg_str(char *s, bool log)
 {
-	/* if (!log) */
-	/* 	return ; */
-	/* ft_putstr("{"); */
-	/* ft_putstr(s); */
-	/* ft_putendl("}"); */
-	/* getchar(); */
+	if (s && log)
+		return ;
 }
 
 int			format_to_buff(t_list *lstfrmt, t_buff *buff)
@@ -118,7 +114,7 @@ int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		if (frmt->is_nulchr)
 		{
 			slen += 1;
-			if (*(s_frmt + 1))
+			if (!*s_frmt && *(s_frmt + 1))
 				slen += ft_strlen(s_frmt + 1);
 		}
 		buff_append(buff, s_frmt, slen);

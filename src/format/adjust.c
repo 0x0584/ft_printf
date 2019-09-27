@@ -9,7 +9,8 @@ static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 
 
 	dbg_str("inside int_precision", true);
- 	if (!SAFE_PTRVAL(astr) || !frmt || !pad || !format_isnumeric(frmt))
+ 	if (!SAFE_PTRVAL(astr) || !frmt || !pad
+		|| (!format_isnumeric(frmt) && frmt->conv != CONV_PTR))
 		return (false);
 	has_base_prefix = adjust_base_prefix(astr, frmt, true, false);
 	tmp_c = (*astr)[0];
@@ -64,8 +65,11 @@ static bool		adjust_str_precision(t_frmt *frmt, char **astr, size_t *pad)
 													*astr, frmt->prec) - 1);
 		else
 			tmp = ft_strrdup(*astr, *astr + frmt->prec - 1);
+		/* ft_putendl(tmp); */
+		/* ft_putnumber(*pad); */
+		/* getchar(); */
 		if (ft_strcmp("(null)", *astr))
-			*pad += (len - frmt->prec);
+			*pad = (frmt->prec < frmt->width ? (frmt->width - frmt->prec) : 0);
 		ft_strchange(astr, tmp);
 	}
 	return (true);

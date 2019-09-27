@@ -17,11 +17,12 @@ bool	adjust_base_prefix(char **astr, t_frmt *frmt, bool replace, bool insert)
 	bool status;
 
 	status = false;
-	if (!(SAFE_PTRVAL(astr)) || !frmt || !ft_strcmp(*astr, "0")
-			|| !HAS_FLAG(frmt, FL_HASH))
+	if (!(SAFE_PTRVAL(astr)) || !frmt /* || !ft_strcmp(*astr, "0" ) */
+		|| (!HAS_FLAG(frmt, FL_HASH) && frmt->conv != CONV_PTR))
 		return status;
 	prefix = NULL;
-	if (frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
+	if ((frmt->conv == CONV_UHEX && HAS_FLAG(frmt, FL_HASH))
+			|| frmt->conv == CONV_PTR)
 		prefix = frmt->is_upcase ? "0X" : "0x";
 	else if (frmt->conv == CONV_UBIN && HAS_FLAG(frmt, FL_HASH))
 		prefix = frmt->is_upcase ? "0B" : "0b";
