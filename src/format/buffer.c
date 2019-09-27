@@ -6,7 +6,7 @@
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:17:54 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/26 14:56:08 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/27 14:22:37 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,8 @@ int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		frmt = (t_frmt *)lstfrmt->content;
 		do_print = frmt->conv != CONV_FRMT;
 		/* BUG: '\0' this should be printed properly */
-		n_char_convs += (frmt->conv == CONV_CHAR && ((frmt->length == MOD_L
-						  && frmt->data.wc == L'\0') || (frmt->data.c == '\0')));
+		/* n_char_convs += (frmt->conv == CONV_CHAR && ((frmt->length == MOD_L */
+		/* 				  && frmt->data.wc == L'\0') || (frmt->data.c == '\0'))); */
 		if (!(s_frmt = format_handle_conversion(frmt)))
 			return (-1);
 		if (frmt->conv == CONV_CHAR)
@@ -101,7 +101,6 @@ int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 			slen = ft_strlen(s_frmt);
 		if (frmt->width >= slen && frmt->width)
 			padding_size = frmt->width - slen;
-
 		dbg_str("before prefix", do_print);
 		dbg_str(s_frmt, do_print);
 		adjust_prefix(frmt, &s_frmt, &padding_size);
@@ -114,7 +113,16 @@ int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 		dbg_str("appending..", do_print);
 		dbg_str(s_frmt, do_print);
 		/* ft_putendl("--------------"); */
-		buff_append(buff, s_frmt, ft_strlen(s_frmt));
+		slen = ft_strlen(s_frmt);
+		/* YEAH! */
+		if (frmt->is_nulchr)
+		{
+			slen += 1;
+			if (*(s_frmt + 1))
+				slen += ft_strlen(s_frmt + 1);
+		}
+		buff_append(buff, s_frmt, slen);
+		/* getchar(); */
 		ft_strdel(&s_frmt);
 		LST_NEXT(lstfrmt);
 	}

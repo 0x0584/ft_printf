@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/06/17 22:16:27 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/09/26 14:48:26 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/26 19:09:11 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef union	u_data
 	wchar_t			wc;
 }				t_data;
 
+/* FIXME: every bool variables should be in flags */
 typedef struct	s_format
 {
 	t_data	    	data;
@@ -96,8 +97,10 @@ typedef struct	s_format
 	t_modif	    	length;
 	t_conv	    	conv;
 	bool	    	is_upcase;	  /* set when a conversion is uppercase */
+	bool			is_nulchr;	  /* set when we have (char)0 */
 	bool			reverse_string;
 	bool			non_printable;
+
 
 	t_u32			width;
 	bool			width_as_arg;

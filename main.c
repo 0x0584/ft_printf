@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 20:00:58 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/26 14:22:47 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/26 19:18:11 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,15 @@
 int main(void)
 {
 
-	ft_printf("mine\n[%10x] [%10.0x] [%010.0x] [%0#10.0x]\n[%10o] [%10.0o] [%010.0o] [%0#10.0o]\n", 0, 0, 0, 0, 0, 0, 0, 0);
-	printf("theirs\n[%10x] [%10.0x] [%010.0x] [%0#10.0x]\n[%10o] [%10.0o] [%010.0o] [%0#10.0o]\n", 0, 0, 0, 0, 0, 0, 0, 0);
+	int ret = ft_printf("hello [ca%----4c] [%1c] va [%10c%-c] ??\n", '\0', '\n',
+						(char)564, 0);
+	int myret = printf("hello [ca%----4c] [%1c] va [%10c%-c] ??\n", '\0', '\n',
+					   (char)564, 0);
 
+	printf("%d %d\n", ret, myret);
+
+	/* ft_printf("mine: [%.0s]\n[%s][%---12s]\n", "hi", "coco", NULL); */
+	/* printf("theirs: [%.0s]\n[%s][%---12s]\n", "hi", "coco", NULL); */
 
 	return 0;
 }

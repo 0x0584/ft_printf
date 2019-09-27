@@ -52,7 +52,10 @@ static bool		adjust_str_precision(t_frmt *frmt, char **astr, size_t *pad)
 	{
 		if (!frmt->prec)
 		{
-			*pad += len;
+			if (!ft_strcmp("(null)", *astr))
+				*pad = frmt->width;
+			else
+				*pad += len;
 			ft_strchange(astr, ft_strdup(""));
 			return false;
 		}
@@ -98,9 +101,17 @@ void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad)
 	if (frmt->width && *pad)
 	{
 		if (HAS_FLAG(frmt, FL_MINUS))
+		{
 			ft_strpad(astr, ' ', *pad, TOWARD_TAIL);
+			if (frmt->is_nulchr)
+				ft_strpad(astr, '\0', 1 , TOWARD_HEAD);
+		}
 		else if (!HAS_FLAG(frmt, FL_ZERO))
+		{
 			ft_strpad(astr, ' ', *pad, TOWARD_HEAD);
+			if (frmt->is_nulchr)
+				ft_strpad(astr, '\0', 1 , TOWARD_TAIL);
+		}
 	}
 	if (HAS_FLAG(frmt, FL_ZERO) && !HAS_FLAG(frmt, FL_MINUS)
 			&& frmt->width && *pad
