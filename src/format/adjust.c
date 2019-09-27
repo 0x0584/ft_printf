@@ -64,7 +64,8 @@ static bool		adjust_str_precision(t_frmt *frmt, char **astr, size_t *pad)
 													*astr, frmt->prec) - 1);
 		else
 			tmp = ft_strrdup(*astr, *astr + frmt->prec - 1);
-		*pad += (len - frmt->prec);
+		if (ft_strcmp("(null)", *astr))
+			*pad += (len - frmt->prec);
 		ft_strchange(astr, tmp);
 	}
 	return (true);
