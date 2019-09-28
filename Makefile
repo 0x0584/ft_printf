@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/15 14:47:40 by archid-           #+#    #+#              #
-#    Updated: 2019/09/27 19:25:26 by archid-          ###   ########.fr        #
+#    Updated: 2019/09/28 16:31:37 by archid-          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,6 @@ endif
 all: setup $(NAME)
 	@rm -rf $(EXEC)
 
-
 ifeq ($(DEBUG), 1)
 	@printf  "$(GRN) linking test executable $(MAIN) > $(EXEC)..\n"
 	@$(CC) $(CFLAGS) -o $(EXEC) $(MAIN) $(NAME) $(LDFLAGS)
@@ -57,7 +56,7 @@ $(NAME): $(OBJS)
 	@rm -rf $(NAME)
 	@ar rc $(NAME) $(shell find $(FTDIR) -name '*.o') $^
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
 

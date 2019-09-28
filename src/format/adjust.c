@@ -22,7 +22,7 @@ static bool		adjust_int_precision(t_frmt *frmt, char **astr, size_t *pad)
 
 		ft_strchange(astr, ft_strdup(tmp_c == '0' ? ""
 										: (char []){tmp_c, '\0'}));
-		*pad += (tmp_c == '0');
+		*pad += 1;
 		/* ft_putendl("it found a ZERO!"); */
 		/* dbg_str(*astr, true); */
 	}
@@ -53,12 +53,12 @@ static bool		adjust_str_precision(t_frmt *frmt, char **astr, size_t *pad)
 	{
 		if (!frmt->prec)
 		{
-			if (!ft_strcmp("(null)", *astr))
-				*pad = frmt->width;
-			else
-				*pad += len;
+			/* if (!ft_strcmp("(null)", *astr)) */
+			*pad = frmt->width;
+			/* else */
+			/* 	*pad += len; */
 			ft_strchange(astr, ft_strdup(""));
-			return false;
+			return (true);
 		}
 		if (frmt->length == MOD_L)
 			tmp = ft_strrdup(*astr, utf8_moveto(frmt->data.wstr,
@@ -68,8 +68,9 @@ static bool		adjust_str_precision(t_frmt *frmt, char **astr, size_t *pad)
 		/* ft_putendl(tmp); */
 		/* ft_putnumber(*pad); */
 		/* getchar(); */
-		if (ft_strcmp("(null)", *astr))
-			*pad = (frmt->prec < frmt->width ? (frmt->width - frmt->prec) : 0);
+		/* if (ft_strcmp("(null)", *astr)) */
+			*pad = (frmt->prec < frmt->width
+						? (frmt->width - frmt->prec) : 0);
 		ft_strchange(astr, tmp);
 	}
 	return (true);
@@ -101,7 +102,7 @@ void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad)
 {
 	if (!frmt || !SAFE_PTRVAL(astr) || !pad)
 		return ;
-	if (frmt->has_radix)
+	if (frmt->has_radix && !format_isfloat(frmt))
 		frmt->flags &= ~FLAG(FL_ZERO);
 	if (frmt->width && *pad)
 	{
@@ -120,6 +121,6 @@ void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad)
 	}
 	if (HAS_FLAG(frmt, FL_ZERO) && !HAS_FLAG(frmt, FL_MINUS)
 			&& frmt->width && *pad
-			&& !(format_isnumeric(frmt) && frmt->prec))
+		/* && !(format_isnumeric(frmt) && frmt->prec) */ )
 		flag_zero_padding(frmt, astr, pad);
 }

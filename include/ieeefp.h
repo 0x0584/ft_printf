@@ -6,7 +6,7 @@
 /*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
 /*												  +#+#+#+#+#+	+#+			  */
 /*	 Created: 2019/07/02 18:00:10 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/07/25 20:14:24 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/27 22:28:02 by archid-          ###   ########.fr       */
 /*																			  */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ union		u_ieee754_double
 
 union		u_ieee754_long_double
 {
-	long double			ld;
+	long double		ld;
 	t_u128			i;
 
 	struct	s_ieee_long_double
@@ -71,8 +71,8 @@ union		u_ieee754_long_double
 		t_u64	m1:63;
 		t_u64	m2:1;
 		t_u16	e:15;
-		t_u8		s:1;
-	}					ieee;
+		t_u8	s:1;
+	}				ieee;
 };
 
 typedef enum		e_ieee_floating_point_types

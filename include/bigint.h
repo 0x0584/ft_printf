@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 01:01:23 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/25 20:45:34 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/28 16:38:10 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "libft.h"
 
-# define BLOCK_MAX					64
-# define BLOCK_SIZE					32
+# define BLOCK_MAX					514
+# define BLOCK_SIZE					0x20
 # define BLOCK_MASK					0xFFFFFFFFUL
 
 typedef struct	s_biggy

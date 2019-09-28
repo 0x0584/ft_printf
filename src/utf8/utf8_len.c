@@ -29,6 +29,8 @@ size_t		utf8_wstrlen(wchar_t *s)
 	wchar_t *walk;
 
 	len = 0;
+	if (s == NULL)
+		return len;
 	walk = s;
 	while (walk[len] != L'\0')
 		len++;

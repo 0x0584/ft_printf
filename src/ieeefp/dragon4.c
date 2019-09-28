@@ -42,9 +42,9 @@ static void		set_num_denum(t_ieeefp *fp, t_bigint *num, t_bigint *denum)
 	*num = bigint_init(man);
 	*denum = bigint_init(1);
 	if (exp > 0)
-		bigint_inbls(num, exp);
+		bigint_inbls(num, (t_u32)exp);
 	else
-		bigint_inbls(denum, -exp);
+		bigint_inbls(denum, (t_u32)-exp);
 }
 
 static t_u32	get_sci_exponent(long double d)
