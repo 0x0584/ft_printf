@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/22 04:39:36 by archid-           #+#    #+#             */
-/*   Updated: 2019/07/22 04:40:36 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/28 18:26:37 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ t_s128	ft_atoll(const char *s)
 {
 	t_s128	result;
 	t_s128	sign;
-	char		*str;
-	size_t		len;
+	char	*str;
+	size_t	len;
 
 	sign = 1;
 	str = (char *)s;

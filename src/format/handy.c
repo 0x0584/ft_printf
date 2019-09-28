@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handy.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/07 21:28:46 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 18:46:34 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "format.h"
 
 void	format_free(void *dat, size_t size)
@@ -25,18 +37,17 @@ t_frmt	*format_const_string(int index, char *str)
 	return (&frmt);
 }
 
- bool	format_percentage(char **fmt, t_list **alst, int *index)
+bool	format_percentage(char **fmt, t_list **alst, int *index)
 {
 	if ((*fmt)[0] != '%')
 		return (false);
-
 	ft_lstpush(alst, ft_lstnew(format_const_string(*index, ft_strdup("%")),
 									sizeof(t_frmt)));
 	*fmt += 1;
 	return (true);
 }
 
-void			format_parse(const char *fmt, t_list **alstfrmt)
+void	format_parse(const char *fmt, t_list **alstfrmt)
 {
 	int		index;
 	char	*tmp;

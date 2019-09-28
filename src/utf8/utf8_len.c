@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utf8_len.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/07 04:15:09 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 19:18:21 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utf8.h"
 
 t_u16		utf8_chlen(t_s32 wch)
@@ -13,7 +25,7 @@ t_u16		utf8_chlen(t_s32 wch)
 
 size_t		utf8_strsize(wchar_t *s)
 {
-	size_t len;
+	size_t	len;
 	wchar_t *walk;
 
 	len = 0;
@@ -25,12 +37,12 @@ size_t		utf8_strsize(wchar_t *s)
 
 size_t		utf8_wstrlen(wchar_t *s)
 {
-	size_t len;
+	size_t	len;
 	wchar_t *walk;
 
 	len = 0;
 	if (s == NULL)
-		return len;
+		return (len);
 	walk = s;
 	while (walk[len] != L'\0')
 		len++;

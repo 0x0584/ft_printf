@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ieeefp.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/02 17:59:08 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 19:13:09 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ieeefp.h"
 #include "format.h"
 
@@ -55,14 +67,14 @@ bool	ieee_get_sign(t_ieeefp *fp)
 bool	ieee_is_zero(t_ieeefp *fp)
 {
 	if (fp->type == IEEE_FLOAT)
-		return fp->as.f.f == 0.0;
+		return (fp->as.f.f == 0.0);
 	else if (fp->type == IEEE_DOUBLE)
-		return fp->as.d.d == 0.0;
+		return (fp->as.d.d == 0.0);
 	else
-		return fp->as.ld.ld == 0.0;
+		return (fp->as.ld.ld == 0.0);
 }
 
-void		ieee_set_fp(t_ieeefp *fp, t_frmt *frmt)
+void	ieee_set_fp(t_ieeefp *fp, t_frmt *frmt)
 {
 	bool islong;
 

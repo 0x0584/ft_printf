@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   asterisk.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/08 18:13:24 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 19:08:50 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "format.h"
 
 static int		hungry_getnbr(char **str)
 {
-	char *bar;
-	int foo;
+	char	*bar;
+	int		foo;
 
- 	bar = *str;
+	bar = *str;
 	foo = 0;
 	while (ft_isdigit(*bar))
 	{
@@ -16,7 +28,7 @@ static int		hungry_getnbr(char **str)
 	return (foo);
 }
 
-void	set_width(char **fmt, t_frmt *frmt)
+void			set_width(char **fmt, t_frmt *frmt)
 {
 	t_u16 i;
 
@@ -32,7 +44,7 @@ void	set_width(char **fmt, t_frmt *frmt)
 	*fmt += i;
 }
 
-void	set_precision(char **fmt, t_frmt *frmt)
+void			set_precision(char **fmt, t_frmt *frmt)
 {
 	t_u16 i;
 
@@ -52,7 +64,7 @@ void	set_precision(char **fmt, t_frmt *frmt)
 	}
 }
 
-void	set_arg_index(char **fmt, t_frmt *frmt)
+void			set_arg_index(char **fmt, t_frmt *frmt)
 {
 	char *tmp;
 
@@ -67,7 +79,7 @@ void	set_arg_index(char **fmt, t_frmt *frmt)
 	}
 }
 
-void	get_wild_args(t_frmt *frmt, va_list *alst)
+void			get_wild_args(t_frmt *frmt, va_list *alst)
 {
 	int tmp;
 

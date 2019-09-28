@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   colors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/06 18:38:13 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 18:54:07 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "format.h"
 
 static char *g_all_colors[][2] =
@@ -30,7 +42,7 @@ static char *g_all_colors[][2] =
 	{NULL, NULL}
 };
 
-static char *get_color(char *buff)
+static char		*get_color(char *buff)
 {
 	t_s16 i;
 
@@ -61,7 +73,7 @@ static t_color	read_color(char **fmt)
 		size++;
 	}
 	if ((*fmt)[size] != '}')
-		return col;
+		return (col);
 	col.base = ft_strdup(get_color(buff));
 	*fmt += size + 1;
 	return (col);

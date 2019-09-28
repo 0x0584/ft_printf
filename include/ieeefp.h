@@ -1,17 +1,17 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::	  */
-/*	 floats.h											:+:		 :+:	:+:	  */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2019/07/02 18:00:10 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/09/27 22:28:02 by archid-          ###   ########.fr       */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ieeefp.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/02 18:00:10 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 19:55:58 by archid-          ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FLOATS_H
-# define FLOATS_H
+#ifndef IEEEFP_H
+# define IEEEFP_H
 
 # include "types.h"
 
@@ -37,36 +37,36 @@
 # define GET_MAN(m, e, i)			(t_u128)(m + (e ? i : 0ULL))
 # define GET_EXP(e, b)				(t_s32)(e - b + (e ? 0 : 1))
 
-union		u_ieee754_float
+union				u_ieee754_float
 {
-	float				f;
-	t_u32			i;
-	struct	s_ieee_float
+	float	f;
+	t_u32	i;
+	struct			s_ieee_float
 	{
 		t_u32	m:23;
-		t_u8		e:8;
-		t_u8		s:1;
-	}					ieee;
+		t_u8	e:8;
+		t_u8	s:1;
+	}		ieee;
 };
 
-union		u_ieee754_double
+union				u_ieee754_double
 {
-	double				d;
-	t_u64			i;
-	struct	s_ieee_double
+	double	d;
+	t_u64	i;
+	struct			s_ieee_double
 	{
 		t_u64	m:52;
 		t_u16	e:11;
-		t_u8		s:1;
-	}					ieee;
+		t_u8	s:1;
+	}		ieee;
 };
 
-union		u_ieee754_long_double
+union				u_ieee754_long_double
 {
 	long double		ld;
 	t_u128			i;
 
-	struct	s_ieee_long_double
+	struct			s_ieee_long_double
 	{
 		t_u64	m1:63;
 		t_u64	m2:1;
@@ -110,7 +110,7 @@ typedef enum		e_ieee_floating_point_format
 }					t_ieee_fmt;
 
 void				ieee_sci_style(char **astr, t_s32 exp, bool upcase);
-char 				*ieee_hex_style(t_ieeefp *fp, t_u32 prec,bool upcase);
+char				*ieee_hex_style(t_ieeefp *fp, t_u32 prec, bool upcase);
 void				ieee_suitable_style(char **astr, bool upcase);
 void				ieee_extract_parts(t_ieeefp *fp, t_u128 *man, t_s32 *exp);
 void				ieee_extract_hex_parts(t_ieeefp *fp, t_u128 *man,

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:20:34 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/27 21:44:15 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/28 18:51:21 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void			format_doparse(char **fmt, t_list **alstfrmt, int *index)
 	set_width(fmt, &frmt);
 	set_precision(fmt, &frmt);
 	check_modifier(fmt, &frmt);
-	/* if (format_percentage(fmt, alstfrmt, index)) */
-	/* 	return ; */
 	if (!check_conversion(fmt, &frmt))
 		return ;
 	ft_lstpush(alstfrmt, ft_lstnew(&frmt, sizeof(t_frmt)));

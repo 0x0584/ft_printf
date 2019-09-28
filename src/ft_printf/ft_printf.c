@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dprintf.c                                       :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/12 02:58:13 by archid-           #+#    #+#             */
-/*   Updated: 2019/06/26 20:43:44 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/28 19:24:29 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_printf(const char *fmt, ...)
 
 	lstfrmt = NULL;
 	n_chars = 0;
-	if  (!(buff = buff_alloc(0x20)))
+	if (!(buff = buff_alloc(0x20)))
 		return (-1);
 	va_start(args, fmt);
 	format_parse(fmt, &lstfrmt);

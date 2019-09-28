@@ -1,18 +1,14 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::	  */
-/*	 libft.h											:+:		 :+:	:+:	  */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2019/03/30 17:32:57 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/08/06 14:42:26 by archid-          ###   ########.fr       */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/03/30 17:32:57 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 18:23:55 by archid-          ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
-
-/* FIXME: split this fucking libft into multiple parts */
-/* FIXME: split libft into parts */
-/* LATER: clean the fucking code */
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -47,14 +43,14 @@
 ** FIXME: use va_arg with all free functions
 */
 
-struct	s_list
+struct			s_list
 {
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
 };
 
-enum	e_string_position
+enum			e_string_position
 {
 	TOWARD_HEAD = true,
 	TOWARD_TAIL = false

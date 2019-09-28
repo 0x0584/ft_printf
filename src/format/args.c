@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   args.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/05 15:40:49 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 19:07:06 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "format.h"
 
 bool	get_signed_args(t_frmt *frmt, va_list *arglst)
 {
-	if (!frmt || !arglst)
-		return false;
-	else if (!(frmt->conv == CONV_INT || frmt->conv == CONV_CHAR))
-		return false;
+	if (!frmt || !arglst || !(frmt->conv == CONV_INT
+								|| frmt->conv == CONV_CHAR))
+		return (false);
 	if (frmt->length == MOD_LL)
 		frmt->data.ll = va_arg(*arglst, long long);
 	else if (frmt->length == MOD_L)
@@ -21,9 +32,7 @@ bool	get_signed_args(t_frmt *frmt, va_list *arglst)
 
 bool	get_unsigned_args(t_frmt *frmt, va_list *arglst)
 {
-	if (!frmt || !arglst)
-		return false;
-	if (!(frmt->conv == CONV_UOCT || frmt->conv == CONV_UDEC
+	if (!frmt || !arglst || !(frmt->conv == CONV_UOCT || frmt->conv == CONV_UDEC
 			|| frmt->conv == CONV_UBIN || frmt->conv == CONV_UHEX
 			|| frmt->conv == CONV_PTR))
 		return (false);
@@ -43,12 +52,11 @@ bool	get_unsigned_args(t_frmt *frmt, va_list *arglst)
 bool	get_floating_point_args(t_frmt *frmt, va_list *arglst)
 {
 	if (!frmt || !arglst)
-		return false;
-
+		return (false);
 	if (!(frmt->conv == CONV_DBL || frmt->conv == CONV_LDBL
 			|| frmt->conv == CONV_GDBL || frmt->conv == CONV_EDBL
 			|| frmt->conv == CONV_HDBL))
-		return false;
+		return (false);
 	if (frmt->length == MOD_L_CAP)
 		frmt->data.ld = va_arg(*arglst, long double);
 	else

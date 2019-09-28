@@ -1,13 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bigint_add.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/02 17:59:08 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 19:31:51 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bigint.h"
 
-/* FIXME: an overflow if index > BIGINT_MAX_SIZE */
 t_bigint	bigint_add(t_bigint u, t_bigint v)
 {
-	t_bigint result;
-	t_u64 sum;
-	t_u64 carry;
-	t_u32 i;
-	t_u32 biggest;
+	t_bigint	result;
+	t_u64		sum;
+	t_u64		carry;
+	t_u32		i;
+	t_u32		biggest;
 
 	i = 0;
 	sum = 0UL;

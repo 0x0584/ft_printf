@@ -1,4 +1,14 @@
-/* create: 07/30/2019 17:19:46 */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_uitoa_base.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/30 17:19:46 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 17:40:46 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 
@@ -12,7 +22,7 @@ static bool		isvalid_base(const char *base)
 		if (base[i] == '-' || base[i] == '+')
 			return (false);
 		if (ft_strchr(base + i + 1, base[i]))
-			return false;
+			return (false);
 		i++;
 	}
 	return (true);
@@ -43,10 +53,10 @@ static size_t	count_digits_in_base(t_s128 nb, size_t radix)
 
 char			*ft_itoa_base(t_s128 nb, const char *base)
 {
-	char			*buff;
-	size_t			n_digi;
-	size_t			radix;
-	t_u128		foo;
+	char	*buff;
+	size_t	n_digi;
+	size_t	radix;
+	t_u128	foo;
 
 	foo = (nb < 0) ? -nb : nb;
 	if (!isvalid_base(base))

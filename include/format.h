@@ -1,16 +1,14 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::	  */
-/*	 format.h											:+:		 :+:	:+:	  */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2019/06/17 22:16:27 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/09/27 21:42:59 by archid-          ###   ########.fr       */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   format.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/17 22:16:27 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 19:50:21 by archid-          ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
-
-/* FIXME: check the names later... */
 
 #ifndef FORMAT_H
 # define FORMAT_H
@@ -30,8 +28,6 @@
 # define UPPER_TYPES				"XFEAGB"
 
 # define LEN_DIFF(s1, s2)			(s2 ? (size_t)(s2 - s1 - 1) : ft_strlen(s1))
-
-void		dbg_str(char *s, bool);
 
 typedef enum	e_flags
 {
@@ -62,21 +58,21 @@ typedef	enum	e_conversions
 
 typedef union	u_data
 {
-	t_s8		    c;
-	t_s16		    s;
-	t_s32		    i;
-	t_s64		    l;
-	t_s128		    ll;
-	ssize_t		    sz;
-	intmax_t	    j;
+	t_s8			c;
+	t_s16			s;
+	t_s32			i;
+	t_s64			l;
+	t_s128			ll;
+	ssize_t			sz;
+	intmax_t		j;
 
-	t_u8		    uc;
-	t_u16		    us;
-	t_u32		    ui;
-	t_u64		    ul;
-	t_u128		    ull;
-	size_t		    usz;
-	uintmax_t	    uj;
+	t_u8			uc;
+	t_u16			us;
+	t_u32			ui;
+	t_u64			ul;
+	t_u128			ull;
+	size_t			usz;
+	uintmax_t		uj;
 
 	double			d;
 	long double		ld;
@@ -86,21 +82,19 @@ typedef union	u_data
 	wchar_t			wc;
 }				t_data;
 
-/* FIXME: every bool variables should be in flags */
 typedef struct	s_format
 {
-	t_data	    	data;
-	int		        iarg;
-	int		    	ifrmt;
+	t_data			data;
+	int				iarg;
+	int				ifrmt;
 
-	t_flags	    	flags;
-	t_modif	    	length;
-	t_conv	    	conv;
-	bool	    	is_upcase;	  /* set when a conversion is uppercase */
-	bool			is_nulchr;	  /* set when we have (char)0 */
+	t_flags			flags;
+	t_modif			length;
+	t_conv			conv;
+	bool			is_upcase;
+	bool			is_nulchr;
 	bool			reverse_string;
 	bool			non_printable;
-
 
 	t_u32			width;
 	bool			width_as_arg;
@@ -124,27 +118,15 @@ bool			get_unsigned_args(t_frmt *frmt, va_list *arglst);
 bool			get_floating_point_args(t_frmt *frmt, va_list *arglst);
 bool			get_string_args(t_frmt *frmt, va_list *arglst);
 
-/*
-** format.checks.c: verify conversion and modifiers. also flags
-*/
 int				check_conversion(char **fmt, t_frmt *frmt);
 int				check_modifier(char **fmt, t_frmt *frmt);
 int				check_flags(char **fmt, t_frmt *frmt);
-
-/*
-** format.buffer.c: fill a buffer from a list of t_frmt
-*/
 
 void			format_dbg(t_frmt *frmt);
 bool			format_isnumeric(t_frmt *frmt);
 bool			format_isfloat(t_frmt *frmt);
 char			format_getsign(t_frmt *frmt);
 char			*format_ieee_float(t_frmt *frmt);
-
-/*
-** format.handler.c
-**
-*/
 
 char			*format_handle_conversion(t_frmt *frmt);
 

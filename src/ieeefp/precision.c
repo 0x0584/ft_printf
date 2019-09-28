@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   precision.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/02 17:59:08 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 19:14:08 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include "ieeefp.h"
 
@@ -77,8 +89,8 @@ static void		prepare_fp_buff(char **buff, t_ieee_fmt style,
 	round_nearest_even(buff, style, exp, prec);
 }
 
-void	dragon4_prec(char **fp_buff, t_s32 *exp, t_ieee_fmt style,
-						t_u32 prec)
+void			dragon4_prec(char **fp_buff, t_s32 *exp, t_ieee_fmt style,
+								t_u32 prec)
 {
 	char	*fp;
 	char	*tmp;

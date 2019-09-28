@@ -1,68 +1,16 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::	  */
-/*	 format.checks.c									:+:		 :+:	:+:	  */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: archid- <archid-@student.1337.ma>			+#+	 +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2019/06/23 13:53:22 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/09/24 15:53:45 by archid-          ###   ########.fr       */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checks.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/23 13:53:22 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 18:50:46 by archid-          ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "format.h"
-
-int		check_flags(char **fmt, t_frmt *frmt)
-{
-	char *bar;
-
-	bar = *fmt;
-	while (*bar)
-	{
-		if (*bar == '#')
-			frmt->flags |= FLAG(FL_HASH);
-		else if (*bar == '+')
-			frmt->flags |= FLAG(FL_PLUS);
-		else if (*bar == ' ')
-			frmt->flags |= FLAG(FL_SPACE);
-		else if (*bar == '-')
-			frmt->flags |= FLAG(FL_MINUS);
-		else if (*bar == '0')
-			frmt->flags |= FLAG(FL_ZERO);
-		else
-			break;
-		bar++;
-	}
-	*fmt = bar;
-	return (1);
-}
-
-int		check_modifier(char **fmt, t_frmt *frmt)
-{
-	t_modif		len;
-	char		*bar;
-
-	bar = *fmt;
-	len = MOD_NA;
-	if (*bar)
-	{
-		if (*bar == 'h')
-			len = (*(bar + 1) == 'h') ? MOD_HH : MOD_H;
-		else if (*bar == 'l')
-			len = (*(bar + 1) == 'l') ? MOD_LL : MOD_L;
-		else if (*bar == 'L')
-			len = MOD_L_CAP;
-		else if (*bar == 'z')
-			len = MOD_Z;
-		else if (*bar == 'j')
-			len = MOD_J;
-		if (len != MOD_NA)
-			*fmt = bar + 1 + (len == MOD_HH || len == MOD_LL);
-		frmt->length = len;
-		return (1);
-	}
-	return (0);
-}
 
 static bool		check_integer_conversions(t_frmt *frmt, char conv)
 {
@@ -96,12 +44,64 @@ static bool		check_floating_point_conv(t_frmt *frmt, char conv)
 	return (true);
 }
 
-int			check_conversion(char **fmt, t_frmt *frmt)
+int				check_flags(char **fmt, t_frmt *frmt)
 {
 	char *bar;
 
 	bar = *fmt;
-	if (!check_integer_conversions(frmt ,*bar))
+	while (*bar)
+	{
+		if (*bar == '#')
+			frmt->flags |= FLAG(FL_HASH);
+		else if (*bar == '+')
+			frmt->flags |= FLAG(FL_PLUS);
+		else if (*bar == ' ')
+			frmt->flags |= FLAG(FL_SPACE);
+		else if (*bar == '-')
+			frmt->flags |= FLAG(FL_MINUS);
+		else if (*bar == '0')
+			frmt->flags |= FLAG(FL_ZERO);
+		else
+			break ;
+		bar++;
+	}
+	*fmt = bar;
+	return (1);
+}
+
+int				check_modifier(char **fmt, t_frmt *frmt)
+{
+	t_modif	len;
+	char	*bar;
+
+	bar = *fmt;
+	len = MOD_NA;
+	if (*bar)
+	{
+		if (*bar == 'h')
+			len = (*(bar + 1) == 'h') ? MOD_HH : MOD_H;
+		else if (*bar == 'l')
+			len = (*(bar + 1) == 'l') ? MOD_LL : MOD_L;
+		else if (*bar == 'L')
+			len = MOD_L_CAP;
+		else if (*bar == 'z')
+			len = MOD_Z;
+		else if (*bar == 'j')
+			len = MOD_J;
+		if (len != MOD_NA)
+			*fmt = bar + 1 + (len == MOD_HH || len == MOD_LL);
+		frmt->length = len;
+		return (1);
+	}
+	return (0);
+}
+
+int				check_conversion(char **fmt, t_frmt *frmt)
+{
+	char *bar;
+
+	bar = *fmt;
+	if (!check_integer_conversions(frmt, *bar))
 		if (!check_floating_point_conv(frmt, *bar))
 		{
 			if (*bar == 'c' || *bar == 'C')

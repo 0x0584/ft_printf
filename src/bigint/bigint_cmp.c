@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bigint_cmp.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/02 17:59:08 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 19:32:03 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "bigint.h"
 
-# define CMP(a, b)			(a > b ? 1 : -1)
+#define CMP(a, b)			(a > b ? 1 : -1)
 
-int		bigint_cmp(t_bigint u, t_bigint v)
+int			bigint_cmp(t_bigint u, t_bigint v)
 {
 	t_u32 index;
 

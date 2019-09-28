@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   format.handler.c                                   :+:      :+:    :+:   */
+/*   handle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/06 15:05:15 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/28 16:44:58 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/28 18:37:04 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "ieeefp.h"
 #include "utf8.h"
 
-/* XXX: a cast was all it needs */
 static char		*handle_unsigned_deci(t_frmt *frmt, const char *base)
 {
 	if (frmt->length == MOD_LL)
@@ -59,7 +58,7 @@ static char		*handle_floating_point(t_frmt *frmt)
 			&& !frmt->has_radix)
 		frmt->prec = 6;
 	ieee_set_fp(&fp, frmt);
-	if ((s =ieee_sp_as_str(&fp, frmt)))
+	if ((s = ieee_sp_as_str(&fp, frmt)))
 		return (s);
 	else if (frmt->conv == CONV_HDBL)
 		return (ieee_hex_style(&fp, frmt->prec, frmt->is_upcase));
@@ -94,7 +93,6 @@ static char		*handle_string(t_frmt *frmt)
 {
 	char *str;
 
-	/* NOTE: on linux (null) won't appear if it has no space left (precision < 6) */
 	str = NULL;
 	if (frmt->conv == CONV_FRMT || frmt->length != MOD_L)
 	{
@@ -117,22 +115,22 @@ static char		*handle_string(t_frmt *frmt)
 char			*format_handle_conversion(t_frmt *frmt)
 {
 	if (frmt->conv == CONV_INT)
-		return  handle_signed_deci(frmt);
+		return (handle_signed_deci(frmt));
 	else if (frmt->conv == CONV_UOCT)
-		return handle_unsigned_deci(frmt, BASE_OCT);
+		return (handle_unsigned_deci(frmt, BASE_OCT));
 	else if (frmt->conv == CONV_UDEC)
-		return handle_unsigned_deci(frmt, BASE_DEC);
+		return (handle_unsigned_deci(frmt, BASE_DEC));
 	else if (frmt->conv == CONV_UBIN)
-		return handle_unsigned_deci(frmt, BASE_BIN);
+		return (handle_unsigned_deci(frmt, BASE_BIN));
 	else if (frmt->conv == CONV_UHEX || frmt->conv == CONV_PTR)
-		return handle_unsigned_deci(frmt, frmt->is_upcase
-											? BASE_UHEX : BASE_LHEX);
+		return (handle_unsigned_deci(frmt, frmt->is_upcase
+											? BASE_UHEX : BASE_LHEX));
 	else if (format_isfloat(frmt))
-		return handle_floating_point(frmt);
+		return (handle_floating_point(frmt));
 	else if (frmt->conv == CONV_CHAR)
-		return handle_char(frmt);
+		return (handle_char(frmt));
 	else if (frmt->conv == CONV_STR || frmt->conv == CONV_FRMT)
-		return handle_string(frmt);
+		return (handle_string(frmt));
 	else if (frmt->conv == CONV_PERC)
 		return (ft_strdup("%"));
 	return (NULL);

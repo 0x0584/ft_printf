@@ -1,17 +1,17 @@
-/*		   File:	ft_strprepend.c
- *		 Author:	ANAS RCHID
- *	Description:	NULL
- *
- *	  Created: <2019-07-06 Sat 14:50:31>
- *	  Updated: <2019-07-06 Sat 16:06:28>
- */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strnprepend.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/06 14:50:31 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 17:53:15 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 
-/*
- * use va_arg to add a flag of freeing both dest and prefix or not
- * something like read's O_RDONLY
- */
 ssize_t		ft_strnprepend(char **dest, const char *prefix, size_t prefixsz)
 {
 	char	*s;
@@ -22,7 +22,7 @@ ssize_t		ft_strnprepend(char **dest, const char *prefix, size_t prefixsz)
 	destsz = ft_strlen(*dest);
 	if (!(s = ft_strnew(destsz + prefixsz)))
 		return (0);
-	while(destsz--)
+	while (destsz--)
 		s[destsz + prefixsz] = (*dest)[destsz];
 	while (prefixsz--)
 		s[prefixsz] = prefix[prefixsz];

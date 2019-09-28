@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/*																			  */
-/*														  :::	   ::::::::	  */
-/*	 ft_utf8tostr.c										:+:		 :+:	:+:	  */
-/*													  +:+ +:+		  +:+	  */
-/*	 By: archid- <marvin@42.fr>						+#+	 +:+	   +#+		  */
-/*												  +#+#+#+#+#+	+#+			  */
-/*	 Created: 2019/06/28 23:08:36 by archid-		   #+#	  #+#			  */
-/*   Updated: 2019/09/24 16:48:00 by archid-          ###   ########.fr       */
-/*																			  */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_utf8tostr.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/28 23:08:36 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 19:19:43 by archid-          ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
@@ -15,35 +15,35 @@
 
 t_s16		utf8_tostr_ch(t_s8 *dest, t_s32 wch)
 {
-	t_s16 i;
+	t_s16	i;
 
 	i = 0;
-    if (wch <= 0x7F)
-        dest[i++] = (t_s8)wch;
-    else if (wch <= 0x7FF)
+	if (wch <= 0x7F)
+		dest[i++] = (t_s8)wch;
+	else if (wch <= 0x7FF)
 	{
-        dest[i++] = 0xC0 | (wch >> 6);
-        dest[i++] = 0x80 | (wch & 0x3F);
-    }
-    else if (wch <= 0xFFFF)
+		dest[i++] = 0xC0 | (wch >> 6);
+		dest[i++] = 0x80 | (wch & 0x3F);
+	}
+	else if (wch <= 0xFFFF)
 	{
-        dest[i++] = 0xE0 | (wch >> 12);
-        dest[i++] = 0x80 | ((wch >> 6) & 0x3F);
-        dest[i++] = 0x80 | (wch & 0x3F);
-    }
-    else if (wch <= 0x1FFFFF)
+		dest[i++] = 0xE0 | (wch >> 12);
+		dest[i++] = 0x80 | ((wch >> 6) & 0x3F);
+		dest[i++] = 0x80 | (wch & 0x3F);
+	}
+	else if (wch <= 0x1FFFFF)
 	{
-        dest[i++] = 0xF0 | (wch >> 18);
-        dest[i++] = 0x80 | ((wch >> 12) & 0x3F);
-        dest[i++] = 0x80 | ((wch >> 6) & 0x3F);
-        dest[i++] = 0x80 | (wch & 0x3F);
-    }
-    return (i);
+		dest[i++] = 0xF0 | (wch >> 18);
+		dest[i++] = 0x80 | ((wch >> 12) & 0x3F);
+		dest[i++] = 0x80 | ((wch >> 6) & 0x3F);
+		dest[i++] = 0x80 | (wch & 0x3F);
+	}
+	return (i);
 }
 
 void		utf8_tostr(t_s8 **dest, const wchar_t *wsrc)
 {
-	t_s64 i;
+	t_s64	i;
 	char	buff[5];
 
 	i = 0;
@@ -55,11 +55,10 @@ void		utf8_tostr(t_s8 **dest, const wchar_t *wsrc)
 	}
 }
 
-
 char		*utf8_moveto(wchar_t *s, char *buff, size_t nth_ch)
 {
-	size_t len;
-	size_t walk;
+	size_t	len;
+	size_t	walk;
 
 	len = 0;
 	walk = 0;

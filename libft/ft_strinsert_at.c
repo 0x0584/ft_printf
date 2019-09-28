@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strinsert_at.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/16 05:58:08 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 17:54:35 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
 void	ft_strinsert_at(char **str, char const *src, size_t index)
 {
-	char *foo;
-	size_t sizes[2];
+	char	*foo;
+	size_t	sizes[2];
 
 	if (!str || !*str)
 		return ;

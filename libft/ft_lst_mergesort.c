@@ -1,15 +1,19 @@
-/*		   File:	ft_lst_mergesort.c
- *		 Author:	ANAS RCHID
- *	Description:	Implementation of merge sort for lists
- *
- *	  Created: <2019-07-05 Fri 20:54:41>
- *	  Updated: <2019-07-06 Sat 02:36:24>
- */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lst_mergesort.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/07/25 20:54:41 by archid-           #+#    #+#             */
+/*   Updated: 2019/09/28 18:26:16 by archid-          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 
 static t_plist		helper_merge(t_plist left, t_plist right,
-							   int (cmp)(t_plist, t_plist))
+									int (cmp)(t_plist, t_plist))
 {
 	t_plist root;
 	bool	sort_on_left;
@@ -19,13 +23,13 @@ static t_plist		helper_merge(t_plist left, t_plist right,
 	sort_on_left = cmp(left, right) > 0;
 	root = sort_on_left ? left : right;
 	root->next = helper_merge(sort_on_left ? left->next : left,
-							  sort_on_left ? right : right->next,
-							  cmp);
+								sort_on_left ? right : right->next,
+								cmp);
 	return (root);
 }
 
-static void		   helper_halfsplit(t_plist root, t_plist *ahead,
-									t_plist *atail)
+static void			helper_halfsplit(t_plist root, t_plist *ahead,
+										t_plist *atail)
 {
 	t_plist foo;
 	t_plist bar;
