@@ -6,11 +6,11 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/15 14:47:40 by archid-           #+#    #+#              #
-#    Updated: 2019/09/28 20:43:35 by archid-          ###   ########.fr        #
+#    Updated: 2019/09/30 04:18:00 by archid-          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-DEBUG	:= 1
+DEBUG	:= 0
 
 NAME	= libftprintf.a
 FTDIR	= libft

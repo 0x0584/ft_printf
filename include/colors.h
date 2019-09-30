@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/06 19:59:49 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/28 20:36:32 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/30 04:15:55 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define COL_BG_CYAN		   "\x1b[46m"
 # define COL_BG_WHITE		   "\x1b[47m"
 
-#define COLORS_BUFF_SIZE			11
+# define COLORS_BUFF_SIZE			11
 
 typedef struct	s_color
 {
@@ -47,4 +47,4 @@ typedef struct	s_color
 	bool is_auto_reset;
 }				t_color;
 
-#endif /* COLORS_H */
+#endif
