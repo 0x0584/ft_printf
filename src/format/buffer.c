@@ -6,7 +6,7 @@
 /*   By: archid- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 15:17:54 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/28 19:03:49 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/29 19:58:23 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,6 @@ ssize_t		buff_write(const int fd, t_buff *buff)
 	return (write(fd, buff->base, buff->len));
 }
 
-void		dbg_str(char *s, bool log)
-{
-	if (s && log)
-		return ;
-}
-
 int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 {
 	t_frmt		*frmt;
@@ -76,21 +70,11 @@ int			format_to_buff(t_list *lstfrmt, t_buff *buff)
 	while (lstfrmt)
 	{
 		slen = 0;
-		padding_size = 0;
 		frmt = (t_frmt *)lstfrmt->content;
 		if (!(s_frmt = format_handle_conversion(frmt)))
 			return (-1);
-		if (frmt->conv == CONV_CHAR)
-			slen = 1;
-		else if (frmt->conv == CONV_STR && frmt->length == MOD_L)
-			slen = utf8_wstrlen(frmt->data.wstr);
-		else
-			slen = ft_strlen(s_frmt);
-		if (frmt->width >= slen && frmt->width)
-			padding_size = frmt->width - slen;
-		adjust_prefix(frmt, &s_frmt, &padding_size);
-		adjust_precision(frmt, &s_frmt, &padding_size);
-		adjust_padding(frmt, &s_frmt, &padding_size);
+		padding_size = format_init_padding(frmt, s_frmt);
+		adjustments(frmt, &s_frmt, &padding_size);
 		slen = ft_strlen(s_frmt) + frmt->is_nulchr;
 		if (frmt->is_nulchr && !*s_frmt && *(s_frmt + 1))
 			slen += ft_strlen(s_frmt + 1);

@@ -6,7 +6,7 @@
 #    By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/15 14:47:40 by archid-           #+#    #+#              #
-#    Updated: 2019/09/28 16:31:37 by archid-          ###   ########.fr        #
+#    Updated: 2019/09/28 20:43:35 by archid-          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,8 +59,6 @@ $(NAME): $(OBJS)
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(DEPS)
 	@mkdir -p $(@D)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)
-
-# FIXME: if file is modifed, only then do setup
 
 setup:
 	@printf  "$(GRN) making $(FTDIR)..\n"

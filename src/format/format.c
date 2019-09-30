@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:20:34 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/28 18:51:21 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/30 02:44:32 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,30 @@ static int		cmp_by_frmtindex(t_plist e1, t_plist e2)
 	foo = e1->content;
 	bar = e2->content;
 	return (foo->ifrmt < bar->ifrmt);
+}
+
+char			*format_handle_conversion(t_frmt *frmt)
+{
+	if (frmt->conv == CONV_INT)
+		return (handle_signed_deci(frmt));
+	else if (frmt->conv == CONV_UOCT)
+		return (handle_unsigned_deci(frmt, BASE_OCT));
+	else if (frmt->conv == CONV_UDEC)
+		return (handle_unsigned_deci(frmt, BASE_DEC));
+	else if (frmt->conv == CONV_UBIN)
+		return (handle_unsigned_deci(frmt, BASE_BIN));
+	else if (frmt->conv == CONV_UHEX || frmt->conv == CONV_PTR)
+		return (handle_unsigned_deci(frmt, frmt->is_upcase
+											? BASE_UHEX : BASE_LHEX));
+	else if (format_isfloat(frmt))
+		return (handle_floating_point(frmt));
+	else if (frmt->conv == CONV_CHAR)
+		return (handle_char(frmt));
+	else if (frmt->conv == CONV_STR || frmt->conv == CONV_FRMT)
+		return (handle_string(frmt));
+	else if (frmt->conv == CONV_PERC)
+		return (ft_strdup("%"));
+	return (NULL);
 }
 
 void			format_doparse(char **fmt, t_list **alstfrmt, int *index)
@@ -80,6 +104,5 @@ int				format_populate(t_plist *alstfrmt, va_list *arglst)
 	}
 	if (g_sort_lstfrmt)
 		ft_lst_mergesort(alstfrmt, cmp_by_frmtindex);
-	g_sort_lstfrmt = true;
-	return (1);
+	return (g_sort_lstfrmt = true);
 }

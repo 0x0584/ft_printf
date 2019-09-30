@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/06 15:05:15 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/28 18:37:04 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/30 02:44:49 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "ieeefp.h"
 #include "utf8.h"
 
-static char		*handle_unsigned_deci(t_frmt *frmt, const char *base)
+char		*handle_unsigned_deci(t_frmt *frmt, const char *base)
 {
 	if (frmt->length == MOD_LL)
 		return (ft_utoa_base((t_u128)frmt->data.ull, base));
@@ -31,7 +31,7 @@ static char		*handle_unsigned_deci(t_frmt *frmt, const char *base)
 	return (ft_utoa_base((t_u32)frmt->data.ui, base));
 }
 
-static char		*handle_signed_deci(t_frmt *frmt)
+char		*handle_signed_deci(t_frmt *frmt)
 {
 	if (frmt->length == MOD_LL)
 		return (ft_itoa_base((t_s128)frmt->data.ll, BASE_DEC));
@@ -48,7 +48,7 @@ static char		*handle_signed_deci(t_frmt *frmt)
 	return (ft_itoa_base((t_s32)frmt->data.i, BASE_DEC));
 }
 
-static char		*handle_floating_point(t_frmt *frmt)
+char		*handle_floating_point(t_frmt *frmt)
 {
 	char			*s;
 	t_ieeefp		fp;
@@ -74,7 +74,7 @@ static char		*handle_floating_point(t_frmt *frmt)
 	return (ieee_tostr(&fp, style, frmt));
 }
 
-static char		*handle_char(t_frmt *frmt)
+char		*handle_char(t_frmt *frmt)
 {
 	char dest[5];
 
@@ -89,7 +89,7 @@ static char		*handle_char(t_frmt *frmt)
 	return (frmt->is_nulchr ? ft_strnew(1) : ft_strdup(dest));
 }
 
-static char		*handle_string(t_frmt *frmt)
+char		*handle_string(t_frmt *frmt)
 {
 	char *str;
 
@@ -110,28 +110,4 @@ static char		*handle_string(t_frmt *frmt)
 		return (ft_strdup("(null)"));
 	utf8_tostr(&str, frmt->data.wstr);
 	return (str);
-}
-
-char			*format_handle_conversion(t_frmt *frmt)
-{
-	if (frmt->conv == CONV_INT)
-		return (handle_signed_deci(frmt));
-	else if (frmt->conv == CONV_UOCT)
-		return (handle_unsigned_deci(frmt, BASE_OCT));
-	else if (frmt->conv == CONV_UDEC)
-		return (handle_unsigned_deci(frmt, BASE_DEC));
-	else if (frmt->conv == CONV_UBIN)
-		return (handle_unsigned_deci(frmt, BASE_BIN));
-	else if (frmt->conv == CONV_UHEX || frmt->conv == CONV_PTR)
-		return (handle_unsigned_deci(frmt, frmt->is_upcase
-											? BASE_UHEX : BASE_LHEX));
-	else if (format_isfloat(frmt))
-		return (handle_floating_point(frmt));
-	else if (frmt->conv == CONV_CHAR)
-		return (handle_char(frmt));
-	else if (frmt->conv == CONV_STR || frmt->conv == CONV_FRMT)
-		return (handle_string(frmt));
-	else if (frmt->conv == CONV_PERC)
-		return (ft_strdup("%"));
-	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/23 13:53:22 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/28 18:50:46 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/30 02:08:50 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,32 +98,28 @@ int				check_modifier(char **fmt, t_frmt *frmt)
 
 int				check_conversion(char **fmt, t_frmt *frmt)
 {
-	char *bar;
-
-	bar = *fmt;
-	if (!check_integer_conversions(frmt, *bar))
-		if (!check_floating_point_conv(frmt, *bar))
+	if (!SAFE_PTRVAL(fmt) || !(*fmt)[0] || !frmt)
+		return (0);
+	if (!check_integer_conversions(frmt, (*fmt)[0]))
+		if (!check_floating_point_conv(frmt, (*fmt)[0]))
 		{
-			if (*bar == 'c' || *bar == 'C')
+			if (ft_strchr("cC", (*fmt)[0]))
 				frmt->conv = CONV_CHAR;
-			else if (*bar == 's' || *bar == 'S'
-						|| *bar == 'r' || *bar == 'v')
+			else if (ft_strchr("sSrv", (*fmt)[0]))
 			{
 				frmt->conv = CONV_STR;
-				frmt->reverse_string = (*bar == 'r');
-				frmt->non_printable = (*bar == 'v');
+				frmt->reverse_string = ((*fmt)[0] == 'r');
+				frmt->non_printable = ((*fmt)[0] == 'v');
 			}
-			else if (*bar == 'p')
+			else if ((*fmt)[0] == 'p')
 				frmt->conv = CONV_PTR;
-			else if (*bar == '%')
+			else if ((*fmt)[0] == '%')
 				frmt->conv = CONV_PERC;
 			else
 				return (0);
 		}
-	if (ft_strchr(LONG_TYPES, *bar))
-		frmt->length = MOD_L;
-	if (ft_strchr(UPPER_TYPES, *bar))
-		frmt->is_upcase = true;
-	*fmt = ++bar;
+	frmt->length = ft_strchr(LONG_TYPES, (*fmt)[0]) ? MOD_L : frmt->length;
+	frmt->is_upcase = ft_strchr(UPPER_TYPES, (*fmt)[0]) != NULL;
+	*fmt += 1;
 	return (1);
 }

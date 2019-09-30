@@ -6,7 +6,7 @@
 /*   By: archid- <archid-@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 22:16:27 by archid-           #+#    #+#             */
-/*   Updated: 2019/09/28 19:50:21 by archid-          ###   ########.fr       */
+/*   Updated: 2019/09/30 02:46:31 by archid-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,13 +129,18 @@ char			format_getsign(t_frmt *frmt);
 char			*format_ieee_float(t_frmt *frmt);
 
 char			*format_handle_conversion(t_frmt *frmt);
+char			*handle_unsigned_deci(t_frmt *frmt, const char *base);
+char			*handle_signed_deci(t_frmt *frmt);
+char			*handle_floating_point(t_frmt *frmt);
+char			*handle_char(t_frmt *frmt);
+char			*handle_string(t_frmt *frmt);
 
 bool			flag_alterform(t_frmt *frmt, char **astr, size_t *pad);
 void			flag_zero_padding(t_frmt *frmt, char **astr, size_t *pad);
 
+void			adjustments(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_prefix(t_frmt *frmt, char **astr, size_t *pad);
 void			adjust_padding(t_frmt *frmt, char **astr, size_t *pad);
-void			adjust_precision(t_frmt *frmt, char **astr, size_t *pad);
 bool			adjust_base_prefix(char **astr, t_frmt *frmt,
 									bool replace, bool insert);
 
@@ -147,5 +152,7 @@ void			set_arg_index(char **fmt, t_frmt *frmt);
 void			set_precision(char **fmt, t_frmt *frmt);
 void			set_width(char **fmt, t_frmt *frmt);
 void			get_wild_args(t_frmt *frmt, va_list *alst);
+
+size_t			format_init_padding(t_frmt *frmt, char const *str);
 
 #endif
